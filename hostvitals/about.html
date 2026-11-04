@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  
+  <!-- SEO & Primary Meta Tags -->
+  <title>About HostVitals · zrina.app Tools</title>
+  <meta name="description" content="Learn how HostVitals compares a browser fetch with its edge HTTP status check, public gateway fallbacks, and Cloudflare DNS-over-HTTPS." />
+  <meta name="author" content="zrina.app" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://zrina.app/hostvitals/about.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="zrina.app" />
+  <meta property="og:url" content="https://zrina.app/hostvitals/about.html" />
+  <meta property="og:title" content="About HostVitals · zrina.app Tools" />
+  <meta property="og:description" content="How HostVitals compares a browser check with its edge HTTP status probe, gateway fallbacks, and DNS lookups." />
+  <meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="About HostVitals · zrina.app Tools" />
+  <meta name="twitter:description" content="How HostVitals checks website connectivity." />
+  <meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+
+  <!-- Mobile Browser Theme Colors -->
+  <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+
+  <meta name="theme-color" content="#070b16" />
+  <link rel="icon" type="image/svg+xml" href="../assets/tool-icons/hostvitals.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/hostvitals-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/hostvitals-180.png" />
+  <link rel="stylesheet" href="../assets/tool-footer.css" />
+
+  <!-- Schema.org AboutPage Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About HostVitals",
+    "url": "https://zrina.app/hostvitals/about.html",
+    "description": "HostVitals is an independent website connectivity checker built by Zrina as part of the zrina.app utility ecosystem.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "zrina.app",
+      "url": "https://zrina.app/",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "tools@zrina.app",
+        "contactType": "customer support"
+      }
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg-page: #fafafa;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f4f4f5;
+      --border-subtle: #e4e4e7;
+      --border-strong: #d4d4d8;
+      --text-primary: #09090b;
+      --text-secondary: #52525b;
+      --text-muted: #71717a;
+      --up-color: #059669;
+      --up-dot: #10b981;
+      --up-bg: rgba(16, 185, 129, 0.1);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    [data-resolved-theme="dark"] {
+      --bg-page: #09090b;
+      --bg-surface: #121215;
+      --bg-subtle: #18181c;
+      --border-subtle: #27272a;
+      --border-strong: #3f3f46;
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --up-color: #34d399;
+      --up-dot: #10b981;
+      --up-bg: rgba(16, 185, 129, 0.12);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .topbar {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .brand-name { font-weight: 600; color: var(--text-primary); letter-spacing: -0.02em; }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .back-link {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+
+    .back-link:hover { color: var(--text-primary); }
+
+    .theme-switch {
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .theme-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 0.22rem 0.55rem;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .theme-btn.active {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .main-wrapper {
+      width: 100%;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+      flex: 1;
+    }
+
+    .page-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .badge-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--up-color);
+      background: var(--up-bg);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .lead-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-left: 3px solid var(--up-dot);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.25rem;
+      margin: 1.25rem 0 1.75rem;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin: 1.85rem 0 0.65rem;
+      color: var(--text-primary);
+    }
+
+    p {
+      font-size: 0.94rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.95rem;
+    }
+
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+      margin: 1.1rem 0 1.5rem;
+    }
+
+    .arch-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    .arch-card h3 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      color: var(--text-primary);
+    }
+
+    .arch-card p {
+      font-size: 0.82rem;
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+
+    .contact-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-top: 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .contact-btn {
+      background: var(--text-primary);
+      color: var(--bg-page);
+      text-decoration: none;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      padding: 1.75rem 1.25rem;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-primary);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .arch-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="../tools/" class="brand tool-brand" aria-label="HostVitals by Zrina, all tools">
+      <img src="../assets/tool-icons/hostvitals-192.png" alt="" width="32" height="32" />
+      <span class="brand-name">HostVitals</span>
+      <span class="tool-brand-by">by Zrina</span>
+    </a>
+
+    <div class="topbar-right">
+      <a href="index.html" class="back-link">← Back to Checker</a>
+      <div class="theme-switch" role="group" aria-label="Theme toggle">
+        <button type="button" class="theme-btn" data-set-theme="auto">Auto</button>
+        <button type="button" class="theme-btn" data-set-theme="light">☀</button>
+        <button type="button" class="theme-btn" data-set-theme="dark">☾</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+    <article class="page-card">
+      <span class="badge-tag">About &amp; Methodology</span>
+      <h1>Website checks with transparent results.</h1>
+
+      <div class="lead-box">
+        HostVitals is an independent website connectivity checker built by Zrina as part of the <strong>zrina.app</strong> utility ecosystem. It compares a browser fetch with its edge HTTP status probe and a DNS lookup; public gateways are fallbacks if the edge probe is unavailable. Inquiries &amp; Feedback: <a href="mailto:tools@zrina.app" class="mono" style="color:inherit;">tools@zrina.app</a>
+      </div>
+
+      <h2>Why HostVitals Was Created</h2>
+      <p>
+        A website can behave differently depending on the network path, resolver, and security rules used by a request. A single check cannot tell whether a site is unavailable to everyone or only from a particular network.
+      </p>
+      <p>
+        HostVitals therefore compares two limited vantage points: a fetch initiated by your browser and an HTTP status check made by its Cloudflare Pages Function. Public gateways are used only if that check is unavailable. Its findings describe only the checks used and should not be read as a worldwide uptime verdict.
+      </p>
+
+      <h2>Our Diagnostic Checks</h2>
+      <div class="arch-grid">
+        <div class="arch-card">
+          <h3>1. DNS-over-HTTPS (DoH)</h3>
+          <p>Queries Cloudflare's public DNS-over-HTTPS endpoint for <code>A</code>, <code>AAAA</code>, <code>CNAME</code>, and <code>HTTPS</code> records. This is one public resolver, not a comparison of global DNS providers.</p>
+        </div>
+        <div class="arch-card">
+          <h3>2. Browser Fetch</h3>
+          <p>Times a fetch from your browser to the entered URL. The fetch uses <code>no-cors</code>, so the browser does not expose the HTTP status; the timing is not a TLS handshake measurement.</p>
+        </div>
+        <div class="arch-card">
+          <h3>3. HTTP Status Inspection</h3>
+          <p>Requests HTTP status directly through the HostVitals edge function. If that function is unavailable, public gateway services are used as a fallback; neither path represents every region or establishes the state of the origin server.</p>
+        </div>
+        <div class="arch-card">
+          <h3>4. IP &amp; Network Metadata</h3>
+          <p>Looks up provider, ASN, and approximate location metadata for one resolved IP address. Anycast and CDN routing can mean this is not the origin server or the edge serving your browser.</p>
+        </div>
+        <div class="arch-card">
+          <h3>5. Official Service Status (Supported Services)</h3>
+          <p>When checking supported GitHub, Cloudflare, or OpenAI domains, HostVitals also retrieves that provider's published status summary and component notices. The official status page is a separate signal: it describes the provider's report, not your exact route or every user. HostVitals does not perform checks from a global network of locations.</p>
+        </div>
+      </div>
+
+      <h2>Privacy-First Local History</h2>
+      <p>
+        Your recent checks and theme preference are stored in browser <code>localStorage</code>. Diagnostic requests also go to external DNS, gateway, and IP-metadata services; read the <a href="../tools/privacy.html">Tools Privacy Policy</a> for the providers involved.
+      </p>
+
+      <div class="contact-card">
+        <div>
+          <strong style="display:block;font-size:0.95rem;">Questions, bug reports, or feedback?</strong>
+          <span style="font-size:0.83rem;color:var(--text-secondary);">Reach out directly to the zrina.app team:</span>
+        </div>
+        <a href="mailto:tools@zrina.app" class="contact-btn mono">tools@zrina.app</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-about">
+          <a href="../tools/" class="footer-brand"><img src="../assets/tool-icons/hostvitals-192.png" alt="" width="32" height="32" /><span class="brand-name">HostVitals</span><span class="footer-brand-by">by Zrina</span></a>
+          <p>HostVitals compares browser, edge HTTP and DNS observations; its results are limited to those checks and are not a global availability verdict.</p>
+        </div>
+        <nav class="footer-links" aria-label="Tool and site information">
+          <a href="index.html">Status checker</a><a href="about.html">Methodology</a><a href="../tools/guides/">Guides</a><a href="../tools/">All tools</a>
+          <a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a>
+          <a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a>
+        </nav>
+      </div>
+      <div class="footer-bottom"><span>© 2026 zrina.app · Built by Zrina</span></div>
+    </div>
+  </footer>
+
+  <script>
+    const THEME_KEY = 'hostvitals_theme_pref';
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const themeBtns = document.querySelectorAll('[data-set-theme]');
+
+    function applyTheme(pref) {
+      const resolved = pref === 'auto' ? (mediaQuery.matches ? 'dark' : 'light') : pref;
+      document.documentElement.setAttribute('data-theme', pref);
+      document.documentElement.setAttribute('data-resolved-theme', resolved);
+      themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.setTheme === pref));
+    }
+
+    let currentThemePref = localStorage.getItem(THEME_KEY) || 'auto';
+    applyTheme(currentThemePref);
+    mediaQuery.addEventListener('change', () => { if (currentThemePref === 'auto') applyTheme('auto'); });
+    themeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentThemePref = btn.dataset.setTheme;
+        localStorage.setItem(THEME_KEY, currentThemePref);
+        applyTheme(currentThemePref);
+      });
+    });
+  </script>
+</body>
+</html>

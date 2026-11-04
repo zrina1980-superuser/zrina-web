@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Subnet &amp; CIDR Calculator · IPv4 Network, Broadcast, Host Range | zrina.app</title>
+<meta name="description" content="Free IPv4 subnet and CIDR calculator. Get network address, broadcast, usable host range, subnet mask, wildcard mask and binary mask instantly. Runs in your browser." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://zrina.app/cidr/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="zrina.app" />
+<meta property="og:url" content="https://zrina.app/cidr/" />
+<meta property="og:title" content="Subnet & CIDR Calculator" />
+<meta property="og:description" content="IPv4 subnet calculator: network, broadcast, host range, masks." />
+<meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="zrina.app web tools" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Subnet &amp; CIDR Calculator" />
+<meta name="twitter:description" content="Calculate IPv4 network, broadcast, host range and subnet masks." />
+<meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta name="theme-color" content="#070b16" />
+<link rel="icon" type="image/svg+xml" href="../assets/tool-icons/cidr.svg" />
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/cidr-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/cidr-512.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/cidr-180.png" />
+<!-- GOOGLE ADSENSE: enable only after production deployment and the required consent setup.
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Subnet & CIDR Calculator","url":"https://zrina.app/cidr/","applicationCategory":"UtilitiesApplication","operatingSystem":"All","description":"IPv4 subnet and CIDR calculator.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+</script>
+<style>
+:root{--bg:#fafafa;--card:#fff;--sub:#f4f4f5;--bd:#e4e4e7;--tx:#09090b;--tx2:#52525b;--mut:#71717a;--ac:#18181b;--acf:#fff;--ok:#059669;--bad:#dc2626;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#09090b;--card:#121215;--sub:#18181b;--bd:#27272a;--tx:#fafafa;--tx2:#a1a1aa;--mut:#71717a;--ac:#fafafa;--acf:#09090b;--ok:#34d399;--bad:#f87171}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:inherit}.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--bd)}header.top .wrap{display:flex;justify-content:space-between;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;text-decoration:none}.brand span{color:var(--mut);font-weight:500}
+nav a{margin-left:14px;color:var(--tx2);text-decoration:none;font-size:14px}nav a:hover{color:var(--tx)}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:36px 0 8px;letter-spacing:-.02em}.lead{color:var(--tx2);margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:20px}
+label{display:block;font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:6px}
+input,select{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font:inherit;min-width:0}
+input:focus,select:focus{outline:2px solid var(--ac);outline-offset:1px}
+.row{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+@media(max-width:520px){.row{grid-template-columns:1fr}}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.kv div{background:var(--sub);border-radius:10px;padding:10px 12px;min-width:0}
+.kv small{display:block;color:var(--mut);font-size:12px}.kv b{font-family:var(--mono);font-size:14px;overflow-wrap:anywhere;font-weight:500}
+.err{color:var(--bad);font-size:14px}.note{color:var(--mut);font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:13px;font-family:var(--mono)}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--bd);overflow-wrap:anywhere}th{font-family:Inter,sans-serif}
+.scroll{overflow-x:auto}
+section.info h2{font-size:20px;margin:28px 0 8px}section.info p,section.info li{color:var(--tx2)}
+.disc{background:var(--sub);border:1px dashed var(--bd);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--tx2);margin:16px 0}
+footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(--mut);font-size:13px}
+</style>
+<link rel="stylesheet" href="../assets/tool-shell.css" />
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand tool-brand" href="../tools/" aria-label="Subnet & CIDR Calculator by Zrina, all tools">
+<img src="../assets/tool-icons/cidr-192.png" alt="" width="32" height="32" />
+<span class="tool-brand-name">Subnet &amp; CIDR Calculator</span><span class="tool-brand-by">by Zrina</span>
+</a>
+<nav><a href="../hostvitals/">HostVitals</a><a href="../speedcalc/">Speed calc</a><a href="../netplanner/">Network planner</a><a href="../uuid/">UUID</a><a href="../json/">JSON</a><a href="../myip/">My IP</a><a href="../timestamp/">Timestamp</a><a href="../cron/">Cron</a></nav>
+</div></header>
+<main class="wrap">
+<h1>Subnet &amp; CIDR Calculator</h1>
+<p class="lead">Enter an IPv4 address with a prefix (e.g. <code>192.168.10.0/24</code>) to get the network, broadcast, host range and masks.</p>
+<div class="disc">Planning multiple IPv4/IPv6 ranges? Use the <a href="../netplanner/">Network Planner</a> for overlap checks, free gaps, VLSM, cloud reservations and CSV export.</div>
+
+<div class="card">
+<div class="row">
+<div><label for="ip">IPv4 address or CIDR</label><input id="ip" value="192.168.10.0/24" autocomplete="off" spellcheck="false" inputmode="text" /></div>
+<div><label for="len">Prefix length</label><select id="len"></select></div>
+</div>
+<div id="err" class="err" role="alert"></div>
+</div>
+
+<div class="card" id="res" aria-live="polite"></div>
+
+<!-- AD SLOT 1 (below results, not next to the input). Enable after AdSense approval:
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+
+<div class="card">
+<label for="split">Split into smaller subnets</label>
+<select id="split"></select>
+<div class="scroll" style="margin-top:12px"><table><thead><tr><th>#</th><th>Network</th><th>Usable range</th><th>Broadcast</th></tr></thead><tbody id="subs"></tbody></table></div>
+<div class="note" id="subnote"></div>
+</div>
+
+<section class="info">
+<h2>What is CIDR notation?</h2>
+<p>CIDR (Classless Inter-Domain Routing) writes an IPv4 network as an address plus a prefix length, like <code>10.0.0.0/8</code>. The prefix is the number of leading bits that identify the network; the remaining bits identify hosts. A /24 leaves 8 host bits, so 256 addresses (254 usable).</p>
+<h2>Usable hosts</h2>
+<p>Normally the first address is the network address and the last is the broadcast address, so usable hosts = 2<sup>(32 − prefix)</sup> − 2. Special cases: /31 (point-to-point links, RFC 3021) has 2 usable addresses and /32 is a single host.</p>
+<h2>Private ranges</h2>
+<p>Common private IPv4 ranges are 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16. The calculator labels the address type when it recognises one.</p>
+</section>
+</main>
+<footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">This calculator handles one IPv4 subnet; all calculations run locally in your browser. Related: <a href="../netplanner/">plan IPv4/IPv6 networks</a> · <a href="../hostvitals/">check website reachability</a>.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+<script>
+const $=id=>document.getElementById(id);
+const lenSel=$('len'),splitSel=$('split');
+for(let i=0;i<=32;i++){lenSel.add(new Option('/'+i,i))}
+lenSel.value=24;
+
+function ipToInt(s){
+  const p=s.trim().split('.');
+  if(p.length!==4)return null;
+  let n=0;
+  for(const x of p){if(!/^\d{1,3}$/.test(x)||+x>255)return null;n=n*256+ +x}
+  return n;
+}
+const intToIp=n=>[n>>>24,(n>>>16)&255,(n>>>8)&255,n&255].join('.');
+const maskOf=l=>l===0?0:(0xFFFFFFFF<<(32-l))>>>0;
+const bin=n=>[n>>>24,(n>>>16)&255,(n>>>8)&255,n&255].map(o=>o.toString(2).padStart(8,'0')).join('.');
+function kind(ip){
+  const a=ip>>>24,b=(ip>>>16)&255;
+  if(a===10)return 'Private (10.0.0.0/8)';
+  if(a===172&&b>=16&&b<=31)return 'Private (172.16.0.0/12)';
+  if(a===192&&b===168)return 'Private (192.168.0.0/16)';
+  if(a===127)return 'Loopback (127.0.0.0/8)';
+  if(a===169&&b===254)return 'Link-local (169.254.0.0/16)';
+  if(a===100&&b>=64&&b<=127)return 'Carrier-grade NAT (100.64.0.0/10)';
+  if(a>=224&&a<=239)return 'Multicast (224.0.0.0/4)';
+  if(a>=240)return 'Reserved';
+  return 'Public / routable';
+}
+function info(ip,l){
+  const mask=maskOf(l),net=(ip&mask)>>>0,wild=(~mask)>>>0,bc=(net|wild)>>>0;
+  const total=2**(32-l);
+  const usable=l===32?1:l===31?2:total-2;
+  const first=l>=31?net:net+1,last=l>=31?bc:bc-1;
+  return{mask,net,wild,bc,total,usable,first,last};
+}
+function parse(){
+  const raw=$('ip').value.trim();
+  let l=+lenSel.value,addr=raw;
+  if(raw.includes('/')){
+    const [a,p]=raw.split('/');
+    if(!/^\d{1,2}$/.test(p)||+p>32)return{error:'Prefix must be a number from 0 to 32.'};
+    addr=a;l=+p;
+  }
+  const ip=ipToInt(addr);
+  if(ip===null)return{error:raw?'Enter a valid IPv4 address, e.g. 192.168.10.0/24.':''};
+  return{ip,l};
+}
+function render(){
+  const r=parse();
+  $('err').textContent=r.error||'';
+  if(r.error!==undefined){$('res').innerHTML='';$('subs').innerHTML='';$('subnote').textContent='';splitSel.innerHTML='';return}
+  lenSel.value=r.l;
+  const i=info(r.ip,r.l);
+  const rows=[
+    ['Address',intToIp(r.ip)+'/'+r.l],['Type',kind(r.ip)],
+    ['Network address',intToIp(i.net)],['Broadcast address',intToIp(i.bc)],
+    ['First usable host',intToIp(i.first)],['Last usable host',intToIp(i.last)],
+    ['Total addresses',i.total.toLocaleString('en-US')],['Usable hosts',i.usable.toLocaleString('en-US')],
+    ['Subnet mask',intToIp(i.mask)],['Wildcard mask',intToIp(i.wild)],
+    ['Mask (binary)',bin(i.mask)],['Address (binary)',bin(r.ip)]
+  ];
+  $('res').innerHTML='<div class="kv">'+rows.map(x=>'<div><small>'+x[0]+'</small><b>'+x[1]+'</b></div>').join('')+'</div>';
+  const prev=+splitSel.value;
+  splitSel.innerHTML='';
+  for(let k=r.l+1;k<=Math.min(32,r.l+8);k++)splitSel.add(new Option('/'+k+' ('+(2**(k-r.l))+' subnets)',k));
+  if(prev>r.l&&prev<=Math.min(32,r.l+8))splitSel.value=prev;
+  renderSplit(i,r.l);
+}
+function renderSplit(i,l){
+  const k=+splitSel.value;
+  if(!k){$('subs').innerHTML='';$('subnote').textContent='';return}
+  const count=2**(k-l),size=2**(32-k),show=Math.min(count,64);
+  let h='';
+  for(let n=0;n<show;n++){
+    const net=i.net+n*size,bc=net+size-1;
+    const f=k>=31?net:net+1,la=k>=31?bc:bc-1;
+    h+='<tr><td>'+(n+1)+'</td><td>'+intToIp(net)+'/'+k+'</td><td>'+intToIp(f)+' – '+intToIp(la)+'</td><td>'+intToIp(bc)+'</td></tr>';
+  }
+  $('subs').innerHTML=h;
+  $('subnote').textContent=count>show?'Showing the first '+show+' of '+count.toLocaleString('en-US')+' subnets.':'';
+}
+$('ip').addEventListener('input',render);
+lenSel.addEventListener('change',()=>{const v=$('ip').value.trim();if(v.includes('/'))$('ip').value=v.split('/')[0]+'/'+lenSel.value;render()});
+splitSel.addEventListener('change',()=>{const r=parse();if(r.error===undefined)renderSplit(info(r.ip,r.l),r.l)});
+render();
+</script>
+</body>
+</html>

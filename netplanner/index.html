@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Network Planner · IPv4 &amp; IPv6 CIDR, Overlap and VLSM | zrina.app</title>
+  <meta name="description" content="Plan IPv4 and IPv6 address space, find CIDR overlaps and gaps, calculate the next free subnet, and allocate VLSM blocks in your browser." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://zrina.app/netplanner/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="zrina.app" />
+  <meta property="og:url" content="https://zrina.app/netplanner/" />
+  <meta property="og:title" content="Network Planner · zrina.app" />
+  <meta property="og:description" content="Plan IPv4 and IPv6 ranges, find overlaps and gaps, and allocate subnets locally." />
+  <meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Network Planner · zrina.app" />
+  <meta name="twitter:description" content="Plan IPv4 and IPv6 ranges, find overlaps and gaps, and allocate subnets locally." />
+  <meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="theme-color" content="#070b16" />
+  <link rel="icon" type="image/svg+xml" href="../assets/tool-icons/netplanner.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/netplanner-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/netplanner-512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/netplanner-180.png" />
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebApplication","name":"Network Planner","url":"https://zrina.app/netplanner/","applicationCategory":"DeveloperApplication","operatingSystem":"All","description":"Browser-based IPv4 and IPv6 CIDR planner with overlap, gap, next-subnet, VLSM, and cloud address-count tools.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+  </script>
+  <link rel="stylesheet" href="../assets/tool-shell.css" />
+  <style>
+    *{box-sizing:border-box}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+    header.top{border-bottom:1px solid var(--bd)}
+    header.top .wrap{display:flex;justify-content:space-between;align-items:center;min-height:64px;gap:12px;flex-wrap:wrap}
+    .brand{font-weight:800;text-decoration:none;color:var(--tx)}
+    .brand span{color:var(--ac);font-weight:500}
+    nav{display:flex;gap:14px;flex-wrap:wrap}
+    nav a{color:var(--tx2);text-decoration:none;font-size:14px}
+    h1{font-size:clamp(28px,5vw,40px);line-height:1.15;margin:36px 0 8px;letter-spacing:-.02em}
+    h2{font-size:20px;margin:0 0 12px}
+    p{line-height:1.6}
+    .lead{color:var(--tx2);margin:0 0 24px}
+    .card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:18px}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    label{display:block;font-size:13px;font-weight:650;color:var(--tx2);margin:0 0 6px}
+    textarea,input,select{width:100%;min-width:0;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font:inherit}
+    textarea{min-height:110px;resize:vertical;font:13px/1.5 var(--mono,ui-monospace,monospace)}
+    input[type=number]{font-variant-numeric:tabular-nums}
+    :focus-visible{outline:2px solid #55e6f2;outline-offset:2px}
+    .hint,.muted{color:var(--mut);font-size:13px}
+    .hint{margin:6px 0 0}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+    button{border:0;border-radius:9px;padding:10px 14px;background:var(--ac);color:var(--acf);font:inherit;font-weight:700;cursor:pointer}
+    button.secondary{background:var(--sub);color:var(--tx);border:1px solid var(--bd)}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .status{min-height:1.5em;margin:12px 0 0;font-size:14px}
+    .status.error{color:var(--bad)}
+    .status.success{color:var(--ok)}
+    .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:16px}
+    .metric,.result{min-width:0;padding:13px;border:1px solid var(--bd);border-radius:10px;background:var(--sub)}
+    .metric strong,.result strong{display:block;font-size:12px;color:var(--tx2);margin-bottom:5px}
+    .metric span,.result code{font:13px/1.5 var(--mono,ui-monospace,monospace);overflow-wrap:anywhere}
+    .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+    .result p{margin:5px 0 0;font-size:13px;color:var(--tx2);overflow-wrap:anywhere}
+    .warning{border-left:3px solid #f59e0b;padding:10px 13px;background:var(--sub);color:var(--tx2);border-radius:6px}
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th,td{text-align:left;vertical-align:top;padding:9px;border-bottom:1px solid var(--bd)}
+    th{color:var(--tx2);font-weight:650}
+    td code{font:12px/1.5 var(--mono,ui-monospace,monospace);overflow-wrap:anywhere}
+    footer{border-top:1px solid var(--bd);margin-top:36px;padding:24px 0;color:var(--mut);font-size:13px}
+    @media(max-width:680px){.grid{grid-template-columns:1fr}.card{padding:15px}.wrap{padding:0 16px}th,td{padding:7px}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand tool-brand" href="../tools/" aria-label="Network Planner by Zrina, all tools">
+        <img src="../assets/tool-icons/netplanner-192.png" alt="" width="32" height="32" />
+        <span class="tool-brand-name">Network Planner</span><span class="tool-brand-by">by Zrina</span>
+      </a>
+      <nav aria-label="Tool navigation">
+        <a href="../hostvitals/">HostVitals</a><a href="../cidr/">CIDR</a><a href="../uuid/">UUID</a><a href="../timestamp/">Timestamp</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <h1>Network Planner</h1>
+    <p class="lead">Review an IPv4 or IPv6 pool, find overlapping ranges and free gaps, and allocate CIDR blocks. Calculations run locally in your browser.</p>
+
+    <section class="card" aria-labelledby="inputs-title">
+      <h2 id="inputs-title">Address plan</h2>
+      <div class="grid">
+        <div>
+          <label for="pool">Address pool (CIDR)</label>
+          <input id="pool" value="10.20.0.0/16" spellcheck="false" autocomplete="off" />
+          <p class="hint">A single IPv4 or IPv6 CIDR. Host bits are normalized to the network boundary.</p>
+        </div>
+        <div>
+          <label for="nextPrefix">Find next free prefix</label>
+          <input id="nextPrefix" type="number" min="0" max="128" value="24" />
+          <p class="hint">Returns the first aligned block that fits in the pool and avoids existing networks.</p>
+        </div>
+        <div>
+          <label for="occupied">Existing networks</label>
+          <textarea id="occupied" spellcheck="false">10.20.0.0/24, Core
+10.20.1.0/24, Branch</textarea>
+          <p class="hint">One CIDR per line. An optional label can follow a comma or vertical bar.</p>
+        </div>
+        <div>
+          <label for="vlsm">VLSM host requests</label>
+          <textarea id="vlsm" spellcheck="false">Admin, 250
+Guest, 100
+Lab, 20</textarea>
+          <p class="hint">One positive host count per line: <code>name, hosts</code> (or just a number).</p>
+        </div>
+        <div>
+          <label for="cloud">Usable address convention</label>
+          <select id="cloud">
+            <option value="standard">Standard IPv4 network/broadcast</option>
+            <option value="aws">AWS VPC (5 reserved addresses)</option>
+            <option value="azure">Azure (5 reserved addresses)</option>
+            <option value="gcp">Google Cloud (4 reserved addresses)</option>
+          </select>
+          <p class="hint">Provider reservations apply to IPv4 subnet counts; they do not model provider-specific IPv6 rules.</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="analyze" type="button">Analyze plan</button>
+        <button id="copyLink" class="secondary" type="button">Copy share link</button>
+        <button id="downloadCsv" class="secondary" type="button" disabled>Download CSV</button>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+      <p class="hint">A share link contains the pool, network list, and VLSM requests you enter. Do not share private network information unintentionally.</p>
+    </section>
+
+    <section class="card" aria-labelledby="summary-title">
+      <h2 id="summary-title">Pool summary</h2>
+      <div id="summary" class="summary"><p class="muted">Analyze a plan to see its results.</p></div>
+      <div id="warnings"></div>
+    </section>
+
+    <section class="card" aria-labelledby="networks-title">
+      <h2 id="networks-title">Existing networks and overlaps</h2>
+      <div id="networkResults" class="result-grid"><p class="muted">No analysis yet.</p></div>
+    </section>
+
+    <section class="card" aria-labelledby="gaps-title">
+      <h2 id="gaps-title">Free gaps in the pool</h2>
+      <div id="gaps" class="result-grid"><p class="muted">No analysis yet.</p></div>
+    </section>
+
+    <section class="card" aria-labelledby="vlsm-title">
+      <h2 id="vlsm-title">VLSM allocation</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Request</th><th>Hosts requested</th><th>Allocated subnet</th><th>Address range</th><th>Usable addresses</th></tr></thead>
+          <tbody id="vlsmResults"><tr><td colspan="5" class="muted">No allocation yet.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="info">
+      <h2>How the planner counts addresses</h2>
+      <p>IPv4 VLSM allocations reserve the network and broadcast addresses when sizing a subnet. IPv6 requests use the full address count. The cloud options subtract the documented count of reserved IPv4 addresses per subnet; they do not check provider quotas, routing limits, or other platform-specific rules.</p>
+      <p>Overlap, gap, and allocation results describe only the CIDRs entered here. They are planning calculations, not a check of live cloud or on-premises configuration.</p>
+    </section>
+  </main>
+  <footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">All calculations stay in this browser unless you choose to copy a share link.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>

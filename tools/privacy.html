@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tools Privacy Policy · zrina.app</title>
+  <meta name="description" content="Privacy information for the browser-based utilities published by zrina.app." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://zrina.app/tools/privacy.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="zrina.app" />
+  <meta property="og:url" content="https://zrina.app/tools/privacy.html" />
+  <meta property="og:title" content="Tools Privacy Policy · zrina.app" />
+  <meta property="og:description" content="Privacy information for the browser-based utilities published by zrina.app." />
+  <meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tools Privacy Policy · zrina.app" />
+  <meta name="twitter:description" content="How the zrina.app tools process information and use third-party services." />
+  <meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <link rel="icon" type="image/svg+xml" href="../assets/tool-icons/tools.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/tools-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/tools-512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/tools-180.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Tools Privacy Policy · zrina.app","url":"https://zrina.app/tools/privacy.html","description":"Privacy information for the browser-based utilities published by zrina.app.","isPartOf":{"@type":"WebSite","name":"zrina.app","url":"https://zrina.app/"}}</script>
+  <style>
+    :root{color-scheme:light dark;--bg:#fafafa;--surface:#fff;--border:#e4e4e7;--text:#09090b;--muted:#52525b}
+    @media(prefers-color-scheme:dark){:root{--bg:#09090b;--surface:#121215;--border:#27272a;--text:#fafafa;--muted:#a1a1aa}}
+    *{box-sizing:border-box}body{margin:0;padding:2rem 1.25rem 4rem;background:var(--bg);color:var(--text);font:16px/1.7 system-ui,-apple-system,"Segoe UI",sans-serif}
+    main{max-width:760px;margin:0 auto;padding:2rem;background:var(--surface);border:1px solid var(--border);border-radius:16px}
+    nav{max-width:760px;margin:0 auto 1.5rem;display:flex;justify-content:space-between;gap:1rem}a{color:inherit}h1{line-height:1.2}h2{font-size:1.15rem;margin:1.8rem 0 .5rem}p,li{color:var(--muted)}.updated{font-size:.85rem}
+  </style>
+  <link rel="stylesheet" href="../assets/tool-shell.css" />
+</head>
+<body>
+  <nav aria-label="Page navigation"><a href="./">All tools</a><a href="guides/">Guides</a><a href="../">Portfolio</a></nav>
+  <main>
+    <h1>Privacy Policy for zrina.app Tools</h1>
+    <p class="updated">Applies only to the tools listed below · Last updated: November 2026</p>
+    <p>This policy covers HostVitals, Download Time Calculator, Subnet &amp; CIDR Calculator, JSON Formatter, Unix Timestamp Converter, Cron Explainer, Network &amp; IP Inspector, UUID Inspector, Network Planner, QR Code Generator, Password Generator, Base64 Encoder / Decoder, Regex Tester and Unit Converter. It does not cover the zrina.app portfolio homepage or project pages.</p>
+    <h2>Information processed by each tool</h2>
+    <ul>
+      <li><strong>HostVitals:</strong> When you run a check, your browser contacts the hostname through Cloudflare DNS-over-HTTPS, makes a browser fetch to the submitted target, and may send the URL to public status gateways (<code>api.microlink.io</code> and <code>api.allorigins.win</code>) as fallbacks. The Cloudflare-hosted edge probe receives the submitted URL and requests it to read an HTTP status. For supported GitHub, Cloudflare and OpenAI hostnames, the edge function also requests the matching provider's public status summary from <code>githubstatus.com</code>, <code>cloudflarestatus.com</code> or <code>status.openai.com</code>. That status request uses a fixed provider URL and does not forward the submitted target URL or your IP as a data field; the status provider receives routine request information from the Cloudflare edge. A resolved IP address may be sent to <code>ipwho.is</code> for network metadata. Popular service icons are local and do not request the checked domain or an external favicon provider. Recent checks and your theme preference are stored in your browser’s local storage.</li>
+      <li><strong>Network &amp; IP Inspector:</strong> Your browser requests public IPv4/IPv6 addresses from <code>api.ipify.org</code> and <code>api6.ipify.org</code>, and requests a secondary public-address result from <code>ipapi.co</code> for comparison. It then requests network details from <code>ipwho.is</code>; if that lookup is unavailable, it may try <code>ipapi.co</code> for the selected IP. Only when you choose “Run WebRTC check,” your browser contacts <code>stun.l.google.com</code>.</li>
+      <li><strong>UUID Inspector:</strong> Identifiers you enter are decoded and generated locally in the browser. They are not sent to an application server unless you choose a link that places an ID in the page URL; ordinary hosting logs may then include that URL.</li>
+      <li><strong>Network Planner:</strong> Address pools, network blocks, and host requests are analyzed locally. If you choose “Copy share link,” those entered values are included in the URL; when that URL is opened, it is part of the ordinary request URL that may be processed by hosting logs.</li>
+      <li><strong>Download Time Calculator, Subnet &amp; CIDR Calculator, JSON Formatter, Unix Timestamp Converter and Cron Explainer:</strong> Calculations and parsing run in your browser; the values you enter are not sent to an application server by these tools.</li>
+      <li><strong>QR Code Generator:</strong> The content and settings you enter are processed in your browser to create the QR code. A logo file you select is read locally; it is not uploaded by the tool. Exported files and copied images are created on your device.</li>
+      <li><strong>Password Generator:</strong> Passwords and passphrases are generated in your browser using its cryptographic random source. Results are not sent to an application server or saved by the tool.</li>
+      <li><strong>Base64 Encoder / Decoder:</strong> Text and selected files are processed locally in your browser. The tool does not upload the input or output.</li>
+      <li><strong>Regex Tester:</strong> Patterns and test text are processed locally in a disposable browser worker with a time limit. They are not sent to an application server or saved by the tool.</li>
+      <li><strong>Unit Converter:</strong> Values and conversions are processed locally in your browser. If you enable the optional history feature, the last 10 conversions are stored in this browser’s local storage; they are not sent to an application server.</li>
+    </ul>
+    <h2>Third-party services and hosting</h2>
+    <p>Tool pages use system fonts and do not load Google Fonts. The services described above receive your IP address and ordinary connection/request information when your browser contacts them; services that process a submitted URL also receive that URL. Their own privacy terms and retention practices apply. The hosting provider may process technical request data in server logs; exact fields and retention depend on the provider’s configuration.</p>
+    <h2>Advertising, consent and affiliate links</h2>
+    <p>Advertising and affiliate links are not currently active on these tools. AdSense code and ad-slot examples, where present in source files, are comments and do not load or display ads. No advertising consent platform is currently integrated. If ads are enabled later, the policy, consent choices and relevant provider details will be updated before activation. The portfolio homepage and project pages remain ad-free and are not covered by this tools policy.</p>
+    <h2>Your choices and contact</h2>
+    <p>You can clear HostVitals’ locally saved check history using its “Clear all” control and clear other browser storage through your browser settings. You can avoid the optional WebRTC request by not running that check. For privacy questions, contact <a href="mailto:tools@zrina.app">tools@zrina.app</a>.</p>
+  </main>
+  <footer class="tool-footer"><div class="wrap"><nav class="tool-footer-links" aria-label="Tool and site information"><a href="./">All tools</a><a href="guides/">Guides</a><a href="about.html">About</a><a href="terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+</body>
+</html>

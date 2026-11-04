@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GB vs GiB: Data Units and Download Time · zrina.app</title>
+  <meta name="description" content="Understand decimal GB and binary GiB, convert storage sizes accurately, and estimate ideal download time from a connection speed." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://zrina.app/tools/guides/gb-vs-gib-download-time.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="zrina.app Tools" />
+  <meta property="og:url" content="https://zrina.app/tools/guides/gb-vs-gib-download-time.html" />
+  <meta property="og:title" content="GB vs GiB: Data Units and Download Time · zrina.app" />
+  <meta property="og:description" content="Why storage labels differ from some operating-system displays, and how to estimate transfer time." />
+  <meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GB vs GiB: Data Units and Download Time · zrina.app" />
+  <meta name="twitter:description" content="Convert SI and IEC data sizes without mixing prefixes." />
+  <meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="theme-color" content="#070b16" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/tool-icons/tools.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/tool-icons/tools-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/tool-icons/tools-180.png" />
+  <link rel="stylesheet" href="../../assets/tool-shell.css" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"TechArticle","headline":"GB vs GiB: Data Units and Download Time","description":"A practical guide to SI decimal and IEC binary data units and ideal download-time arithmetic.","datePublished":"2026-11-03","dateModified":"2026-11-03","author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"},"publisher":{"@type":"Organization","name":"zrina.app Tools","url":"https://zrina.app/tools/"},"mainEntityOfPage":"https://zrina.app/tools/guides/gb-vs-gib-download-time.html"}
+  </script>
+  <style>
+    .guide-article { max-width: 78ch; margin-inline: auto; }
+    .guide-article .eyebrow { color: var(--ac); font-size: .75rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .guide-article h1 { max-width: 18ch; margin: .65rem 0 1rem; }
+    .guide-article .meta, .guide-article .lede, .guide-article p, .guide-article li { color: var(--tx2); line-height: 1.75; }
+    .guide-article .lede { font-size: 1.08rem; }
+    .guide-article h2 { margin: 2rem 0 .65rem; font-size: 1.3rem; }
+    .guide-article h3 { margin: 1.4rem 0 .45rem; font-size: 1.05rem; }
+    .guide-article pre { overflow-x: auto; padding: 1rem; border: 1px solid var(--bd); border-radius: .75rem; background: var(--sub); color: var(--tx); }
+    .guide-article code { overflow-wrap: anywhere; }
+    .guide-article .callout { margin: 1.25rem 0; padding: 1rem 1.2rem; border-left: 3px solid var(--ac); border-radius: .5rem; background: var(--sub); color: var(--tx2); line-height: 1.7; }
+    .guide-article .sources li + li { margin-top: .45rem; }
+    .guide-article .backlinks { display: flex; flex-wrap: wrap; gap: .75rem 1.2rem; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--bd); }
+  </style>
+</head>
+<body>
+  <header class="top"><div class="wrap"><a class="brand tool-brand" href="../" aria-label="Tools Guides by Zrina, all tools"><img src="../../assets/tool-icons/tools-192.png" alt="" width="32" height="32"><span class="tool-brand-name">Tools Guides</span><span class="tool-brand-by">by Zrina</span></a><nav aria-label="Site navigation"><a href="../">Tools hub</a><a href="./">Guides</a><a href="../../hostvitals/">HostVitals</a></nav></div></header>
+  <main class="wrap guide-article">
+    <article>
+      <span class="eyebrow">Data sizes</span>
+      <h1>GB vs GiB—and why downloads take longer</h1>
+      <p class="meta">A practical reference · Reviewed November 3, 2026</p>
+      <p class="lede">A “gigabyte” is not always the same number of bytes in every context. Storage labels commonly use decimal SI prefixes, while some software displays binary IEC prefixes. Connection speeds add another wrinkle: they are usually quoted in bits per second, not bytes per second.</p>
+
+      <h2>Decimal GB and binary GiB</h2>
+      <p>In the decimal SI system, each prefix multiplies by 1,000: <code>1 GB = 1,000,000,000 bytes</code>. In the binary IEC system, each prefix multiplies by 1,024: <code>1 GiB = 1,073,741,824 bytes</code>. A byte is eight bits, so uppercase <code>B</code> and lowercase <code>b</code> are not interchangeable.</p>
+      <p>For example, a drive sold as <code>1 TB</code> contains <code>1,000,000,000,000</code> bytes using the decimal label. Dividing by <code>1,073,741,824</code> gives about <code>931.32 GiB</code>. The data has not disappeared; the displayed number uses a different unit. Some products and operating systems use labels inconsistently, so inspect the unit definition rather than relying on a label alone.</p>
+
+      <h2>Estimate download time</h2>
+      <p>To estimate an ideal transfer time, convert the file size to bits and divide by the data rate in bits per second:</p>
+      <pre><code>ideal seconds = file bytes × 8 ÷ connection bits per second</code></pre>
+      <p>For a decimal <code>80 GB</code> file and a nominal <code>100 Mbps</code> link:</p>
+      <pre><code>80,000,000,000 bytes × 8 ÷ 100,000,000 bits/s
+= 6,400 seconds
+= 1 hour, 46 minutes, 40 seconds (ideal)</code></pre>
+      <p>This is a lower-bound-style arithmetic estimate, not a promise. The quoted access rate may be a maximum; actual throughput can vary with Wi-Fi, congestion, server capacity, protocol overhead, routing and other traffic. If you have a measured throughput, use that for a more realistic estimate.</p>
+
+      <h2>Common conversion traps</h2>
+      <ul>
+        <li><code>100 Mbps</code> is 100 megabits per second. Dividing by eight gives an ideal 12.5 megabytes per second, before overhead.</li>
+        <li><code>MB/s</code> and <code>Mbps</code> differ by both capitalization and a factor of eight.</li>
+        <li>Do not assume <code>GB</code> means <code>GiB</code>. Preserve the unit from the source when entering a size into a calculator.</li>
+        <li>Estimate with the same basis on both sides: decimal file size with decimal conversion, or explicitly convert to bytes before comparing.</li>
+      </ul>
+      <div class="callout"><strong>Try it:</strong> use the <a href="../../unit/">Unit Converter</a> to compare GB and GiB, then enter the file size and real throughput in the <a href="../../speedcalc/">Download Time Calculator</a>.</div>
+
+      <h2>Primary references</h2>
+      <ul class="sources">
+        <li><a href="https://www.bipm.org/en/publications/si-brochure">BIPM — The International System of Units (SI Brochure)</a></li>
+        <li><a href="https://www.iec.ch/si-units">International Electrotechnical Commission — SI units and prefixes</a></li>
+        <li><a href="https://physics.nist.gov/cuu/Units/binary.html">NIST — Prefixes for binary multiples</a></li>
+      </ul>
+      <nav class="backlinks" aria-label="Related pages"><a href="../../unit/">Open Unit Converter</a><a href="../../speedcalc/">Open Download Time Calculator</a><a href="./">All guides</a></nav>
+    </article>
+  </main>
+  <footer class="tool-footer"><div class="wrap"><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../">All tools</a><a href="./">Guides</a><a href="../about.html">About the tools</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+</body>
+</html>

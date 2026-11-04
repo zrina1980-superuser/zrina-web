@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Network &amp; IP Inspector · My IP, ISP, ASN and WebRTC Leak Check | zrina.app</title>
+<meta name="description" content="See your public IPv4 and IPv6 address, ISP, ASN and location, and check whether WebRTC exposes your local IP. Not a DNS leak test." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://zrina.app/myip/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="zrina.app" />
+<meta property="og:url" content="https://zrina.app/myip/" />
+<meta property="og:title" content="Network & IP Inspector" />
+<meta property="og:description" content="Public IP, ISP, ASN, location and WebRTC exposure check." />
+<meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="zrina.app web tools" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Network &amp; IP Inspector" />
+<meta name="twitter:description" content="View public IP, ISP, ASN and approximate location; run an optional WebRTC check." />
+<meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta name="theme-color" content="#070b16" />
+<link rel="icon" type="image/svg+xml" href="../assets/tool-icons/myip.svg" />
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/myip-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/myip-512.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/myip-180.png" />
+<!-- GOOGLE ADSENSE: enable only after production deployment and the required consent setup.
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Network & IP Inspector","url":"https://zrina.app/myip/","applicationCategory":"UtilitiesApplication","operatingSystem":"All","description":"Shows your public IP, ISP, ASN and location and checks WebRTC local IP exposure.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+</script>
+<style>
+:root{--bg:#fafafa;--card:#fff;--sub:#f4f4f5;--bd:#e4e4e7;--tx:#09090b;--tx2:#52525b;--mut:#71717a;--ac:#18181b;--acf:#fff;--ok:#059669;--bad:#dc2626;--warn:#d97706;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#09090b;--card:#121215;--sub:#18181b;--bd:#27272a;--tx:#fafafa;--tx2:#a1a1aa;--mut:#71717a;--ac:#fafafa;--acf:#09090b;--ok:#34d399;--bad:#f87171;--warn:#fbbf24}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:inherit}.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--bd)}header.top .wrap{display:flex;justify-content:space-between;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;text-decoration:none}.brand span{color:var(--mut);font-weight:500}
+nav a{margin-left:14px;color:var(--tx2);text-decoration:none;font-size:14px}nav a:hover{color:var(--tx)}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:36px 0 8px;letter-spacing:-.02em}.lead{color:var(--tx2);margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:20px}
+.card h2{font-size:16px;margin:0 0 12px}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.kv div{background:var(--sub);border-radius:10px;padding:10px 12px;min-width:0}
+.kv small{display:block;color:var(--mut);font-size:12px}.kv b{font-family:var(--mono);font-size:14px;overflow-wrap:anywhere;font-weight:500}
+.btn{background:var(--ac);color:var(--acf);border:0;border-radius:9px;padding:9px 14px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+.verdict{font-weight:600;margin-top:12px;overflow-wrap:anywhere}.verdict.ok{color:var(--ok)}.verdict.warn{color:var(--warn)}
+.note{color:var(--mut);font-size:13px}
+section.info h2{font-size:20px;margin:28px 0 8px}section.info p,section.info li{color:var(--tx2)}
+.disc{background:var(--sub);border:1px dashed var(--bd);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--tx2);margin:16px 0}
+footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(--mut);font-size:13px}
+</style>
+<link rel="stylesheet" href="../assets/tool-shell.css" />
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand tool-brand" href="../tools/" aria-label="Network and IP Inspector by Zrina, all tools">
+<img src="../assets/tool-icons/myip-192.png" alt="" width="32" height="32" />
+<span class="tool-brand-name">Network &amp; IP Inspector</span><span class="tool-brand-by">by Zrina</span>
+</a>
+<nav><a href="../hostvitals/">HostVitals</a><a href="../speedcalc/">Speed calc</a><a href="../cidr/">CIDR</a><a href="../netplanner/">Network planner</a><a href="../uuid/">UUID</a><a href="../json/">JSON</a><a href="../timestamp/">Timestamp</a><a href="../cron/">Cron</a></nav>
+</div></header>
+<main class="wrap">
+<h1>Network &amp; IP Inspector</h1>
+<p class="lead">Your public IP addresses, network provider and a WebRTC exposure check. This is not a DNS leak test.</p>
+
+<div class="card" aria-live="polite">
+<h2>Public IP</h2>
+<div class="kv" id="ips"><div><small>IPv4</small><b id="v4">checking…</b></div><div><small>IPv6</small><b id="v6">checking…</b></div></div>
+<div class="kv" id="meta" style="margin-top:10px"></div>
+<div class="note" style="margin-top:10px">Address sources: ipify.org and ipapi.co. ISP, ASN and location use ipwho.is, with ipapi.co as a fallback. These services receive your public IP; source differences can reflect address-family routing and are not by themselves evidence of a leak.</div>
+</div>
+
+<div class="card" aria-live="polite">
+<h2>WebRTC exposure</h2>
+<div id="rtcOut" class="kv"><div><small>Status</small><b>not run yet</b></div></div>
+<div id="rtcVerdict" class="verdict"></div>
+<button class="btn" id="rtcBtn" type="button">Run WebRTC check</button>
+<div class="note" style="margin-top:10px">The check contacts a public STUN server (stun.l.google.com) from your browser, which is how WebRTC discovers addresses.</div>
+</div>
+
+<div class="card">
+<h2>Browser</h2>
+<div class="kv" id="br"></div>
+</div>
+
+<!-- AD SLOT 1 (below results). Enable after AdSense approval:
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+
+<section class="info">
+<h2>What this tool can and cannot do</h2>
+<p>It shows the IP address websites see when you connect, plus ISP, ASN and an approximate location from a public database. Location is approximate and can be wrong, especially on mobile and VPN connections.</p>
+<h2>Why isn't this a DNS leak test?</h2>
+<p>A real DNS leak test needs an authoritative DNS server that records which resolver asks for a unique random hostname. A static page cannot do that, so we do not claim it. If you need one, use a dedicated service.</p>
+<h2>What is a WebRTC leak?</h2>
+<p>WebRTC can reveal IP addresses to websites, including a local network address or a public address that differs from your VPN address. Modern browsers often hide local addresses behind random <code>.local</code> names, which counts as protected.</p>
+</section>
+</main>
+<footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">Your IP may be sent to ipify.org, ipwho.is and ipapi.co for comparison or lookup; zrina.app does not store it. Related: <a href="../hostvitals/">check if a website is reachable</a>.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const kv=(k,v)=>'<div><small>'+esc(k)+'</small><b>'+esc(v)+'</b></div>';
+async function getIp(url){
+  const c=new AbortController();const t=setTimeout(()=>c.abort(),5000);
+  try{const r=await fetch(url,{signal:c.signal});if(!r.ok)return null;return (await r.json()).ip||null}
+  catch{return null}finally{clearTimeout(t)}
+}
+async function geoFromIpwho(ip){
+  const c=new AbortController();const t=setTimeout(()=>c.abort(),5000);
+  try{
+    const r=await fetch('https://ipwho.is/'+encodeURIComponent(ip),{signal:c.signal});
+    if(!r.ok)return null;
+    const d=await r.json();
+    if(!d.success)return null;
+    return{connection:{isp:d.connection?.isp||'',org:d.connection?.org||'',asn:d.connection?.asn||''},city:d.city||'',region:d.region||'',country:d.country||'',timezone:{id:d.timezone?.id||''},source:'ipwho.is'};
+  }
+  catch{return null}finally{clearTimeout(t)}
+}
+async function geoFromIpapi(ip){
+  const c=new AbortController();const t=setTimeout(()=>c.abort(),5000);
+  try{
+    const r=await fetch('https://ipapi.co/'+encodeURIComponent(ip)+'/json/',{signal:c.signal});
+    if(!r.ok)return null;
+    const d=await r.json();
+    if(d.error)return null;
+    const asn=String(d.asn||'').match(/^AS?(\d+)\b/i)?.[1]||'';
+    return{connection:{isp:d.org||'',org:d.org||'',asn},city:d.city||'',region:d.region||'',country:d.country_name||'',timezone:{id:d.timezone||''},source:'ipapi.co (fallback)'};
+  }
+  catch{return null}finally{clearTimeout(t)}
+}
+async function geo(ip){return await geoFromIpwho(ip)||await geoFromIpapi(ip)}
+let pubIp=null,geoData=null;
+async function loadIp(){
+  const [v4,v6,ipapiIp]=await Promise.all([getIp('https://api.ipify.org?format=json'),getIp('https://api6.ipify.org?format=json'),getIp('https://ipapi.co/json/')]);
+  $('v4').textContent=v4||'not detected';
+  $('v6').textContent=v6||'not detected (no IPv6 or blocked)';
+  $('ips').insertAdjacentHTML('beforeend',kv('Secondary source (ipapi.co)',ipapiIp||'unavailable'));
+  const comparable=[v4,v6].filter(address=>address&&ipapiIp&&address.includes(':')===ipapiIp.includes(':'));
+  const comparison=!ipapiIp?'Comparison source unavailable':!comparable.length?'Different address families; comparison unavailable':comparable.includes(ipapiIp)?'Matches an ipify result':'Different result; routes or address-family selection may differ';
+  $('ips').insertAdjacentHTML('beforeend',kv('Source comparison',comparison));
+  pubIp=v4||v6;
+  if(!pubIp){$('meta').innerHTML=kv('Lookup','Could not reach the IP lookup service. Check blockers or your connection.');return}
+  geoData=await geo(pubIp);
+  if(!geoData){$('meta').innerHTML=kv('Details','Provider and location lookup unavailable.');return}
+  $('meta').innerHTML=[
+    kv('ISP',geoData.connection?.isp||geoData.connection?.org||'—'),
+    kv('ASN',geoData.connection?.asn?'AS'+geoData.connection.asn:'—'),
+    kv('Approx. location',[geoData.city,geoData.region,geoData.country].filter(Boolean).join(', ')||'—'),
+    kv('IP time zone',geoData.timezone?.id||'—'),
+    kv('Metadata source',geoData.source)
+  ].join('');
+  fillBrowser();
+}
+function fillBrowser(){
+  const tz=Intl.DateTimeFormat().resolvedOptions().timeZone;
+  let rows=[kv('Browser time zone',tz),kv('Language',navigator.language),kv('Platform',navigator.platform||'—')];
+  if(geoData?.timezone?.id&&geoData.timezone.id!==tz)rows.push(kv('Note','Browser time zone differs from the IP location time zone. This is common with VPNs, but also with travel or inaccurate IP data.'));
+  $('br').innerHTML=rows.join('');
+}
+fillBrowser();
+
+function isPrivate(ip){return /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|127\.|f[cd][0-9a-f]{2}:|fe80:)/i.test(ip)}
+$('rtcBtn').onclick=()=>{
+  const out=$('rtcOut'),verdict=$('rtcVerdict');
+  if(!window.RTCPeerConnection){out.innerHTML=kv('Status','WebRTC is not available in this browser.');verdict.textContent='';return}
+  out.innerHTML=kv('Status','gathering…');verdict.textContent='';verdict.className='verdict';
+  const found=new Map();
+  const pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});
+  pc.createDataChannel('x');
+  let done=false;
+  const finish=()=>{
+    if(done)return;done=true;pc.close();
+    const rows=[...found.values()];
+    out.innerHTML=rows.length?rows.map(r=>kv(r.type,r.ip)).join(''):kv('Status','No candidates found (WebRTC blocked or no network).');
+    const local=rows.filter(r=>r.type==='local'),mdns=rows.filter(r=>r.type==='local (hidden by mDNS)'),pub=rows.filter(r=>r.type==='public');
+    const diff=pubIp&&pub.some(p=>p.ip!==pubIp&&!(pubIp.includes(':')!==p.ip.includes(':')));
+    if(local.length){verdict.textContent='WebRTC exposed a local network address to this page.';verdict.className='verdict warn'}
+    else if(diff){verdict.textContent='WebRTC reported a public address that differs from the one above. Check your VPN or proxy settings.';verdict.className='verdict warn'}
+    else if(rows.length){verdict.textContent='No local address exposed'+(mdns.length?' (hidden by browser mDNS protection).':'.');verdict.className='verdict ok'}
+  };
+  pc.onicecandidate=e=>{
+    if(!e.candidate){finish();return}
+    const p=e.candidate.candidate.split(' ');
+    const addr=p[4],typ=p[7];
+    if(!addr)return;
+    if(addr.endsWith('.local'))found.set(addr,{ip:addr,type:'local (hidden by mDNS)'});
+    else if(typ==='host'||isPrivate(addr))found.set(addr,{ip:addr,type:isPrivate(addr)?'local':'public'});
+    else found.set(addr,{ip:addr,type:'public'});
+  };
+  pc.createOffer().then(o=>pc.setLocalDescription(o)).catch(()=>{out.innerHTML=kv('Status','WebRTC check failed.');done=true});
+  setTimeout(finish,4000);
+};
+loadIp();
+</script>
+</body>
+</html>

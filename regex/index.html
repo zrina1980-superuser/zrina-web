@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regex Tester &amp; Debugger | zrina.app</title>
+<meta name="description" content="Test JavaScript regular expressions locally with flags, safe match highlighting, capture groups, replacement preview, pattern hints and common-mistake checks.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://zrina.app/regex/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="zrina.app">
+<meta property="og:url" content="https://zrina.app/regex/">
+<meta property="og:title" content="Regex Tester &amp; Debugger">
+<meta property="og:description" content="Test JavaScript regular expressions locally with highlighted matches, captures and replacement preview.">
+<meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Regex Tester &amp; Debugger">
+<meta name="twitter:description" content="Test JavaScript regular expressions locally with highlighted matches, captures and replacement preview.">
+<meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png">
+<meta name="theme-color" content="#070b16">
+<link rel="icon" type="image/svg+xml" href="../assets/tool-icons/regex.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/regex-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/regex-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/regex-180.png">
+<link rel="stylesheet" href="../assets/tool-shell.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Regex Tester & Debugger","url":"https://zrina.app/regex/","applicationCategory":"DeveloperApplication","operatingSystem":"All","description":"Client-side JavaScript regular expression tester with safe highlighting, captures and replacement preview.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+</script>
+<style>
+*{box-sizing:border-box}.wrap{max-width:1000px;margin:auto;padding-inline:clamp(1rem,3vw,2rem)}
+header.top{border-bottom:1px solid var(--bd)}header.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.brand{font-weight:800;text-decoration:none}.brand span{color:var(--mut);font-weight:500}
+nav{display:flex;gap:.3rem;max-width:100%;overflow-x:auto}nav a{white-space:nowrap;color:var(--tx2);text-decoration:none;padding:.45rem .6rem;border-radius:.6rem;font-size:.85rem}nav a:hover{background:var(--sub);color:var(--tx)}
+h1{margin:2rem 0 .5rem;font-size:clamp(2rem,5vw,3rem)}.lead{color:var(--tx2);max-width:70ch}
+.card{margin:1rem 0;padding:clamp(1rem,2.5vw,1.5rem);border:1px solid var(--bd);border-radius:1rem;background:var(--card)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1rem}.field label{display:block;margin-bottom:.35rem;color:var(--tx2);font-weight:700;font-size:.85rem}
+input,select,textarea{width:100%;min-width:0;padding:.7rem .8rem;border:1px solid var(--bd);border-radius:.7rem;background:var(--bg);color:var(--tx);font:inherit}
+textarea,pre,code{font-family:var(--mono)}textarea{resize:vertical;min-height:8rem}
+.pattern-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.6rem;align-items:end}
+.flags{display:flex;gap:.8rem;flex-wrap:wrap;margin:.8rem 0}.flags label,.check{display:flex;align-items:center;gap:.35rem;color:var(--tx2);font-size:.9rem}.flags input,.check input{width:auto}
+.buttons{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.8rem}.btn{padding:.65rem .9rem;border:1px solid var(--bd);border-radius:.7rem;background:var(--sub);color:var(--tx);font:inherit;font-weight:650;cursor:pointer}.btn.primary{border-color:transparent;background:var(--ac);color:var(--acf)}
+.presets{display:flex;gap:.45rem;flex-wrap:wrap;margin:.7rem 0}.presets button{border:1px solid var(--bd);border-radius:999px;background:var(--sub);color:var(--tx2);padding:.35rem .65rem;cursor:pointer}
+.status{min-height:1.5em;margin-top:.6rem;color:var(--tx2)}.status.error{color:var(--bad)}
+.result{overflow-wrap:anywhere;white-space:pre-wrap;background:var(--sub);border:1px solid var(--bd);border-radius:.7rem;padding:.75rem;min-height:2.5rem;color:var(--tx)}
+.hits{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:.6rem}.hit{padding:.7rem;border-radius:.7rem;background:var(--sub);border:1px solid var(--bd);overflow-wrap:anywhere}.hit strong{display:block;color:var(--mut);font-size:.78rem;margin-bottom:.25rem}
+mark{border-radius:.2em;background:#fde68a;color:#422006}.note{font-size:.9rem;color:var(--tx2)}.warning{padding:.65rem .8rem;margin:.5rem 0;border-left:3px solid #f59e0b;background:var(--sub);color:var(--tx2);border-radius:.3rem}.limits{font-size:.88rem;color:var(--mut)}
+section.info{max-width:75ch;margin:2.5rem auto}section.info h2{font-size:1.2rem}section.info p,section.info li{color:var(--tx2)}
+footer{margin-top:2rem;padding:1.5rem 0;border-top:1px solid var(--bd);color:var(--mut);font-size:.85rem}
+@media(max-width:600px){.pattern-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand tool-brand" href="../tools/" aria-label="Regex Tester by Zrina, Tools hub"><img src="../assets/tool-icons/regex-192.png" alt="" width="32" height="32"><span class="tool-brand-name">Regex Tester</span><span class="tool-brand-by">by Zrina</span></a>
+<nav aria-label="Tool navigation"><a href="../tools/">Tools hub</a><a href="../uuid/">UUID</a><a href="../json/">JSON</a><a href="../cidr/">CIDR</a><a href="../timestamp/">Timestamp</a></nav>
+</div></header>
+<main class="wrap">
+<h1>Regex Tester &amp; Debugger</h1>
+<p class="lead">Try JavaScript regular expressions against sample text. Matching runs only when you press Run, in a disposable worker with a time limit.</p>
+<section class="card" aria-label="Regular expression tester">
+<div class="field"><label for="preset">Start from a pattern preset</label><select id="preset"><option value="">Choose a preset…</option><option value="email">Email (practical)</option><option value="url">URL (HTTP/HTTPS)</option><option value="ipv4">IPv4 address</option><option value="ipv6">IPv6 address (common forms)</option><option value="phone">International phone</option><option value="date">Date (YYYY-MM-DD shape)</option><option value="hex">Hex color</option></select></div>
+<div class="pattern-row" style="margin-top:1rem">
+<div class="field"><label for="pattern">Pattern (without slash delimiters)</label><input id="pattern" value="\b(zrina)\b" spellcheck="false" autocomplete="off"></div>
+<div class="field"><label for="replacement">Replacement (maximum 2,000 characters)</label><input id="replacement" value="[$1]" spellcheck="false" autocomplete="off"></div>
+</div>
+<div class="flags" aria-label="Regular expression flags">
+<label><input type="checkbox" value="g" checked> g global</label><label><input type="checkbox" value="i"> i ignore case</label><label><input type="checkbox" value="m"> m multiline</label><label><input type="checkbox" value="s"> s dotAll</label><label><input type="checkbox" value="u" checked> u Unicode</label><label><input type="checkbox" value="y"> y sticky</label>
+</div>
+<div class="presets" aria-label="Pattern examples"><button type="button" data-sample="email">Email</button><button type="button" data-sample="url">URL</button><button type="button" data-sample="ipv4">IPv4</button><button type="button" data-sample="ipv6">IPv6</button><button type="button" data-sample="phone">Phone</button><button type="button" data-sample="date">Date</button><button type="button" data-sample="hex">Hex</button></div>
+<div class="field"><label for="testText">Test text (maximum 50,000 characters)</label><textarea id="testText" spellcheck="false">Contact: hello@example.com or visit https://zrina.app/tools/</textarea></div>
+<div class="buttons"><button class="btn primary" id="run" type="button">Run pattern</button><button class="btn" id="replaceMode" type="button" aria-pressed="false">Show replacement</button><button class="btn" id="clear" type="button">Clear</button></div>
+<p id="status" class="status" role="status" aria-live="polite">Ready. Nothing runs until you select Run pattern.</p>
+<div id="warnings" aria-live="polite"></div>
+</section>
+<section class="card" aria-live="polite"><h2 style="margin-top:0">Matches &amp; highlighted text</h2><p id="summary" class="note">Run a pattern to see results.</p><div id="highlight" class="result"></div><h3>Full matches and captures</h3><div id="matches" class="hits"></div></section>
+<section id="replacementPanel" class="card" hidden><h2 style="margin-top:0">Replacement preview</h2><p class="note">Uses JavaScript String.replace replacement tokens, including $&, $1 and $&lt;name&gt;. Output is rendered as text.</p><pre id="replacementResult" class="result"></pre></section>
+<section class="card"><h2 style="margin-top:0">Pattern explanation</h2><p id="explanation" class="note">Enter a pattern to get a concise syntax walkthrough. Explanations are heuristic and may omit context.</p></section>
+<section class="info">
+<h2>Supported syntax</h2><p>This tester uses the JavaScript <code>RegExp</code> engine and supports <code>g i m s u y</code>. The global (<code>g</code>) and sticky (<code>y</code>) modes cannot be used together here; selecting either turns the other off. Lookbehind and other features depend on the browser's JavaScript engine.</p>
+<h2>Safety and limits</h2><p><strong>Regex complexity warnings are heuristic only.</strong> They are not a proof that a pattern is safe; there is no guarantee against catastrophic backtracking. Each run is isolated in a Web Worker that is terminated after 750 ms, and the tester limits patterns and replacement strings to 2,000 characters, test text to 50,000 characters, reported matches to 500, and displayed replacement output to 200,000 characters. Workers keep a slow pattern from freezing the page, but limits can truncate results or time out valid complex expressions. Use a smaller input or a simpler pattern when this happens.</p>
+<h2>Common mistakes</h2><ul><li>Use <code>\\.</code> for a literal dot; <code>.</code> matches most characters.</li><li><code>^</code> and <code>$</code> match input boundaries (or line boundaries with <code>m</code>).</li><li><code>\\d</code> is an ASCII digit; use an explicit Unicode-aware expression if you need other numeral systems.</li><li>Use <code>(?:…)</code> for grouping without a capture, and <code>\\b</code> only for regex word boundaries, not all language-specific word edges.</li></ul>
+<p>All matching and replacement happen locally in your browser. Patterns and test text are not uploaded or saved.</p>
+</section>
+</main>
+<footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">Matches run locally; input is not uploaded or saved.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+<script>
+(() => {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const fields = {
+    pattern: $("pattern"), text: $("testText"), replacement: $("replacement"),
+    status: $("status"), warnings: $("warnings"), summary: $("summary"),
+    highlight: $("highlight"), matches: $("matches"), explanation: $("explanation"),
+    panel: $("replacementPanel"), replacementResult: $("replacementResult")
+  };
+  const presets = {
+    email: { pattern: "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}", flags: "giu", text: "hello@example.com\\nname+tag@sub.example.org\\nnot-an-email@" },
+    url: { pattern: "https?:\\/\\/(?:[\\w-]+\\.)+[\\w-]+(?::\\d{1,5})?(?:[/?#][^\\s]*)?", flags: "giu", text: "See https://zrina.app/tools/ and http://example.org:8080/a?q=1" },
+    ipv4: { pattern: "\\b(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)){3}\\b", flags: "gu", text: "Valid: 192.168.1.1 and 255.255.255.255; invalid: 256.1.2.3" },
+    ipv6: { pattern: "(?<![\\w:])(?:[\\da-f]{0,4}:){1,7}[\\da-f]{0,4}(?![\\w:])", flags: "giu", text: "Examples: 2001:db8::1 and fe80::abcd:1234; loopback ::1" },
+    phone: { pattern: "\\+\\d{1,3}[ .()-]?(?:\\d[ .()-]?){6,14}\\d", flags: "gu", text: "Call +1 (415) 555-2671 or +44 20 7946 0958" },
+    date: { pattern: "\\b\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])\\b", flags: "gu", text: "Dates: 2026-03-08 and 2026-02-31" },
+    hex: { pattern: "#(?:[\\da-f]{3}|[\\da-f]{4}|[\\da-f]{6}|[\\da-f]{8})\\b", flags: "giu", text: "Colors: #0af, #11aaff, #112233cc" }
+  };
+  const flagBoxes = [...document.querySelectorAll(".flags input")];
+  let worker = null;
+  let workerReady = false;
+  let activeRun = null;
+  let pendingRequest = null;
+  let readyTimer = null;
+  let showReplacement = false;
+  const markStale = () => showStatus("Inputs changed. Press Run pattern to refresh the results.");
+  function selectedFlags() { return flagBoxes.filter((box) => box.checked).map((box) => box.value).join(""); }
+  function showStatus(message, error = false) { fields.status.textContent = message; fields.status.classList.toggle("error", error); }
+  function explain(pattern) {
+    if (!pattern) { fields.explanation.textContent = "Enter a pattern to get a concise syntax walkthrough. Explanations are heuristic and may omit context."; return; }
+    const parts = [];
+    if (pattern.includes("^") || pattern.includes("$")) parts.push("Anchors (^, $): match positions, not characters.");
+    if (pattern.includes("\\b")) parts.push("\\b: word boundary.");
+    if (pattern.includes("\\d")) parts.push("\\d: ASCII digit.");
+    if (pattern.includes("\\w")) parts.push("\\w: ASCII-style word character.");
+    if (pattern.includes("\\s")) parts.push("\\s: whitespace.");
+    if (pattern.includes(".")) parts.push(".: any character except line terminators, unless s is enabled.");
+    if (/[+*?]|\{\d/.test(pattern)) parts.push("Quantifier: repeats the preceding token or group.");
+    if (pattern.includes("(")) parts.push("Parentheses: capture groups unless written as (?:…) or another special group.");
+    if (pattern.includes("[")) parts.push("Bracket expression: matches one character from a set or range.");
+    if (pattern.includes("|")) parts.push("|: alternation (either side).");
+    if (pattern.includes("(?=") || pattern.includes("(?!") || pattern.includes("(?<=") || pattern.includes("(?<!")) parts.push("Lookaround: checks adjacent text without consuming it.");
+    fields.explanation.textContent = parts.length ? parts.join(" ") : "No common tokens detected; this may be a literal match or use syntax not covered by this heuristic.";
+  }
+  function warnPattern(pattern) {
+    fields.warnings.replaceChildren();
+    const warnings = [];
+    if (/\([^)]*(?:[+*]|\{\d+,?\})[^)]*\)(?:[+*]|\{\d+,?\})|\([^)]*\|[^)]*\)(?:[+*]|\{\d+,?\})/.test(pattern)) warnings.push("Possible nested repetition or repeated alternation detected. This heuristic may miss risky patterns or flag harmless ones.");
+    if (/\.\*[+*]|\.\+[+*]|\([^)]*[+*][^)]*\)[+*]/.test(pattern)) warnings.push("A repeated wildcard/group can cause excessive backtracking on some inputs; simplify or constrain it if possible.");
+    if (pattern.length > 500) warnings.push("Long patterns are harder to inspect; pattern size is capped at 2,000 characters.");
+    if (warnings.length) for (const message of warnings) { const p = document.createElement("p"); p.className = "warning"; p.textContent = message; fields.warnings.append(p); }
+  }
+  function renderMatches(result, text) {
+    fields.matches.replaceChildren();
+    fields.highlight.replaceChildren();
+    let cursor = 0;
+    for (const match of result.matches) {
+      fields.highlight.append(document.createTextNode(text.slice(cursor, match.index)));
+      const mark = document.createElement("mark"); mark.textContent = match.full; fields.highlight.append(mark);
+      cursor = match.index + match.full.length;
+      const item = document.createElement("div"); item.className = "hit";
+      const title = document.createElement("strong"); title.textContent = `Match ${match.number} · index ${match.index}`; item.append(title);
+      const full = document.createElement("div"); full.textContent = `Full: ${JSON.stringify(match.full)}`; item.append(full);
+      match.captures.forEach((value, index) => { const row = document.createElement("div"); row.textContent = `Capture ${index + 1}: ${value === undefined ? "undefined" : JSON.stringify(value)}`; item.append(row); });
+      if (match.groups && Object.keys(match.groups).length) { const row = document.createElement("div"); row.textContent = `Named: ${JSON.stringify(match.groups)}`; item.append(row); }
+      fields.matches.append(item);
+    }
+    fields.highlight.append(document.createTextNode(text.slice(cursor)));
+    if (!result.matches.length) fields.matches.textContent = "No matches.";
+    fields.summary.textContent = `${result.matches.length}${result.truncated ? " (showing the first 500; limit reached)" : ""} match${result.matches.length === 1 ? "" : "es"}.`;
+    fields.replacementResult.textContent = result.replacement;
+  }
+  function stopWorker() {
+    if (activeRun) clearTimeout(activeRun.timer);
+    if (readyTimer) clearTimeout(readyTimer);
+    activeRun = null; pendingRequest = null; readyTimer = null;
+    if (worker) worker.terminate();
+    worker = null; workerReady = false;
+  }
+  function startWorker() {
+    if (worker) return;
+    const current = new Worker(new URL("./worker.js", location.href));
+    worker = current;
+    workerReady = false;
+    current.onmessage = ({data}) => {
+      if (worker !== current) return;
+      if (data.ready) {
+        workerReady = true;
+        if (readyTimer) clearTimeout(readyTimer);
+        readyTimer = null;
+        if (pendingRequest) {
+          const request = pendingRequest;
+          pendingRequest = null;
+          startExecution(request);
+        }
+        return;
+      }
+      if (!activeRun || activeRun.worker !== current) return;
+      clearTimeout(activeRun.timer);
+      const text = activeRun.text;
+      activeRun = null;
+      if (data.error) { showStatus(`Invalid pattern: ${data.error}`, true); return; }
+      renderMatches(data, text);
+      showStatus(data.truncated ? "Stopped at the 500-match limit; replacement preview was skipped." : "Done. Pattern and text stayed in this browser.");
+    };
+    current.onerror = () => {
+      if (worker !== current) return;
+      const requestPending = Boolean(activeRun || pendingRequest);
+      stopWorker();
+      if (requestPending) showStatus("Worker failed; check browser support and try again.", true);
+    };
+  }
+  function startExecution(request) {
+    const current = worker;
+    activeRun = {
+      worker: current,
+      text: request.text,
+      timer: setTimeout(() => {
+        if (!activeRun || activeRun.worker !== current) return;
+        stopWorker();
+        showStatus("Timed out after 750 ms; this can happen with expensive patterns. Simplify the pattern or use less test text.", true);
+        startWorker();
+      }, 750)
+    };
+    showStatus("Running in an isolated worker…");
+    current.postMessage(request.data);
+  }
+  function run() {
+    const pattern = fields.pattern.value;
+    const text = fields.text.value;
+    if (pattern.length > 2000) return showStatus("Pattern is too long (maximum 2,000 characters).", true);
+    if (fields.replacement.value.length > 2000) return showStatus("Replacement is too long (maximum 2,000 characters).", true);
+    if (text.length > 50000) return showStatus("Test text is too long (maximum 50,000 characters).", true);
+    const flags = selectedFlags();
+    fields.panel.hidden = !showReplacement;
+    warnPattern(pattern); explain(pattern);
+    if (activeRun) stopWorker();
+    startWorker();
+    const request = {text, data: {pattern, flags, text, replacement: fields.replacement.value}};
+    if (workerReady) startExecution(request);
+    else {
+      pendingRequest = request;
+      showStatus("Preparing the local regex worker…");
+      if (!readyTimer) readyTimer = setTimeout(() => {
+        if (worker && !workerReady && pendingRequest) {
+          stopWorker();
+          showStatus("The local regex worker could not start. Check browser support and try again.", true);
+        }
+      }, 10000);
+    }
+  }
+  $("run").addEventListener("click", run);
+  $("replaceMode").addEventListener("click", (event) => { showReplacement = !showReplacement; fields.panel.hidden = !showReplacement; event.currentTarget.setAttribute("aria-pressed", String(showReplacement)); event.currentTarget.textContent = showReplacement ? "Hide replacement" : "Show replacement"; if (activeRun || pendingRequest) run(); });
+  $("clear").addEventListener("click", () => { stopWorker(); fields.pattern.value = ""; fields.text.value = ""; fields.replacement.value = ""; fields.matches.replaceChildren(); fields.highlight.replaceChildren(); fields.warnings.replaceChildren(); fields.summary.textContent = "Run a pattern to see results."; fields.replacementResult.textContent = ""; fields.explanation.textContent = "Enter a pattern to get a concise syntax walkthrough. Explanations are heuristic and may omit context."; showStatus("Cleared."); });
+  $("preset").addEventListener("change", (event) => { const preset = presets[event.target.value]; if (!preset) return; fields.pattern.value = preset.pattern; fields.text.value = preset.text.replaceAll("\\n", "\n"); flagBoxes.forEach((box) => { box.checked = preset.flags.includes(box.value); }); explain(preset.pattern); warnPattern(preset.pattern); markStale(); });
+  document.querySelectorAll("[data-sample]").forEach((button) => button.addEventListener("click", () => { $("preset").value = button.dataset.sample; $("preset").dispatchEvent(new Event("change")); }));
+  flagBoxes.forEach((box) => box.addEventListener("change", () => { if (box.checked && (box.value === "g" || box.value === "y")) flagBoxes.find((other) => other.value === (box.value === "g" ? "y" : "g")).checked = false; markStale(); }));
+  fields.pattern.addEventListener("input", () => { explain(fields.pattern.value); warnPattern(fields.pattern.value); markStale(); });
+  fields.text.addEventListener("input", markStale);
+  fields.replacement.addEventListener("input", markStale);
+  explain(fields.pattern.value);
+  warnPattern(fields.pattern.value);
+  startWorker();
+})();
+</script>
+</body>
+</html>

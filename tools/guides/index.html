@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Practical Guides for Network and Developer Tools · zrina.app</title>
+  <meta name="description" content="Practical, example-led guides to DNS troubleshooting, CIDR, cron schedules, Unix timestamps, data units and website diagnostics." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://zrina.app/tools/guides/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="zrina.app Tools" />
+  <meta property="og:url" content="https://zrina.app/tools/guides/" />
+  <meta property="og:title" content="Practical Guides · zrina.app Tools" />
+  <meta property="og:description" content="Clear explanations and worked examples for networking, developer and everyday tools." />
+  <meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Practical Guides · zrina.app Tools" />
+  <meta name="twitter:description" content="Clear explanations and worked examples for networking, developer and everyday tools." />
+  <meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="theme-color" content="#070b16" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/tool-icons/tools.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/tool-icons/tools-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/tool-icons/tools-180.png" />
+  <link rel="stylesheet" href="../../assets/tool-shell.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Practical Guides · zrina.app Tools",
+    "url": "https://zrina.app/tools/guides/",
+    "inLanguage": "en",
+    "description": "Practical, example-led guides to networking and developer topics.",
+    "isPartOf": { "@type": "WebSite", "name": "zrina.app", "url": "https://zrina.app/" }
+  }
+  </script>
+  <style>
+    .guide-hero { position: relative; overflow: hidden; margin-bottom: 2rem; padding: clamp(1.5rem, 5vw, 3.5rem); border: 1px solid var(--bd); border-radius: 1.4rem; background: radial-gradient(ellipse at 90% 10%, rgba(34,211,238,.18), transparent 34%), radial-gradient(ellipse at 90% 90%, rgba(190,65,255,.13), transparent 30%), var(--card); box-shadow: var(--tool-glow); }
+    .eyebrow { color: var(--ac); font-size: .75rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .guide-hero h1 { margin: .7rem 0 1rem; }
+    .guide-hero p { max-width: 66ch; color: var(--tx2); line-height: 1.7; }
+    .guide-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: 1rem; }
+    .guide-card { display: flex; min-height: 190px; flex-direction: column; padding: 1.25rem; border: 1px solid var(--bd); border-radius: 1rem; background: var(--card); color: var(--tx); text-decoration: none; transition: transform 160ms ease, border-color 160ms ease; }
+    .guide-card:hover, .guide-card:focus-visible { transform: translateY(-2px); border-color: var(--ac); color: var(--tx); }
+    .guide-card:focus-visible { outline: 2px solid var(--ac); outline-offset: 3px; }
+    .guide-card .topic { color: var(--ac); font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .guide-card h2 { margin: .6rem 0; color: var(--tx); font-size: 1.08rem; }
+    .guide-card p { margin: 0; color: var(--tx2); font-size: .9rem; line-height: 1.6; }
+    .guide-card .read { margin-top: auto; padding-top: 1rem; color: var(--ac); font-size: .84rem; font-weight: 750; }
+    .guide-group { margin: 2.5rem 0 1rem; color: var(--mut); font-size: .75rem; letter-spacing: .13em; text-transform: uppercase; }
+    .guide-note { margin: 2rem 0 0; padding: 1rem 1.2rem; border-left: 3px solid var(--ac); border-radius: .4rem; background: var(--sub); color: var(--tx2); font-size: .9rem; line-height: 1.7; }
+    @media (prefers-reduced-motion: reduce) { .guide-card { transition: none; } .guide-card:hover { transform: none; } }
+  </style>
+</head>
+<body>
+  <header class="top"><div class="wrap">
+    <a class="brand tool-brand" href="../" aria-label="Tools Guides by Zrina, all tools"><img src="../../assets/tool-icons/tools-192.png" alt="" width="32" height="32"><span class="tool-brand-name">Tools Guides</span><span class="tool-brand-by">by Zrina</span></a>
+    <nav aria-label="Site navigation"><a href="../">Tools hub</a><a href="../../hostvitals/">HostVitals</a><a href="../../">Portfolio</a></nav>
+  </div></header>
+  <main class="wrap">
+    <section class="guide-hero">
+      <span class="eyebrow">The zrina.app field guide</span>
+      <h1>Understand the result.<br>Know what to try next.</h1>
+      <p>Practical references for the questions behind everyday network and developer tasks. Each guide explains the idea, works through an example, and points out what a tool result can and cannot tell you.</p>
+    </section>
+
+    <h2 class="guide-group">Network troubleshooting</h2>
+    <section class="guide-list" aria-label="Network troubleshooting guides">
+      <a class="guide-card" href="../../hostvitals/guides/dns-vs-server-outage.html"><span class="topic">Troubleshooting</span><h2>Is it DNS, the network, or the website?</h2><p>Use DNS, browser and edge observations as separate clues without mistaking one probe for a global outage verdict.</p><span class="read">Read guide <span aria-hidden="true">→</span></span></a>
+      <a class="guide-card" href="../../hostvitals/guides/flush-dns.html"><span class="topic">How-to</span><h2>When and how to flush a DNS cache</h2><p>What a local resolver cache does, when clearing it may help, and platform-specific ways to refresh it.</p><span class="read">Read guide <span aria-hidden="true">→</span></span></a>
+      <a class="guide-card" href="../../hostvitals/guides/http-status-codes.html"><span class="topic">HTTP</span><h2>What common HTTP status codes actually tell you</h2><p>Interpret response classes and common codes while avoiding assumptions about the underlying cause.</p><span class="read">Read guide <span aria-hidden="true">→</span></span></a>
+      <a class="guide-card" href="cidr-subnetting-explained.html"><span class="topic">Networking basics</span><h2>CIDR and subnet masks, step by step</h2><p>Read a prefix, identify an IPv4 block, and understand the important /31 and /32 exceptions.</p><span class="read">Read guide <span aria-hidden="true">→</span></span></a>
+    </section>
+
+    <h2 class="guide-group">Time and data</h2>
+    <section class="guide-list" aria-label="Time and data guides">
+      <a class="guide-card" href="cron-time-zones.html"><span class="topic">Scheduling</span><h2>Cron schedules and time zones</h2><p>Understand the five-field form, day-of-month/day-of-week behavior, and why daylight-saving transitions need care.</p><span class="read">Read guide <span aria-hidden="true">→</span></span></a>
+      <a class="guide-card" href="unix-timestamps-seconds-milliseconds.html"><span class="topic">Date and time</span><h2>Unix timestamps: seconds or milliseconds?</h2><p>Recognize common timestamp magnitudes, convert safely, and avoid confusing display time zones with the stored instant.</p><span class="read">Read guide <span aria-hidden="true">→</span></span></a>
+      <a class="guide-card" href="gb-vs-gib-download-time.html"><span class="topic">Data sizes</span><h2>GB vs GiB—and why downloads take longer</h2><p>Separate decimal and binary units, convert file sizes, and estimate transfer time from link speed.</p><span class="read">Read guide <span aria-hidden="true">→</span></span></a>
+    </section>
+    <p class="guide-note">Guides are educational references, not guarantees about a particular provider or system. Commands, scheduling rules and network behavior can differ by operating system, application and configuration; check the linked primary documentation for your environment.</p>
+  </main>
+  <footer class="tool-footer"><div class="wrap"><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../">All tools</a><a href="./">Guides</a><a href="../about.html">About the tools</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+</body>
+</html>

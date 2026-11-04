@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Private JSON Formatter &amp; Validator · 100% Client-Side | zrina.app</title>
+<meta name="description" content="Format, minify and validate JSON without changing large number tokens or key order. Repair simple syntax mistakes locally; your data never leaves your browser." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://zrina.app/json/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="zrina.app" />
+<meta property="og:url" content="https://zrina.app/json/" />
+<meta property="og:title" content="Private JSON Formatter & Validator" />
+<meta property="og:description" content="Lossless JSON formatting and validation, with safe local repair. Zero server uploads." />
+<meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="zrina.app web tools" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Private JSON Formatter &amp; Validator" />
+<meta name="twitter:description" content="Format, minify and validate JSON entirely in your browser." />
+<meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta name="theme-color" content="#070b16" />
+<link rel="icon" type="image/svg+xml" href="../assets/tool-icons/json.svg" />
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/json-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/json-512.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/json-180.png" />
+<!-- GOOGLE ADSENSE: enable only after production deployment and the required consent setup.
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Private JSON Formatter & Validator","url":"https://zrina.app/json/","applicationCategory":"DeveloperApplication","operatingSystem":"All","description":"Client-side JSON formatter, minifier and validator.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+</script>
+<style>
+:root{--bg:#fafafa;--card:#fff;--sub:#f4f4f5;--bd:#e4e4e7;--tx:#09090b;--tx2:#52525b;--mut:#71717a;--ac:#18181b;--acf:#fff;--ok:#059669;--bad:#dc2626;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#09090b;--card:#121215;--sub:#18181b;--bd:#27272a;--tx:#fafafa;--tx2:#a1a1aa;--mut:#71717a;--ac:#fafafa;--acf:#09090b;--ok:#34d399;--bad:#f87171}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:inherit}.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--bd)}header.top .wrap{display:flex;justify-content:space-between;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;text-decoration:none}.brand span{color:var(--mut);font-weight:500}
+nav a{margin-left:14px;color:var(--tx2);text-decoration:none;font-size:14px}nav a:hover{color:var(--tx)}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:36px 0 8px;letter-spacing:-.02em}.lead{color:var(--tx2);margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:20px}
+label{display:block;font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:6px}
+textarea,select{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font:inherit;min-width:0}
+textarea{font-family:var(--mono);font-size:13px;min-height:300px;resize:vertical;white-space:pre;overflow:auto}
+textarea:focus,select:focus{outline:2px solid var(--ac);outline-offset:1px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.cols{grid-template-columns:1fr}}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0}
+.bar select{width:auto}
+.btn{background:var(--ac);color:var(--acf);border:0;border-radius:9px;padding:9px 14px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.btn.alt{background:var(--sub);color:var(--tx);border:1px solid var(--bd)}
+.status{font-size:14px;min-height:22px;overflow-wrap:anywhere}.status.err{color:var(--bad);font-family:var(--mono);font-size:13px;white-space:pre-wrap}.status.ok{color:var(--ok)}
+.note{color:var(--mut);font-size:13px}
+section.info h2{font-size:20px;margin:28px 0 8px}section.info p,section.info li{color:var(--tx2)}
+.disc{background:var(--sub);border:1px dashed var(--bd);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--tx2);margin:16px 0}
+footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(--mut);font-size:13px}
+</style>
+<link rel="stylesheet" href="../assets/tool-shell.css" />
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand tool-brand" href="../tools/" aria-label="JSON Formatter by Zrina, all tools">
+<img src="../assets/tool-icons/json-192.png" alt="" width="32" height="32" />
+<span class="tool-brand-name">JSON Formatter</span><span class="tool-brand-by">by Zrina</span>
+</a>
+<nav><a href="../hostvitals/">HostVitals</a><a href="../speedcalc/">Speed calc</a><a href="../cidr/">CIDR</a><a href="../netplanner/">Network planner</a><a href="../uuid/">UUID</a><a href="../myip/">My IP</a><a href="../timestamp/">Timestamp</a><a href="../cron/">Cron</a></nav>
+</div></header>
+<main class="wrap">
+<h1>Private JSON Formatter &amp; Validator</h1>
+<p class="lead">100% client-side. Format JSON without rounding large numbers or reordering keys. Your text is never uploaded or stored.</p>
+
+<div class="card">
+<div class="cols">
+<div><label for="in">Input</label><textarea id="in" spellcheck="false" placeholder='{"paste":"your JSON here"}'></textarea></div>
+<div><label for="out">Output</label><textarea id="out" spellcheck="false" readonly></textarea></div>
+</div>
+<div class="bar">
+<button class="btn" id="fmt">Format</button>
+<button class="btn alt" id="min">Minify</button>
+<button class="btn alt" id="sort">Sort keys</button>
+<button class="btn alt" id="repair">Repair simple syntax</button>
+<label for="ind" style="margin:0 0 0 6px">Indent</label>
+<select id="ind"><option value="2">2 spaces</option><option value="4">4 spaces</option><option value="tab">Tab</option></select>
+<button class="btn alt" id="copy">Copy output</button>
+<button class="btn alt" id="swap">Output → input</button>
+<button class="btn alt" id="clear">Clear</button>
+</div>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+</div>
+
+<!-- AD SLOT 1 (below the tool, not next to the buttons). Enable after AdSense approval:
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+
+<section class="info">
+<h2>Why a client-side JSON tool?</h2>
+<p>Many online formatters send your text to a server. JSON often contains API keys, tokens or customer data. This tool tokenizes and formats the text in your browser without parsing whole numbers into floating-point values or uploading content. You can verify this in your browser's network tab: formatting makes no requests.</p>
+<h2>Common JSON errors</h2>
+<ul>
+<li>Trailing commas after the last item are not allowed; the repair button can remove them.</li>
+<li>Keys and strings need double quotes; the repair button can convert simple single-quoted strings.</li>
+<li>Comments (<code>//</code> or <code>/* */</code>) are not part of JSON.</li>
+<li><code>undefined</code>, <code>NaN</code> and <code>Infinity</code> are not valid JSON values.</li>
+</ul>
+<h2>Large numbers and duplicate keys</h2>
+<p>Formatting preserves number tokens exactly, including integers larger than 2<sup>53</sup>, exponent notation and trailing decimal zeros. Duplicate object keys are preserved and reported because software may interpret them differently. Sorting keys changes their order; avoid it when order is significant to your workflow.</p>
+</section>
+</main>
+<footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">Processing happens locally; nothing is sent to a server. Related: <a href="../timestamp/">Unix timestamp converter</a>.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+<script>
+const $=id=>document.getElementById(id);
+const inp=$('in'),out=$('out'),st=$('status');
+const indent=()=>$('ind').value==='tab'?'\t':+$('ind').value;
+const ws=c=>c===' '||c==='\t'||c==='\n'||c==='\r';
+function setStatus(msg,cls){st.textContent=msg;st.className='status '+(cls||'')}
+function lineCol(text,pos){const b=text.slice(0,pos).split('\n');return{line:b.length,col:b[b.length-1].length+1}}
+function parseJson(text){
+  let i=0;
+  const duplicates=[];
+  const fail=message=>{const e=new Error(message);e.position=i;throw e};
+  const skip=()=>{while(i<text.length&&ws(text[i]))i++};
+  function stringToken(){
+    const start=i++;
+    while(i<text.length){
+      const c=text[i];
+      if(c==='"'){
+        i++;
+        const raw=text.slice(start,i);
+        try{return{type:'string',raw,value:JSON.parse(raw)}}
+        catch{fail('Invalid string escape')}
+      }
+      if(c==='\\'){
+        i++;
+        if(i>=text.length)fail('Unterminated escape sequence');
+        if(text[i]==='u'){
+          if(!/^[0-9a-fA-F]{4}$/.test(text.slice(i+1,i+5)))fail('Invalid Unicode escape');
+          i+=5;
+        }else if('"\\/bfnrt'.includes(text[i]))i++;
+        else fail('Invalid string escape');
+      }else{
+        if(c.charCodeAt(0)<0x20)fail('Unescaped control character in string');
+        i++;
+      }
+    }
+    fail('Unterminated string');
+  }
+  function value(path){
+    skip();
+    const c=text[i];
+    if(c==='{'){
+      i++;skip();
+      const entries=[];
+      const seen=new Map();
+      if(text[i]==='}'){i++;return{type:'object',entries}}
+      for(;;){
+        skip();
+        if(text[i]!=='"')fail('Expected a double-quoted object key');
+        const key=stringToken();
+        skip();
+        if(text[i]!==':')fail('Expected ":" after object key');
+        i++;
+        const occurrence=(seen.get(key.value)||0)+1;
+        seen.set(key.value,occurrence);
+        if(occurrence===2)duplicates.push({path:path||'$',key:key.value});
+        entries.push({key,value:value((path||'')+'/'+key.value)});
+        skip();
+        if(text[i]==='}'){i++;return{type:'object',entries}}
+        if(text[i]!==',')fail('Expected "," or "}" after object value');
+        i++;
+        skip();
+        if(text[i]==='}')fail('Trailing comma is not valid JSON');
+      }
+    }
+    if(c==='['){
+      i++;skip();
+      const items=[];
+      if(text[i]===']'){i++;return{type:'array',items}}
+      for(;;){
+        items.push(value((path||'')+'/'+items.length));
+        skip();
+        if(text[i]===']'){i++;return{type:'array',items}}
+        if(text[i]!==',')fail('Expected "," or "]" after array item');
+        i++;
+        skip();
+        if(text[i]===']')fail('Trailing comma is not valid JSON');
+      }
+    }
+    if(c==='"')return stringToken();
+    const rest=text.slice(i);
+    const number=/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/.exec(rest);
+    if(number){i+=number[0].length;return{type:'primitive',raw:number[0]}}
+    for(const literal of ['true','false','null']){
+      if(rest.startsWith(literal)){i+=literal.length;return{type:'primitive',raw:literal}}
+    }
+    fail('Expected a JSON value');
+  }
+  skip();
+  if(i===text.length)fail('Input is empty');
+  const root=value('');
+  skip();
+  if(i<text.length)fail('Unexpected content after the JSON value');
+  return{root,duplicates};
+}
+function stringify(node,pretty,depth=0){
+  const unit=indent();
+  const pad=pretty?(typeof unit==='number'?' '.repeat(unit):unit):'';
+  const space=pretty?' ':'';
+  if(node.type==='primitive'||node.type==='string')return node.raw;
+  if(node.type==='array'){
+    if(!node.items.length)return'[]';
+    const parts=node.items.map(item=>stringify(item,pretty,depth+1));
+    return pretty?'[\n'+parts.map(part=>pad.repeat(depth+1)+part).join(',\n')+'\n'+pad.repeat(depth)+']':'['+parts.join(',')+']';
+  }
+  if(!node.entries.length)return'{}';
+  const parts=node.entries.map(entry=>stringify(entry.key,pretty,depth+1)+':'+space+stringify(entry.value,pretty,depth+1));
+  return pretty?'{\n'+parts.map(part=>pad.repeat(depth+1)+part).join(',\n')+'\n'+pad.repeat(depth)+'}':'{'+parts.join(',')+'}';
+}
+function sortNode(node){
+  if(node.type==='array')node.items.forEach(sortNode);
+  if(node.type==='object'){
+    node.entries.forEach(entry=>sortNode(entry.value));
+    node.entries=node.entries.map((entry,index)=>({...entry,index})).sort((a,b)=>a.key.value.localeCompare(b.key.value)||a.index-b.index);
+  }
+  return node;
+}
+function duplicatesText(duplicates){
+  if(!duplicates.length)return'';
+  return' Duplicate keys preserved (ambiguous in some parsers): '+duplicates.slice(0,5).map(x=>'"'+x.key+'" at '+x.path).join(', ')+(duplicates.length>5?'…':'')+'.';
+}
+function showError(error,text){
+  const pos=Number.isInteger(error.position)?error.position:0;
+  const {line,col}=lineCol(text,pos);
+  const src=text.split('\n')[line-1]||'';
+  const start=Math.max(0,col-31);
+  setStatus(error.message+'\nLine '+line+', column '+col+'\n'+src.slice(start,start+60)+'\n'+' '.repeat(Math.max(0,col-1-start))+'^','err');
+}
+function validateInput(){
+  const text=inp.value;
+  if(!text.trim()){setStatus('');return null}
+  try{return parseJson(text)}
+  catch(error){showError(error,text);return null}
+}
+function stats(text,duplicates){
+  return new TextEncoder().encode(text).length.toLocaleString('en-US')+' bytes in'+duplicatesText(duplicates);
+}
+function run(mode){
+  const parsed=validateInput();
+  if(!parsed){out.value='';return}
+  if(mode==='sort')sortNode(parsed.root);
+  out.value=stringify(parsed.root,mode!=='min');
+  setStatus('Valid JSON ✓  '+stats(inp.value,parsed.duplicates),'ok');
+}
+function repairSingleQuoted(text,start){
+  let i=start+1,value='';
+  while(i<text.length){
+    const c=text[i++];
+    if(c==="'")return{raw:JSON.stringify(value),end:i};
+    if(c==='\n'||c==='\r')throw new Error('Cannot repair a single-quoted string containing an unescaped line break.');
+    if(c!=='\\'){value+=c;continue}
+    if(i>=text.length)throw new Error('Unterminated escape in single-quoted string.');
+    const escaped=text[i++];
+    const escapes={"'":"'","\"":'"','\\':'\\','/':'/','b':'\b','f':'\f','n':'\n','r':'\r','t':'\t'};
+    if(Object.prototype.hasOwnProperty.call(escapes,escaped)){value+=escapes[escaped];continue}
+    if(escaped==='u'&&/^[0-9a-fA-F]{4}$/.test(text.slice(i,i+4))){value+=String.fromCharCode(parseInt(text.slice(i,i+4),16));i+=4;continue}
+    throw new Error('Cannot repair unsupported escape sequence \\\\'+escaped+'.');
+  }
+  throw new Error('Unterminated single-quoted string.');
+}
+function repairText(text){
+  let i=0,result='',changes=[];
+  while(i<text.length){
+    if(text[i]==='"'){
+      const start=i++;
+      while(i<text.length){
+        if(text[i]==='\\'){i+=2;continue}
+        if(text[i++]==='"')break;
+      }
+      result+=text.slice(start,i);
+      continue;
+    }
+    if(text[i]==="'"){
+      const fixed=repairSingleQuoted(text,i);
+      result+=fixed.raw;
+      changes.push('Converted single-quoted string at character '+(i+1));
+      i=fixed.end;
+      continue;
+    }
+    if(text[i]===','){
+      let next=i+1;
+      while(next<text.length&&ws(text[next]))next++;
+      if(text[next]==='}'||text[next]===']'){
+        changes.push('Removed trailing comma at character '+(i+1));
+        i++;
+        continue;
+      }
+    }
+    result+=text[i++];
+  }
+  return{result,changes};
+}
+$('fmt').onclick=()=>run('fmt');
+$('min').onclick=()=>run('min');
+$('sort').onclick=()=>run('sort');
+$('repair').onclick=()=>{
+  try{
+    const repaired=repairText(inp.value);
+    const parsed=parseJson(repaired.result);
+    out.value=stringify(parsed.root,true);
+    const changes=repaired.changes.length?repaired.changes.join('; '):'No supported repairs were needed';
+    setStatus(changes+'.'+duplicatesText(parsed.duplicates),'ok');
+  }catch(error){showError(error,inp.value);out.value=''}
+};
+$('copy').onclick=async()=>{if(!out.value)return;try{await navigator.clipboard.writeText(out.value);setStatus('Output copied.','ok')}catch{out.select();document.execCommand('copy');setStatus('Output copied.','ok')}};
+$('swap').onclick=()=>{if(out.value){inp.value=out.value;out.value='';validateInput()}};
+$('clear').onclick=()=>{inp.value='';out.value='';setStatus('')};
+let t;inp.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(()=>{const parsed=validateInput();if(parsed)setStatus('Valid JSON ✓  '+stats(inp.value,parsed.duplicates),'ok')},250)});
+</script>
+</body>
+</html>

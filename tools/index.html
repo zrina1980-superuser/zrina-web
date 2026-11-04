@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Free Online Tools · zrina.app</title>
+  <meta name="description" content="14 free online tools for networking, development and everyday calculations. Fast, simple tools — no sign-up required." />
+  <link rel="canonical" href="https://zrina.app/tools/" />
+  <meta name="theme-color" content="#070b16" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="zrina.app" />
+  <meta property="og:url" content="https://zrina.app/tools/" />
+  <meta property="og:title" content="Free Online Tools · zrina.app" />
+  <meta property="og:description" content="14 free tools for networking, development and everyday calculations." />
+  <meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Free Online Tools · zrina.app" />
+  <meta name="twitter:description" content="14 free tools for networking, development and everyday calculations." />
+  <meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <link rel="icon" type="image/svg+xml" href="../assets/tool-icons/tools.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/tools-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/tools-512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/tools-180.png" />
+  <link rel="stylesheet" href="../assets/tool-shell.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Free Online Tools · zrina.app",
+    "url": "https://zrina.app/tools/",
+    "inLanguage": "en",
+    "description": "Free tools for networking, development and everyday calculations.",
+    "isPartOf": { "@type": "WebSite", "name": "zrina.app", "url": "https://zrina.app/" }
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; }
+    .tools-home { padding-top: clamp(2.5rem, 7vw, 5rem); }
+    .tools-home .eyebrow { display: inline-flex; align-items: center; gap: .55rem; color: var(--ac); font-size: .75rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .tools-home .eyebrow::before { content: ""; width: .55rem; height: .55rem; border-radius: 50%; background: var(--ac); box-shadow: 0 0 1rem var(--ac); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    .tools-home h1 { max-width: 14ch; margin: .7rem 0 1rem; font-size: clamp(2.6rem, 8vw, 5.2rem); letter-spacing: -.065em; line-height: .98; text-wrap: balance; }
+    .tools-home h1 span { color: transparent; background: linear-gradient(100deg, #22d3ee, #a78bfa 58%, #f472b6); background-clip: text; -webkit-background-clip: text; }
+    .tools-intro { max-width: 62ch; margin-bottom: 2rem; color: var(--tx2); font-size: 1.08rem; line-height: 1.7; }
+    .tools-hero { position: relative; overflow: hidden; margin: 0 0 2.5rem; padding: clamp(1.5rem, 6vw, 4rem); border: 1px solid var(--bd); border-radius: 1.5rem; background: radial-gradient(ellipse at 82% 10%, rgba(34,211,238,.18), transparent 34%), radial-gradient(ellipse at 92% 84%, rgba(190,65,255,.16), transparent 30%), linear-gradient(145deg, var(--card), var(--bg)); box-shadow: var(--tool-glow); }
+    .tools-hero::after { content: ""; position: absolute; width: 18rem; height: 18rem; right: -7rem; top: -8rem; border: 1px solid rgba(34,211,238,.22); border-radius: 50%; box-shadow: 0 0 0 2rem rgba(34,211,238,.025), 0 0 0 4rem rgba(190,65,255,.025); pointer-events: none; }
+    .hero-pills { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1.4rem; }
+    .hero-pill { padding: .48rem .7rem; border: 1px solid var(--bd); border-radius: 999px; background: color-mix(in srgb, var(--card) 80%, transparent); color: var(--tx2); font-size: .78rem; }
+    .tool-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-bottom: 1.25rem; }
+    .tool-search { flex: 1 1 230px; min-width: 0; padding: .8rem 1rem; border: 1px solid var(--bd); border-radius: .8rem; background: var(--card); color: var(--tx); font: inherit; }
+    .tool-search:focus-visible, .tool-filter:focus-visible { outline: 2px solid var(--ac); outline-offset: 2px; }
+    .tool-filters { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tool-filter { padding: .58rem .8rem; border: 1px solid var(--bd); border-radius: 999px; background: transparent; color: var(--tx2); font: inherit; font-size: .82rem; cursor: pointer; }
+    .tool-filter[aria-pressed="true"] { border-color: var(--ac); background: color-mix(in srgb, var(--ac) 14%, var(--card)); color: var(--tx); }
+    .tool-count { min-height: 1.25rem; margin: 0 0 .75rem; color: var(--mut); font-size: .82rem; }
+    .tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr)); gap: 1rem; }
+    .tool-card { position: relative; display: flex; min-height: 160px; flex-direction: column; padding: 1.2rem; border: 1px solid var(--bd); border-radius: 1rem; background: linear-gradient(145deg, var(--card), color-mix(in srgb, var(--card) 76%, var(--sub))); color: var(--tx); text-decoration: none; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+    .tool-card[hidden] { display: none; }
+    .tool-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--ac) 65%, var(--bd)); box-shadow: 0 12px 35px rgba(34,211,238,.1); color: var(--tx); }
+    .tool-card:focus-visible { outline: 2px solid var(--ac); outline-offset: 3px; }
+    .tool-card-head { display: flex; align-items: center; gap: .75rem; margin-bottom: .75rem; }
+    .tool-card img, .tool-symbol { display: grid; width: 42px; height: 42px; flex: 0 0 42px; place-items: center; border: 1px solid var(--bd); border-radius: .75rem; background: var(--sub); color: var(--ac); font-size: .95rem; font-weight: 800; }
+    .tool-card img { object-fit: cover; }
+    .tool-card h2 { margin: 0; color: var(--tx); font-size: 1rem; letter-spacing: -.02em; }
+    .tool-card p { margin: 0; color: var(--tx2); font-size: .9rem; line-height: 1.55; }
+    .tool-card .open { margin-top: auto; padding-top: .9rem; color: var(--ac); font-size: .82rem; font-weight: 750; }
+    .tool-section-label { margin: 2rem 0 .85rem; color: var(--mut); font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .guide-promo { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 2rem; padding: 1.25rem 1.4rem; border: 1px solid var(--bd); border-radius: 1rem; background: linear-gradient(110deg, color-mix(in srgb, var(--ac) 12%, var(--card)), var(--card)); }
+    .guide-promo h2 { margin: 0 0 .3rem; font-size: 1rem; }
+    .guide-promo p { margin: 0; color: var(--tx2); font-size: .9rem; }
+    .guide-promo a { flex: 0 0 auto; font-size: .88rem; font-weight: 750; text-decoration: none; }
+    .tools-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .8rem 1.5rem; margin-top: 2.5rem; padding: 1.25rem 0; border-top: 1px solid var(--bd); color: var(--mut); font-size: .85rem; }
+    .tools-footer nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+    @media (max-width: 560px) { .guide-promo { align-items: flex-start; flex-direction: column; } }
+    @media (prefers-reduced-motion: reduce) { .tool-card { transition: none; } .tool-card:hover { transform: none; } }
+  </style>
+</head>
+<body>
+  <main class="wrap tools-home">
+    <section class="tools-hero" aria-labelledby="tools-title">
+      <span class="eyebrow">zrina.app / tools</span>
+      <h1 id="tools-title">Useful tools.<br><span>Zero friction.</span></h1>
+      <p class="tools-intro">A focused collection of free tools for networking, development and everyday tasks. Open a tool and get straight to work — no account, no clutter.</p>
+      <div class="hero-pills" aria-label="Tool highlights"><span class="hero-pill">14 free tools</span><span class="hero-pill">Fast by design</span><span class="hero-pill">Privacy-minded</span></div>
+    </section>
+    <p class="tool-section-label">Explore the collection</p>
+
+    <div class="tool-controls">
+      <label class="sr-only" for="tool-search">Search tools</label>
+      <input class="tool-search" id="tool-search" type="search" placeholder="Search tools…" autocomplete="off" />
+      <div class="tool-filters" role="group" aria-label="Filter tools">
+        <button class="tool-filter" type="button" data-filter="all" aria-pressed="true">All tools</button>
+        <button class="tool-filter" type="button" data-filter="network" aria-pressed="false">Network</button>
+        <button class="tool-filter" type="button" data-filter="developer" aria-pressed="false">Developer</button>
+        <button class="tool-filter" type="button" data-filter="everyday" aria-pressed="false">Everyday</button>
+      </div>
+    </div>
+    <p class="tool-count" id="tool-count" role="status" aria-live="polite"></p>
+    <section class="tool-grid" aria-label="All tools">
+      <a class="tool-card" data-category="network" href="../hostvitals/"><span class="tool-card-head"><img src="../assets/tool-icons/hostvitals-96.png" alt="" /><h2>HostVitals</h2></span><p>Compare browser, edge, DNS and official status signals to troubleshoot a website.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="everyday" href="../speedcalc/"><span class="tool-card-head"><img src="../assets/tool-icons/speedcalc-96.png" alt="" /><h2>Download Time Calculator</h2></span><p>Estimate transfer time or calculate the speed required to meet a deadline.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="network" href="../cidr/"><span class="tool-card-head"><img src="../assets/tool-icons/cidr-96.png" alt="" /><h2>Subnet &amp; CIDR Calculator</h2></span><p>Calculate IPv4 network details, address ranges, masks and host counts.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="developer" href="../json/"><span class="tool-card-head"><img src="../assets/tool-icons/json-96.png" alt="" /><h2>JSON Formatter</h2></span><p>Format, minify and validate JSON directly in your browser.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="developer" href="../timestamp/"><span class="tool-card-head"><img src="../assets/tool-icons/timestamp-96.png" alt="" /><h2>Unix Timestamp Converter</h2></span><p>Convert Unix timestamps to dates and times, and convert dates back.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="developer" href="../cron/"><span class="tool-card-head"><img src="../assets/tool-icons/cron-96.png" alt="" /><h2>Cron Explainer</h2></span><p>Understand a cron expression and preview its upcoming run times.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="network" href="../myip/"><span class="tool-card-head"><img src="../assets/tool-icons/myip-96.png" alt="" /><h2>Network &amp; IP Inspector</h2></span><p>View your public IP, ISP and useful network details in one place.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="developer" href="../uuid/"><span class="tool-card-head"><img src="../assets/tool-icons/uuid-96.png" alt="" /><h2>UUID Inspector</h2></span><p>Inspect UUID, ULID, ObjectId and Snowflake identifiers and byte order.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="network" href="../netplanner/"><span class="tool-card-head"><img src="../assets/tool-icons/netplanner-96.png" alt="" /><h2>Network Planner</h2></span><p>Compare address blocks and plan IPv4/IPv6 subnets and allocations.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="everyday" href="../qr/"><span class="tool-card-head"><img src="../assets/tool-icons/qr-96.png" alt="" /><h2>QR Code Generator</h2></span><p>Create QR codes for text, links, Wi-Fi networks, contacts and messages.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="everyday" href="../password/"><span class="tool-card-head"><img src="../assets/tool-icons/password-96.png" alt="" /><h2>Password Generator</h2></span><p>Generate secure random passwords or memorable passphrases locally.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="developer" href="../base64/"><span class="tool-card-head"><img src="../assets/tool-icons/base64-96.png" alt="" /><h2>Base64 Encoder / Decoder</h2></span><p>Encode and decode text or files privately in your browser.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="developer" href="../regex/"><span class="tool-card-head"><img src="../assets/tool-icons/regex-96.png" alt="" /><h2>Regex Tester</h2></span><p>Test JavaScript regular expressions with match highlighting, capture groups and replacement previews.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+      <a class="tool-card" data-category="everyday" href="../unit/"><span class="tool-card-head"><img src="../assets/tool-icons/unit-96.png" alt="" /><h2>Unit Converter</h2></span><p>Convert data sizes, length, mass, temperature and speed with clear SI and IEC units.</p><span class="open">Open tool <span aria-hidden="true">→</span></span></a>
+    </section>
+
+    <section class="guide-promo" aria-labelledby="guides-title">
+      <div><h2 id="guides-title">Want to understand the “why” behind a result?</h2><p>Explore practical, example-led guides for networking, time, data and developer tasks.</p></div>
+      <a href="guides/">Explore the guides <span aria-hidden="true">→</span></a>
+    </section>
+
+    <footer class="tools-footer">
+      <span>Free tools · by Zrina</span>
+      <nav aria-label="Information"><a href="guides/">Guides</a><a href="about.html">About</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav>
+    </footer>
+  </main>
+  <script src="hub.js"></script>
+</body>
+</html>

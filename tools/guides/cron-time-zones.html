@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cron Schedules, Daylight Saving and Time Zones · zrina.app</title>
+  <meta name="description" content="Understand the five-field cron format, common weekday behavior, scheduler time zones and daylight-saving transitions with practical examples." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://zrina.app/tools/guides/cron-time-zones.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="zrina.app Tools" />
+  <meta property="og:url" content="https://zrina.app/tools/guides/cron-time-zones.html" />
+  <meta property="og:title" content="Cron Schedules and Time Zones · zrina.app" />
+  <meta property="og:description" content="A field-by-field cron guide with timezone and daylight-saving cautions." />
+  <meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Cron Schedules and Time Zones · zrina.app" />
+  <meta name="twitter:description" content="Make cron schedules easier to reason about across time zones." />
+  <meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="theme-color" content="#070b16" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/tool-icons/tools.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/tool-icons/tools-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/tool-icons/tools-180.png" />
+  <link rel="stylesheet" href="../../assets/tool-shell.css" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"TechArticle","headline":"Cron Schedules, Daylight Saving and Time Zones","description":"A practical guide to cron fields, scheduler time zones and daylight-saving behavior.","datePublished":"2026-11-03","dateModified":"2026-11-03","author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"},"publisher":{"@type":"Organization","name":"zrina.app Tools","url":"https://zrina.app/tools/"},"mainEntityOfPage":"https://zrina.app/tools/guides/cron-time-zones.html"}
+  </script>
+  <style>
+    .guide-article { max-width: 78ch; margin-inline: auto; }
+    .guide-article .eyebrow { color: var(--ac); font-size: .75rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .guide-article h1 { max-width: 18ch; margin: .65rem 0 1rem; }
+    .guide-article .meta, .guide-article .lede, .guide-article p, .guide-article li { color: var(--tx2); line-height: 1.75; }
+    .guide-article .lede { font-size: 1.08rem; }
+    .guide-article h2 { margin: 2rem 0 .65rem; font-size: 1.3rem; }
+    .guide-article h3 { margin: 1.4rem 0 .45rem; font-size: 1.05rem; }
+    .guide-article pre { overflow-x: auto; padding: 1rem; border: 1px solid var(--bd); border-radius: .75rem; background: var(--sub); color: var(--tx); }
+    .guide-article code { overflow-wrap: anywhere; }
+    .guide-article .callout { margin: 1.25rem 0; padding: 1rem 1.2rem; border-left: 3px solid var(--ac); border-radius: .5rem; background: var(--sub); color: var(--tx2); line-height: 1.7; }
+    .guide-article .sources li + li { margin-top: .45rem; }
+    .guide-article .backlinks { display: flex; flex-wrap: wrap; gap: .75rem 1.2rem; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--bd); }
+  </style>
+</head>
+<body>
+  <header class="top"><div class="wrap"><a class="brand tool-brand" href="../" aria-label="Tools Guides by Zrina, all tools"><img src="../../assets/tool-icons/tools-192.png" alt="" width="32" height="32"><span class="tool-brand-name">Tools Guides</span><span class="tool-brand-by">by Zrina</span></a><nav aria-label="Site navigation"><a href="../">Tools hub</a><a href="./">Guides</a><a href="../../hostvitals/">HostVitals</a></nav></div></header>
+  <main class="wrap guide-article">
+    <article>
+      <span class="eyebrow">Scheduling</span>
+      <h1>Cron schedules, daylight saving and time zones</h1>
+      <p class="meta">A practical reference · Reviewed November 3, 2026</p>
+      <p class="lede">A cron expression describes calendar fields, but a scheduler also needs a clock and a time zone. Before relying on a schedule, check both the expression and the implementation that will execute it.</p>
+
+      <h2>Read the five fields</h2>
+      <p>A common Unix cron form has five fields, in this order:</p>
+      <pre><code>minute hour day-of-month month day-of-week</code></pre>
+      <p>For example, <code>30 9 * * 1-5</code> means minute 30 of hour 9, every month, on weekdays in implementations that use the conventional five-field interpretation. It does not mean “every nine hours”; the hour field is a wall-clock hour.</p>
+      <ul>
+        <li><code>*</code> means every allowed value in that field.</li>
+        <li><code>5</code> selects one value; <code>1-5</code> selects an inclusive range in common implementations.</li>
+        <li><code>*/15</code> is commonly used for every 15th minute within that field.</li>
+        <li>Names such as <code>MON</code> and special fields vary by cron dialect. Verify them in the scheduler’s manual.</li>
+      </ul>
+
+      <h2>Day-of-month and day-of-week can surprise you</h2>
+      <p>In traditional cron behavior, when both day-of-month and day-of-week are restricted (not <code>*</code>), a job runs when either field matches. For example, a schedule specifying the 1st day of the month and Monday can therefore run on Mondays as well as on the 1st, not only when the 1st is a Monday. This rule is easy to miss and should be confirmed for the cron implementation in use.</p>
+
+      <h2>Which time zone does cron use?</h2>
+      <p>Many system cron daemons evaluate schedules using the machine’s configured local time, but containers, managed schedulers and application libraries may use UTC or a per-job setting. Do not infer the zone from the person editing the crontab. Check the service documentation and the machine or container configuration.</p>
+      <p>If a task must run at one exact global instant, a UTC schedule is often easier to reason about. If it must run at a local business time—say 09:00 in Zagreb—define which IANA time zone is authoritative and check whether your scheduler supports it directly.</p>
+
+      <h2>Daylight-saving transitions</h2>
+      <p>Local wall-clock time can jump forward or repeat when daylight-saving rules change. A job scheduled during a skipped hour may not run at the expected local time; an hour that occurs twice may be handled differently by different schedulers. There is no single portable answer for all cron products. For critical jobs, read the specific implementation’s DST policy, prefer UTC when the business requirement permits it, and make the job safe to run more than once.</p>
+      <div class="callout"><strong>Before deployment:</strong> test upcoming occurrences in the scheduler’s own time zone, including a daylight-saving boundary if relevant. The <a href="../../cron/">Cron Explainer</a> previews the common five-field form; it is not a substitute for checking your target scheduler’s dialect.</div>
+
+      <h2>Primary references</h2>
+      <ul class="sources">
+        <li><a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html">The Open Group Base Specifications — crontab utility</a></li>
+        <li><a href="https://man7.org/linux/man-pages/man5/crontab.5.html">Linux man-pages — crontab(5), including implementation-specific notes</a></li>
+        <li><a href="https://www.iana.org/time-zones">IANA Time Zone Database</a></li>
+      </ul>
+      <nav class="backlinks" aria-label="Related pages"><a href="../../cron/">Open Cron Explainer</a><a href="../../timestamp/">Open Timestamp Converter</a><a href="./">All guides</a></nav>
+    </article>
+  </main>
+  <footer class="tool-footer"><div class="wrap"><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../">All tools</a><a href="./">Guides</a><a href="../about.html">About the tools</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+</body>
+</html>

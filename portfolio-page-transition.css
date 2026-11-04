@@ -1,0 +1,66 @@
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: portfolio-leave 180ms ease-in both;
+}
+
+::view-transition-new(root) {
+  animation: portfolio-arrive 260ms cubic-bezier(.2, .75, .25, 1) both;
+}
+
+@keyframes portfolio-leave {
+  to {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes portfolio-arrive {
+  from {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translateY(9px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 1ms !important;
+  }
+}
+
+.portfolio-return {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 9px;
+  color: #b9c7d9;
+  background: rgba(7, 12, 22, .72);
+  font-size: .76rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.portfolio-return:hover {
+  color: #fff;
+  border-color: rgba(0, 240, 255, .4);
+  background: rgba(0, 240, 255, .08);
+}
+
+@media (max-width: 720px) {
+  .portfolio-return {
+    min-height: 30px;
+    padding: 5px 7px;
+    font-size: .68rem;
+  }
+}

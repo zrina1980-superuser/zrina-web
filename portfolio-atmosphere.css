@@ -1,0 +1,19 @@
+body {
+  isolation: isolate;
+}
+
+#portfolio-atmosphere {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: .78;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+}

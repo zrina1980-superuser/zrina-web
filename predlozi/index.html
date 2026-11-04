@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Predloži aplikaciju | zrina.app</title>
+  <meta name="description" content="Opiši problem za koji nisi našao gotovo rješenje. Probat ćemo zajedno izraditi aplikaciju točno onako kako si je zamislio.">
+  <link rel="canonical" href="https://zrina.app/predlozi/">
+  <link rel="alternate" hreflang="hr" href="https://zrina.app/predlozi/">
+  <link rel="alternate" hreflang="en" href="https://zrina.app/en/suggest/">
+  <link rel="alternate" hreflang="x-default" href="https://zrina.app/predlozi/">
+  <meta property="og:title" content="Predloži aplikaciju | zrina.app">
+  <meta property="og:description" content="Opiši problem za koji nisi našao gotovo rješenje. Probat ćemo zajedno izraditi aplikaciju točno onako kako si je zamislio.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zrina.app/predlozi/">
+  <meta property="og:image" content="https://zrina.app/assets/portfolio/share-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="hr_HR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Predloži aplikaciju | zrina.app">
+  <meta name="twitter:description" content="Opiši problem za koji nisi našao gotovo rješenje. Probat ćemo zajedno izraditi aplikaciju točno onako kako si je zamislio.">
+  <meta name="twitter:image" content="https://zrina.app/assets/portfolio/share-card.png">
+  <meta name="theme-color" content="#050811">
+  <meta name="google-adsense-account" content="ca-pub-8194219427036085">
+  <link rel="icon" type="image/png" sizes="96x96" href="../assets/brand/zrinaapp_min.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/brand/zrinaapp_new.png">
+  <link rel="stylesheet" href="../site.css">
+  <script>try{localStorage.setItem("zrina_lang","hr")}catch(e){}</script>
+</head>
+<body class="suggest-page">
+  <header class="topbar">
+    <a class="brand" href="../"><img src="../assets/brand/zrinaapp_min.png" alt="" width="32" height="32"><span>zrina<b>.app</b></span></a>
+    <nav class="nav" aria-label="Glavna navigacija">
+      <a href="../#radovi">Radovi</a>
+      <a href="../#o-meni">O meni</a>
+      <a href="../#alati">Alati</a>
+      <a href="./">Predloži aplikaciju</a>
+      <a class="nav-cta" href="../#kontakt">Kontakt</a>
+      <a class="lang-link" href="../en/suggest/" hreflang="en" title="English version">EN</a>
+    </nav>
+  </header>
+  <main id="main" class="narrow">
+    <a class="back" href="../">← Natrag na portfolio</a>
+    <h1>Predloži aplikaciju</h1>
+    <p class="lead">Postoji li nešto što ti treba, a nisi našao gotovo rješenje? Opiši mi to. Ako ga mogu riješiti, pokušat ćemo zajedno izraditi aplikaciju točno onako kako si je zamislio.</p>
+    <p class="muted">Sve što objavljujem je besplatno. Ako želiš aplikaciju prilagođenu samo sebi, slobodno se javi na e-poštu.</p>
+    <form id="suggest-form" novalidate data-ok="Hvala! Prijedlog je poslan. Ako si ostavio e-poštu, javit ću ti se." data-fallback="Slanje trenutačno nije dostupno. Otvaram tvoj program za e-poštu s ispunjenim prijedlogom." data-error="Nešto je pošlo po zlu. Pokušaj ponovno ili piši na" data-sending="Šaljem…" data-send="Pošalji prijedlog" data-subject="Prijedlog aplikacije" data-mail="kontakt@zrina.app">
+      <div class="field"><label for="problem">Koji problem želiš riješiti? *</label><small id="problem-hint">Što trenutačno radiš ručno ili nezgrapno?</small><textarea id="problem" name="problem" rows="5" maxlength="2000" required aria-describedby="problem-hint"></textarea></div>
+      <div class="field"><label for="who">Tko bi je koristio?</label><small id="who-hint">Ti sam, obitelj, tvrtka, hobi grupa…</small><textarea id="who" name="who" rows="2" maxlength="2000" aria-describedby="who-hint"></textarea></div>
+      <div class="field"><label for="tried">Što si već probao?</label><small id="tried-hint">Koje aplikacije ili alate i zašto ti nisu odgovarali?</small><textarea id="tried" name="tried" rows="3" maxlength="2000" aria-describedby="tried-hint"></textarea></div>
+      <div class="field"><label for="name">Ime (neobavezno)</label><input id="name" name="name" type="text" maxlength="200"></div>
+      <div class="field"><label for="email">Tvoja e-pošta (neobavezno)</label><small id="email-hint">Samo ako želiš odgovor.</small><input id="email" name="email" type="email" maxlength="200" aria-describedby="email-hint"></div>
+      <div class="hp" aria-hidden="true"><label>Ne popunjavaj ovo polje<input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+      <button class="btn primary" type="submit">Pošalji prijedlog</button>
+      <p class="status" id="suggest-status" role="status" aria-live="polite"></p>
+    </form>
+    <p class="muted small">Podaci iz obrasca koriste se samo za odgovor na tvoj prijedlog i ne dijele se s trećima.</p>
+  </main>
+  <footer class="footer"><span>© 2026 zrina.app · Autorski projekti Vedrana Zrinskog.</span></footer>
+  <script src="../suggest.js" defer></script>
+</body>
+</html>

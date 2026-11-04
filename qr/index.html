@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>QR Code Generator: WiFi, vCard, URL, Batch ZIP | zrina.app</title>
+<meta name="description" content="Free private QR code generator for text, URLs, WiFi, vCard, email and SMS. PNG, SVG, print-ready 300 DPI, logo and batch ZIP export. Runs entirely in your browser." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://zrina.app/qr/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="zrina.app" />
+<meta property="og:url" content="https://zrina.app/qr/" />
+<meta property="og:title" content="QR Code Generator: WiFi, vCard, URL, Batch ZIP" />
+<meta property="og:description" content="Create QR codes locally in your browser. Nothing is uploaded." />
+<meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="QR Code Generator: WiFi, vCard, URL, Batch ZIP" />
+<meta name="twitter:description" content="Private, client-side QR codes with PNG, SVG and ZIP export." />
+<meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta name="theme-color" content="#070b16" />
+<link rel="icon" type="image/svg+xml" href="../assets/tool-icons/qr.svg" />
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/qr-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/qr-512.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/qr-180.png" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"QR Code Generator","url":"https://zrina.app/qr/","applicationCategory":"UtilitiesApplication","operatingSystem":"All","description":"Client-side QR code generator for text, URLs, WiFi, vCard, email and SMS with PNG, SVG and batch ZIP export.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+</script>
+<link rel="stylesheet" href="../assets/tool-shell.css" />
+<style>
+*{box-sizing:border-box}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--bd)}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;text-decoration:none}
+nav{display:flex;gap:14px;flex-wrap:wrap}nav a{color:var(--tx2);text-decoration:none;font-size:14px}nav a:hover{color:var(--tx)}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:36px 0 8px;letter-spacing:-.02em}
+.lead{color:var(--tx2);margin:0 0 24px}
+.layout{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,1fr);gap:20px;align-items:start}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.wrap{padding:0 16px}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:20px}
+.card h2{font-size:17px;margin:0 0 14px}
+label,legend{display:block;font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:6px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+input[type=text],input[type=email],input[type=tel],input[type=password],input[type=number],textarea,select{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:9px 12px;font:inherit;min-width:0}
+textarea{min-height:90px;resize:vertical}
+input[type=color]{width:100%;height:38px;padding:2px;background:var(--bg);border:1px solid var(--bd);border-radius:9px}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #55e6f2;outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:12px}
+.check{display:flex;gap:8px;align-items:center;font-weight:500;margin:4px 0}.check input{width:auto}
+.buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{background:var(--ac);color:var(--acf);border:0;border-radius:9px;padding:9px 14px;font:inherit;font-size:14px;font-weight:650;cursor:pointer}
+.btn.secondary{background:var(--sub);color:var(--tx);border:1px solid var(--bd)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.status{min-height:1.4em;font-size:14px;margin-top:10px}.status.error{color:var(--bad)}.status.warn{color:#f59e0b}
+.warning{border-left:3px solid #f59e0b;padding:10px 13px;background:var(--sub);color:var(--tx2);font-size:14px;border-radius:6px;margin:8px 0 12px}
+.note{color:var(--mut);font-size:13px}
+.stage{display:flex;justify-content:center;padding:14px;background:repeating-conic-gradient(var(--sub) 0 25%,transparent 0 50%) 0 0/16px 16px;border-radius:10px;border:1px solid var(--bd)}
+#preview{max-width:100%;height:auto;image-rendering:pixelated}
+#batchErrors{color:var(--bad);font-size:13px;padding-left:20px}
+section.info h2{font-size:20px;margin:28px 0 8px}section.info p,section.info li{color:var(--tx2)}
+footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(--mut);font-size:13px}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand tool-brand" href="../tools/" aria-label="QR Code Generator by Zrina, open the Tools hub">
+<img src="../assets/tool-icons/qr-192.png" alt="" width="32" height="32" />
+<span class="tool-brand-name">QR Code Generator</span><span class="tool-brand-by">by Zrina</span>
+</a>
+<nav aria-label="Tool navigation"><a href="../tools/">Tools</a><a href="../uuid/">UUID</a><a href="../json/">JSON</a><a href="../timestamp/">Timestamp</a><a href="../cidr/">CIDR</a></nav>
+</div></header>
+<main class="wrap">
+<h1>QR Code Generator</h1>
+<p class="lead">Text, URLs, WiFi, contacts, email and SMS, plus batch export. Everything is generated in this browser; nothing is uploaded.</p>
+
+<div class="layout">
+<div>
+<section class="card" aria-labelledby="content-heading">
+<h2 id="content-heading">Content</h2>
+<div class="grid"><div><label for="mode">Type</label>
+<select id="mode"><option value="text">Text</option><option value="url">URL</option><option value="wifi">WiFi</option><option value="vcard">vCard contact</option><option value="email">Email</option><option value="sms">SMS</option><option value="batch">Batch (one per line)</option></select></div></div>
+
+<div id="panel-text"><label for="text">Text</label><textarea id="text" data-live spellcheck="false"></textarea></div>
+<div id="panel-url" hidden><label for="url">URL (http or https)</label><input type="text" id="url" data-live inputmode="url" autocomplete="off" placeholder="https://example.com" /><p class="note">Encoded exactly as typed; no redirect or shortening service is used.</p></div>
+
+<div id="panel-wifi" hidden>
+<div class="grid">
+<div><label for="wifiSsid">Network name (SSID)</label><input type="text" id="wifiSsid" data-live autocomplete="off" /></div>
+<div><label for="wifiSec">Security</label><select id="wifiSec" data-live><option value="WPA">WPA/WPA2/WPA3</option><option value="WEP">WEP (obsolete)</option><option value="nopass">No password (open)</option></select></div>
+</div>
+<div id="wifiPassRow"><label for="wifiPass">Password</label><input type="password" id="wifiPass" data-live autocomplete="off" />
+<label class="check"><input type="checkbox" id="showPass" /> Show password in this field only</label></div>
+<label class="check"><input type="checkbox" id="wifiHidden" data-live /> Hidden network</label>
+<label class="check"><input type="checkbox" id="wifiCaption" data-live /> Show password on QR (for print): add a text caption below the code</label>
+<p class="warning" id="wifiCaptionWarn" role="alert" hidden></p>
+<p class="note" id="wifiScan"><strong>Scan to join network:</strong> point a phone camera at the code and tap the join prompt. Support varies by device; hidden networks and some older scanners may need manual setup.</p>
+<p class="warning" id="wifiWarn" role="note"></p>
+</div>
+
+<div id="panel-vcard" hidden>
+<div class="grid">
+<div><label for="vcFirst">First name</label><input type="text" id="vcFirst" data-live autocomplete="off" /></div>
+<div><label for="vcLast">Last name</label><input type="text" id="vcLast" data-live autocomplete="off" /></div>
+<div><label for="vcOrg">Organisation</label><input type="text" id="vcOrg" data-live autocomplete="off" /></div>
+<div><label for="vcTitle">Job title</label><input type="text" id="vcTitle" data-live autocomplete="off" /></div>
+<div><label for="vcPhone">Phone</label><input type="tel" id="vcPhone" data-live autocomplete="off" /></div>
+<div><label for="vcEmail">Email</label><input type="email" id="vcEmail" data-live autocomplete="off" /></div>
+<div><label for="vcUrl">Website</label><input type="text" id="vcUrl" data-live autocomplete="off" /></div>
+<div><label for="vcStreet">Street</label><input type="text" id="vcStreet" data-live autocomplete="off" /></div>
+<div><label for="vcCity">City</label><input type="text" id="vcCity" data-live autocomplete="off" /></div>
+<div><label for="vcRegion">Region</label><input type="text" id="vcRegion" data-live autocomplete="off" /></div>
+<div><label for="vcPostal">Postal code</label><input type="text" id="vcPostal" data-live autocomplete="off" /></div>
+<div><label for="vcCountry">Country</label><input type="text" id="vcCountry" data-live autocomplete="off" /></div>
+</div>
+<label for="vcNote">Note</label><textarea id="vcNote" data-live style="min-height:60px"></textarea>
+</div>
+
+<div id="panel-email" hidden>
+<div class="grid"><div><label for="mailTo">To</label><input type="email" id="mailTo" data-live autocomplete="off" /></div><div><label for="mailSubject">Subject</label><input type="text" id="mailSubject" data-live autocomplete="off" /></div></div>
+<label for="mailBody">Message</label><textarea id="mailBody" data-live></textarea>
+</div>
+
+<div id="panel-sms" hidden>
+<div class="grid"><div><label for="smsNumber">Phone number</label><input type="tel" id="smsNumber" data-live autocomplete="off" placeholder="+385 91 234 5678" /></div></div>
+<label for="smsMessage">Message</label><textarea id="smsMessage" data-live></textarea>
+</div>
+
+<div id="panel-batch" hidden>
+<label for="batchText">One entry per line (max 200). Lines starting with http://, https:// or www. are checked as URLs; other lines are encoded as text.</label>
+<textarea id="batchText" spellcheck="false" style="min-height:160px"></textarea>
+<label class="check"><input type="checkbox" id="batchSvg" /> Also include SVG files</label>
+<ul id="batchErrors" aria-live="polite"></ul>
+</div>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+</section>
+
+<section class="card" aria-labelledby="style-heading">
+<h2 id="style-heading">Style and export settings</h2>
+<div class="grid">
+<div><label for="size">Size (128-1024 px)</label><input type="number" id="size" data-live min="128" max="1024" step="1" value="512" /></div>
+<div><label for="level">Error correction</label><select id="level" data-live><option value="L">L (7%)</option><option value="M" selected>M (15%)</option><option value="Q">Q (25%)</option><option value="H">H (30%)</option></select></div>
+<div><label for="margin">Quiet margin (modules)</label><input type="number" id="margin" data-live min="0" max="16" step="1" value="4" /></div>
+<div><label for="fg">Foreground</label><input type="color" id="fg" data-live value="#000000" /></div>
+<div><label for="bg">Background</label><input type="color" id="bg" data-live value="#ffffff" /></div>
+</div>
+<label class="check"><input type="checkbox" id="transparent" data-live /> Transparent PNG/SVG background</label>
+<label class="check"><input type="checkbox" id="print" /> Print-ready</label>
+<p class="note" id="printNote" hidden>Print-ready uses whole-pixel modules, a solid background and a quiet margin of at least 4 modules. Leftover pixels are added to the margin so the image is exactly the size you chose, and 300 DPI is written into the PNG metadata. The physical size is pixels ÷ 300 (1024 px ≈ 8.67 cm). Very dense codes at small sizes cannot use whole pixels and ask for a larger size. Check the printed size and test-scan before mass printing.</p>
+<fieldset><legend>Center logo (optional)</legend>
+<input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" aria-describedby="logoInfo" />
+<div class="buttons"><button type="button" class="btn secondary" id="logoClear">Remove logo</button></div>
+<p class="note" id="logoInfo">No logo selected. Logos are processed locally and force error correction H.</p></fieldset>
+</section>
+</div>
+
+<div>
+<section class="card" id="previewCard" aria-labelledby="preview-heading">
+<h2 id="preview-heading">Preview</h2>
+<div class="stage"><canvas id="preview" width="1" height="1" role="img" aria-label="QR code preview"></canvas></div>
+<p class="note" id="meta" aria-live="polite"></p>
+</section>
+<section class="card" aria-labelledby="export-heading">
+<h2 id="export-heading">Export</h2>
+<div class="buttons" id="single-actions" style="margin-top:0">
+<button type="button" class="btn" id="download-png" disabled>Download PNG</button>
+<button type="button" class="btn secondary" id="download-svg" disabled>Download SVG</button>
+<button type="button" class="btn secondary" id="copy-image" disabled title="Needs a browser with clipboard image support">Copy image</button>
+</div>
+<div class="buttons" id="batch-actions" style="margin-top:0" hidden><button type="button" class="btn" id="batch-zip">Download ZIP of PNGs</button></div>
+<div class="buttons"><button type="button" class="btn secondary" id="reset">Clear text fields</button></div>
+</section>
+</div>
+</div>
+
+<section class="info">
+<h2>Privacy</h2>
+<p>All QR codes, logos, WiFi passwords and contact details are processed in your browser. Nothing is sent to a server and no analytics run on this tool. Content is not saved after you close the page.</p>
+<h2>Good to know</h2>
+<ul>
+<li>A QR code is not encrypted: anyone who scans it reads its content, including WiFi passwords.</li>
+<li>Use dark modules on a light background and keep a quiet margin. Long content creates denser codes that need a larger print size.</li>
+<li>Adding a logo covers part of the code, so error correction is raised to H. Always test-scan the result.</li>
+</ul>
+</section>
+</main>
+<footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">Everything runs locally in your browser.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+<script src="qr.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CIDR and IPv4 Subnets, Explained with Examples · zrina.app</title>
+  <meta name="description" content="Learn to read IPv4 CIDR prefixes, find a subnet's range, understand host counts, and recognize the /31 and /32 exceptions." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://zrina.app/tools/guides/cidr-subnetting-explained.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="zrina.app Tools" />
+  <meta property="og:url" content="https://zrina.app/tools/guides/cidr-subnetting-explained.html" />
+  <meta property="og:title" content="CIDR and IPv4 Subnets, Explained · zrina.app" />
+  <meta property="og:description" content="A worked IPv4 subnet example, plus the practical meaning of prefix lengths." />
+  <meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CIDR and IPv4 Subnets, Explained · zrina.app" />
+  <meta name="twitter:description" content="Read CIDR prefixes and work out an IPv4 subnet by hand." />
+  <meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="theme-color" content="#070b16" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/tool-icons/tools.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/tool-icons/tools-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/tool-icons/tools-180.png" />
+  <link rel="stylesheet" href="../../assets/tool-shell.css" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"TechArticle","headline":"CIDR and IPv4 Subnets, Explained with Examples","description":"A practical explanation of IPv4 CIDR prefixes, subnet ranges and host counts.","datePublished":"2026-11-03","dateModified":"2026-11-03","author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"},"publisher":{"@type":"Organization","name":"zrina.app Tools","url":"https://zrina.app/tools/"},"mainEntityOfPage":"https://zrina.app/tools/guides/cidr-subnetting-explained.html"}
+  </script>
+  <style>
+    .guide-article { max-width: 78ch; margin-inline: auto; }
+    .guide-article .eyebrow { color: var(--ac); font-size: .75rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .guide-article h1 { max-width: 18ch; margin: .65rem 0 1rem; }
+    .guide-article .meta, .guide-article .lede, .guide-article p, .guide-article li { color: var(--tx2); line-height: 1.75; }
+    .guide-article .lede { font-size: 1.08rem; }
+    .guide-article h2 { margin: 2rem 0 .65rem; font-size: 1.3rem; }
+    .guide-article h3 { margin: 1.4rem 0 .45rem; font-size: 1.05rem; }
+    .guide-article pre { overflow-x: auto; padding: 1rem; border: 1px solid var(--bd); border-radius: .75rem; background: var(--sub); color: var(--tx); }
+    .guide-article code { overflow-wrap: anywhere; }
+    .guide-article .callout { margin: 1.25rem 0; padding: 1rem 1.2rem; border-left: 3px solid var(--ac); border-radius: .5rem; background: var(--sub); color: var(--tx2); line-height: 1.7; }
+    .guide-article .sources li + li { margin-top: .45rem; }
+    .guide-article .backlinks { display: flex; flex-wrap: wrap; gap: .75rem 1.2rem; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--bd); }
+  </style>
+</head>
+<body>
+  <header class="top"><div class="wrap"><a class="brand tool-brand" href="../" aria-label="Tools Guides by Zrina, all tools"><img src="../../assets/tool-icons/tools-192.png" alt="" width="32" height="32"><span class="tool-brand-name">Tools Guides</span><span class="tool-brand-by">by Zrina</span></a><nav aria-label="Site navigation"><a href="../">Tools hub</a><a href="./">Guides</a><a href="../../hostvitals/">HostVitals</a></nav></div></header>
+  <main class="wrap guide-article">
+    <article>
+      <span class="eyebrow">Networking basics</span>
+      <h1>CIDR and IPv4 subnets, explained with examples</h1>
+      <p class="meta">A practical reference · Reviewed November 3, 2026</p>
+      <p class="lede">CIDR is a compact way to say which part of an IP address identifies a network. Once you understand the prefix length, you can work out the block size, address range and—usually—the number of assignable host addresses.</p>
+
+      <h2>What does <code>/26</code> mean?</h2>
+      <p>An IPv4 address has 32 bits. In <code>192.0.2.130/26</code>, the <code>/26</code> prefix says that the first 26 bits are the network prefix; the remaining six bits are available to distinguish addresses inside that block. A subnet mask writes those prefix bits in dotted-decimal form: <code>/26</code> is <code>255.255.255.192</code>.</p>
+      <p>The prefix is more precise than old class-based assumptions: the boundary can fall at any bit, not only between dotted octets. RFC 4632 describes CIDR as a classless address allocation and route-aggregation approach.</p>
+
+      <h2>Worked example: <code>192.0.2.130/26</code></h2>
+      <ol>
+        <li>The first three mask octets are <code>255</code>; the last is <code>192</code>. The final octet therefore has a block size of <code>256 − 192 = 64</code>.</li>
+        <li>Blocks in that octet start at 0, 64, 128 and 192. The address <code>.130</code> falls in the block starting at <code>.128</code>.</li>
+        <li>That block ends at <code>.191</code>. So the network address is <code>192.0.2.128</code>, and the last address is <code>192.0.2.191</code>.</li>
+        <li>For a conventional IPv4 subnet, the first and last addresses are the network and directed-broadcast addresses. The remaining <code>2⁶ − 2 = 62</code> addresses are typically assignable to hosts.</li>
+      </ol>
+      <pre><code>Network:     192.0.2.128
+First host:  192.0.2.129
+Last host:   192.0.2.190
+Broadcast:   192.0.2.191
+Mask:        255.255.255.192
+Host bits:   6</code></pre>
+      <p>The addresses in this example are from the documentation range <code>192.0.2.0/24</code>; they are examples, not public hosts to configure in a live network.</p>
+
+      <h2>Why the “minus two” rule has exceptions</h2>
+      <p>The familiar formula <code>2^(32 − prefix) − 2</code> is a useful estimate for conventional IPv4 subnets, not a universal rule for every prefix. RFC 3021 allows a <code>/31</code> on a point-to-point link to use both addresses as endpoints, instead of treating them as network and broadcast addresses. A <code>/32</code> contains exactly one IPv4 address and is commonly used to identify a single host or route.</p>
+      <p>IPv6 uses prefix lengths too, but it does not use IPv4-style broadcast addresses. Do not apply the IPv4 “minus two” host-count rule to IPv6.</p>
+
+      <h2>Quick mental model</h2>
+      <ul>
+        <li>A larger prefix number leaves fewer host bits and creates a smaller block: <code>/27</code> is smaller than <code>/24</code>.</li>
+        <li>Each bit added to the prefix halves the block; each bit removed doubles it.</li>
+        <li>For prefixes not aligned on an octet boundary, find the interesting mask octet and count block-size increments.</li>
+        <li>Check allocation and routing policy before using a calculated range; arithmetic alone cannot tell you whether an address is available or appropriate.</li>
+      </ul>
+      <div class="callout"><strong>Try it:</strong> enter <code>192.0.2.130/26</code> in the <a href="../../cidr/">Subnet &amp; CIDR Calculator</a> to compare the worked result. Use the <a href="../../netplanner/">Network Planner</a> when you need to compare multiple address blocks.</div>
+
+      <h2>Primary references</h2>
+      <ul class="sources">
+        <li><a href="https://datatracker.ietf.org/doc/html/rfc4632">RFC 4632 — Classless Inter-domain Routing (CIDR)</a></li>
+        <li><a href="https://datatracker.ietf.org/doc/html/rfc3021">RFC 3021 — Using 31-Bit Prefixes on IPv4 Point-to-Point Links</a></li>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc5737">RFC 5737 — IPv4 Address Blocks Reserved for Documentation</a></li>
+      </ul>
+      <nav class="backlinks" aria-label="Related pages"><a href="../../cidr/">Open CIDR Calculator</a><a href="../../netplanner/">Open Network Planner</a><a href="./">All guides</a></nav>
+    </article>
+  </main>
+  <footer class="tool-footer"><div class="wrap"><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../">All tools</a><a href="./">Guides</a><a href="../about.html">About the tools</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+</body>
+</html>

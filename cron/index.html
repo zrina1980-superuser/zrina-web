@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cron Expression Explainer &amp; Next Run Times | zrina.app</title>
+<meta name="description" content="Explain Linux, Kubernetes, GitHub Actions and AWS EventBridge cron expressions, convert between formats, and preview next runs in an IANA time zone." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://zrina.app/cron/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="zrina.app" />
+<meta property="og:url" content="https://zrina.app/cron/" />
+<meta property="og:title" content="Cron Expression Explainer" />
+<meta property="og:description" content="Compare cron platform syntax, convert schedules and preview next runs across time zones." />
+<meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="zrina.app web tools" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Cron Expression Explainer" />
+<meta name="twitter:description" content="Explain and convert cron schedules across common platforms." />
+<meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta name="theme-color" content="#070b16" />
+<link rel="icon" type="image/svg+xml" href="../assets/tool-icons/cron.svg" />
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/cron-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/cron-512.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/cron-180.png" />
+<!-- GOOGLE ADSENSE: enable only after production deployment and the required consent setup.
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Cron Expression Explainer","url":"https://zrina.app/cron/","applicationCategory":"DeveloperApplication","operatingSystem":"All","description":"Explains cron expressions and lists upcoming run times.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+</script>
+<style>
+:root{--bg:#fafafa;--card:#fff;--sub:#f4f4f5;--bd:#e4e4e7;--tx:#09090b;--tx2:#52525b;--mut:#71717a;--ac:#18181b;--acf:#fff;--ok:#059669;--bad:#dc2626;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#09090b;--card:#121215;--sub:#18181b;--bd:#27272a;--tx:#fafafa;--tx2:#a1a1aa;--mut:#71717a;--ac:#fafafa;--acf:#09090b;--ok:#34d399;--bad:#f87171}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:inherit}.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--bd)}header.top .wrap{display:flex;justify-content:space-between;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;text-decoration:none}.brand span{color:var(--mut);font-weight:500}
+nav a{margin-left:14px;color:var(--tx2);text-decoration:none;font-size:14px}nav a:hover{color:var(--tx)}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:36px 0 8px;letter-spacing:-.02em}.lead{color:var(--tx2);margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:20px}
+label{display:block;font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:6px}
+input,select{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font:inherit;min-width:0}
+input#cron{font-family:var(--mono);font-size:18px}
+input:focus,select:focus{outline:2px solid var(--ac);outline-offset:1px}
+.btn{background:var(--sub);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:7px 11px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.big{font-size:clamp(20px,4vw,28px);font-weight:700;letter-spacing:-.01em;overflow-wrap:anywhere;margin:4px 0}
+.err{color:var(--bad);font-size:14px}.note{color:var(--mut);font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);overflow-wrap:anywhere}td.m{font-family:var(--mono)}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--tx2);margin:0}.chk input{width:auto}
+.top2{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+section.info h2{font-size:20px;margin:28px 0 8px}section.info p,section.info li{color:var(--tx2)}
+.disc{background:var(--sub);border:1px dashed var(--bd);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--tx2);margin:16px 0}
+footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(--mut);font-size:13px}
+</style>
+<link rel="stylesheet" href="../assets/tool-shell.css" />
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand tool-brand" href="../tools/" aria-label="Cron Expression Explainer by Zrina, all tools">
+<img src="../assets/tool-icons/cron-192.png" alt="" width="32" height="32" />
+<span class="tool-brand-name">Cron Explainer</span><span class="tool-brand-by">by Zrina</span>
+</a>
+<nav><a href="../hostvitals/">HostVitals</a><a href="../speedcalc/">Speed calc</a><a href="../cidr/">CIDR</a><a href="../netplanner/">Network planner</a><a href="../uuid/">UUID</a><a href="../json/">JSON</a><a href="../myip/">My IP</a><a href="../timestamp/">Timestamp</a></nav>
+</div></header>
+<main class="wrap">
+<h1>Cron Expression Explainer</h1>
+<p class="lead">Choose the scheduler dialect first. See what the expression means, convert formats, and preview upcoming runs in its time zone.</p>
+
+<div class="card">
+<div class="cols" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px">
+<div><label for="platform">Expression format</label><select id="platform">
+<option value="linux">Linux / POSIX cron (5 fields)</option>
+<option value="kubernetes">Kubernetes CronJob (5 fields)</option>
+<option value="github">GitHub Actions (UTC, 5 fields)</option>
+<option value="eventbridge">AWS EventBridge (6 fields)</option>
+</select></div>
+<div><label for="timezone">IANA time zone</label><input id="timezone" value="UTC" autocomplete="off" spellcheck="false" aria-describedby="platformHelp" /></div>
+</div>
+<label for="cron" style="margin-top:12px">Cron expression</label>
+<input id="cron" value="*/15 0-4 * * 1-5" autocomplete="off" spellcheck="false" />
+<p id="platformHelp" class="note" style="margin:8px 0 0"></p>
+<div class="bar" style="display:flex;flex-wrap:wrap;gap:8px;align-items:end;margin-top:12px">
+<div style="min-width:210px"><label for="convertTo">Convert to</label><select id="convertTo">
+<option value="linux">Linux / POSIX cron</option>
+<option value="kubernetes">Kubernetes CronJob</option>
+<option value="github">GitHub Actions</option>
+<option value="eventbridge">AWS EventBridge</option>
+</select></div>
+<button class="btn" id="convert">Convert expression</button>
+</div>
+<div class="chips" aria-label="Presets">
+<button class="btn" data-preset="minute">Every minute</button>
+<button class="btn" data-preset="five-minutes">Every 5 min</button>
+<button class="btn" data-preset="hourly">Hourly</button>
+<button class="btn" data-preset="daily">Daily 03:00</button>
+<button class="btn" data-preset="weekdays">Weekdays 09:00</button>
+<button class="btn" data-preset="weekly">Weekly (Sun)</button>
+<button class="btn" data-preset="monthly">Monthly</button>
+</div>
+<div id="err" class="err" role="alert" style="margin-top:10px"></div>
+</div>
+
+<div class="card" id="resCard" aria-live="polite">
+<div class="note">In plain English</div>
+<div class="big" id="human">—</div>
+<table style="margin-top:12px"><thead><tr><th>Field</th><th>Value</th><th>Meaning</th></tr></thead><tbody id="fields"></tbody></table>
+</div>
+
+<div class="card">
+<div class="top2"><strong>Next 5 runs</strong>
+<span class="note">Times shown in the selected IANA zone</span></div>
+<table><tbody id="runs"></tbody></table>
+<div class="note">DST can skip a local time in spring or repeat it in autumn. GitHub Actions schedules always use UTC; workflow starts may be delayed by up to 15 minutes.</div>
+</div>
+
+<!-- AD SLOT 1 (below results). Enable after AdSense approval:
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+
+<section class="info">
+<h2>Cron syntax</h2>
+<p>Linux, Kubernetes and GitHub Actions use five fields: minute, hour, day of month, month and day of week. EventBridge uses six: minute, hour, day of month, month, day of week and year; its day-of-month or day-of-week field must use <code>?</code> when the other is specified. EventBridge numbers weekdays 1–7 (Sunday–Saturday), unlike POSIX 0–6 (Sunday–Saturday). Operators supported here: <code>*</code>, <code>,</code>, <code>-</code> and <code>/</code>; month and weekday names are also accepted.</p>
+<h2>Day-of-month and day-of-week</h2>
+<p>When both fields are restricted (neither starts with <code>*</code>), standard cron runs the job when <em>either</em> matches. If one is <code>*</code>, only the other restricts the schedule.</p>
+<h2>Scope</h2>
+<p>This tool does not support Quartz seconds or special day operators such as <code>L</code>, <code>W</code> and <code>#</code>. Linux macros such as <code>@monthly</code> are not portable to Kubernetes, GitHub Actions or EventBridge; convert a regular expression instead. Kubernetes time zones are configured on the CronJob, Linux uses the daemon's zone, and EventBridge schedules use UTC unless a different schedule time zone is configured. Verify the scheduler's own DST behavior before relying on repeated or skipped local times.</p>
+</section>
+</main>
+<footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">Parsing runs locally; nothing is uploaded. Related: <a href="../timestamp/">Unix timestamp converter</a>.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+<script>
+const $=id=>document.getElementById(id);
+const MON=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const DOW=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const MACROS={'@yearly':'0 0 1 1 *','@annually':'0 0 1 1 *','@monthly':'0 0 1 * *','@weekly':'0 0 * * 0','@daily':'0 0 * * *','@midnight':'0 0 * * *','@hourly':'0 * * * *'};
+const cap=s=>s[0]+s.slice(1).toLowerCase();
+
+function parseField(raw,min,max,names,offset){
+  let s=raw.toUpperCase();
+  if(names)names.forEach((n,i)=>{s=s.replace(new RegExp('\\b'+n+'\\b','g'),String(i+offset))});
+  const set=new Set();
+  for(const part of s.split(',')){
+    if(!part)throw new Error('Empty list item in "'+raw+'".');
+    const bits=part.split('/');
+    if(bits.length>2)throw new Error('Invalid step in "'+part+'".');
+    const rng=bits[0],hasStep=bits.length===2;
+    let step=1;
+    if(hasStep){if(!/^\d+$/.test(bits[1])||+bits[1]<1)throw new Error('Invalid step "'+bits[1]+'".');step=+bits[1]}
+    let lo,hi;
+    if(rng==='*'){lo=min;hi=max}
+    else if(/^\d+$/.test(rng)){lo=+rng;hi=hasStep?max:lo}
+    else if(/^\d+-\d+$/.test(rng)){[lo,hi]=rng.split('-').map(Number)}
+    else throw new Error('Invalid value "'+rng+'".');
+    if(lo<min||hi>max||lo>hi)throw new Error('"'+part+'" is outside the allowed range '+min+'–'+max+'.');
+    for(let v=lo;v<=hi;v+=step)set.add(v);
+  }
+  return set;
+}
+function parseCron(text,platform){
+  let t=text.trim().replace(/\s+/g,' ');
+  if(platform==='linux'&&MACROS[t.toLowerCase()])t=MACROS[t.toLowerCase()];
+  const f=t.split(' ');
+  const isEvent=platform==='eventbridge';
+  const expected=isEvent?6:5;
+  if(f.length!==expected)throw new Error((isEvent?'EventBridge requires 6 fields':'This format requires 5 fields')+' (got '+(t?f.length:0)+').');
+  if(platform!=='linux'&&t.startsWith('@'))throw new Error('This platform does not support Linux cron shortcuts such as @monthly.');
+  let domRaw=f[2],dowRaw=f[4],yearRaw='*';
+  if(isEvent){
+    yearRaw=f[5];
+    if((domRaw==='?')===(dowRaw==='?'))throw new Error('EventBridge requires exactly one of day-of-month and day-of-week to be "?".');
+    if(domRaw==='?'&&dowRaw.includes('?')&&dowRaw!=='?')throw new Error('"?" must be the entire day-of-week field.');
+    if(dowRaw==='?'&&domRaw.includes('?')&&domRaw!=='?')throw new Error('"?" must be the entire day-of-month field.');
+  }else if(f.some(value=>value.includes('?')))throw new Error('"?" is only valid in EventBridge expressions.');
+  let dowSet;
+  if(dowRaw==='?')dowSet=new Set([0,1,2,3,4,5,6]);
+  else if(isEvent)dowSet=new Set([...parseField(dowRaw,1,7,DOW,1)].map(value=>value-1));
+  else{
+    dowSet=parseField(dowRaw,0,7,DOW,0);
+    if(dowSet.has(7)){dowSet.delete(7);dowSet.add(0)}
+  }
+  const domSet=domRaw==='?'?new Set(Array.from({length:31},(_,i)=>i+1)):parseField(domRaw,1,31);
+  const dowAny=isEvent?dowRaw==='?':dowRaw==='*';
+  const domAny=isEvent?domRaw==='?':domRaw==='*';
+  return{
+    raw:isEvent?[f[0],f[1],domRaw==='?'?'*':domRaw,f[3],dowRaw==='?'?'*':dowRaw]:f,
+    source:f,isEvent,yearRaw,
+    min:parseField(f[0],0,59),
+    hour:parseField(f[1],0,23),
+    dom:domSet,
+    mon:parseField(f[3],1,12,MON,1),
+    dow:dowSet,
+    years:isEvent?parseField(yearRaw,1970,2199):null,
+    domStar:domAny,dowStar:dowAny,
+    domQuestion:domRaw==='?',dowQuestion:dowRaw==='?'
+  };
+}
+function runs(a){
+  const out=[];let prev=null,start=null;
+  [...a].sort((x,y)=>x-y).forEach(v=>{if(prev!==null&&v===prev+1){prev=v;return}if(start!==null)out.push([start,prev]);start=prev=v});
+  if(start!==null)out.push([start,prev]);
+  return out;
+}
+function list(set,fmt){return runs(set).map(([a,b])=>a===b?fmt(a):fmt(a)+'–'+fmt(b)).join(', ')}
+function meaning(raw,set,unit,fmt,all){
+  if(raw==='*')return 'every '+unit;
+  const m=/^\*\/(\d+)$/.exec(raw);
+  if(m)return 'every '+m[1]+' '+unit+'s';
+  if(set.size===all)return 'every '+unit;
+  return unit+' '+list(set,fmt);
+}
+function describe(c){
+  const p2=n=>String(n).padStart(2,'0');
+  const parts=[];
+  const mn=c.raw[0],hr=c.raw[1];
+  if(mn==='*'&&hr==='*')parts.push('Every minute');
+  else if(c.min.size===1&&c.hour.size===1&&!hr.includes('/')&&!mn.includes('/')){
+    parts.push('At '+p2([...c.hour][0])+':'+p2([...c.min][0]));
+  }else{
+    parts.push(/^\*\/(\d+)$/.test(mn)?'Every '+mn.slice(2)+' minutes':mn==='*'?'Every minute':'At minute '+list(c.min,String));
+    if(hr!=='*')parts.push(/^\*\/(\d+)$/.test(hr)?'every '+hr.slice(2)+' hours':'between hours '+list(c.hour,p2)+(c.hour.size>1&&runs(c.hour).length===1?' (inclusive)':''));
+  }
+  if(!c.domStar)parts.push('on day-of-month '+list(c.dom,String));
+  if(c.raw[3]!=='*')parts.push('in '+list(c.mon,n=>cap(MON[n-1])));
+  if(!c.dowStar)parts.push((c.domStar?'on ':'or on ')+list(c.dow,n=>cap(DOW[n])));
+  if(c.isEvent&&c.yearRaw!=='*')parts.push('during years '+list(c.years,String));
+  return parts.join(', ');
+}
+function partsAt(date,formatter){
+  return Object.fromEntries(formatter.formatToParts(date).filter(part=>part.type!=='literal').map(part=>[part.type,Number(part.value)]));
+}
+function zoneOffset(timestamp,formatter){
+  const p=partsAt(new Date(timestamp),formatter);
+  return Date.UTC(p.year,p.month-1,p.day,p.hour,p.minute,p.second)-Math.floor(timestamp/1000)*1000;
+}
+function wallTimeInstants(y,m,d,h,mi,timezone,formatter){
+  const wall=Date.UTC(y,m-1,d,h,mi);
+  const offsets=new Set([-36,-12,0,12,36].map(hour=>zoneOffset(wall+hour*3600000,formatter)));
+  return [...offsets].map(offset=>wall-offset).filter(timestamp=>{
+    const p=partsAt(new Date(timestamp),formatter);
+    return p.year===y&&p.month===m&&p.day===d&&p.hour===h&&p.minute===mi;
+  }).sort((a,b)=>a-b);
+}
+function nextRuns(c,timezone,n){
+  const now=new Date();
+  let formatter;
+  try{formatter=new Intl.DateTimeFormat('en-CA',{timeZone:timezone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'})}
+  catch{throw new Error('Enter a valid IANA time zone, for example Europe/Zagreb or UTC.')}
+  const current=partsAt(now,formatter),res=[],hours=[...c.hour].sort((a,b)=>a-b),mins=[...c.min].sort((a,b)=>a-b);
+  const display=new Intl.DateTimeFormat('en-GB',{timeZone:timezone,weekday:'short',year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',timeZoneName:'short'});
+  for(let i=0;i<=3700&&res.length<n;i++){
+    const day=new Date(Date.UTC(current.year,current.month-1,current.day+i));
+    const Y=day.getUTCFullYear(),M=day.getUTCMonth(),D=day.getUTCDate(),W=day.getUTCDay();
+    if(!c.mon.has(M+1))continue;
+    if(c.years&&!c.years.has(Y))continue;
+    const domOk=c.dom.has(D),dowOk=c.dow.has(W);
+    const ok=(c.domStar||c.dowStar)?(domOk&&dowOk):(domOk||dowOk);
+    if(!ok)continue;
+    for(const h of hours)for(const mi of mins){
+      if(res.length>=n)break;
+      for(const timestamp of wallTimeInstants(Y,M+1,D,h,mi,timezone,formatter)){
+        const dt=new Date(timestamp);
+        if(dt>now)res.push(dt);
+        if(res.length>=n)break;
+      }
+    }
+  }
+  return{dates:res.slice(0,n),display};
+}
+function fieldText(set,min,max){
+  if(set.size===max-min+1)return'*';
+  return runs(set).map(([a,b])=>a===b?String(a):a+'-'+b).join(',');
+}
+function convertExpression(text,source,target){
+  const c=parseCron(text,source);
+  if(source===target)return text.trim();
+  if(target==='github'&&$('timezone').value.trim()!=='UTC')throw new Error('GitHub Actions always uses UTC. Set the source time zone to UTC and adjust the schedule explicitly before converting.');
+  if(target==='eventbridge'){
+    const domPlainStar=c.source[2]==='*';
+    const dowPlainStar=c.source[4]==='*';
+    if(!domPlainStar&&!dowPlainStar)throw new Error('Cannot convert this schedule to EventBridge without changing its day-of-month/day-of-week meaning. EventBridge requires one of those fields to be "?".');
+    const dom=domPlainStar?(dowPlainStar?'*':'?'):fieldText(c.dom,1,31);
+    const dow=dowPlainStar?'?':fieldText(new Set([...c.dow].map(value=>value+1)),1,7);
+    const year=c.years?fieldText(c.years,1970,2199):'*';
+    return[fieldText(c.min,0,59),fieldText(c.hour,0,23),dom,fieldText(c.mon,1,12),dow,year].join(' ');
+  }
+  if(source==='eventbridge'){
+    if(c.yearRaw!=='*')throw new Error('Cannot convert a restricted EventBridge year to a 5-field format without losing the year constraint.');
+    const dow=new Set([...c.dow].map(value=>value));
+    const dom=c.domQuestion?'*':fieldText(c.dom,1,31);
+    const weekday=c.dowQuestion?'*':fieldText(dow,0,6);
+    return[fieldText(c.min,0,59),fieldText(c.hour,0,23),dom,fieldText(c.mon,1,12),weekday].join(' ');
+  }
+  return[fieldText(c.min,0,59),fieldText(c.hour,0,23),fieldText(c.dom,1,31),fieldText(c.mon,1,12),fieldText(c.dow,0,6)].join(' ');
+}
+const platformHelp={
+  linux:'Five fields; uses the Linux daemon time zone. Linux @macros are accepted.',
+  kubernetes:'Five fields; set spec.timeZone on the CronJob to match the time zone below. Macros are not accepted.',
+  github:'Five fields in UTC only. GitHub may delay scheduled workflow starts by up to 15 minutes; macros are not accepted.',
+  eventbridge:'Six fields including year; use ? in exactly one day field. Numeric weekdays are 1–7 (Sunday–Saturday).'
+};
+const presets={
+  linux:{minute:'* * * * *','five-minutes':'*/5 * * * *',hourly:'0 * * * *',daily:'0 3 * * *',weekdays:'0 9 * * 1-5',weekly:'0 0 * * 0',monthly:'0 0 1 * *'},
+  kubernetes:{minute:'* * * * *','five-minutes':'*/5 * * * *',hourly:'0 * * * *',daily:'0 3 * * *',weekdays:'0 9 * * 1-5',weekly:'0 0 * * 0',monthly:'0 0 1 * *'},
+  github:{minute:'* * * * *','five-minutes':'*/5 * * * *',hourly:'0 * * * *',daily:'0 3 * * *',weekdays:'0 9 * * 1-5',weekly:'0 0 * * 0',monthly:'0 0 1 * *'},
+  eventbridge:{minute:'* * * * ? *','five-minutes':'*/5 * * * ? *',hourly:'0 * * * ? *',daily:'0 3 * * ? *',weekdays:'0 9 ? * 2-6 *',weekly:'0 0 ? * 1 *',monthly:'0 0 1 * ? *'}
+};
+function updatePlatform(){
+  const platform=$('platform').value;
+  $('platformHelp').textContent=platformHelp[platform];
+  if(platform==='github'){$('timezone').value='UTC';$('timezone').disabled=true}
+  else $('timezone').disabled=false;
+  $('convertTo').value=platform==='eventbridge'?'linux':'eventbridge';
+}
+function render(){
+  const text=$('cron').value;
+  $('err').textContent='';
+  try{
+    const platform=$('platform').value;
+    const c=parseCron(text,platform);
+    $('human').textContent=describe(c);
+    const f=c.source;
+    const definitions=[
+      ['Minute',f[0],meaning(f[0],c.min,'minute',String,60)],
+      ['Hour',f[1],meaning(f[1],c.hour,'hour',String,24)],
+      ['Day of month',f[2],f[2]==='?'?'not specified (see day-of-week)':meaning(f[2],c.dom,'day',String,31)],
+      ['Month',f[3],meaning(f[3],c.mon,'month',n=>cap(MON[n-1]),12)],
+      ['Day of week',f[4],f[4]==='?'?'not specified (see day-of-month)':meaning(f[4],c.dow,'day',n=>cap(DOW[n]),7)]
+    ];
+    if(c.isEvent)definitions.push(['Year',f[5],meaning(f[5],c.years,'year',String,230)]);
+    $('fields').innerHTML=[
+      ...definitions
+    ].map(r=>'<tr><td>'+r[0]+'</td><td class="m">'+r[1].replace(/</g,'&lt;')+'</td><td>'+r[2]+'</td></tr>').join('');
+    const zone=platform==='github'?'UTC':$('timezone').value.trim();
+    const schedule=nextRuns(c,zone,5);
+    $('runs').innerHTML=schedule.dates.length?schedule.dates.map(d=>'<tr><td class="m">'+schedule.display.format(d)+'</td></tr>').join(''):'<tr><td>No run found in the supported year range (for example, an impossible calendar date).</td></tr>';
+  }catch(e){
+    $('err').textContent=e.message;$('human').textContent='—';$('fields').innerHTML='';$('runs').innerHTML='';
+  }
+}
+function convert(){
+  try{
+    const target=$('convertTo').value;
+    $('cron').value=convertExpression($('cron').value,$('platform').value,target);
+    $('platform').value=target;
+    updatePlatform();
+    render();
+  }catch(e){$('err').textContent=e.message}
+}
+$('cron').addEventListener('input',render);
+$('timezone').addEventListener('input',render);
+$('platform').addEventListener('change',()=>{updatePlatform();render()});
+$('convert').addEventListener('click',convert);
+document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{$('cron').value=presets[$('platform').value][b.dataset.preset];render()}));
+updatePlatform();
+render();
+</script>
+</body>
+</html>

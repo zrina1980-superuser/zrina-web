@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="shoplist.app — zajednički pametni popis za kupovinu, sinkroniziran u stvarnom vremenu, s glasovnim unosom, receptima i AI skenerom računa.">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#fbf8f2">
+    <link rel="stylesheet" href="../portfolio-page-transition.css">
+    <link rel="stylesheet" href="../portfolio-atmosphere.css">
+    <script src="../portfolio-page-transition.js" defer></script>
+    <script src="../portfolio-atmosphere.js" defer></script>
+    <link rel="canonical" href="https://zrina.app/shoplist/">
+    <title>shoplist.app — Kupovina koja ide glatko</title>
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="hr_HR">
+    <meta property="og:site_name" content="shoplist.app">
+    <meta property="og:title" content="shoplist.app — Kupovina koja ide glatko">
+    <meta property="og:description" content="Zajednički popisi, pametan popis za kupovinu, glasovni unos i dijeljena košarica za parove i obitelj.">
+    <meta property="og:url" content="https://zrina.app/shoplist/">
+    <meta property="og:image" content="https://zrina.app/shoplist/share-card.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="shoplist.app — pametna košarica za kupovinu">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="shoplist.app — Kupovina koja ide glatko">
+    <meta name="twitter:description" content="Zajednički popisi, pametno sortiranje i glasovni unos za lakšu kupovinu.">
+    <meta name="twitter:image" content="https://zrina.app/shoplist/share-card.png">
+    <link rel="icon" type="image/png" href="shoplist-logo.png">
+    <link rel="apple-touch-icon" href="shoplist-logo.png">
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #fbf8f2;
+            --paper: #fffefa;
+            --ink: #252a25;
+            --muted: #71766e;
+            --line: #e7e5dc;
+            --green: #138866;
+            --green-dark: #0d6c52;
+            --mint: #e3f2e9;
+            --lime: #c4e586;
+            --coral: #f08168;
+            --peach: #fff0e8;
+            --lavender: #eee8f9;
+            --yellow: #f4cb69;
+            --mono: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+            --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --serif: Georgia, "Times New Roman", serif;
+            font-family: var(--sans);
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { min-width: 320px; scroll-behavior: smooth; scroll-padding-top: 6rem; background: var(--bg); }
+        body { min-width: 320px; min-height: 100vh; margin: 0; overflow-x: hidden; background: var(--bg); color: var(--ink); }
+        button, input { font: inherit; }
+        button { color: inherit; }
+        a { color: inherit; }
+        ::selection { color: #fff; background: var(--green); }
+        .shell { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+        main, footer { position: relative; z-index: 1; }
+        .mono { font-family: var(--mono); }
+        .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--green); font: 650 .68rem/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+        .eyebrow::before { width: 8px; height: 8px; flex: 0 0 auto; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 4px rgba(240, 129, 104, .12); content: ""; }
+        .section { padding-block: 82px; }
+        .section-heading { max-width: 720px; margin: 0 auto 32px; text-align: center; }
+        .section-heading h2 { margin: 12px 0; font: 500 clamp(1.8rem, 4vw, 2.7rem)/1.12 var(--serif); letter-spacing: -.045em; }
+        .section-heading p { margin: 0; color: var(--muted); font-size: .94rem; line-height: 1.8; }
+
+        .topbar { position: sticky; z-index: 20; top: 0; border-bottom: 1px solid rgba(45, 67, 48, .1); background: rgba(251, 248, 242, .9); backdrop-filter: blur(18px); }
+        .topbar-inner { display: flex; min-height: 68px; align-items: center; justify-content: space-between; gap: 14px; }
+        .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+        .brand-logo { width: 39px; height: 39px; border: 1px solid rgba(19, 136, 102, .16); border-radius: 13px; object-fit: cover; box-shadow: 0 4px 13px rgba(30, 60, 38, .1); }
+        .brand-copy { display: grid; gap: 2px; }
+        .brand-copy strong { font-size: .9rem; letter-spacing: -.03em; }
+        .brand-copy span { color: #747a70; font: .61rem var(--mono); }
+        .topbar-actions { display: flex; align-items: center; gap: 8px; }
+        .button, .lang-toggle button { display: inline-flex; min-height: 40px; align-items: center; justify-content: center; gap: 8px; padding: 0 13px; border: 1px solid rgba(48, 75, 52, .13); border-radius: 12px; background: rgba(255, 254, 250, .8); color: #384039; font-size: .78rem; font-weight: 650; text-decoration: none; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
+        .button:hover, .lang-toggle button:hover { transform: translateY(-1px); border-color: rgba(19, 136, 102, .32); box-shadow: 0 6px 18px rgba(38, 69, 45, .07); }
+        .button-primary { border-color: transparent; background: var(--green); color: white; box-shadow: 0 7px 17px rgba(19, 136, 102, .18); }
+        .button-primary:hover { border-color: transparent; background: var(--green-dark); }
+        .button-coral { border-color: #f4d5c9; background: var(--peach); color: #994f3f; }
+        .lang-toggle { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid rgba(48, 75, 52, .12); border-radius: 11px; background: rgba(255, 254, 250, .76); }
+        .lang-toggle button { min-height: 30px; padding: 0 8px; border-color: transparent; background: transparent; font: 600 .64rem var(--mono); }
+        .lang-toggle button[aria-pressed="true"] { border-color: rgba(19, 136, 102, .12); background: var(--mint); color: var(--green-dark); }
+        .key-hint { color: #91948d; font: .6rem var(--mono); }
+
+        .hero { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: clamp(28px, 5vw, 65px); padding-block: 82px 65px; }
+        .hero-copy-column { min-width: 0; }
+        .hero h1 { max-width: 650px; margin: 17px 0 15px; font: 500 clamp(2.8rem, 6vw, 5.1rem)/.99 var(--serif); letter-spacing: -.065em; }
+        .hero h1 span { color: var(--green); font-style: italic; }
+        .hero-lead { max-width: 625px; margin: 0; color: #656d63; font-size: clamp(.98rem, 2vw, 1.08rem); line-height: 1.8; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 23px; }
+        .hero-actions .button { min-height: 46px; padding-inline: 16px; }
+        .hero-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
+        .tag { padding: 6px 9px; border: 1px solid rgba(60, 84, 60, .12); border-radius: 999px; background: rgba(255, 254, 250, .82); color: #5e685e; font: .64rem var(--mono); }
+        .tag-green { border-color: #cde8d6; background: #edf7ef; color: #287451; }
+        .hero-art { position: relative; max-width: 450px; justify-self: center; }
+        .hero-art::before { position: absolute; z-index: -1; inset: 14% 11% 14%; border-radius: 50%; background: rgba(180, 216, 147, .33); filter: blur(56px); content: ""; }
+        .hero-logo { display: block; width: 100%; height: auto; border: 1px solid rgba(78, 101, 74, .12); border-radius: 26px; box-shadow: 0 25px 65px rgba(49, 57, 43, .14); }
+        .hero-caption { margin: 11px 4px 0; color: #8a8c81; font: .63rem/1.5 var(--mono); text-align: center; }
+        .focus-strip { display: flex; width: fit-content; max-width: 100%; align-items: center; gap: 9px; margin-top: 22px; padding: 10px 12px; border-left: 3px solid var(--coral); border-radius: 0 10px 10px 0; background: #f4eee2; color: #585d51; font: .7rem/1.6 var(--mono); }
+        .focus-prefix { flex: 0 0 auto; color: var(--green-dark); }
+        .focus-cursor { width: 6px; height: 1em; flex: 0 0 auto; background: var(--coral); animation: blink 1s steps(2, start) infinite; }
+        @keyframes blink { to { visibility: hidden; } }
+
+        .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 13px; }
+        .card { position: relative; overflow: hidden; border: 1px solid rgba(53, 74, 52, .1); border-radius: 18px; background: linear-gradient(145deg, #fffefa, #f8f5ed); box-shadow: 0 12px 38px rgba(52, 60, 44, .055); transform-style: preserve-3d; transition: border-color .25s ease, box-shadow .25s ease, transform .2s ease; }
+        .card::before { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(360px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(169, 209, 141, .18), transparent 45%); opacity: 0; transition: opacity .25s ease; content: ""; }
+        .card:hover { border-color: rgba(19, 136, 102, .23); box-shadow: 0 18px 45px rgba(52, 60, 44, .1); }
+        .card:hover::before { opacity: 1; }
+        .card-content { position: relative; z-index: 1; height: 100%; padding: 24px; }
+        .story-card { grid-column: span 7; min-height: 255px; }
+        .story-icon { display: grid; width: 43px; height: 43px; place-items: center; border: 1px solid #d8eadc; border-radius: 14px; background: #edf6ed; font-size: 1.18rem; }
+        .story-card h3 { max-width: 590px; margin: 17px 0 10px; font: 500 clamp(1.45rem, 3vw, 2rem)/1.17 var(--serif); letter-spacing: -.035em; }
+        .story-card p { max-width: 600px; margin: 0; color: var(--muted); line-height: 1.78; }
+        .metric-card { grid-column: span 5; }
+        .metric-grid { display: grid; height: 100%; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .metric { display: flex; min-height: 88px; flex-direction: column; justify-content: center; padding: 13px; border: 1px solid rgba(65, 86, 60, .08); border-radius: 13px; background: #f6f5ee; }
+        .metric strong { color: var(--green); font: 650 clamp(1.15rem, 3vw, 1.7rem) var(--mono); letter-spacing: -.05em; }
+        .metric span { margin-top: 6px; color: #73786e; font-size: .69rem; line-height: 1.45; }
+        .stack-card { grid-column: span 12; }
+        .stack-card .card-content { display: grid; grid-template-columns: .8fr 1.2fr; align-items: center; gap: 24px; }
+        .stack-card h3 { margin: 9px 0 7px; font: 500 1.3rem var(--serif); }
+        .stack-card p { margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.7; }
+        .chip-list { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+        .tech-chip { padding: 9px 11px; border: 1px solid rgba(59, 83, 58, .12); border-radius: 999px; background: #f4f5ee; color: #596357; font: .66rem var(--mono); cursor: pointer; transition: .2s ease; }
+        .tech-chip:hover, .tech-chip[aria-pressed="true"] { border-color: #b6ddc5; background: #e9f5ec; color: var(--green-dark); }
+
+        .module-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+        .module-card { min-height: 192px; border: 1px solid rgba(53, 74, 52, .1); border-radius: 17px; background: var(--paper); text-align: left; cursor: pointer; }
+        .module-card:hover, .module-card[aria-pressed="true"] { border-color: rgba(19, 136, 102, .27); }
+        .module-card .card-content { display: flex; flex-direction: column; align-items: flex-start; }
+        .module-icon { font-size: 1.4rem; }
+        .module-card h3 { margin: 13px 0 7px; font: 500 1.05rem var(--serif); }
+        .module-card p { margin: 0; color: var(--muted); font-size: .77rem; line-height: 1.65; }
+        .module-link { margin-top: auto; padding-top: 14px; color: var(--green); font: .65rem var(--mono); }
+
+        .preview-section { border-block: 1px solid rgba(69, 83, 61, .08); background: linear-gradient(180deg, #f5f1e7, #fbf8f2); }
+        .preview-frame { max-width: 1080px; margin: 0 auto; padding: 8px; border: 1px solid rgba(68, 81, 59, .13); border-radius: 17px; background: var(--paper); box-shadow: 0 25px 65px rgba(50, 57, 43, .12); }
+        .preview-button { display: block; width: 100%; overflow: hidden; padding: 0; border: 0; border-radius: 11px; background: #151515; cursor: zoom-in; }
+        .preview-button img { display: block; width: 100%; height: auto; transition: transform .35s ease; }
+        .preview-button:hover img { transform: scale(1.012); }
+        .preview-caption { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 8px 5px; color: #73786e; font: .65rem/1.5 var(--mono); }
+        .preview-caption span:last-child { color: var(--green); }
+
+        .contact-panel { position: relative; overflow: hidden; padding: clamp(25px, 5vw, 46px); border: 1px solid #dfe9d8; border-radius: 22px; background: radial-gradient(ellipse at 100% 0, rgba(242, 199, 113, .17), transparent 42%), radial-gradient(ellipse at 0 100%, rgba(151, 210, 160, .22), transparent 49%), #fffefa; text-align: center; }
+        .contact-panel h2 { max-width: 720px; margin: 13px auto 11px; font: 500 clamp(1.8rem, 4vw, 2.65rem)/1.12 var(--serif); letter-spacing: -.04em; }
+        .contact-panel > p { max-width: 650px; margin: 0 auto; color: var(--muted); line-height: 1.8; }
+        .contact-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 21px; }
+        .contact-note { margin-top: 13px !important; color: #85877c !important; font-size: .73rem; }
+        .email { color: var(--green-dark); font: 600 .86rem var(--mono); text-decoration: none; }
+        .email:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+        footer { margin-top: 70px; border-top: 1px solid rgba(53, 74, 52, .11); }
+        .footer-inner { display: flex; min-height: 84px; align-items: center; justify-content: space-between; gap: 14px; color: #81847a; font-size: .72rem; }
+        .footer-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 15px; }
+        .footer-links a, .footer-links button { padding: 0; border: 0; background: transparent; color: #60685f; font-size: .71rem; text-decoration: none; cursor: pointer; }
+        .footer-links a:hover, .footer-links button:hover { color: var(--green); }
+
+        .modal-backdrop { position: fixed; z-index: 50; inset: 0; display: none; overflow-y: auto; align-items: center; justify-content: center; padding: 20px; background: rgba(34, 39, 32, .5); backdrop-filter: blur(9px); }
+        .modal-backdrop.open { display: flex; }
+        .modal-card { position: relative; width: min(690px, 100%); max-height: min(86vh, 820px); overflow-y: auto; padding: clamp(22px, 4vw, 34px); border: 1px solid rgba(52, 83, 54, .15); border-radius: 19px; background: #fffefa; box-shadow: 0 30px 90px rgba(25, 36, 25, .22); }
+        .modal-close { position: sticky; z-index: 1; top: 0; float: right; display: grid; width: 36px; height: 36px; place-items: center; margin: -8px -8px 0 8px; border: 1px solid var(--line); border-radius: 11px; background: #f6f6ef; color: #61685e; font-size: 1.3rem; cursor: pointer; }
+        .modal-close:hover { border-color: #b4d9c0; color: var(--green); }
+        .modal-card h2 { margin: 7px 0 8px; font: 500 clamp(1.35rem, 4vw, 1.85rem)/1.15 var(--serif); }
+        .modal-lead { margin: 0 0 20px; color: var(--muted); font-size: .84rem; line-height: 1.75; }
+        .flow-diagram { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: 8px; margin-top: 18px; }
+        .flow-node { display: grid; min-height: 88px; align-content: center; gap: 8px; padding: 11px; border: 1px solid rgba(55, 135, 91, .15); border-radius: 13px; background: #f0f6ee; text-align: center; }
+        .flow-node span { color: var(--green); font: .6rem var(--mono); }
+        .flow-node strong { font-size: .73rem; line-height: 1.45; }
+        .flow-arrow { align-self: center; color: var(--coral); font: 1.1rem var(--mono); }
+        .flow-caption { margin: 13px 0 0; color: #81847a; font: .64rem/1.65 var(--mono); text-align: center; }
+        .terminal-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; margin: 18px 0; }
+        .terminal-stat { padding: 12px; border: 1px solid rgba(50, 75, 50, .1); border-radius: 12px; background: #f6f5ef; }
+        .terminal-stat span { display: block; color: #86897f; font: .6rem var(--mono); text-transform: uppercase; }
+        .terminal-stat strong { display: block; margin-top: 7px; color: #3b453b; font: .77rem var(--mono); overflow-wrap: anywhere; }
+        .search-label { display: block; margin: 18px 0 8px; color: var(--green-dark); font: .67rem var(--mono); }
+        .search-input { width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid rgba(45, 103, 67, .2); border-radius: 11px; outline: none; background: #fffefa; color: var(--ink); font: .82rem var(--mono); }
+        .search-input:focus { border-color: #70b991; box-shadow: 0 0 0 3px rgba(19, 136, 102, .09); }
+        .search-results { display: grid; gap: 7px; margin-top: 10px; }
+        .search-result { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border: 1px solid rgba(50, 75, 50, .1); border-radius: 10px; background: #f8f7f1; color: var(--ink); text-align: left; cursor: pointer; }
+        .search-result:hover { border-color: #b4d9c0; }
+        .search-result small { color: #85877d; font: .6rem var(--mono); }
+        .search-empty { margin: 7px 0; color: var(--muted); font-size: .8rem; }
+        .privacy-list { display: grid; gap: 10px; margin: 17px 0 0; padding: 0; list-style: none; }
+        .privacy-list li { padding: 12px 13px; border: 1px solid rgba(50, 75, 50, .1); border-radius: 12px; background: #f7f6ef; color: #686f65; font-size: .79rem; line-height: 1.7; }
+        .privacy-list strong { color: #343b34; }
+        .note-callout { margin: 13px 0 0; padding: 12px; border-left: 3px solid var(--coral); border-radius: 0 10px 10px 0; background: var(--peach); color: #765448; font-size: .76rem; line-height: 1.65; }
+        #lightbox { z-index: 60; }
+        .lightbox-content { display: grid; width: min(1120px, 100%); justify-items: center; }
+        #lightboxImage { max-width: 100%; max-height: 78vh; border: 1px solid rgba(64, 78, 60, .16); border-radius: 13px; }
+        #lightboxCaption { margin: 12px 0 0; color: var(--ink); font-size: .84rem; text-align: center; }
+        .toast { position: fixed; z-index: 80; right: 18px; bottom: 18px; max-width: calc(100% - 36px); padding: 11px 14px; border: 1px solid #b9dec5; border-radius: 12px; background: #f0f9f1; color: #246844; font: .75rem var(--mono); opacity: 0; pointer-events: none; transform: translateY(9px); transition: .2s ease; }
+        .toast.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 760px) {
+            .shell { width: min(calc(100% - 28px), 600px); }
+            .topbar-inner { min-height: 62px; }
+            .brand-copy span, .key-hint { display: none; }
+            .hero { grid-template-columns: minmax(0, 1fr); gap: 27px; padding-block: 50px 44px; }
+            .hero-copy-column { order: 1; min-width: 0; }
+            .hero-art { width: min(340px, 78vw); order: 0; }
+            .section { padding-block: 63px; }
+            .story-card, .metric-card { grid-column: span 12; }
+            .story-card { min-height: 0; }
+            .stack-card .card-content { grid-template-columns: 1fr; }
+            .chip-list { justify-content: flex-start; }
+            .module-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-inner { align-items: flex-start; flex-direction: column; justify-content: center; padding-block: 18px; }
+            .footer-links { justify-content: flex-start; }
+        }
+        @media (max-width: 480px) {
+            .topbar-actions { gap: 5px; }
+            .button-inspect { width: 39px; padding: 0; font-size: 0; }
+            .button-inspect .inspect-icon { font-size: .95rem; }
+            .lang-toggle button { min-height: 29px; padding-inline: 6px; }
+            .brand-logo { width: 34px; height: 34px; }
+            .brand-copy strong { font-size: .77rem; }
+            .hero { padding-top: 34px; }
+            .hero h1 { font-size: clamp(2.45rem, 12vw, 3.4rem); }
+            .focus-strip { align-items: flex-start; font-size: .62rem; }
+            .card-content { padding: 19px; }
+            .module-grid { grid-template-columns: 1fr; }
+            .module-card { min-height: 155px; }
+            .flow-diagram { grid-template-columns: 1fr; gap: 7px; }
+            .flow-node { min-height: 63px; }
+            .flow-arrow { justify-self: center; transform: rotate(90deg); }
+            .modal-backdrop { padding: 10px; }
+            .modal-card { max-height: 92vh; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+        }
+    </style>
+</head>
+<body data-atmosphere="shopping">
+    <header class="topbar">
+        <nav class="shell topbar-inner" aria-label="Glavna navigacija" data-i18n-aria-label="navLabel">
+            <a class="brand" href="#top" aria-label="shoplist.app — početak">
+                <img class="brand-logo" src="shoplist-logo.png" alt="">
+                <span class="brand-copy"><strong>shoplist.app</strong><span data-i18n="brandTag">Zajedno je lakše</span></span>
+            </a>
+            <div class="topbar-actions">
+                <button class="button button-inspect mono" type="button" data-open-telemetry aria-label="Otvori sys.inspect" data-i18n-aria-label="inspectLabel">
+                    <span class="inspect-icon" aria-hidden="true">&gt;_</span><span data-i18n="inspectButton">sys.inspect</span><span class="key-hint">Ctrl K</span>
+                </button>
+                <div class="lang-toggle" role="group" aria-label="Odabir jezika" data-i18n-aria-label="langLabel">
+                    <button type="button" data-lang="hr" aria-pressed="true">🇭🇷 HR</button>
+                    <button type="button" data-lang="en" aria-pressed="false">🇬🇧 EN</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="top">
+        <section class="hero shell">
+            <div class="hero-copy-column">
+                <span class="eyebrow" data-i18n="heroEyebrow">Your shared list, in sync</span>
+                <h1 data-i18n="heroTitle">Manje zaboravljenih stvari.<span>Više vremena za vas.</span></h1>
+                <p class="hero-lead" data-i18n="heroLead">shoplist.app je pametan popis za kupovinu koji vas povezuje u stvarnom vremenu. Dodajte namirnicu glasom, podijelite popis s obitelji i prođite trgovinom bez lutanja između odjela.</p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="https://shoplist-zrina-app.ai.studio/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🛒</span><span data-i18n="openApp">Otvori shoplist.app</span></a>
+                    <a class="button button-coral" href="#moduli"><span aria-hidden="true">♡</span><span data-i18n="explore">Pogledaj kako radi</span></a>
+                </div>
+                <div class="hero-tags">
+                    <span class="tag tag-green" data-i18n="sharedBadge">Sinkronizacija u stvarnom vremenu</span>
+                    <span class="tag" data-i18n="voiceBadge">Glasovni unos na hrvatskom</span>
+                    <span class="tag" data-i18n="familyBadge">Za parove i obitelji</span>
+                </div>
+                <div class="focus-strip" aria-live="polite"><span class="focus-prefix" data-i18n="focusPrefix">&gt; Na popisu:</span><span id="focusText"></span><span class="focus-cursor" aria-hidden="true"></span></div>
+            </div>
+            <figure class="hero-art">
+                <img class="hero-logo" src="shoplist-logo.png" alt="shoplist.app košarica za kupovinu" data-i18n-alt="logoAlt">
+                <figcaption class="hero-caption" data-i18n="heroCaption">Jedan zajednički popis · cijela ekipa na istoj stranici</figcaption>
+            </figure>
+        </section>
+
+        <section class="section shell" id="arhitektura">
+            <div class="section-heading">
+                <span class="eyebrow" data-i18n="architectureEyebrow">A little more ease in every shop</span>
+                <h2 data-i18n="architectureTitle">Pametnija košarica. Mirnija kupovina.</h2>
+                <p data-i18n="architectureLead">Sve što vam treba za dogovor prije trgovine, snalaženje među policama i pregled nakon blagajne.</p>
+            </div>
+            <div class="bento-grid">
+                <article class="card story-card tilt">
+                    <div class="card-content">
+                        <span class="story-icon" aria-hidden="true">🧺</span>
+                        <h3 data-i18n="storyTitle">Popis koji vas oboje prati.</h3>
+                        <p data-i18n="storyCopy">Dijelite listu s partnerom ili obitelji, bez poruka „jesi uzeo mlijeko?”. Kad netko doda artikl ili ga stavi u košaricu, promjena se odmah vidi i na drugom mobitelu. Krenite od praznog popisa ili odaberite omiljeni predložak.</p>
+                    </div>
+                </article>
+                <article class="card metric-card tilt" aria-label="Shoplist značajke">
+                    <div class="card-content metric-grid">
+                        <div class="metric"><strong>LIVE</strong><span data-i18n="metricSync">jedan popis, sinkroniziran u dvoje</span></div>
+                        <div class="metric"><strong>140+</strong><span data-i18n="metricCatalog">uobičajenih namirnica i sinonima</span></div>
+                        <div class="metric"><strong>HR</strong><span data-i18n="metricVoice">glasovni unos na hrvatskom</span></div>
+                        <div class="metric"><strong>0</strong><span data-i18n="metricAds">reklama u iskustvu kupovine</span></div>
+                    </div>
+                </article>
+                <article class="card stack-card tilt">
+                    <div class="card-content">
+                        <div><span class="eyebrow" data-i18n="stackEyebrow">A thoughtful shopping toolkit</span><h3 data-i18n="stackTitle">Od „što nam treba?” do gotove kupovine</h3><p data-i18n="stackCopy">Odaberite dio aplikacije za pregled načina na koji funkcionira.</p></div>
+                        <div class="chip-list" role="group" aria-label="Moduli aplikacije">
+                            <button class="tech-chip" type="button" data-module="sync" data-i18n="chipSync">Dijeljeni popisi</button>
+                            <button class="tech-chip" type="button" data-module="voice" data-i18n="chipVoice">Glasovni unos</button>
+                            <button class="tech-chip" type="button" data-module="sorting" data-i18n="chipSorting">Odjeli trgovine</button>
+                            <button class="tech-chip" type="button" data-module="assistant" data-i18n="chipAssistant">AI asistent</button>
+                            <button class="tech-chip" type="button" data-module="receipt" data-i18n="chipReceipt">Računi & cijene</button>
+                            <button class="tech-chip" type="button" data-module="history" data-i18n="chipHistory">Povijest kupnji</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section shell" id="moduli">
+            <div class="section-heading">
+                <span class="eyebrow" data-i18n="modulesEyebrow">Plan together · shop smarter</span>
+                <h2 data-i18n="modulesTitle">Sve u jednoj praktičnoj listi</h2>
+                <p data-i18n="modulesLead">Odaberite značajku za kratki prikaz i shemu toka podataka.</p>
+            </div>
+            <div class="module-grid">
+                <button class="card module-card tilt" type="button" data-module="sync" aria-pressed="false">
+                    <span class="card-content"><span class="module-icon" aria-hidden="true">👫</span><h3 data-i18n="syncTitle">Zajedno u stvarnom vremenu</h3><p data-i18n="syncCopy">Pozovite partnera kodom ili poveznicom. Dodani i označeni artikli odmah se sinkroniziraju.</p><span class="module-link" data-i18n="detailsLink">Pogledaj kako radi →</span></span>
+                </button>
+                <button class="card module-card tilt" type="button" data-module="voice" aria-pressed="false">
+                    <span class="card-content"><span class="module-icon" aria-hidden="true">🎙️</span><h3 data-i18n="voiceTitle">Reci, ne tipkaj</h3><p data-i18n="voiceCopy">Dodajte nekoliko artikala glasom na hrvatskom, a popis razdijeli ih za vas.</p><span class="module-link" data-i18n="detailsLink">Pogledaj kako radi →</span></span>
+                </button>
+                <button class="card module-card tilt" type="button" data-module="sorting" aria-pressed="false">
+                    <span class="card-content"><span class="module-icon" aria-hidden="true">🛍️</span><h3 data-i18n="sortingTitle">Kroz trgovinu bez kruženja</h3><p data-i18n="sortingCopy">Namirnice se grupiraju po odjelima; odaberite trgovinu ili prilagodite redoslijed svom dućanu.</p><span class="module-link" data-i18n="detailsLink">Pogledaj kako radi →</span></span>
+                </button>
+                <button class="card module-card tilt" type="button" data-module="assistant" aria-pressed="false">
+                    <span class="card-content"><span class="module-icon" aria-hidden="true">✨</span><h3 data-i18n="assistantTitle">Ideje za svaki dan</h3><p data-i18n="assistantCopy">Zatražite inspiraciju za jelo ili skenirajte fotografiju rukom pisanog popisa.</p><span class="module-link" data-i18n="detailsLink">Pogledaj kako radi →</span></span>
+                </button>
+                <button class="card module-card tilt" type="button" data-module="receipt" aria-pressed="false">
+                    <span class="card-content"><span class="module-icon" aria-hidden="true">🧾</span><h3 data-i18n="receiptTitle">Računi i pregled košarice</h3><p data-i18n="receiptCopy">Skenirajte račun, spremite cijene i pregledajte procjenu ukupnog iznosa u statistici.</p><span class="module-link" data-i18n="detailsLink">Pogledaj kako radi →</span></span>
+                </button>
+                <button class="card module-card tilt" type="button" data-module="history" aria-pressed="false">
+                    <span class="card-content"><span class="module-icon" aria-hidden="true">📚</span><h3 data-i18n="historyTitle">Predlošci i povijest</h3><p data-i18n="historyCopy">Počnite od spremljenog predloška, zaključite kupovinu i lako ponovite prošli popis.</p><span class="module-link" data-i18n="detailsLink">Pogledaj kako radi →</span></span>
+                </button>
+            </div>
+        </section>
+
+        <section class="section preview-section" id="pregled">
+            <div class="shell">
+                <div class="section-heading">
+                    <span class="eyebrow" data-i18n="previewEyebrow">A peek at your next shopping trip</span>
+                    <h2 data-i18n="previewTitle">Vaš popis, podijeljen i posložen</h2>
+                    <p data-i18n="previewLead">Pregled aktivnog popisa, odjela i AI asistenta na jednom zaslonu.</p>
+                </div>
+                <figure class="preview-frame">
+                    <button class="preview-button" type="button" data-open-preview aria-label="Povećaj snimku zaslona aplikacije">
+                        <img src="shoplist-app-preview.png" alt="Snimka zaslona shoplist.app s dijeljenim popisom za kupovinu i AI asistentom" data-i18n-alt="previewAlt" loading="lazy">
+                    </button>
+                    <figcaption class="preview-caption"><span data-i18n="previewCaption">Dijeljeni popis · pametni odjeli · pomoćnik za kupovinu</span><span data-i18n="previewExpand">Klikni za uvećanje ↗</span></figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="section shell" id="kontakt">
+            <div class="contact-panel">
+                <span class="eyebrow" data-i18n="contactEyebrow">Your next grocery list is one click away</span>
+                <h2 data-i18n="contactTitle">Spremni za jednostavniju kupovinu?</h2>
+                <p data-i18n="contactCopy">Otvorite shoplist.app, sastavite popis i podijelite ga s osobom s kojom kupujete. Kad ste gotovi, arhivirajte kupovinu i sačuvajte je za sljedeći put.</p>
+                <div class="contact-actions">
+                    <a class="button button-primary" href="https://shoplist-zrina-app.ai.studio/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🛒</span><span data-i18n="openApp">Otvori shoplist.app</span></a>
+                    <a class="button" href="mailto:shoplist@zrina.app?subject=shoplist.app%20-%20upit"><span aria-hidden="true">✉</span><span data-i18n="contactButton">Javite mi se</span></a>
+                    <button class="button" type="button" data-copy-email><span aria-hidden="true">⧉</span><span data-i18n="copyEmail">Kopiraj e-mail</span></button>
+                </div>
+                <p class="contact-note"><a class="email" href="mailto:shoplist@zrina.app">shoplist@zrina.app</a></p>
+                <p class="contact-note" data-i18n="contactNote">Za vas, vaše bližnje i sve što vam treba na popisu</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="shell footer-inner">
+            <span data-i18n="footerCopy">Manje zaboravljenih stvari. Više vremena za ono bitno.</span>
+            <div class="footer-links">
+                <a href="mailto:shoplist@zrina.app">shoplist@zrina.app</a>
+                <button type="button" data-open-privacy data-i18n="privacyButton">🌿 Privatnost & podaci</button>
+                <button type="button" data-open-telemetry class="mono">&gt;_ sys.inspect</button>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal-backdrop" id="moduleModal" role="dialog" aria-modal="true" aria-labelledby="moduleModalTitle" aria-hidden="true">
+        <div class="modal-card">
+            <button class="modal-close" type="button" data-close-modal aria-label="Zatvori" data-i18n-aria-label="closeLabel">&times;</button>
+            <span class="eyebrow" data-i18n="flowEyebrow">Behind the shopping list</span>
+            <h2 id="moduleModalTitle"></h2><p class="modal-lead" id="moduleModalDescription"></p>
+            <div class="flow-diagram" id="flowDiagram"></div><p class="flow-caption" id="flowCaption"></p>
+        </div>
+    </div>
+    <div class="modal-backdrop" id="telemetryModal" role="dialog" aria-modal="true" aria-labelledby="telemetryTitle" aria-hidden="true">
+        <div class="modal-card">
+            <button class="modal-close" type="button" data-close-modal aria-label="Zatvori" data-i18n-aria-label="closeLabel">&times;</button>
+            <span class="eyebrow" data-i18n="terminalEyebrow">Local browser details</span>
+            <h2 id="telemetryTitle" class="mono">&gt;_ sys.inspect()</h2>
+            <p class="modal-lead" data-i18n="terminalLead">Lokalni status preglednika; ovaj panel ne šalje telemetriju.</p>
+            <div class="terminal-stats" id="terminalStats"></div>
+            <label class="search-label" for="siteSearch" data-i18n="searchLabel">&gt; Pretraži shoplist</label>
+            <input class="search-input" id="siteSearch" type="search" autocomplete="off" data-i18n-placeholder="searchPlaceholder" placeholder="npr. popis, glasovni unos...">
+            <p class="flow-caption" data-i18n="searchScope">Pretraživanje obuhvaća samo ovu stranicu, ne vaše stvarne popise.</p>
+            <div class="search-results" id="searchResults" aria-live="polite"></div>
+        </div>
+    </div>
+    <div class="modal-backdrop" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle" aria-hidden="true">
+        <div class="modal-card">
+            <button class="modal-close" type="button" data-close-modal aria-label="Zatvori" data-i18n-aria-label="closeLabel">&times;</button>
+            <span class="eyebrow" data-i18n="privacyEyebrow">Thoughtful about your data</span>
+            <h2 id="privacyTitle" data-i18n="privacyTitle">Privatnost & podaci</h2>
+            <p class="modal-lead" data-i18n="privacyLead">Sažetak načina rada prezentacijske stranice i shoplist aplikacije.</p>
+            <ul class="privacy-list">
+                <li data-i18n="privacyPage"><strong>Ova stranica.</strong> Ne koristi analitiku ni oglašivačke kolačiće. Odabrani jezik sprema se lokalno u localStorage.</li>
+                <li data-i18n="privacyAccount"><strong>Popisi i dijeljenje.</strong> Shoplist koristi Firebase Authentication i Cloud Firestore za prijavu i sinkronizaciju podijeljenih popisa.</li>
+                <li data-i18n="privacyAi"><strong>AI asistent i skener.</strong> Tekst ili fotografije koje odaberete za AI obradu šalju se poslužitelju aplikacije radi obrade. Nemojte slati podatke koji nisu potrebni.</li>
+                <li data-i18n="privacyPrices"><strong>Cijene i uređaj.</strong> Neke postavke i naučene cijene mogu se čuvati u lokalnom pregledniku; provjerite sadržaj i dijeljenje popisa prije pozivanja drugih.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-backdrop" id="lightbox" role="dialog" aria-modal="true" aria-label="Uvećani prikaz aplikacije" data-i18n-aria-label="previewLightboxLabel" aria-hidden="true">
+        <button class="modal-close" type="button" data-close-modal aria-label="Zatvori" data-i18n-aria-label="closeLabel">&times;</button>
+        <div class="lightbox-content"><img id="lightboxImage" src="shoplist-app-preview.png" alt="Snimka zaslona shoplist.app"><p id="lightboxCaption"></p></div>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        const translations = {
+            hr: {
+                pageTitle: "shoplist.app — Kupovina koja ide glatko",
+                pageDescription: "shoplist.app — zajednički pametni popis za kupovinu, sinkroniziran u stvarnom vremenu, s glasovnim unosom, receptima i AI skenerom računa.",
+                logoAlt: "shoplist.app — stilizirana košarica za jednostavniju kupovinu",
+                previewAlt: "Snimka zaslona shoplist.app s dijeljenim popisom za kupovinu i AI asistentom",
+                navLabel: "Glavna navigacija", langLabel: "Odabir jezika", inspectLabel: "Otvori sys.inspect", closeLabel: "Zatvori", previewLightboxLabel: "Uvećani prikaz aplikacije",
+                brandTag: "Zajedno je lakše", inspectButton: "sys.inspect",
+                heroEyebrow: "Your shared list, in sync", heroTitle: 'Manje zaboravljenih stvari.<span>Više vremena za vas.</span>',
+                heroLead: "shoplist.app je pametan popis za kupovinu koji vas povezuje u stvarnom vremenu. Dodajte namirnicu glasom, podijelite popis s obitelji i prođite trgovinom bez lutanja između odjela.",
+                openApp: "Otvori shoplist.app", explore: "Pogledaj kako radi",
+                sharedBadge: "Sinkronizacija u stvarnom vremenu", voiceBadge: "Glasovni unos na hrvatskom", familyBadge: "Za parove i obitelji",
+                focusPrefix: "> Na popisu:", focuses: ["Mlijeko, kruh i banane", "Večera za dvoje", "Popis za vikend", "Omiljeni proizvodi za kućanstvo", "Sve za obiteljski ručak"],
+                heroCaption: "Jedan zajednički popis · cijela ekipa na istoj stranici",
+                architectureEyebrow: "A little more ease in every shop", architectureTitle: "Pametnija košarica. Mirnija kupovina.",
+                architectureLead: "Sve što vam treba za dogovor prije trgovine, snalaženje među policama i pregled nakon blagajne.",
+                storyTitle: "Popis koji vas oboje prati.",
+                storyCopy: "Dijelite listu s partnerom ili obitelji, bez poruka „jesi uzeo mlijeko?”. Kad netko doda artikl ili ga stavi u košaricu, promjena se odmah vidi i na drugom mobitelu. Krenite od praznog popisa ili odaberite omiljeni predložak.",
+                metricSync: "jedan popis, sinkroniziran u dvoje", metricCatalog: "uobičajenih namirnica i sinonima",
+                metricVoice: "glasovni unos na hrvatskom", metricAds: "reklama u iskustvu kupovine",
+                stackEyebrow: "A thoughtful shopping toolkit", stackTitle: "Od „što nam treba?” do gotove kupovine",
+                stackCopy: "Odaberite dio aplikacije za pregled načina na koji funkcionira.",
+                chipSync: "Dijeljeni popisi", chipVoice: "Glasovni unos", chipSorting: "Odjeli trgovine",
+                chipAssistant: "AI asistent", chipReceipt: "Računi & cijene", chipHistory: "Povijest kupnji",
+                modulesEyebrow: "Plan together · shop smarter", modulesTitle: "Sve u jednoj praktičnoj listi",
+                modulesLead: "Odaberite značajku za kratki prikaz i shemu toka podataka.",
+                syncTitle: "Zajedno u stvarnom vremenu", syncCopy: "Pozovite partnera kodom ili poveznicom. Dodani i označeni artikli odmah se sinkroniziraju.",
+                voiceTitle: "Reci, ne tipkaj", voiceCopy: "Dodajte nekoliko artikala glasom na hrvatskom, a popis razdijeli ih za vas.",
+                sortingTitle: "Kroz trgovinu bez kruženja", sortingCopy: "Namirnice se grupiraju po odjelima; odaberite trgovinu ili prilagodite redoslijed svom dućanu.",
+                assistantTitle: "Ideje za svaki dan", assistantCopy: "Zatražite inspiraciju za jelo ili skenirajte fotografiju rukom pisanog popisa.",
+                receiptTitle: "Računi i pregled košarice", receiptCopy: "Skenirajte račun, spremite cijene i pregledajte procjenu ukupnog iznosa u statistici.",
+                historyTitle: "Predlošci i povijest", historyCopy: "Počnite od spremljenog predloška, zaključite kupovinu i lako ponovite prošli popis.",
+                detailsLink: "Pogledaj kako radi →", previewEyebrow: "A peek at your next shopping trip",
+                previewTitle: "Vaš popis, podijeljen i posložen",
+                previewLead: "Pregled aktivnog popisa, odjela i AI asistenta na jednom zaslonu.",
+                previewCaption: "Dijeljeni popis · pametni odjeli · pomoćnik za kupovinu", previewExpand: "Klikni za uvećanje ↗",
+                contactEyebrow: "Your next grocery list is one click away", contactTitle: "Spremni za jednostavniju kupovinu?",
+                contactCopy: "Otvorite shoplist.app, sastavite popis i podijelite ga s osobom s kojom kupujete. Kad ste gotovi, arhivirajte kupovinu i sačuvajte je za sljedeći put.",
+                contactButton: "Javite mi se", copyEmail: "Kopiraj e-mail",
+                contactNote: "Za vas, vaše bližnje i sve što vam treba na popisu",
+                footerCopy: "Manje zaboravljenih stvari. Više vremena za ono bitno.",
+                privacyButton: "🌿 Privatnost & podaci", flowEyebrow: "Behind the shopping list",
+                terminalEyebrow: "Local browser details", terminalLead: "Lokalni status preglednika; ovaj panel ne šalje telemetriju.",
+                searchLabel: "> Pretraži shoplist", searchPlaceholder: "npr. popis, glasovni unos...",
+                searchScope: "Pretraživanje obuhvaća samo ovu stranicu, ne vaše stvarne popise.",
+                privacyEyebrow: "Thoughtful about your data", privacyTitle: "Privatnost & podaci",
+                privacyLead: "Sažetak načina rada prezentacijske stranice i shoplist aplikacije.",
+                privacyPage: "<strong>Ova stranica.</strong> Ne koristi analitiku ni oglašivačke kolačiće. Odabrani jezik sprema se lokalno u localStorage.",
+                privacyAccount: "<strong>Popisi i dijeljenje.</strong> Shoplist koristi Firebase Authentication i Cloud Firestore za prijavu i sinkronizaciju podijeljenih popisa.",
+                privacyAi: "<strong>AI asistent i skener.</strong> Tekst ili fotografije koje odaberete za AI obradu šalju se poslužitelju aplikacije radi obrade. Nemojte slati podatke koji nisu potrebni.",
+                privacyPrices: "<strong>Cijene i uređaj.</strong> Neke postavke i naučene cijene mogu se čuvati u lokalnom pregledniku; provjerite sadržaj i dijeljenje popisa prije pozivanja drugih.",
+                statsLoad: "Učitavanje stranice", statsConnection: "Veza", statsMemory: "JS memorija", statsPwa: "Prikaz PWA", statsSecure: "Sigurni kontekst", statsPlatform: "Platforma",
+                standalone: "Samostalni način", browserTab: "Kartica preglednika", unavailable: "Nije dostupno", connectionUnknown: "Nepoznato", yes: "Da", no: "Ne",
+                emptySearch: "Nema pronađenih modula ili prikaza.", resultModule: "ZNAČAJKA", resultScreen: "PRIKAZ",
+                copied: "✓ Kopirano!", copyFailed: "Kopiranje nije uspjelo. E-mail: shoplist@zrina.app", storageFailed: "Promijenjen jezik nije moguće spremiti.",
+                stepInput: "01 · UNOS", stepCloud: "02 · SINKRONIZACIJA", stepAction: "03 · KUPOVINA",
+                flowFoot: "Sadržaj popisa sinkronizira se prema postavkama vašeg Shoplist računa.",
+                modules: {
+                    sync: { title: "Dijeljeni popisi", description: "Pozovite partnera kodom ili poveznicom. Aktivni popis, stavke i status kupovine sinkroniziraju se putem Firestorea.", flow: ["Vlasnik · pozivni kod", "Cloud Firestore · live", "Popis kod partnera"] },
+                    voice: { title: "Glasovni unos", description: "Web Speech API prepoznaje hrvatski govor, razdvaja više artikala i pomaže izbjeći duplikate.", flow: ["Govor · hr-HR", "Prepoznavanje artikala", "Dodavanje na popis"] },
+                    sorting: { title: "Pametni odjeli trgovine", description: "Katalog prepoznaje česte namirnice i razvrstava ih u odjele, uz rasporede za popularne trgovine.", flow: ["Artikl · sinonimi", "Katalog · odjel trgovine", "Raspored za kupovinu"] },
+                    assistant: { title: "AI asistent", description: "Može predlagati ideje za jelo i pomagati s odabranim fotografijama. AI odgovor može biti netočan.", flow: ["Upit · odabrana slika", "Poslužitelj · AI obrada", "Prijedlog · pregledaj"] },
+                    receipt: { title: "Skeniranje računa i cijene", description: "Odabrana fotografija računa šalje se poslužitelju radi čitanja stavki i cijena. Procjene su informativne.", flow: ["Fotografija računa", "OCR · izvlačenje stavki", "Cijene · statistika"] },
+                    history: { title: "Predlošci i povijest kupnji", description: "Predlošci ubrzavaju sastavljanje popisa, a arhiva čuva zaključene kupovine za kasnije ponavljanje.", flow: ["Predložak · artikli", "Aktivni popis", "Arhiva · ponovna kupnja"] }
+                }
+            },
+            en: {
+                pageTitle: "shoplist.app — Shopping, made easier",
+                pageDescription: "shoplist.app — a shared smart grocery list that syncs in real time, with voice input, meal ideas and an AI receipt scanner.",
+                logoAlt: "shoplist.app — a colorful shopping cart for easier grocery shopping",
+                previewAlt: "shoplist.app screenshot showing a shared grocery list and AI assistant",
+                navLabel: "Main navigation", langLabel: "Choose language", inspectLabel: "Open sys.inspect", closeLabel: "Close", previewLightboxLabel: "App screenshot preview",
+                brandTag: "Better together · by Zrina", inspectButton: "sys.inspect",
+                heroEyebrow: "Your shared list, in sync", heroTitle: 'Fewer forgotten things.<span>More time for you.</span>',
+                heroLead: "shoplist.app is a smart grocery list that keeps you connected in real time. Add items by voice, share the list with family and move through the store without doubling back.",
+                openApp: "Open shoplist.app", explore: "See how it works",
+                sharedBadge: "Real-time synchronization", voiceBadge: "Croatian voice input", familyBadge: "For couples and families",
+                focusPrefix: "> On the list:", focuses: ["Milk, bread and bananas", "Dinner for two", "Weekend groceries", "Everyday household essentials", "Everything for family lunch"],
+                heroCaption: "One shared list · everyone on the same page",
+                architectureEyebrow: "A little more ease in every shop", architectureTitle: "A smarter basket. A calmer shop.",
+                architectureLead: "Everything you need to plan before the store, find your way around the aisles and review things after checkout.",
+                storyTitle: "A list that keeps you both in sync.",
+                storyCopy: "Share a list with your partner or family — no more messages asking if anyone got the milk. When someone adds or checks an item, the change shows up on the other phone too. Start from scratch or pick a favorite template.",
+                metricSync: "one list, shared live between two people", metricCatalog: "common groceries and synonyms",
+                metricVoice: "Croatian voice input", metricAds: "ads in the shopping experience",
+                stackEyebrow: "A thoughtful shopping toolkit", stackTitle: "From “what do we need?” to checkout",
+                stackCopy: "Choose a part of the app to see how it works.",
+                chipSync: "Shared lists", chipVoice: "Voice input", chipSorting: "Store aisles",
+                chipAssistant: "AI assistant", chipReceipt: "Receipts & prices", chipHistory: "Shopping history",
+                modulesEyebrow: "Plan together · shop smarter", modulesTitle: "Everything in one practical list",
+                modulesLead: "Choose a feature for a quick overview and data-flow diagram.",
+                syncTitle: "Together in real time", syncCopy: "Invite your partner with a code or link. Added and checked items sync right away.",
+                voiceTitle: "Say it, don't type it", voiceCopy: "Add several items by speaking Croatian, and let the list split them for you.",
+                sortingTitle: "Find your way through the store", sortingCopy: "Items are grouped by aisle. Choose a store or customize the order to match your shop.",
+                assistantTitle: "Ideas for every day", assistantCopy: "Get meal inspiration or scan a photo of a handwritten shopping list.",
+                receiptTitle: "Receipts and basket overview", receiptCopy: "Scan a receipt, save prices and review the estimated total in your shopping stats.",
+                historyTitle: "Templates and shopping history", historyCopy: "Start from a saved template, complete a shop and easily repeat a previous list.",
+                detailsLink: "See how it works →", previewEyebrow: "A peek at your next shopping trip",
+                previewTitle: "Your list, shared and sorted",
+                previewLead: "See your active list, store aisles and AI assistant together on one screen.",
+                previewCaption: "Shared list · smart aisles · shopping assistant", previewExpand: "Click to enlarge ↗",
+                contactEyebrow: "Your next grocery list is one click away", contactTitle: "Ready for a simpler shop?",
+                contactCopy: "Open shoplist.app, make a list and share it with the person you shop with. When you're done, archive the list so it's ready next time.",
+                contactButton: "Get in touch", copyEmail: "Copy email",
+                contactNote: "For you, the people you shop with and everything on your list",
+                footerCopy: "Fewer forgotten things. More time for what matters. · by Zrina",
+                privacyButton: "🌿 Privacy & data", flowEyebrow: "Behind the shopping list",
+                terminalEyebrow: "Local browser details", terminalLead: "A local browser-status panel; it does not send telemetry.",
+                searchLabel: "> Search shoplist", searchPlaceholder: "e.g. shared list, voice input...",
+                searchScope: "Search covers this page only, not your actual shopping lists.",
+                privacyEyebrow: "Thoughtful about your data", privacyTitle: "Privacy & data",
+                privacyLead: "A summary of how this presentation page and the shoplist app work.",
+                privacyPage: "<strong>This page.</strong> It uses no analytics or advertising cookies. Your language choice is saved locally in localStorage.",
+                privacyAccount: "<strong>Lists and sharing.</strong> Shoplist uses Firebase Authentication and Cloud Firestore for sign-in and shared-list synchronization.",
+                privacyAi: "<strong>AI assistant and scanner.</strong> Text or images you select for AI processing are sent to the app server for processing. Do not submit unnecessary information.",
+                privacyPrices: "<strong>Prices and your device.</strong> Some preferences and learned prices may be stored in your local browser; review list contents and sharing before inviting others.",
+                statsLoad: "Page load", statsConnection: "Connection", statsMemory: "JS memory", statsPwa: "PWA display", statsSecure: "Secure context", statsPlatform: "Platform",
+                standalone: "Standalone", browserTab: "Browser tab", unavailable: "Unavailable", connectionUnknown: "Unknown", yes: "Yes", no: "No",
+                emptySearch: "No matching features or screens found.", resultModule: "FEATURE", resultScreen: "SCREEN",
+                copied: "✓ Copied!", copyFailed: "Copy failed. Email: shoplist@zrina.app", storageFailed: "Language changed, but the preference could not be saved.",
+                stepInput: "01 · INPUT", stepCloud: "02 · SYNC", stepAction: "03 · SHOP",
+                flowFoot: "List content syncs according to your Shoplist account settings.",
+                modules: {
+                    sync: { title: "Shared lists", description: "Invite your partner by code or link. The active list, items and shopping status sync through Firestore.", flow: ["Owner · invite code", "Cloud Firestore · live", "Partner's shared list"] },
+                    voice: { title: "Voice input", description: "Web Speech API recognizes Croatian, separates multiple items and helps avoid duplicates.", flow: ["Speech · hr-HR", "Recognize items", "Add to shopping list"] },
+                    sorting: { title: "Smart store aisles", description: "The catalog recognizes common groceries and groups them by aisle, with layouts for popular stores.", flow: ["Item · synonyms", "Catalog · store aisle", "Shopping order"] },
+                    assistant: { title: "AI assistant", description: "It can suggest meal ideas and help with selected images. AI responses may be inaccurate.", flow: ["Prompt · selected image", "App server · AI processing", "Suggestion · review it"] },
+                    receipt: { title: "Receipt scanning and prices", description: "A selected receipt photo is sent to the server to read items and prices. Estimates are informational.", flow: ["Receipt photo", "OCR · extract line items", "Prices · statistics"] },
+                    history: { title: "Templates and shopping history", description: "Templates speed up list creation, while the archive saves completed shops so you can repeat them later.", flow: ["Template · items", "Active shopping list", "Archive · shop again"] }
+                }
+            }
+        };
+
+        const moduleIds = ["sync", "voice", "sorting", "assistant", "receipt", "history"];
+        let language = "hr";
+        let focusIndex = 0;
+        let activeModule = "sync";
+        let previousFocus = null;
+        let toastTimer;
+        const text = (key) => translations[language][key];
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.style.borderColor = isError ? "#e7aaa0" : "";
+            toast.style.color = isError ? "#9b4e42" : "";
+            toast.classList.add("visible");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove("visible"), 2600);
+        }
+        function applyLanguage(nextLanguage, persist = true) {
+            language = nextLanguage === "en" ? "en" : "hr";
+            document.documentElement.lang = language;
+            document.querySelectorAll("[data-i18n]").forEach((element) => {
+                const value = text(element.dataset.i18n);
+                if (value !== undefined) element.innerHTML = value;
+            });
+            document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+                const value = text(element.dataset.i18nPlaceholder);
+                if (value !== undefined) element.placeholder = value;
+            });
+            document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
+                const value = text(element.dataset.i18nAriaLabel);
+                if (value !== undefined) element.setAttribute("aria-label", value);
+            });
+            document.querySelectorAll("[data-i18n-alt]").forEach((element) => {
+                const value = text(element.dataset.i18nAlt);
+                if (value !== undefined) element.alt = value;
+            });
+            document.title = text("pageTitle");
+            document.querySelector('meta[name="description"]').content = text("pageDescription");
+            document.querySelector('meta[property="og:title"]').content = text("pageTitle");
+            document.querySelector('meta[property="og:description"]').content = text("pageDescription");
+            document.querySelector('meta[property="og:locale"]').content = language === "hr" ? "hr_HR" : "en_US";
+            document.querySelector('meta[name="twitter:title"]').content = text("pageTitle");
+            document.querySelector('meta[name="twitter:description"]').content = text("pageDescription");
+            document.querySelectorAll("[data-lang]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.lang === language)));
+            renderFocus();
+            if (persist) {
+                try {
+                    localStorage.setItem("zrina_lang", language);
+                    localStorage.setItem("shoplist_lang", language);
+                }
+                catch (error) { showToast(text("storageFailed"), true); }
+            }
+            if (document.getElementById("moduleModal").classList.contains("open")) renderModule(activeModule);
+            if (document.getElementById("telemetryModal").classList.contains("open")) renderTelemetry();
+            renderSearch(document.getElementById("siteSearch").value);
+        }
+        function renderFocus() {
+            const phrases = text("focuses");
+            document.getElementById("focusText").textContent = phrases[focusIndex % phrases.length];
+        }
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            const active = [...document.querySelectorAll(".modal-backdrop.open")];
+            if (active.length === 0) previousFocus = document.activeElement;
+            active.forEach((other) => {
+                if (other !== modal) { other.classList.remove("open"); other.setAttribute("aria-hidden", "true"); }
+            });
+            modal.classList.add("open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+            modal.querySelector(".modal-close")?.focus();
+        }
+        function closeModal(modal) {
+            if (!modal || !modal.classList.contains("open")) return;
+            modal.classList.remove("open");
+            modal.setAttribute("aria-hidden", "true");
+            if (!document.querySelector(".modal-backdrop.open")) document.body.style.overflow = "";
+            if (previousFocus && typeof previousFocus.focus === "function") previousFocus.focus();
+        }
+        function renderModule(id) {
+            const data = translations[language].modules[id];
+            if (!data) return;
+            document.getElementById("moduleModalTitle").textContent = data.title;
+            document.getElementById("moduleModalDescription").textContent = data.description;
+            const diagram = document.getElementById("flowDiagram");
+            diagram.replaceChildren();
+            const labels = [text("stepInput"), text("stepCloud"), text("stepAction")];
+            data.flow.forEach((label, index) => {
+                const node = document.createElement("div");
+                node.className = "flow-node";
+                const step = document.createElement("span");
+                step.textContent = labels[index];
+                const detail = document.createElement("strong");
+                detail.textContent = label;
+                node.append(step, detail);
+                diagram.append(node);
+                if (index < data.flow.length - 1) {
+                    const arrow = document.createElement("span");
+                    arrow.className = "flow-arrow";
+                    arrow.setAttribute("aria-hidden", "true");
+                    arrow.textContent = "→";
+                    diagram.append(arrow);
+                }
+            });
+            document.getElementById("flowCaption").textContent = text("flowFoot");
+        }
+        function selectModule(id) {
+            activeModule = translations[language].modules[id] ? id : "sync";
+            document.querySelectorAll("[data-module]").forEach((button) => {
+                const selected = button.dataset.module === activeModule;
+                button.classList.toggle("selected", selected);
+                button.setAttribute("aria-pressed", String(selected));
+            });
+            renderModule(activeModule);
+            openModal("moduleModal");
+        }
+        function renderTelemetry() {
+            const timing = performance.getEntriesByType("navigation")[0];
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+            const memory = performance.memory ? `${Math.round(performance.memory.usedJSHeapSize / 1048576)} MB` : text("unavailable");
+            const platform = navigator.userAgentData?.platform || navigator.platform || text("unavailable");
+            const values = [
+                [text("statsLoad"), timing ? `${Math.round(timing.loadEventEnd || timing.domContentLoadedEventEnd)} ms` : text("unavailable")],
+                [text("statsConnection"), connection?.effectiveType || text("connectionUnknown")],
+                [text("statsMemory"), memory],
+                [text("statsPwa"), standalone ? text("standalone") : text("browserTab")],
+                [text("statsSecure"), window.isSecureContext ? text("yes") : text("no")],
+                [text("statsPlatform"), platform]
+            ];
+            const container = document.getElementById("terminalStats");
+            container.replaceChildren();
+            values.forEach(([label, value]) => {
+                const item = document.createElement("div");
+                item.className = "terminal-stat";
+                const name = document.createElement("span");
+                name.textContent = label;
+                const result = document.createElement("strong");
+                result.textContent = value;
+                item.append(name, result);
+                container.append(item);
+            });
+        }
+        function renderSearch(query = "") {
+            const results = document.getElementById("searchResults");
+            results.replaceChildren();
+            const term = query.trim().toLocaleLowerCase(language);
+            if (!term) return;
+            const modules = translations[language].modules;
+            const matches = moduleIds.map((id) => ({ id, title: modules[id].title, detail: modules[id].description, type: text("resultModule") }))
+                .filter((item) => `${item.title} ${item.detail}`.toLocaleLowerCase(language).includes(term));
+            const screens = [text("previewTitle"), text("architectureTitle"), text("modulesTitle")]
+                .map((title, index) => ({ section: ["pregled", "arhitektura", "moduli"][index], title, type: text("resultScreen") }))
+                .filter((item) => item.title.toLocaleLowerCase(language).includes(term));
+            [...matches, ...screens].slice(0, 8).forEach((item) => {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "search-result";
+                const title = document.createElement("span");
+                title.textContent = item.title;
+                const kind = document.createElement("small");
+                kind.textContent = item.type;
+                button.append(title, kind);
+                button.addEventListener("click", () => {
+                    if (item.id) selectModule(item.id);
+                    else {
+                        closeModal(document.getElementById("telemetryModal"));
+                        document.getElementById(item.section).scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+                results.append(button);
+            });
+            if (!results.childElementCount) {
+                const empty = document.createElement("p");
+                empty.className = "search-empty";
+                empty.textContent = text("emptySearch");
+                results.append(empty);
+            }
+        }
+        async function copyEmail() {
+            try {
+                if (navigator.clipboard?.writeText) await navigator.clipboard.writeText("shoplist@zrina.app");
+                else {
+                    const field = document.createElement("textarea");
+                    field.value = "shoplist@zrina.app";
+                    field.setAttribute("readonly", "");
+                    field.style.position = "fixed";
+                    field.style.opacity = "0";
+                    document.body.append(field);
+                    field.select();
+                    const copied = document.execCommand("copy");
+                    field.remove();
+                    if (!copied) throw new Error("Clipboard API is unavailable");
+                }
+                showToast(text("copied"));
+            } catch (error) {
+                showToast(text("copyFailed"), true);
+            }
+        }
+        document.querySelectorAll("[data-lang]").forEach((button) => button.addEventListener("click", () => applyLanguage(button.dataset.lang)));
+        document.querySelectorAll("[data-module]").forEach((button) => button.addEventListener("click", () => selectModule(button.dataset.module)));
+        document.querySelectorAll("[data-open-telemetry]").forEach((button) => button.addEventListener("click", () => {
+            renderTelemetry();
+            openModal("telemetryModal");
+            document.getElementById("siteSearch").focus();
+        }));
+        document.querySelectorAll("[data-open-privacy]").forEach((button) => button.addEventListener("click", () => openModal("privacyModal")));
+        document.querySelectorAll("[data-close-modal]").forEach((button) => button.addEventListener("click", () => closeModal(button.closest(".modal-backdrop"))));
+        document.querySelectorAll(".modal-backdrop").forEach((modal) => modal.addEventListener("click", (event) => {
+            if (event.target === modal) closeModal(modal);
+        }));
+        document.querySelector("[data-copy-email]").addEventListener("click", copyEmail);
+        document.getElementById("siteSearch").addEventListener("input", (event) => renderSearch(event.currentTarget.value));
+        document.querySelector("[data-open-preview]").addEventListener("click", () => {
+            const image = document.getElementById("lightboxImage");
+            image.alt = language === "hr" ? "Snimka zaslona shoplist.app" : "shoplist.app interface screenshot";
+            document.getElementById("lightboxCaption").textContent = text("previewCaption");
+            openModal("lightbox");
+        });
+        document.addEventListener("keydown", (event) => {
+            if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+                event.preventDefault();
+                renderTelemetry();
+                openModal("telemetryModal");
+                document.getElementById("siteSearch").focus();
+            }
+            if (event.key === "Escape") {
+                const active = document.querySelector(".modal-backdrop.open");
+                if (active) closeModal(active);
+            }
+        });
+        setInterval(() => { focusIndex += 1; renderFocus(); }, 3600);
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && window.matchMedia("(pointer: fine)").matches) {
+            document.querySelectorAll(".tilt").forEach((card) => {
+                card.addEventListener("pointermove", (event) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+                    card.style.setProperty("--spot-x", `${x}px`);
+                    card.style.setProperty("--spot-y", `${y}px`);
+                    card.style.transform = `perspective(1000px) rotateX(${(.5 - y / rect.height) * 2.5}deg) rotateY(${(x / rect.width - .5) * 2.5}deg)`;
+                });
+                card.addEventListener("pointerleave", () => {
+                    card.style.transform = "";
+                    card.style.removeProperty("--spot-x");
+                    card.style.removeProperty("--spot-y");
+                });
+            });
+        }
+        try {
+            applyLanguage((localStorage.getItem("zrina_lang") || localStorage.getItem("shoplist_lang")) === "en" ? "en" : "hr", false);
+        } catch (error) {
+            applyLanguage("hr", false);
+        }
+    </script>
+</body>
+</html>

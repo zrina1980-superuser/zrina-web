@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wood.app — stolarski PWA alat s interaktivnim Three.js 3D modelima, SVG nacrtima, krojnim listama i parametarskim konstruktorom.">
+    <meta name="theme-color" content="#070a0f">
+    <link rel="stylesheet" href="../portfolio-page-transition.css">
+    <link rel="stylesheet" href="../portfolio-atmosphere.css">
+    <script src="../portfolio-page-transition.js" defer></script>
+    <script src="../portfolio-atmosphere.js" defer></script>
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://zrina.app/wood/">
+    <title>wood.app — Od ideje do nacrta.</title>
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="hr_HR">
+    <meta property="og:site_name" content="wood.app">
+    <meta property="og:title" content="wood.app — Od ideje do nacrta.">
+    <meta property="og:description" content="Interaktivni 3D modeli, SVG tehnički nacrti, krojne liste i parametarski konstruktor za drvene projekte — u milimetrima.">
+    <meta property="og:url" content="https://zrina.app/wood/">
+    <meta property="og:image" content="https://zrina.app/wood/share-card.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="wood.app — CAD nacrti i projekti od drva">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="wood.app — Od ideje do nacrta.">
+    <meta name="twitter:description" content="Interaktivni 3D modeli, SVG tehnički nacrti i parametarski konstruktor za stolarske projekte.">
+    <meta name="twitter:image" content="https://zrina.app/wood/share-card.png">
+    <link rel="icon" type="image/png" href="woodapp-logo.png">
+    <link rel="apple-touch-icon" href="woodapp-logo.png">
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #070a0f;
+            --panel: #0d121b;
+            --panel-2: #111a27;
+            --panel-3: #15202d;
+            --line: rgba(169, 194, 214, .12);
+            --text: #e8edf3;
+            --muted: #93a0af;
+            --dim: #667384;
+            --teal: #00f5d4;
+            --teal-soft: rgba(0, 245, 212, .1);
+            --wood: #f59e0b;
+            --wood-light: #ffd084;
+            --blue: #48c7fa;
+            --mono: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+            --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --serif: Georgia, "Times New Roman", serif;
+            font-family: var(--sans);
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { min-width: 320px; scroll-behavior: smooth; scroll-padding-top: 6rem; background: var(--bg); }
+        body { min-width: 320px; min-height: 100vh; margin: 0; overflow-x: hidden; background: var(--bg); color: var(--text); }
+        a { color: inherit; }
+        button { font: inherit; color: inherit; }
+        ::selection { color: #03110f; background: var(--teal); }
+        .shell { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+        .mono { font-family: var(--mono); }
+        .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--teal); font: 650 .68rem/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+        .eyebrow::before { width: 7px; height: 7px; flex: 0 0 auto; border-radius: 2px; background: var(--wood); box-shadow: 0 0 13px rgba(245, 158, 11, .55); content: ""; }
+        .section { padding-block: 82px; }
+        .section-heading { max-width: 730px; margin: 0 auto 34px; text-align: center; }
+        .section-heading h2 { margin: 13px 0 11px; font: 500 clamp(1.9rem, 4vw, 2.8rem)/1.12 var(--serif); letter-spacing: -.045em; }
+        .section-heading p { margin: 0; color: var(--muted); font-size: .94rem; line-height: 1.8; }
+        .topbar { position: sticky; z-index: 20; top: 0; border-bottom: 1px solid var(--line); background: rgba(7, 10, 15, .87); backdrop-filter: blur(18px); }
+        .topbar-inner { display: flex; min-height: 67px; align-items: center; justify-content: space-between; gap: 14px; }
+        .brand { display: inline-flex; min-width: 0; align-items: center; gap: 10px; text-decoration: none; }
+        .brand-logo { width: 39px; height: 39px; border: 1px solid rgba(0, 245, 212, .2); border-radius: 12px; object-fit: cover; box-shadow: 0 0 20px rgba(0, 245, 212, .1); }
+        .brand-copy { display: grid; gap: 2px; }
+        .brand-copy strong { font-size: .89rem; letter-spacing: -.025em; }
+        .brand-copy strong span { color: var(--teal); }
+        .brand-copy small { color: var(--dim); font: .58rem var(--mono); }
+        .topbar-actions { display: flex; align-items: center; gap: 8px; }
+        .button, .lang-toggle button { display: inline-flex; min-height: 40px; align-items: center; justify-content: center; gap: 8px; padding: 0 13px; border: 1px solid var(--line); border-radius: 11px; background: rgba(17, 26, 39, .82); color: #d7e0e9; font-size: .77rem; font-weight: 650; text-decoration: none; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
+        .button:hover, .lang-toggle button:hover { transform: translateY(-1px); border-color: rgba(0, 245, 212, .38); box-shadow: 0 6px 19px rgba(0, 245, 212, .08); }
+        .button-primary { border-color: rgba(0, 245, 212, .4); background: var(--teal); color: #03110f; box-shadow: 0 6px 23px rgba(0, 245, 212, .15); }
+        .button-primary:hover { border-color: var(--teal); background: #40ffe4; }
+        .button-wood { border-color: rgba(245, 158, 11, .32); background: rgba(245, 158, 11, .08); color: var(--wood-light); }
+        .lang-toggle { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: 10px; background: #0a1019; }
+        .lang-toggle button { min-height: 29px; padding: 0 8px; border-color: transparent; background: transparent; font: 600 .63rem var(--mono); }
+        .lang-toggle button[aria-pressed="true"] { border-color: rgba(0, 245, 212, .14); background: var(--teal-soft); color: var(--teal); }
+        .key-hint { color: #758291; font: .59rem var(--mono); }
+
+        .hero { display: grid; grid-template-columns: 1fr .95fr; align-items: center; gap: clamp(28px, 5vw, 65px); padding-block: 74px 68px; }
+        .hero-copy { min-width: 0; }
+        .hero h1 { max-width: 670px; margin: 17px 0 15px; font: 500 clamp(2.85rem, 6.3vw, 5.15rem)/.99 var(--serif); letter-spacing: -.065em; overflow-wrap: anywhere; }
+        .hero h1 span { color: var(--wood); font-style: italic; }
+        .hero-lead { max-width: 610px; margin: 0; color: #a6b1bd; font-size: clamp(.98rem, 2vw, 1.08rem); line-height: 1.8; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 23px; }
+        .hero-actions .button { min-height: 46px; padding-inline: 16px; }
+        .hero-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
+        .tag { padding: 6px 9px; border: 1px solid var(--line); border-radius: 999px; background: rgba(17, 26, 39, .75); color: #9aa7b5; font: .63rem var(--mono); }
+        .tag-teal { border-color: rgba(0, 245, 212, .17); background: rgba(0, 245, 212, .06); color: var(--teal); }
+        .hero-art { position: relative; width: min(100%, 455px); justify-self: center; }
+        .hero-art::before { position: absolute; z-index: -1; inset: 12% 9%; border-radius: 50%; background: rgba(245, 158, 11, .16); filter: blur(64px); content: ""; }
+        .hero-art::after { position: absolute; z-index: -1; inset: 2% 22%; border-radius: 50%; background: rgba(0, 245, 212, .1); filter: blur(70px); content: ""; }
+        .hero-logo { display: block; width: 100%; height: auto; border: 1px solid rgba(166, 183, 201, .15); border-radius: 25px; box-shadow: 0 28px 75px rgba(0, 0, 0, .45); }
+        .hero-caption { margin: 11px 4px 0; color: #718091; font: .63rem/1.55 var(--mono); text-align: center; }
+        .focus-strip { display: flex; width: fit-content; max-width: 100%; align-items: center; gap: 9px; margin-top: 21px; padding: 10px 12px; border-left: 3px solid var(--wood); border-radius: 0 10px 10px 0; background: rgba(245, 158, 11, .07); color: #c4cbd2; font: .69rem/1.6 var(--mono); }
+        .focus-prefix { flex: 0 0 auto; color: var(--wood-light); }
+        .focus-cursor { width: 6px; height: 1em; flex: 0 0 auto; background: var(--teal); animation: blink 1s steps(2, start) infinite; }
+        @keyframes blink { to { visibility: hidden; } }
+
+        .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 13px; }
+        .card { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: 17px; background: linear-gradient(145deg, rgba(17, 26, 39, .95), rgba(10, 15, 23, .98)); box-shadow: 0 13px 38px rgba(0, 0, 0, .17); transform-style: preserve-3d; transition: border-color .25s ease, box-shadow .25s ease, transform .2s ease; }
+        .card::before { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(340px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(0, 245, 212, .09), transparent 45%); opacity: 0; transition: opacity .25s ease; content: ""; }
+        .card:hover { border-color: rgba(0, 245, 212, .24); box-shadow: 0 18px 45px rgba(0, 0, 0, .25), 0 0 25px rgba(0, 245, 212, .04); }
+        .card:hover::before { opacity: 1; }
+        .card-content { position: relative; z-index: 1; height: 100%; padding: 24px; }
+        .story-card { grid-column: span 7; min-height: 260px; }
+        .story-icon { display: grid; width: 43px; height: 43px; place-items: center; border: 1px solid rgba(245, 158, 11, .22); border-radius: 13px; background: rgba(245, 158, 11, .08); font-size: 1.2rem; }
+        .story-card h3 { max-width: 590px; margin: 17px 0 10px; font: 500 clamp(1.45rem, 3vw, 2rem)/1.17 var(--serif); letter-spacing: -.035em; }
+        .story-card p { max-width: 600px; margin: 0; color: var(--muted); line-height: 1.78; }
+        .metric-card { grid-column: span 5; }
+        .metric-grid { display: grid; height: 100%; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .metric { display: flex; min-height: 87px; flex-direction: column; justify-content: center; padding: 13px; border: 1px solid rgba(169, 194, 214, .08); border-radius: 12px; background: rgba(6, 11, 18, .58); }
+        .metric strong { color: var(--teal); font: 650 clamp(1.15rem, 3vw, 1.7rem) var(--mono); letter-spacing: -.05em; }
+        .metric:nth-child(2) strong, .metric:nth-child(4) strong { color: var(--wood); }
+        .metric span { margin-top: 6px; color: #8794a3; font-size: .68rem; line-height: 1.45; }
+        .stack-card { grid-column: span 12; }
+        .stack-card .card-content { display: grid; grid-template-columns: .8fr 1.2fr; align-items: center; gap: 24px; }
+        .stack-card h3 { margin: 9px 0 7px; font: 500 1.3rem var(--serif); }
+        .stack-card p { margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.7; }
+        .chip-list { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+        .tech-chip { padding: 9px 11px; border: 1px solid var(--line); border-radius: 999px; background: rgba(7, 12, 19, .74); color: #a8b4c0; font: .65rem var(--mono); cursor: pointer; transition: .2s ease; }
+        .tech-chip:hover, .tech-chip[aria-pressed="true"] { border-color: rgba(0, 245, 212, .3); background: var(--teal-soft); color: var(--teal); }
+        .module-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+        .module-card { min-height: 190px; border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(145deg, #111a27, #0a1018); text-align: left; cursor: pointer; }
+        .module-card:hover, .module-card[aria-pressed="true"] { border-color: rgba(0, 245, 212, .3); }
+        .module-card .card-content { display: flex; flex-direction: column; align-items: flex-start; }
+        .module-icon { font-size: 1.35rem; }
+        .module-card h3 { margin: 13px 0 7px; font: 500 1.05rem var(--serif); }
+        .module-card p { margin: 0; color: var(--muted); font-size: .77rem; line-height: 1.65; }
+        .module-link { margin-top: auto; padding-top: 14px; color: var(--teal); font: .64rem var(--mono); }
+
+        .preview-section { border-block: 1px solid rgba(169, 194, 214, .09); background: radial-gradient(ellipse at 50% 0, rgba(0, 245, 212, .035), transparent 60%), #0a0f17; }
+        .preview-frame { max-width: 1110px; margin: 0 auto; padding: 8px; border: 1px solid rgba(169, 194, 214, .15); border-radius: 16px; background: #090e16; box-shadow: 0 27px 70px rgba(0, 0, 0, .34); }
+        .preview-button { display: block; width: 100%; overflow: hidden; padding: 0; border: 0; border-radius: 10px; background: #070a0f; cursor: zoom-in; }
+        .preview-button img { display: block; width: 100%; height: auto; transition: transform .35s ease; }
+        .preview-button:hover img { transform: scale(1.012); }
+        .preview-caption { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 8px 5px; color: #7e8b99; font: .64rem/1.5 var(--mono); }
+        .preview-caption span:last-child { color: var(--teal); }
+
+        .safety-note { margin: 20px auto 0; padding: 14px 16px; border: 1px solid rgba(245, 158, 11, .16); border-radius: 12px; background: rgba(245, 158, 11, .045); color: #b8aa94; font-size: .76rem; line-height: 1.7; }
+        .safety-note strong { color: var(--wood-light); }
+        .contact-panel { position: relative; overflow: hidden; padding: clamp(25px, 5vw, 45px); border: 1px solid rgba(0, 245, 212, .16); border-radius: 21px; background: radial-gradient(ellipse at 100% 0, rgba(245, 158, 11, .09), transparent 43%), radial-gradient(ellipse at 0 100%, rgba(0, 245, 212, .08), transparent 48%), #0d131d; text-align: center; }
+        .contact-panel h2 { max-width: 720px; margin: 13px auto 11px; font: 500 clamp(1.8rem, 4vw, 2.65rem)/1.12 var(--serif); letter-spacing: -.04em; }
+        .contact-panel > p { max-width: 650px; margin: 0 auto; color: var(--muted); line-height: 1.8; }
+        .contact-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 21px; }
+        .contact-note { margin-top: 13px !important; color: #748191 !important; font-size: .73rem; }
+        .email { color: var(--teal); font: 600 .85rem var(--mono); text-decoration: none; }
+        .email:hover { text-decoration: underline; text-underline-offset: 4px; }
+        footer { margin-top: 68px; border-top: 1px solid var(--line); }
+        .footer-inner { display: flex; min-height: 84px; align-items: center; justify-content: space-between; gap: 14px; color: #718091; font-size: .71rem; }
+        .footer-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 15px; }
+        .footer-links a, .footer-links button { padding: 0; border: 0; background: transparent; color: #9aa7b5; font-size: .7rem; text-decoration: none; cursor: pointer; }
+        .footer-links a:hover, .footer-links button:hover { color: var(--teal); }
+
+        .modal-backdrop { position: fixed; z-index: 50; inset: 0; display: none; overflow-y: auto; align-items: center; justify-content: center; padding: 20px; background: rgba(0, 0, 0, .68); backdrop-filter: blur(9px); }
+        .modal-backdrop.open { display: flex; }
+        .modal-card { position: relative; width: min(690px, 100%); max-height: min(86vh, 820px); overflow-y: auto; padding: clamp(22px, 4vw, 34px); border: 1px solid rgba(169, 194, 214, .15); border-radius: 18px; background: #0d131d; box-shadow: 0 30px 90px rgba(0, 0, 0, .5); }
+        .modal-close { position: sticky; z-index: 1; top: 0; float: right; display: grid; width: 36px; height: 36px; place-items: center; margin: -8px -8px 0 8px; border: 1px solid var(--line); border-radius: 10px; background: #141d29; color: #b3bdc8; font-size: 1.3rem; cursor: pointer; }
+        .modal-close:hover { border-color: rgba(0, 245, 212, .35); color: var(--teal); }
+        .modal-card h2 { margin: 7px 0 8px; font: 500 clamp(1.35rem, 4vw, 1.85rem)/1.15 var(--serif); }
+        .modal-lead { margin: 0 0 20px; color: var(--muted); font-size: .83rem; line-height: 1.75; }
+        .flow-diagram { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: 8px; margin-top: 18px; }
+        .flow-node { display: grid; min-height: 86px; align-content: center; gap: 8px; padding: 11px; border: 1px solid rgba(0, 245, 212, .15); border-radius: 12px; background: rgba(0, 245, 212, .045); text-align: center; }
+        .flow-node span { color: var(--teal); font: .59rem var(--mono); }
+        .flow-node strong { color: #e0e7ed; font-size: .71rem; line-height: 1.45; }
+        .flow-arrow { align-self: center; color: var(--wood); font: 1.1rem var(--mono); }
+        .flow-caption { margin: 13px 0 0; color: #7b8998; font: .63rem/1.65 var(--mono); text-align: center; }
+        .terminal-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; margin: 18px 0; }
+        .terminal-stat { padding: 12px; border: 1px solid var(--line); border-radius: 11px; background: #101823; }
+        .terminal-stat span { display: block; color: #758394; font: .6rem var(--mono); text-transform: uppercase; }
+        .terminal-stat strong { display: block; margin-top: 7px; color: #d5dfe7; font: .77rem var(--mono); overflow-wrap: anywhere; }
+        .search-label { display: block; margin: 18px 0 8px; color: var(--teal); font: .66rem var(--mono); }
+        .search-input { width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid rgba(0, 245, 212, .2); border-radius: 10px; outline: none; background: #080e16; color: var(--text); font: .81rem var(--mono); }
+        .search-input:focus { border-color: rgba(0, 245, 212, .6); box-shadow: 0 0 0 3px rgba(0, 245, 212, .08); }
+        .search-results { display: grid; gap: 7px; margin-top: 10px; }
+        .search-result { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: #101823; color: var(--text); text-align: left; cursor: pointer; }
+        .search-result:hover { border-color: rgba(0, 245, 212, .27); }
+        .search-result small { color: #788697; font: .59rem var(--mono); }
+        .search-empty { margin: 7px 0; color: var(--muted); font-size: .8rem; }
+        .privacy-list { display: grid; gap: 10px; margin: 17px 0 0; padding: 0; list-style: none; }
+        .privacy-list li { padding: 12px 13px; border: 1px solid var(--line); border-radius: 11px; background: #101823; color: #a3afba; font-size: .78rem; line-height: 1.7; }
+        .privacy-list strong { color: #e1e8ed; }
+        .note-callout { margin: 13px 0 0; padding: 12px; border-left: 3px solid var(--wood); border-radius: 0 9px 9px 0; background: rgba(245, 158, 11, .07); color: #c2b394; font-size: .75rem; line-height: 1.65; }
+        #lightbox { z-index: 60; }
+        .lightbox-content { display: grid; width: min(1120px, 100%); justify-items: center; }
+        #lightboxImage { max-width: 100%; max-height: 78vh; border: 1px solid var(--line); border-radius: 12px; }
+        #lightboxCaption { margin: 12px 0 0; color: var(--text); font-size: .83rem; text-align: center; }
+        .toast { position: fixed; z-index: 80; right: 18px; bottom: 18px; max-width: calc(100% - 36px); padding: 11px 14px; border: 1px solid rgba(0, 245, 212, .25); border-radius: 11px; background: #0d1919; color: var(--teal); font: .74rem var(--mono); opacity: 0; pointer-events: none; transform: translateY(9px); transition: .2s ease; }
+        .toast.visible { opacity: 1; transform: translateY(0); }
+        @media (max-width: 760px) {
+            .shell { width: min(calc(100% - 28px), 600px); }
+            .topbar-inner { min-height: 62px; }
+            .brand-copy small, .key-hint { display: none; }
+            .hero { grid-template-columns: minmax(0, 1fr); gap: 26px; padding-block: 42px 44px; }
+            .hero-copy { order: 1; min-width: 0; }
+            .hero-art { width: min(340px, 78vw); order: 0; }
+            .section { padding-block: 62px; }
+            .story-card, .metric-card { grid-column: span 12; }
+            .story-card { min-height: 0; }
+            .stack-card .card-content { grid-template-columns: 1fr; }
+            .chip-list { justify-content: flex-start; }
+            .module-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-inner { align-items: flex-start; flex-direction: column; justify-content: center; padding-block: 18px; }
+            .footer-links { justify-content: flex-start; }
+        }
+        @media (max-width: 480px) {
+            .topbar-actions { gap: 5px; }
+            .button-inspect { width: 38px; padding: 0; font-size: 0; }
+            .button-inspect .inspect-icon { font-size: .93rem; }
+            .lang-toggle button { min-height: 28px; padding-inline: 6px; }
+            .brand-logo { width: 34px; height: 34px; }
+            .brand-copy strong { font-size: .79rem; }
+            .hero { padding-top: 32px; }
+            .hero h1 { font-size: clamp(2.5rem, 12vw, 3.45rem); }
+            .focus-strip { align-items: flex-start; font-size: .61rem; }
+            .card-content { padding: 19px; }
+            .module-grid { grid-template-columns: 1fr; }
+            .module-card { min-height: 153px; }
+            .flow-diagram { grid-template-columns: 1fr; gap: 7px; }
+            .flow-node { min-height: 62px; }
+            .flow-arrow { justify-self: center; transform: rotate(90deg); }
+            .modal-backdrop { padding: 10px; }
+            .modal-card { max-height: 92vh; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+        }
+    </style>
+</head>
+<body data-atmosphere="wood">
+    <header class="topbar">
+        <nav class="shell topbar-inner" aria-label="Glavna navigacija" data-i18n-aria-label="navLabel">
+            <a class="brand" href="#top" aria-label="wood.app — početak">
+                <img class="brand-logo" src="woodapp-logo.png" alt="">
+                <span class="brand-copy"><strong>wood<span>.app</span></strong><small data-i18n="brandTag">CAD alat za stolarske projekte</small></span>
+            </a>
+            <div class="topbar-actions">
+                <button class="button button-inspect mono" type="button" data-open-telemetry aria-label="Otvori sys.inspect" data-i18n-aria-label="inspectLabel">
+                    <span class="inspect-icon" aria-hidden="true">&gt;_</span><span data-i18n="inspectButton">sys.inspect</span><span class="key-hint">Ctrl K</span>
+                </button>
+                <div class="lang-toggle" role="group" aria-label="Odabir jezika" data-i18n-aria-label="langLabel">
+                    <button type="button" data-lang="hr" aria-pressed="true">🇭🇷 HR</button>
+                    <button type="button" data-lang="en" aria-pressed="false">🇬🇧 EN</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main id="top">
+        <section class="hero shell">
+            <div class="hero-copy">
+                <span class="eyebrow" data-i18n="heroEyebrow">Woodworking plans, drawn to make</span>
+                <h1 data-i18n="heroTitle">Od ideje do nacrta.<span>Od nacrta do drva.</span></h1>
+                <p class="hero-lead" data-i18n="heroLead">wood.app je stolarski CAD studio za planiranje projekata od drva: pregledajte 3D nacrt, razložite sklop na dijelove i pripremite krojnu listu — s mjerama u milimetrima i materijalima dostupnima u Hrvatskoj.</p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="https://wood-app-394279937544.europe-west1.run.app/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">◈</span><span data-i18n="openApp">Otvori wood.app</span></a>
+                    <a class="button button-wood" href="#moduli"><span aria-hidden="true">⌁</span><span data-i18n="explore">Istraži mogućnosti</span></a>
+                </div>
+                <div class="hero-tags">
+                    <span class="tag tag-teal" data-i18n="metricTag">Metričke mjere · mm</span>
+                    <span class="tag" data-i18n="cadTag">Interaktivni 3D + 2D CAD</span>
+                    <span class="tag" data-i18n="localeTag">Za hrvatske materijale</span>
+                </div>
+                <div class="focus-strip" aria-live="polite"><span class="focus-prefix" data-i18n="focusPrefix">&gt; Projektiramo:</span><span id="focusText"></span><span class="focus-cursor" aria-hidden="true"></span></div>
+            </div>
+            <figure class="hero-art">
+                <img class="hero-logo" src="woodapp-logo.png" alt="wood.app — logotip za stolarski CAD i nacrte" data-i18n-alt="logoAlt">
+                <figcaption class="hero-caption" data-i18n="heroCaption">Praktični stolarski nacrti · od radionice do dvorišta</figcaption>
+            </figure>
+        </section>
+
+        <section class="section shell" id="arhitektura">
+            <div class="section-heading">
+                <span class="eyebrow" data-i18n="architectureEyebrow">A workshop starts with a good plan</span>
+                <h2 data-i18n="architectureTitle">Mjerljivo. Sastavljivo. Spremno za radionicu.</h2>
+                <p data-i18n="architectureLead">Od prve skice do rezanja materijala, nacrti i praktični alati na jednom mjestu.</p>
+            </div>
+            <div class="bento-grid">
+                <article class="card story-card tilt">
+                    <div class="card-content">
+                        <span class="story-icon" aria-hidden="true">🪵</span>
+                        <h3 data-i18n="storyTitle">Nacrt prilagođen načinu na koji se stvarno gradi.</h3>
+                        <p data-i18n="storyCopy">wood.app povezuje parametarski CAD prikaz s krojnom listom i praktičnim uputama. Pregledajte komad u izometriji, otvorite eksplodirani sklop ili ispišite ortogonalne projekcije. Dimenzije su u milimetrima, a vodiči su prilagođeni građi, okovu i trgovinama dostupnima u Hrvatskoj.</p>
+                    </div>
+                </article>
+                <article class="card metric-card tilt" aria-label="wood.app značajke">
+                    <div class="card-content metric-grid">
+                        <div class="metric"><strong>3D</strong><span data-i18n="metricViews">izometrija i eksplodirani sklop</span></div>
+                        <div class="metric"><strong>mm</strong><span data-i18n="metricUnits">metričke mjere kroz cijelu aplikaciju</span></div>
+                        <div class="metric"><strong>A4</strong><span data-i18n="metricPrint">tehnički list za ispis ili spremanje</span></div>
+                        <div class="metric"><strong>3 mm</strong><span data-i18n="metricKerf">uračunat gubitak reza pile</span></div>
+                    </div>
+                </article>
+                <article class="card stack-card tilt">
+                    <div class="card-content">
+                        <div><span class="eyebrow" data-i18n="stackEyebrow">From timber to finished project</span><h3 data-i18n="stackTitle">Radionički alati, spremni kad zatrebaju</h3><p data-i18n="stackCopy">Odaberite modul za pregled što radi i kako se povezuje s projektom.</p></div>
+                        <div class="chip-list" role="group" aria-label="Moduli aplikacije">
+                            <button class="tech-chip" type="button" data-module="cad" data-i18n="chipCad">3D / 2D CAD</button>
+                            <button class="tech-chip" type="button" data-module="cutlist" data-i18n="chipCutlist">Krojna lista</button>
+                            <button class="tech-chip" type="button" data-module="workshop" data-i18n="chipWorkshop">Moja radiona</button>
+                            <button class="tech-chip" type="button" data-module="planner" data-i18n="chipPlanner">Konstruktor</button>
+                            <button class="tech-chip" type="button" data-module="pallet" data-i18n="chipPallet">Paletar & vodič</button>
+                            <button class="tech-chip" type="button" data-module="offline" data-i18n="chipOffline">Lokalni projekti</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section shell" id="moduli">
+            <div class="section-heading">
+                <span class="eyebrow" data-i18n="modulesEyebrow">Plan it · measure twice · build</span>
+                <h2 data-i18n="modulesTitle">Od modela do gotovog komada</h2>
+                <p data-i18n="modulesLead">Odaberite modul za sažetak i prikaz toka rada.</p>
+            </div>
+            <div class="module-grid">
+                <button class="card module-card tilt" type="button" data-module="cad" aria-pressed="false">
+                    <span class="card-content"><span class="module-icon" aria-hidden="true">📐</span><h3 data-i18n="cadTitle">Interaktivni 3D i tehnički 2D nacrti</h3><p data-i18n="cadCopy">Rotirajte model, rastavite sklop i pregledajte tlocrt, nacrt, bokocrt i A4 list s kotama u milimetrima.</p><span class="module-link" data-i18n="detailsLink">Pogledaj kako radi →</span></span>
+                </button>
+                <button class="card module-card tilt" type="button" data-module="cutlist" aria-pressed="false">
+                    <span class="card-content"><span class="module-icon" aria-hidden="true">🪚</span><h3 data-i18n="cutlistTitle">Krojna lista i rezanje</h3><p data-i18n="cutlistCopy">Pratite pozicije dijelova i izračunajte linearne rezove uz kerf lista pile od 3 mm.</p><span class="module-link" data-i18n="detailsLink">Pogledaj kako radi →</span></span>
+                </button>
+                <button class="card module-card tilt" type="button" data-module="workshop" aria-pressed="false">
+                    <span class="card-content"><span class="module-icon" aria-hidden="true">🧰</span><h3 data-i18n="workshopTitle">Alati koje već imate</h3><p data-i18n="workshopCopy">Usporedite potrebne alate sa svojom radionicom i pregledajte predložene alternative.</p><span class="module-link" data-i18n="detailsLink">Pogledaj kako radi →</span></span>
+                </button>
+                <button class="card module-card tilt" type="button" data-module="planner" aria-pressed="false">
+                    <span class="card-content"><span class="module-icon" aria-hidden="true">✏️</span><h3 data-i18n="plannerTitle">Konstruktor s provjerom modela</h3><p data-i18n="plannerCopy">Četiri parametarska arhetipa pokrivaju ploče, kutije, ormariće te stolove i klupe. Generator provjerava strukturu prije izrade prikaza; AI je dodatna mogućnost, ne preduvjet.</p><span class="module-link" data-i18n="detailsLink">Pogledaj kako radi →</span></span>
+                </button>
+                <button class="card module-card tilt" type="button" data-module="pallet" aria-pressed="false">
+                    <span class="card-content"><span class="module-icon" aria-hidden="true">♻️</span><h3 data-i18n="palletTitle">Palete i vodič za građu</h3><p data-i18n="palletCopy">Istražite EPAL paletu, materijale i praktične smjernice za odabir građe i okova.</p><span class="module-link" data-i18n="detailsLink">Pogledaj kako radi →</span></span>
+                </button>
+                <button class="card module-card tilt" type="button" data-module="offline" aria-pressed="false">
+                    <span class="card-content"><span class="module-icon" aria-hidden="true">📦</span><h3 data-i18n="offlineTitle">Vaši spremljeni projekti</h3><p data-i18n="offlineCopy">Katalog i osobni projekti pri ruci, uz pregled lokalne pohrane preglednika.</p><span class="module-link" data-i18n="detailsLink">Pogledaj kako radi →</span></span>
+                </button>
+            </div>
+            <p class="safety-note" data-i18n="safetyNote"><strong>Napomena:</strong> nacrti, količine i cijene služe kao pomoć pri planiranju. Prije rezanja ili opterećenja konstrukcije provjerite mjere, spojeve, nosivost, lokalne uvjete i upute proizvođača materijala.</p>
+        </section>
+
+        <section class="section preview-section" id="pregled">
+            <div class="shell">
+                <div class="section-heading">
+                    <span class="eyebrow" data-i18n="previewEyebrow">A look inside your workshop studio</span>
+                    <h2 data-i18n="previewTitle">Katalog projekata i radionica na jednom zaslonu</h2>
+                    <p data-i18n="previewLead">Pregledajte nacrte, potrebne alate, dimenzije i procijenjenu građu prije početka rada.</p>
+                </div>
+                <figure class="preview-frame">
+                    <button class="preview-button" type="button" data-open-preview aria-label="Povećaj snimku zaslona aplikacije">
+                        <img src="woodapp-app-preview.png" alt="Snimka zaslona wood.app: katalog stolarskih CAD projekata, alati i procjena materijala" data-i18n-alt="previewAlt" loading="lazy">
+                    </button>
+                    <figcaption class="preview-caption"><span data-i18n="previewCaption">Katalog nacrta · CAD prikaz · provjera alata i materijala</span><span data-i18n="previewExpand">Klikni za uvećanje ↗</span></figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="section shell" id="kontakt">
+            <div class="contact-panel">
+                <span class="eyebrow" data-i18n="contactEyebrow">A good build begins with a clear plan</span>
+                <h2 data-i18n="contactTitle">Pripremite projekt prije prve piljevine.</h2>
+                <p data-i18n="contactCopy">Otvorite wood.app, odaberite nacrt ili unesite vlastite mjere. Trebate pomoć s pristupom ili instalacijom? Javite mi se — rado ću pomoći.</p>
+                <div class="contact-actions">
+                    <a class="button button-primary" href="https://wood-app-394279937544.europe-west1.run.app/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">◈</span><span data-i18n="openApp">Otvori wood.app</span></a>
+                    <a class="button" href="mailto:wood@zrina.app?subject=wood.app%20-%20upit%20i%20podr%C5%A1ka"><span aria-hidden="true">✉</span><span data-i18n="contactButton">Zatraži pomoć</span></a>
+                    <button class="button" type="button" data-copy-email><span aria-hidden="true">⧉</span><span data-i18n="copyEmail">Kopiraj e-mail</span></button>
+                </div>
+                <p class="contact-note"><a class="email" href="mailto:wood@zrina.app">wood@zrina.app</a></p>
+                <p class="contact-note" data-i18n="contactNote">Pristup aplikaciji je besplatan. Javite mi se ako vam treba pomoć pri isprobavanju ili instalaciji.</p>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="shell footer-inner">
+            <span data-i18n="footerCopy">Od ideje do nacrta. Od nacrta do drva.</span>
+            <div class="footer-links">
+                <a href="mailto:wood@zrina.app">wood@zrina.app</a>
+                <button type="button" data-open-privacy data-i18n="privacyButton">🔐 Privatnost & podaci</button>
+                <button type="button" data-open-telemetry class="mono">&gt;_ sys.inspect</button>
+            </div>
+        </div>
+    </footer>
+    <div class="modal-backdrop" id="moduleModal" role="dialog" aria-modal="true" aria-labelledby="moduleModalTitle" aria-hidden="true">
+        <div class="modal-card">
+            <button class="modal-close" type="button" data-close-modal aria-label="Zatvori" data-i18n-aria-label="closeLabel">&times;</button>
+            <span class="eyebrow" data-i18n="flowEyebrow">From a sketch to a cut list</span>
+            <h2 id="moduleModalTitle"></h2><p class="modal-lead" id="moduleModalDescription"></p>
+            <div class="flow-diagram" id="flowDiagram"></div><p class="flow-caption" id="flowCaption"></p>
+        </div>
+    </div>
+    <div class="modal-backdrop" id="telemetryModal" role="dialog" aria-modal="true" aria-labelledby="telemetryTitle" aria-hidden="true">
+        <div class="modal-card">
+            <button class="modal-close" type="button" data-close-modal aria-label="Zatvori" data-i18n-aria-label="closeLabel">&times;</button>
+            <span class="eyebrow" data-i18n="terminalEyebrow">Local browser details</span>
+            <h2 id="telemetryTitle" class="mono">&gt;_ sys.inspect()</h2>
+            <p class="modal-lead" data-i18n="terminalLead">Lokalni status preglednika; ovaj panel ne šalje telemetriju.</p>
+            <div class="terminal-stats" id="terminalStats"></div>
+            <label class="search-label" for="siteSearch" data-i18n="searchLabel">&gt; Pretraži wood.app</label>
+            <input class="search-input" id="siteSearch" type="search" autocomplete="off" data-i18n-placeholder="searchPlaceholder" placeholder="npr. nacrt, paleta, kalkulator...">
+            <p class="flow-caption" data-i18n="searchScope">Pretraga obuhvaća samo ovu stranicu, ne vaše spremljene projekte.</p>
+            <div class="search-results" id="searchResults" aria-live="polite"></div>
+        </div>
+    </div>
+    <div class="modal-backdrop" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle" aria-hidden="true">
+        <div class="modal-card">
+            <button class="modal-close" type="button" data-close-modal aria-label="Zatvori" data-i18n-aria-label="closeLabel">&times;</button>
+            <span class="eyebrow" data-i18n="privacyEyebrow">Your plans, your browser</span>
+            <h2 id="privacyTitle" data-i18n="privacyTitle">Privatnost & pohrana</h2>
+            <p class="modal-lead" data-i18n="privacyLead">Sažetak za ovu prezentacijsku stranicu i aplikaciju wood.app.</p>
+            <ul class="privacy-list">
+                <li data-i18n="privacyPage"><strong>Ova stranica.</strong> Ne koristi analitiku ni oglašivačke kolačiće. Odabrani jezik sprema se lokalno u localStorage.</li>
+                <li data-i18n="privacyProjects"><strong>Projekti i alati.</strong> Aplikacija sprema odabrane alate, razinu iskustva i osobne projekte u localStorage preglednika.</li>
+                <li data-i18n="privacyAi"><strong>Konstruktor.</strong> Ako je AI usluga omogućena, upit se obrađuje na poslužitelju aplikacije. Parametarski generator može raditi i bez vanjskog AI ključa.</li>
+                <li data-i18n="privacyServer"><strong>Poslužitelj.</strong> Aplikacija koristi API poslužitelj za AI funkcije i online dopunu kataloga. Ne unosite osjetljive ili povjerljive podatke.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-backdrop" id="lightbox" role="dialog" aria-modal="true" aria-label="Uvećani prikaz aplikacije" data-i18n-aria-label="previewLightboxLabel" aria-hidden="true">
+        <button class="modal-close" type="button" data-close-modal aria-label="Zatvori" data-i18n-aria-label="closeLabel">&times;</button>
+        <div class="lightbox-content"><img id="lightboxImage" src="woodapp-app-preview.png" alt="Snimka zaslona wood.app"><p id="lightboxCaption"></p></div>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>
+        const translations = {
+            hr: {
+                pageTitle: "wood.app — Od ideje do nacrta.",
+                pageDescription: "wood.app — stolarski PWA alat s interaktivnim Three.js 3D modelima, SVG nacrtima, krojnim listama i parametarskim konstruktorom.",
+                logoAlt: "wood.app — logotip za stolarski CAD i nacrte", previewAlt: "Snimka zaslona wood.app: katalog stolarskih CAD projekata, alati i procjena materijala",
+                navLabel: "Glavna navigacija", langLabel: "Odabir jezika", inspectLabel: "Otvori sys.inspect", closeLabel: "Zatvori", previewLightboxLabel: "Uvećani prikaz aplikacije",
+                brandTag: "CAD alat za stolarske projekte", inspectButton: "sys.inspect",
+                heroEyebrow: "Woodworking plans, drawn to make", heroTitle: 'Od ideje do nacrta.<span>Od nacrta do drva.</span>',
+                heroLead: "wood.app je PWA alat za planiranje stolarskih projekata. Unesite opis i mjere, pregledajte interaktivni 3D model i pripremite 2D nacrte, krojnu listu i popis materijala — sve u milimetrima.",
+                openApp: "Otvori wood.app", explore: "Istraži mogućnosti", metricTag: "Metričke mjere · mm", cadTag: "Interaktivni 3D + 2D CAD", localeTag: "Za hrvatske materijale",
+                focusPrefix: "> Projektiramo:", focuses: ["Vrtni komposter i povišenu gredicu", "Klupu, stol i namještaj za dom", "Radionički stol po mjeri", "Projekte od Euro-paleta", "Krojne liste u milimetrima"],
+                heroCaption: "Praktični stolarski nacrti · od radionice do dvorišta",
+                architectureEyebrow: "A workshop starts with a good plan", architectureTitle: "Mjerljivo. Sastavljivo. Spremno za radionicu.",
+                architectureLead: "Od prve skice do rezanja materijala, nacrti i praktični alati na jednom mjestu.",
+                storyTitle: "Nacrt prilagođen načinu na koji se stvarno gradi.",
+                storyCopy: "Opis i mjere pretvaraju se u strukturirani model dijelova. Three.js prikazuje sklop u interaktivnom 3D-u, a SVG motor izrađuje 2D projekcije i tehnički list. Parametarski konstruktor radi i bez AI-ja; ako je AI uključen, njegov prijedlog prolazi dodatne stolarske provjere.",
+                metricViews: "izometrija i eksplodirani sklop", metricUnits: "metričke mjere kroz cijelu aplikaciju", metricPrint: "tehnički list za ispis ili spremanje", metricKerf: "uračunat gubitak reza pile",
+                stackEyebrow: "From timber to finished project", stackTitle: "Radionički alati, spremni kad zatrebaju", stackCopy: "Odaberite modul za pregled što radi i kako se povezuje s projektom.",
+                chipCad: "3D / 2D CAD", chipCutlist: "Krojna lista", chipWorkshop: "Moja radiona", chipPlanner: "Konstruktor", chipPallet: "Paletar & vodič", chipOffline: "Lokalni projekti",
+                modulesEyebrow: "Plan it · measure twice · build", modulesTitle: "Od modela do gotovog komada", modulesLead: "Odaberite modul za sažetak i prikaz toka rada.",
+                cadTitle: "Interaktivni 3D i tehnički 2D nacrti", cadCopy: "Rotirajte model, rastavite sklop i pregledajte tlocrt, nacrt, bokocrt i A4 list s kotama u milimetrima.",
+                cutlistTitle: "Krojna lista i rezanje", cutlistCopy: "Pratite pozicije dijelova i izračunajte linearne rezove uz kerf lista pile od 3 mm.",
+                workshopTitle: "Alati koje već imate", workshopCopy: "Usporedite potrebne alate sa svojom radionicom i pregledajte predložene alternative.",
+                plannerTitle: "Konstruktor s provjerom modela", plannerCopy: "Četiri parametarska arhetipa pokrivaju ploče, kutije, ormariće te stolove i klupe. Generator provjerava strukturu prije izrade prikaza; AI je dodatna mogućnost, ne preduvjet.",
+                palletTitle: "Palete i vodič za građu", palletCopy: "Istražite EPAL paletu, materijale i praktične smjernice za odabir građe i okova.",
+                offlineTitle: "Vaši spremljeni projekti", offlineCopy: "Katalog i osobni projekti pri ruci, uz pregled lokalne pohrane preglednika.",
+                detailsLink: "Pogledaj kako radi →",
+                safetyNote: "<strong>Napomena:</strong> nacrti, količine i cijene služe kao pomoć pri planiranju. Prije rezanja ili opterećenja konstrukcije provjerite mjere, spojeve, nosivost, lokalne uvjete i upute proizvođača materijala.",
+                previewEyebrow: "A look inside your workshop studio", previewTitle: "Katalog projekata i radionica na jednom zaslonu",
+                previewLead: "Pregledajte nacrte, potrebne alate, dimenzije i procijenjenu građu prije početka rada.",
+                previewCaption: "Katalog nacrta · CAD prikaz · provjera alata i materijala", previewExpand: "Klikni za uvećanje ↗",
+                contactEyebrow: "A good build begins with a clear plan", contactTitle: "Pripremite projekt prije prve piljevine.",
+                contactCopy: "Otvorite wood.app, odaberite nacrt ili unesite vlastite mjere. Trebate pomoć s pristupom ili instalacijom? Javite mi se — rado ću pomoći.",
+                contactButton: "Zatraži pomoć", copyEmail: "Kopiraj e-mail",
+                contactNote: "Javite mi se ako vam treba pomoć pri isprobavanju ili instalaciji.",
+                footerCopy: "Od ideje do nacrta. Od nacrta do drva.", privacyButton: "🔐 Privatnost i podaci",
+                flowEyebrow: "From a sketch to a cut list", terminalEyebrow: "Local browser details",
+                terminalLead: "Lokalni status preglednika; ovaj panel ne šalje telemetriju.",
+                searchLabel: "> Pretraži wood.app", searchPlaceholder: "npr. nacrt, paleta, kalkulator...",
+                searchScope: "Pretraga obuhvaća samo ovu stranicu, ne vaše spremljene projekte.",
+                privacyEyebrow: "Your plans, your browser", privacyTitle: "Privatnost & pohrana",
+                privacyLead: "Sažetak za ovu prezentacijsku stranicu i aplikaciju wood.app.",
+                privacyPage: "<strong>Ova stranica.</strong> Ne koristi analitiku ni oglašivačke kolačiće. Odabrani jezik sprema se lokalno u localStorage.",
+                privacyProjects: "<strong>Projekti i alati.</strong> Aplikacija sprema odabrane alate, razinu iskustva i osobne projekte u localStorage preglednika.",
+                privacyAi: "<strong>Konstruktor.</strong> Ako je AI usluga omogućena, upit se obrađuje na poslužitelju aplikacije. Parametarski generator može raditi i bez vanjskog AI ključa.",
+                privacyServer: "<strong>Poslužitelj.</strong> Aplikacija koristi API poslužitelj za AI funkcije i online dopunu kataloga. Ne unosite osjetljive ili povjerljive podatke.",
+                statsLoad: "Učitavanje stranice", statsConnection: "Veza", statsMemory: "JS memorija", statsPwa: "Prikaz PWA", statsSecure: "Sigurni kontekst", statsPlatform: "Platforma",
+                standalone: "Samostalni način", browserTab: "Kartica preglednika", unavailable: "Nije dostupno", connectionUnknown: "Nepoznato", yes: "Da", no: "Ne",
+                emptySearch: "Nema pronađenih modula ili odjeljaka.", resultModule: "MODUL", resultScreen: "ODJELJAK",
+                copied: "✓ Kopirano!", copyFailed: "Kopiranje nije uspjelo. E-mail: wood@zrina.app", storageFailed: "Jezik je promijenjen, ali postavku nije moguće spremiti.",
+                stepInput: "01 · MJERE", stepEngine: "02 · CAD MOTOR", stepOutput: "03 · RADIONICA",
+                flowFoot: "Strukturirani projektni podaci pokreću 3D model, 2D nacrte i izračune.",
+                modules: {
+                    cad: { title: "3D / 2D CAD nacrti", description: "Three.js prikazuje interaktivni 3D model; SVG motor izrađuje ortogonalne projekcije i A4 tehnički list.", flow: ["Mjere · mm", "Three.js · interaktivni 3D", "SVG · projekcije · A4"] },
+                    cutlist: { title: "Krojna lista i kalkulator rezanja", description: "Oznake elemenata povezuju nacrt s krojnom listom; linearni kalkulator uzima u obzir širinu reza pile od 3 mm.", flow: ["Model · dijelovi", "Krojna lista · kerf 3 mm", "Plan rezanja"] },
+                    workshop: { title: "Moja radiona", description: "Inventar alata uspoređuje se s alatima potrebnim za projekt. Aplikacija može prikazati alternativni način rada kad alat nedostaje.", flow: ["Odabrani projekt", "Inventar korisnikovih alata", "Provjera · alternative"] },
+                    planner: { title: "Konstruktor s provjerom modela", description: "Četiri parametarska arhetipa obuhvaćaju ploče, kutije, ormariće te stolove i klupe. AI je neobavezna mogućnost; generator provjerava strukturirani model.", flow: ["Opis · dimenzije", "Semantički JSON · stolarske provjere", "Projekt · nacrti · krojna lista"] },
+                    pallet: { title: "Paletar i vodič za građu", description: "Paletni modul i tržišni vodič pomažu pri procjeni materijala i odabiru standardne građe, okova i premaza.", flow: ["Projekt · materijal", "EPAL · tržišni vodič", "Procjena · popis materijala"] },
+                    offline: { title: "Lokalno spremljeni projekti", description: "Inventar alata, razina iskustva i prilagođeni projekti čuvaju se u lokalnoj pohrani preglednika.", flow: ["Postavke · projekti", "LocalStorage preglednika", "Dostupno na uređaju"] }
+                }
+            },
+            en: {
+                pageTitle: "wood.app — From idea to blueprint.",
+                pageDescription: "wood.app — a woodworking PWA with interactive Three.js 3D models, SVG drawings, cut lists and a parametric builder.",
+                logoAlt: "wood.app — woodworking CAD and blueprint logo", previewAlt: "wood.app screenshot showing the woodworking CAD project catalog, tools and material estimates",
+                navLabel: "Main navigation", langLabel: "Choose language", inspectLabel: "Open sys.inspect", closeLabel: "Close", previewLightboxLabel: "App screenshot preview",
+                brandTag: "Woodworking CAD studio · by Zrina", inspectButton: "sys.inspect",
+                heroEyebrow: "Woodworking plans, drawn to make", heroTitle: 'From idea to blueprint.<span>From blueprint to wood.</span>',
+                heroLead: "wood.app is a PWA for planning woodworking projects. Enter a description and dimensions, inspect the interactive 3D model, then prepare 2D drawings, a cut list and a materials estimate — all in millimetres.",
+                openApp: "Open wood.app", explore: "Explore the toolkit", metricTag: "Metric dimensions · mm", cadTag: "Interactive 3D + 2D CAD", localeTag: "For Croatian materials",
+                focusPrefix: "> Designed for:", focuses: ["Garden composters and raised beds", "Benches, tables and home furniture", "A workshop bench built to size", "Upcycled Euro-pallet projects", "Cut lists in millimeters"],
+                heroCaption: "Practical woodworking plans · from workshop to garden",
+                architectureEyebrow: "A workshop starts with a good plan", architectureTitle: "Measurable. Buildable. Ready for the workshop.",
+                architectureLead: "From your first sketch to cutting timber, plans and practical tools in one place.",
+                storyTitle: "Plans shaped around how things are really built.",
+                storyCopy: "Project descriptions and dimensions become a structured parts model. Three.js renders the interactive 3D assembly, while the SVG engine creates 2D projections and a technical sheet. The parametric builder works without AI; when AI is enabled, its suggestions go through additional carpentry checks.",
+                metricViews: "isometric and exploded assembly views", metricUnits: "metric dimensions throughout", metricPrint: "technical sheet to print or save", metricKerf: "saw-blade kerf included",
+                stackEyebrow: "From timber to finished project", stackTitle: "Workshop tools, ready when you need them", stackCopy: "Choose a module to see what it does and how it fits into a project.",
+                chipCad: "3D / 2D CAD", chipCutlist: "Cut list", chipWorkshop: "My workshop", chipPlanner: "Builder", chipPallet: "Pallets & guide", chipOffline: "Local projects",
+                modulesEyebrow: "Plan it · measure twice · build", modulesTitle: "From a model to a finished piece", modulesLead: "Choose a module for an overview and workflow diagram.",
+                cadTitle: "Interactive 3D and technical 2D drawings", cadCopy: "Rotate the model, inspect the exploded assembly, and view dimensioned top, front, side and A4 plans in millimetres.",
+                cutlistTitle: "Cut lists and sawing", cutlistCopy: "Track part positions and calculate linear cuts with a 3 mm saw-blade kerf.",
+                workshopTitle: "Tools you already own", workshopCopy: "Compare required tools with your workshop inventory and review suggested alternatives.",
+                plannerTitle: "A builder with model checks", plannerCopy: "Four parametric archetypes cover tabletops, enclosures, cabinetry, and tables and benches. The generator checks the model before rendering; AI is optional.",
+                palletTitle: "Pallets and timber guide", palletCopy: "Explore the EPAL pallet, materials and practical guidance for choosing timber and hardware.",
+                offlineTitle: "Your saved projects", offlineCopy: "Keep the catalog and personal projects close, with browser-local storage.",
+                detailsLink: "See how it works →",
+                safetyNote: "<strong>Note:</strong> plans, quantities and prices are planning aids. Before cutting or loading a structure, verify dimensions, joints, load capacity, local conditions and material-manufacturer guidance.",
+                previewEyebrow: "A look inside your workshop studio", previewTitle: "Project catalog and workshop in one view",
+                previewLead: "Review plans, required tools, dimensions and estimated materials before you start.",
+                previewCaption: "Blueprint catalog · CAD view · tool and material checks", previewExpand: "Click to enlarge ↗",
+                contactEyebrow: "A good build begins with a clear plan", contactTitle: "Get your project ready before the sawdust.",
+                contactCopy: "Open wood.app, choose a plan or enter your own dimensions. Need help accessing or installing the app? Get in touch — I’m happy to help.",
+                contactButton: "Get support", copyEmail: "Copy email",
+                contactNote: "Get in touch if you need help trying or installing the app.",
+                footerCopy: "From idea to blueprint. From blueprint to wood. · by Zrina", privacyButton: "🔐 Privacy and data",
+                flowEyebrow: "From a sketch to a cut list", terminalEyebrow: "Local browser details",
+                terminalLead: "A local browser-status panel; it does not send telemetry.",
+                searchLabel: "> Search wood.app", searchPlaceholder: "e.g. plans, pallet, calculator...",
+                searchScope: "Search covers this page only, not your saved projects.",
+                privacyEyebrow: "Your plans, your browser", privacyTitle: "Privacy & storage",
+                privacyLead: "A summary for this presentation page and the wood.app application.",
+                privacyPage: "<strong>This page.</strong> It uses no analytics or advertising cookies. Your language choice is saved locally in localStorage.",
+                privacyProjects: "<strong>Projects and tools.</strong> The app stores selected tools, skill level and personal projects in your browser's localStorage.",
+                privacyAi: "<strong>Builder.</strong> If AI is enabled, prompts are processed on the app server. The parametric generator can also work without an external AI key.",
+                privacyServer: "<strong>Server.</strong> The app uses an API server for AI features and online catalog updates. Do not enter sensitive or confidential information.",
+                statsLoad: "Page load", statsConnection: "Connection", statsMemory: "JS memory", statsPwa: "PWA display", statsSecure: "Secure context", statsPlatform: "Platform",
+                standalone: "Standalone", browserTab: "Browser tab", unavailable: "Unavailable", connectionUnknown: "Unknown", yes: "Yes", no: "No",
+                emptySearch: "No matching modules or sections found.", resultModule: "MODULE", resultScreen: "SECTION",
+                copied: "✓ Copied!", copyFailed: "Copy failed. Email: wood@zrina.app", storageFailed: "Language changed, but the preference could not be saved.",
+                stepInput: "01 · DIMENSIONS", stepEngine: "02 · CAD ENGINE", stepOutput: "03 · WORKSHOP",
+                flowFoot: "Structured project data powers the 3D model, 2D drawings and calculations.",
+                modules: {
+                    cad: { title: "3D / 2D CAD plans", description: "Three.js renders the interactive 3D model; the SVG engine creates orthographic projections and an A4 technical sheet.", flow: ["Dimensions · mm", "Three.js · interactive 3D", "SVG · projections · A4"] },
+                    cutlist: { title: "Cut list and sawing calculator", description: "Part markers connect the plan with the cut list; the linear calculator accounts for a 3 mm saw-blade kerf.", flow: ["Model · parts", "Cut list · 3 mm kerf", "Cutting plan"] },
+                    workshop: { title: "My workshop", description: "Your tool inventory is compared with the tools needed for a project. The app can suggest another way to work when a tool is missing.", flow: ["Selected project", "Your tool inventory", "Check · alternatives"] },
+                    planner: { title: "A builder with model checks", description: "Four parametric archetypes cover tabletops, enclosures, cabinetry, and tables and benches. AI is optional; the generator validates the structured model.", flow: ["Description · dimensions", "Semantic JSON · carpentry checks", "Project · drawings · cut list"] },
+                    pallet: { title: "Pallet module and timber guide", description: "The pallet module and market guide help estimate materials and choose standard timber, hardware and finishes.", flow: ["Project · material", "EPAL · market guide", "Estimate · material list"] },
+                    offline: { title: "Locally saved projects", description: "Tool inventory, skill level and custom projects are saved in your browser's local storage.", flow: ["Preferences · projects", "Browser LocalStorage", "Available on device"] }
+                }
+            }
+        };
+        const moduleIds = ["cad", "cutlist", "workshop", "planner", "pallet", "offline"];
+        let language = "hr";
+        let focusIndex = 0;
+        let activeModule = "cad";
+        let previousFocus = null;
+        let toastTimer;
+        const text = (key) => translations[language][key];
+        function showToast(message, isError = false) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.style.borderColor = isError ? "#b9695e" : "";
+            toast.style.color = isError ? "#ff9d8b" : "";
+            toast.classList.add("visible");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove("visible"), 2600);
+        }
+        function applyLanguage(nextLanguage, persist = true) {
+            language = nextLanguage === "en" ? "en" : "hr";
+            document.documentElement.lang = language;
+            document.querySelectorAll("[data-i18n]").forEach((element) => {
+                const value = text(element.dataset.i18n);
+                if (value !== undefined) element.innerHTML = value;
+            });
+            document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+                const value = text(element.dataset.i18nPlaceholder);
+                if (value !== undefined) element.placeholder = value;
+            });
+            document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
+                const value = text(element.dataset.i18nAriaLabel);
+                if (value !== undefined) element.setAttribute("aria-label", value);
+            });
+            document.querySelectorAll("[data-i18n-alt]").forEach((element) => {
+                const value = text(element.dataset.i18nAlt);
+                if (value !== undefined) element.alt = value;
+            });
+            document.title = text("pageTitle");
+            document.querySelector('meta[name="description"]').content = text("pageDescription");
+            document.querySelector('meta[property="og:title"]').content = text("pageTitle");
+            document.querySelector('meta[property="og:description"]').content = text("pageDescription");
+            document.querySelector('meta[property="og:locale"]').content = language === "hr" ? "hr_HR" : "en_US";
+            document.querySelector('meta[name="twitter:title"]').content = text("pageTitle");
+            document.querySelector('meta[name="twitter:description"]').content = text("pageDescription");
+            document.querySelectorAll("[data-lang]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.lang === language)));
+            renderFocus();
+            if (persist) {
+                try {
+                    localStorage.setItem("zrina_lang", language);
+                    localStorage.setItem("wood_lang", language);
+                }
+                catch (error) { showToast(text("storageFailed"), true); }
+            }
+            if (document.getElementById("moduleModal").classList.contains("open")) renderModule(activeModule);
+            if (document.getElementById("telemetryModal").classList.contains("open")) renderTelemetry();
+            renderSearch(document.getElementById("siteSearch").value);
+        }
+        function renderFocus() {
+            const phrases = text("focuses");
+            document.getElementById("focusText").textContent = phrases[focusIndex % phrases.length];
+        }
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            const active = [...document.querySelectorAll(".modal-backdrop.open")];
+            if (active.length === 0) previousFocus = document.activeElement;
+            active.forEach((other) => {
+                if (other !== modal) { other.classList.remove("open"); other.setAttribute("aria-hidden", "true"); }
+            });
+            modal.classList.add("open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+            modal.querySelector(".modal-close")?.focus();
+        }
+        function closeModal(modal) {
+            if (!modal || !modal.classList.contains("open")) return;
+            modal.classList.remove("open");
+            modal.setAttribute("aria-hidden", "true");
+            if (!document.querySelector(".modal-backdrop.open")) document.body.style.overflow = "";
+            if (previousFocus && typeof previousFocus.focus === "function") previousFocus.focus();
+        }
+        function renderModule(id) {
+            const data = translations[language].modules[id];
+            if (!data) return;
+            document.getElementById("moduleModalTitle").textContent = data.title;
+            document.getElementById("moduleModalDescription").textContent = data.description;
+            const diagram = document.getElementById("flowDiagram");
+            diagram.replaceChildren();
+            const labels = [text("stepInput"), text("stepEngine"), text("stepOutput")];
+            data.flow.forEach((label, index) => {
+                const node = document.createElement("div");
+                node.className = "flow-node";
+                const step = document.createElement("span");
+                step.textContent = labels[index];
+                const detail = document.createElement("strong");
+                detail.textContent = label;
+                node.append(step, detail);
+                diagram.append(node);
+                if (index < data.flow.length - 1) {
+                    const arrow = document.createElement("span");
+                    arrow.className = "flow-arrow";
+                    arrow.setAttribute("aria-hidden", "true");
+                    arrow.textContent = "→";
+                    diagram.append(arrow);
+                }
+            });
+            document.getElementById("flowCaption").textContent = text("flowFoot");
+        }
+        function selectModule(id) {
+            activeModule = translations[language].modules[id] ? id : "cad";
+            document.querySelectorAll("[data-module]").forEach((button) => {
+                const selected = button.dataset.module === activeModule;
+                button.classList.toggle("selected", selected);
+                button.setAttribute("aria-pressed", String(selected));
+            });
+            renderModule(activeModule);
+            openModal("moduleModal");
+        }
+        function renderTelemetry() {
+            const timing = performance.getEntriesByType("navigation")[0];
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+            const memory = performance.memory ? `${Math.round(performance.memory.usedJSHeapSize / 1048576)} MB` : text("unavailable");
+            const platform = navigator.userAgentData?.platform || navigator.platform || text("unavailable");
+            const values = [
+                [text("statsLoad"), timing ? `${Math.round(timing.loadEventEnd || timing.domContentLoadedEventEnd)} ms` : text("unavailable")],
+                [text("statsConnection"), connection?.effectiveType || text("connectionUnknown")],
+                [text("statsMemory"), memory], [text("statsPwa"), standalone ? text("standalone") : text("browserTab")],
+                [text("statsSecure"), window.isSecureContext ? text("yes") : text("no")], [text("statsPlatform"), platform]
+            ];
+            const container = document.getElementById("terminalStats");
+            container.replaceChildren();
+            values.forEach(([label, value]) => {
+                const item = document.createElement("div");
+                item.className = "terminal-stat";
+                const name = document.createElement("span");
+                name.textContent = label;
+                const result = document.createElement("strong");
+                result.textContent = value;
+                item.append(name, result);
+                container.append(item);
+            });
+        }
+        function renderSearch(query = "") {
+            const results = document.getElementById("searchResults");
+            results.replaceChildren();
+            const term = query.trim().toLocaleLowerCase(language);
+            if (!term) return;
+            const modules = translations[language].modules;
+            const matches = moduleIds.map((id) => ({ id, title: modules[id].title, detail: modules[id].description, type: text("resultModule") }))
+                .filter((item) => `${item.title} ${item.detail}`.toLocaleLowerCase(language).includes(term));
+            const screens = [text("previewTitle"), text("architectureTitle"), text("modulesTitle")]
+                .map((title, index) => ({ section: ["pregled", "arhitektura", "moduli"][index], title, type: text("resultScreen") }))
+                .filter((item) => item.title.toLocaleLowerCase(language).includes(term));
+            [...matches, ...screens].slice(0, 8).forEach((item) => {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "search-result";
+                const title = document.createElement("span");
+                title.textContent = item.title;
+                const kind = document.createElement("small");
+                kind.textContent = item.type;
+                button.append(title, kind);
+                button.addEventListener("click", () => {
+                    if (item.id) selectModule(item.id);
+                    else {
+                        closeModal(document.getElementById("telemetryModal"));
+                        document.getElementById(item.section).scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+                results.append(button);
+            });
+            if (!results.childElementCount) {
+                const empty = document.createElement("p");
+                empty.className = "search-empty";
+                empty.textContent = text("emptySearch");
+                results.append(empty);
+            }
+        }
+        async function copyEmail() {
+            try {
+                if (navigator.clipboard?.writeText) await navigator.clipboard.writeText("wood@zrina.app");
+                else {
+                    const field = document.createElement("textarea");
+                    field.value = "wood@zrina.app";
+                    field.setAttribute("readonly", "");
+                    field.style.position = "fixed";
+                    field.style.opacity = "0";
+                    document.body.append(field);
+                    field.select();
+                    const copied = document.execCommand("copy");
+                    field.remove();
+                    if (!copied) throw new Error("Clipboard API is unavailable");
+                }
+                showToast(text("copied"));
+            } catch (error) {
+                showToast(text("copyFailed"), true);
+            }
+        }
+        document.querySelectorAll("[data-lang]").forEach((button) => button.addEventListener("click", () => applyLanguage(button.dataset.lang)));
+        document.querySelectorAll("[data-module]").forEach((button) => button.addEventListener("click", () => selectModule(button.dataset.module)));
+        document.querySelectorAll("[data-open-telemetry]").forEach((button) => button.addEventListener("click", () => {
+            renderTelemetry();
+            openModal("telemetryModal");
+            document.getElementById("siteSearch").focus();
+        }));
+        document.querySelectorAll("[data-open-privacy]").forEach((button) => button.addEventListener("click", () => openModal("privacyModal")));
+        document.querySelectorAll("[data-close-modal]").forEach((button) => button.addEventListener("click", () => closeModal(button.closest(".modal-backdrop"))));
+        document.querySelectorAll(".modal-backdrop").forEach((modal) => modal.addEventListener("click", (event) => {
+            if (event.target === modal) closeModal(modal);
+        }));
+        document.querySelector("[data-copy-email]").addEventListener("click", copyEmail);
+        document.getElementById("siteSearch").addEventListener("input", (event) => renderSearch(event.currentTarget.value));
+        document.querySelector("[data-open-preview]").addEventListener("click", () => {
+            const image = document.getElementById("lightboxImage");
+            image.alt = language === "hr" ? "Snimka zaslona wood.app" : "wood.app interface screenshot";
+            document.getElementById("lightboxCaption").textContent = text("previewCaption");
+            openModal("lightbox");
+        });
+        document.addEventListener("keydown", (event) => {
+            if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+                event.preventDefault();
+                renderTelemetry();
+                openModal("telemetryModal");
+                document.getElementById("siteSearch").focus();
+            }
+            if (event.key === "Escape") {
+                const active = document.querySelector(".modal-backdrop.open");
+                if (active) closeModal(active);
+            }
+        });
+        setInterval(() => { focusIndex += 1; renderFocus(); }, 3800);
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && window.matchMedia("(pointer: fine)").matches) {
+            document.querySelectorAll(".tilt").forEach((card) => {
+                card.addEventListener("pointermove", (event) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+                    card.style.setProperty("--spot-x", `${x}px`);
+                    card.style.setProperty("--spot-y", `${y}px`);
+                    card.style.transform = `perspective(1000px) rotateX(${(.5 - y / rect.height) * 2.4}deg) rotateY(${(x / rect.width - .5) * 2.4}deg)`;
+                });
+                card.addEventListener("pointerleave", () => {
+                    card.style.transform = "";
+                    card.style.removeProperty("--spot-x");
+                    card.style.removeProperty("--spot-y");
+                });
+            });
+        }
+        try {
+            applyLanguage((localStorage.getItem("zrina_lang") || localStorage.getItem("wood_lang")) === "en" ? "en" : "hr", false);
+        } catch (error) {
+            applyLanguage("hr", false);
+        }
+    </script>
+</body>
+</html>

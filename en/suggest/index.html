@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suggest an app | zrina.app</title>
+  <meta name="description" content="Describe a problem you couldn’t find a ready-made solution for. We’ll try to build the app exactly the way you imagined it.">
+  <link rel="canonical" href="https://zrina.app/en/suggest/">
+  <link rel="alternate" hreflang="hr" href="https://zrina.app/predlozi/">
+  <link rel="alternate" hreflang="en" href="https://zrina.app/en/suggest/">
+  <link rel="alternate" hreflang="x-default" href="https://zrina.app/predlozi/">
+  <meta property="og:title" content="Suggest an app | zrina.app">
+  <meta property="og:description" content="Describe a problem you couldn’t find a ready-made solution for. We’ll try to build the app exactly the way you imagined it.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zrina.app/en/suggest/">
+  <meta property="og:image" content="https://zrina.app/assets/portfolio/share-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Suggest an app | zrina.app">
+  <meta name="twitter:description" content="Describe a problem you couldn’t find a ready-made solution for. We’ll try to build the app exactly the way you imagined it.">
+  <meta name="twitter:image" content="https://zrina.app/assets/portfolio/share-card.png">
+  <meta name="theme-color" content="#050811">
+  <meta name="google-adsense-account" content="ca-pub-8194219427036085">
+  <link rel="icon" type="image/png" sizes="96x96" href="../../assets/brand/zrinaapp_min.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/brand/zrinaapp_new.png">
+  <link rel="stylesheet" href="../../site.css">
+  <script>try{localStorage.setItem("zrina_lang","en")}catch(e){}</script>
+</head>
+<body class="suggest-page">
+  <header class="topbar">
+    <a class="brand" href="../"><img src="../../assets/brand/zrinaapp_min.png" alt="" width="32" height="32"><span>zrina<b>.app</b></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="../#radovi">Work</a>
+      <a href="../#o-meni">About</a>
+      <a href="../#alati">Tools</a>
+      <a href="./">Suggest an app</a>
+      <a class="nav-cta" href="../#kontakt">Contact</a>
+      <a class="lang-link" href="../../predlozi/" hreflang="hr" title="Hrvatska verzija">HR</a>
+    </nav>
+  </header>
+  <main id="main" class="narrow">
+    <a class="back" href="../">← Back to portfolio</a>
+    <h1>Suggest an app</h1>
+    <p class="lead">Is there something you need but couldn’t find a ready-made solution for? Describe it to me. If I can solve it, we’ll try to build the app exactly the way you imagined it.</p>
+    <p class="muted">Everything I publish is free. If you want an app tailored just for you, feel free to get in touch by email.</p>
+    <form id="suggest-form" novalidate data-ok="Thank you! Your suggestion was sent. If you left an email, I’ll get back to you." data-fallback="Sending is not available right now. Opening your email app with the suggestion filled in." data-error="Something went wrong. Please try again or write to" data-sending="Sending…" data-send="Send suggestion" data-subject="App suggestion" data-mail="kontakt@zrina.app">
+      <div class="field"><label for="problem">What problem do you want to solve? *</label><small id="problem-hint">What are you doing by hand or awkwardly right now?</small><textarea id="problem" name="problem" rows="5" maxlength="2000" required aria-describedby="problem-hint"></textarea></div>
+      <div class="field"><label for="who">Who would use it?</label><small id="who-hint">Just you, family, a company, a hobby group…</small><textarea id="who" name="who" rows="2" maxlength="2000" aria-describedby="who-hint"></textarea></div>
+      <div class="field"><label for="tried">What have you already tried?</label><small id="tried-hint">Which apps or tools, and why didn’t they fit?</small><textarea id="tried" name="tried" rows="3" maxlength="2000" aria-describedby="tried-hint"></textarea></div>
+      <div class="field"><label for="name">Name (optional)</label><input id="name" name="name" type="text" maxlength="200"></div>
+      <div class="field"><label for="email">Your email (optional)</label><small id="email-hint">Only if you want a reply.</small><input id="email" name="email" type="email" maxlength="200" aria-describedby="email-hint"></div>
+      <div class="hp" aria-hidden="true"><label>Leave this field empty<input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+      <button class="btn primary" type="submit">Send suggestion</button>
+      <p class="status" id="suggest-status" role="status" aria-live="polite"></p>
+    </form>
+    <p class="muted small">Form data is used only to reply to your suggestion and is never shared with third parties.</p>
+  </main>
+  <footer class="footer"><span>© 2026 zrina.app · Independent projects by Vedran Zrinski.</span></footer>
+  <script src="../../suggest.js" defer></script>
+</body>
+</html>

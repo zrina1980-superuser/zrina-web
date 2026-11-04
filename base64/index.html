@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Base64 Encoder &amp; Decoder for Text and Files | zrina.app</title>
+<meta name="description" content="Encode and decode Base64 for text and files in your browser. Standard and URL-safe alphabets, 76-character lines, live validation, size comparison and image preview. No upload." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://zrina.app/base64/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="zrina.app" />
+<meta property="og:url" content="https://zrina.app/base64/" />
+<meta property="og:title" content="Base64 Encoder &amp; Decoder for Text and Files" />
+<meta property="og:description" content="Client-side Base64 for text and files with standard and URL-safe variants." />
+<meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Base64 Encoder &amp; Decoder for Text and Files" />
+<meta name="twitter:description" content="Encode and decode Base64 locally; nothing is uploaded." />
+<meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta name="theme-color" content="#070b16" />
+<link rel="icon" type="image/svg+xml" href="../assets/tool-icons/base64.svg" />
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/base64-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/base64-512.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/base64-180.png" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Base64 Encoder & Decoder","url":"https://zrina.app/base64/","applicationCategory":"DeveloperApplication","operatingSystem":"All","description":"Client-side Base64 encoder and decoder for text and files.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+</script>
+<link rel="stylesheet" href="../assets/tool-shell.css" />
+<style>
+:root{--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--bd)}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;text-decoration:none}
+nav{display:flex;gap:14px;flex-wrap:wrap}nav a{color:var(--tx2);text-decoration:none;font-size:14px}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:36px 0 8px;letter-spacing:-.02em}
+.lead{color:var(--tx2);margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:20px}
+label,legend{font-size:13px;font-weight:600;color:var(--tx2)}
+label.block{display:block;margin-bottom:6px}
+textarea,select{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font:inherit;min-width:0}
+textarea{font-family:var(--mono);font-size:14px;min-height:140px;resize:vertical}
+textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible,.drop:focus-visible{outline:2px solid #55e6f2;outline-offset:2px}
+.row{display:flex;gap:16px;flex-wrap:wrap;align-items:end;margin-bottom:14px}
+.row>div{flex:1 1 200px}
+.checks label{display:inline-flex;align-items:center;gap:7px;font-weight:500;color:var(--tx);font-size:14px}
+.buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{background:var(--ac);color:var(--acf);border:0;border-radius:9px;padding:9px 14px;font:inherit;font-size:14px;font-weight:650;cursor:pointer}
+.btn.secondary{background:var(--sub);color:var(--tx);border:1px solid var(--bd)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.status{min-height:1.4em;font-size:14px;margin-top:10px;color:var(--tx2)}.status.error{color:#fb7185}.status.ok{color:#34d399}
+.drop{border:2px dashed var(--bd);border-radius:12px;padding:26px 16px;text-align:center;color:var(--tx2);background:var(--sub);cursor:pointer}
+.drop.over{border-color:#55e6f2}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:14px}
+.stats div{padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--sub);min-width:0;overflow-wrap:anywhere}
+.stats strong{display:block;font-size:12px;color:var(--tx2);margin-bottom:4px}
+.preview img{max-width:100%;max-height:360px;border:1px solid var(--bd);border-radius:8px;background:var(--sub);margin-top:10px}
+.warning{border-left:3px solid #f59e0b;padding:10px 13px;background:var(--sub);color:var(--tx2);font-size:14px;border-radius:6px;margin-top:12px}
+.note{color:var(--mut);font-size:13px}
+section.info h2{font-size:20px;margin:28px 0 8px}section.info p,section.info li{color:var(--tx2)}
+footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(--mut);font-size:13px}
+[hidden]{display:none!important}
+@media(max-width:600px){.card{padding:15px}.wrap{padding:0 16px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand tool-brand" href="../tools/" aria-label="Base64 by Zrina, open Tools hub">
+<img src="../assets/tool-icons/base64-192.png" alt="" width="32" height="32" />
+<span class="tool-brand-name">Base64</span><span class="tool-brand-by">by Zrina</span>
+</a>
+<nav aria-label="Tool navigation"><a href="../tools/">Tools</a><a href="../password/">Password</a><a href="../uuid/">UUID</a><a href="../json/">JSON</a><a href="../timestamp/">Timestamp</a></nav>
+</div></header>
+<main class="wrap">
+<h1>Base64 Encoder &amp; Decoder</h1>
+<p class="lead">Convert text or files to and from Base64 entirely in this browser. Nothing is uploaded.</p>
+
+<section class="card" aria-labelledby="opt-h">
+<h2 id="opt-h" style="font-size:18px;margin:0 0 14px">Options</h2>
+<div class="row">
+  <div><label class="block" for="source">Input</label><select id="source"><option value="text">Text</option><option value="file">File</option></select></div>
+  <div><label class="block" for="action">Action</label><select id="action"><option value="encode">Encode to Base64</option><option value="decode">Decode from Base64</option></select></div>
+  <div><label class="block" for="variant">Alphabet</label><select id="variant"><option value="std">Standard (+ /)</option><option value="url">URL-safe (- _)</option></select></div>
+</div>
+<div class="checks" style="display:flex;gap:6px 22px;flex-wrap:wrap">
+  <label><input type="checkbox" id="pad" checked /> Padding (=)</label>
+  <label id="prettyWrap"><input type="checkbox" id="pretty" /> Pretty-print (76-character lines)</label>
+</div>
+</section>
+
+<section class="card" aria-labelledby="in-h">
+<h2 id="in-h" style="font-size:18px;margin:0 0 12px">Input</h2>
+<div id="textBox">
+  <label class="block" for="text">Text</label>
+  <textarea id="text" spellcheck="false" autocomplete="off" placeholder="Type or paste here"></textarea>
+</div>
+<div id="fileBox" hidden>
+  <div id="drop" class="drop" role="button" tabindex="0" aria-label="Choose a file or drop it here">Drop a file here or click to choose<br><span class="note" id="limitNote"></span></div>
+  <input id="file" type="file" hidden />
+</div>
+<div id="validity" class="status" role="status" aria-live="polite"></div>
+<div class="buttons"><button class="btn secondary" id="clear" type="button">Clear</button></div>
+</section>
+
+<section class="card" aria-labelledby="out-h">
+<h2 id="out-h" style="font-size:18px;margin:0 0 12px">Output</h2>
+<label class="block" for="output">Result</label>
+<textarea id="output" readonly spellcheck="false"></textarea>
+<p id="truncNote" class="note" hidden></p>
+<div class="stats" aria-live="polite">
+  <div><strong>Original size</strong><span id="sOrig">–</span></div>
+  <div><strong>Encoded size</strong><span id="sEnc">–</span></div>
+  <div><strong>Ratio</strong><span id="sRatio">–</span></div>
+  <div><strong>Detected type</strong><span id="sType">–</span></div>
+</div>
+<div class="buttons">
+  <button class="btn" id="copy" type="button" disabled>Copy output</button>
+  <button class="btn secondary" id="download" type="button" disabled>Download</button>
+</div>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+<div id="preview" class="preview" hidden><strong>Image preview</strong><br><img id="img" alt="Decoded image preview" /></div>
+<p class="warning">Decoded content is untrusted. Downloads are saved as generic binary data and are never opened or executed here; only recognised raster image types (PNG, JPEG, GIF, WebP, BMP) are previewed. Base64 is an encoding, not encryption.</p>
+</section>
+
+<section class="info">
+<h2>Notes</h2>
+<ul>
+<li>Text is encoded as UTF-8. Decoded bytes are shown as text only if they are valid UTF-8; otherwise they are treated as binary.</li>
+<li>Decoding ignores whitespace and a leading <code>data:…;base64,</code> prefix. Characters from the wrong alphabet, misplaced padding and impossible lengths are reported as errors. Missing padding is accepted.</li>
+<li>Limits protect browser memory: files up to 20 MB to encode, Base64 input up to 28 MB to decode, text up to 5 million characters. Only the first 200,000 characters of long output are displayed; copy and download use the full result.</li>
+<li>Pretty-print wraps encoded output at 76 characters per line (MIME style).</li>
+</ul>
+</section>
+</main>
+<footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">All conversion happens locally; content is not uploaded or stored.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+<script src="app.js"></script>
+</body>
+</html>

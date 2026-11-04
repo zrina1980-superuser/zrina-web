@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit Converter | Data, Length, Mass, Temperature &amp; Speed | zrina.app</title>
+<meta name="description" content="Convert SI decimal and IEC binary data units, length, mass, temperature and speed. Compare all units, estimate file fit, copy results and optionally keep local history.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://zrina.app/unit/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="zrina.app">
+<meta property="og:url" content="https://zrina.app/unit/">
+<meta property="og:title" content="Unit Converter">
+<meta property="og:description" content="Convert SI and IEC data sizes plus length, mass, temperature and speed.">
+<meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Unit Converter">
+<meta name="twitter:description" content="Convert SI and IEC data sizes plus length, mass, temperature and speed.">
+<meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png">
+<meta name="theme-color" content="#070b16">
+<link rel="icon" type="image/svg+xml" href="../assets/tool-icons/unit.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/unit-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/unit-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/unit-180.png">
+<link rel="stylesheet" href="../assets/tool-shell.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Unit Converter","url":"https://zrina.app/unit/","applicationCategory":"UtilitiesApplication","operatingSystem":"All","description":"Client-side converter for SI and IEC data sizes, length, mass, temperature and speed.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+</script>
+<style>
+*{box-sizing:border-box}.wrap{max-width:1000px;margin:auto;padding-inline:clamp(1rem,3vw,2rem)}
+header.top{border-bottom:1px solid var(--bd)}header.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.brand{font-weight:800;text-decoration:none}.brand span{color:var(--mut);font-weight:500}nav{display:flex;gap:.3rem;max-width:100%;overflow-x:auto}nav a{white-space:nowrap;color:var(--tx2);text-decoration:none;padding:.45rem .6rem;border-radius:.6rem;font-size:.85rem}nav a:hover{background:var(--sub);color:var(--tx)}
+h1{margin:2rem 0 .5rem;font-size:clamp(2rem,5vw,3rem)}.lead{color:var(--tx2);max-width:72ch}
+.card{margin:1rem 0;padding:clamp(1rem,2.5vw,1.5rem);border:1px solid var(--bd);border-radius:1rem;background:var(--card)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:1rem}.field label{display:block;margin-bottom:.35rem;color:var(--tx2);font-weight:700;font-size:.85rem}
+input,select{width:100%;min-width:0;padding:.7rem .8rem;border:1px solid var(--bd);border-radius:.7rem;background:var(--bg);color:var(--tx);font:inherit}
+.buttons,.presets{display:flex;gap:.55rem;flex-wrap:wrap;margin:.9rem 0}.btn{padding:.65rem .9rem;border:1px solid var(--bd);border-radius:.7rem;background:var(--sub);color:var(--tx);font:inherit;font-weight:650;cursor:pointer}.btn.primary{border-color:transparent;background:var(--ac);color:var(--acf)}
+.presets button{padding:.4rem .7rem;border:1px solid var(--bd);border-radius:999px;background:var(--sub);color:var(--tx2);cursor:pointer}
+.result{font-size:clamp(1.2rem,4vw,2rem);font-weight:750;overflow-wrap:anywhere}.note{font-size:.9rem;color:var(--tx2)}.status{min-height:1.4em;color:var(--tx2)}
+.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.92rem}th,td{text-align:left;padding:.6rem .5rem;border-bottom:1px solid var(--bd)}th{color:var(--tx)}td:last-child{font-family:var(--mono);overflow-wrap:anywhere}.table-copy{padding:.25rem .5rem}
+.check{display:flex;gap:.5rem;align-items:center;color:var(--tx2)}.check input{width:auto}
+section.info{max-width:75ch;margin:2.5rem auto}section.info h2{font-size:1.2rem}section.info p,section.info li{color:var(--tx2)}footer{margin-top:2rem;padding:1.5rem 0;border-top:1px solid var(--bd);color:var(--mut);font-size:.85rem}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand tool-brand" href="../tools/" aria-label="Unit Converter by Zrina, Tools hub"><img src="../assets/tool-icons/unit-192.png" alt="" width="32" height="32"><span class="tool-brand-name">Unit Converter</span><span class="tool-brand-by">by Zrina</span></a>
+<nav aria-label="Tool navigation"><a href="../tools/">Tools hub</a><a href="../speedcalc/">Speed calc</a><a href="../uuid/">UUID</a><a href="../json/">JSON</a><a href="../timestamp/">Timestamp</a></nav>
+</div></header>
+<main class="wrap">
+<h1>Unit Converter</h1><p class="lead">Convert storage units without mixing decimal SI prefixes and binary IEC prefixes. Also covers length, mass, temperature and speed. Calculations run locally.</p>
+<section class="card" aria-label="Unit conversion">
+<div class="grid">
+<div class="field"><label for="category">Category</label><select id="category"><option value="data">Data size</option><option value="length">Length</option><option value="mass">Mass</option><option value="temperature">Temperature</option><option value="speed">Speed</option></select></div>
+<div class="field"><label for="amount">Value</label><input id="amount" type="number" step="any" value="1" inputmode="decimal"></div>
+<div class="field"><label for="from">From</label><select id="from"></select></div>
+<div class="field"><label for="to">To</label><select id="to"></select></div>
+</div>
+<div class="presets" id="dataPresets" aria-label="Data size presets"><button type="button" data-value="700" data-unit="MB">CD · 700 MB</button><button type="button" data-value="4.7" data-unit="GB">DVD · 4.7 GB</button><button type="button" data-value="25" data-unit="GB">Blu-ray · 25 GB</button><button type="button" data-value="1" data-unit="GiB">1 GiB</button><button type="button" data-value="128" data-unit="GiB">128 GiB</button><button type="button" data-value="1" data-unit="PiB">1 PiB</button></div>
+<div class="buttons"><button class="btn primary" id="convert" type="button">Convert</button><button class="btn" id="copy" type="button">Copy result</button></div>
+<p id="result" class="result" aria-live="polite">1 byte = 8 bits</p><p id="status" class="status" role="status" aria-live="polite"></p>
+</section>
+<section class="card" id="fitCard"><h2 style="margin-top:0">How many files fit?</h2><p class="note">Estimate whole files that fit in a data capacity. SI units use powers of 1,000; IEC units use powers of 1,024. The result is a mathematical capacity estimate and excludes filesystem, formatting and reserved-space overhead.</p>
+<div class="grid"><div class="field"><label for="capacity">Available capacity</label><input id="capacity" type="number" min="0" step="any" value="16"></div><div class="field"><label for="capacityUnit">Capacity unit</label><select id="capacityUnit"></select></div><div class="field"><label for="fileSize">Size per file</label><input id="fileSize" type="number" min="0" step="any" value="10"></div><div class="field"><label for="fileUnit">File size unit</label><select id="fileUnit"></select></div></div>
+<div class="presets" id="fitPresets"><button type="button" data-value="16" data-unit="GB">16 GB capacity</button><button type="button" data-value="1" data-unit="TB">1 TB capacity</button><button type="button" data-value="1" data-unit="GiB">1 GiB capacity</button></div>
+<div class="buttons"><button class="btn primary" id="fit" type="button">Calculate file fit</button></div><p id="fitResult" class="result" aria-live="polite">—</p>
+</section>
+<section class="card"><h2 style="margin-top:0">All units in this category</h2><p class="note" id="tableNote"></p><div class="scroll"><table><thead><tr><th>Unit</th><th>Equivalent of entered value</th><th></th></tr></thead><tbody id="unitTable"></tbody></table></div></section>
+<section class="card"><h2 style="margin-top:0">Recent conversions</h2><label class="check"><input id="saveHistory" type="checkbox"> Save the last 10 conversions in this browser</label><p class="note">History is optional and stored only in this browser's localStorage when enabled; it is not synced or sent to us. Clearing browser site data also removes it.</p><div class="buttons"><button class="btn" id="clearHistory" type="button">Clear history</button></div><ol id="history"></ol><p id="historyStatus" class="note" role="status"></p></section>
+<section class="info">
+<h2>SI decimal vs IEC binary data sizes</h2><p>SI prefixes are decimal: 1 kB = 1,000 bytes, 1 MB = 1,000,000 bytes, up through 1 PB = 10<sup>15</sup> bytes. IEC prefixes are binary: 1 KiB = 1,024 bytes, 1 MiB = 1,024<sup>2</sup> bytes, up through 1 PiB = 1,024<sup>5</sup> bytes. Lowercase <code>b</code> means bit; uppercase <code>B</code> means byte. By definition 1 byte = 8 bits. Network speeds are often quoted in bits per second while file sizes are usually bytes.</p>
+<h2>Temperature and other conversions</h2><p>Temperature conversions use the exact Celsius/Fahrenheit/Kelvin formulas; temperatures are not converted by a simple scale factor because their zero points differ. Length and mass use standard unit relationships; speed values are converted through metres per second.</p>
+<h2>About precision</h2><p>Results use JavaScript floating-point arithmetic and are formatted to at most 12 significant digits for readability. Extremely large or tiny values may be rounded in the display.</p>
+</section>
+</main><footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">Conversions run locally; optional history stays in this browser.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+<script>
+(() => {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const units = {
+    data: [
+      ["bit","bit",1],["byte","B",8],["kilobit","kbit",1e3],["megabit","Mbit",1e6],["gigabit","Gbit",1e9],["terabit","Tbit",1e12],["petabit","Pbit",1e15],
+      ["kilobyte","kB",8e3],["megabyte","MB",8e6],["gigabyte","GB",8e9],["terabyte","TB",8e12],["petabyte","PB",8e15],
+      ["kibibit","Kibit",1024],["mebibit","Mibit",1024**2],["gibibit","Gibit",1024**3],["tebibit","Tibit",1024**4],["pebibit","Pibit",1024**5],
+      ["kibibyte","KiB",8*1024],["mebibyte","MiB",8*1024**2],["gibibyte","GiB",8*1024**3],["tebibyte","TiB",8*1024**4],["pebibyte","PiB",8*1024**5]
+    ],
+    length: [["millimetre","mm",.001],["centimetre","cm",.01],["metre","m",1],["kilometre","km",1000],["inch","in",.0254],["foot","ft",.3048],["yard","yd",.9144],["mile","mi",1609.344]],
+    mass: [["milligram","mg",1e-6],["gram","g",.001],["kilogram","kg",1],["metric tonne","t",1000],["ounce","oz",.028349523125],["pound","lb",.45359237]],
+    temperature: [["Celsius","°C"],["Fahrenheit","°F"],["Kelvin","K"]],
+    speed: [["metre per second","m/s",1],["kilometre per hour","km/h",1/3.6],["mile per hour","mph",.44704],["knot","kn",1852/3600]]
+  };
+  const category = $("category"), amount = $("amount"), from = $("from"), to = $("to");
+  const historyKey = "zrina-unit-converter-history-v1";
+  const format = (n) => Number.isFinite(n) ? new Intl.NumberFormat(undefined,{maximumSignificantDigits:12}).format(n) : String(n);
+  function convertTemperature(value, source, target) {
+    const c = source === "°C" ? value : source === "°F" ? (value - 32) * 5/9 : value - 273.15;
+    return target === "°C" ? c : target === "°F" ? c * 9/5 + 32 : c + 273.15;
+  }
+  function lookup(symbol) { return units[category.value].find((unit) => unit[1] === symbol); }
+  function makeOptions(select, selected) {
+    select.replaceChildren();
+    for (const unit of units[category.value]) {
+      const option = document.createElement("option"); option.value = unit[1]; option.textContent = `${unit[0]} (${unit[1]})`; select.append(option);
+    }
+    select.value = selected && [...select.options].some((option) => option.value === selected) ? selected : units[category.value][0][1];
+  }
+  function readHistory() {
+    try { const data = JSON.parse(localStorage.getItem(historyKey) || "[]"); return Array.isArray(data) ? data.filter((entry) => typeof entry === "string").slice(0,10) : []; }
+    catch { $("historyStatus").textContent = "History could not be read from localStorage."; return []; }
+  }
+  function renderHistory() {
+    const enabled = $("saveHistory").checked;
+    $("history").replaceChildren();
+    if (!enabled) { $("historyStatus").textContent = "History saving is off; any earlier saved entries remain until cleared."; return; }
+    $("historyStatus").textContent = "";
+    const items = readHistory();
+    for (const text of items) { const li = document.createElement("li"); li.textContent = text; $("history").append(li); }
+    if (!items.length && !$("historyStatus").textContent) $("historyStatus").textContent = "No saved conversions yet.";
+  }
+  function addHistory(entry) {
+    if (!$("saveHistory").checked) return;
+    try { const items = [entry, ...readHistory().filter((old) => old !== entry)].slice(0,10); localStorage.setItem(historyKey, JSON.stringify(items)); renderHistory(); }
+    catch { $("historyStatus").textContent = "Could not save history (browser storage may be unavailable or full)."; }
+  }
+  function populateTable(value, base) {
+    const body = $("unitTable"); body.replaceChildren();
+    const heading = category.value === "data" ? "Conversion factors use bits as the base unit; SI = 1,000, IEC = 1,024." : `Equivalent values for ${format(value)} ${from.value}.`;
+    $("tableNote").textContent = heading;
+    for (const unit of units[category.value]) {
+      const converted = category.value === "temperature" ? convertTemperature(value, from.value, unit[1]) : base / unit[2];
+      const row = document.createElement("tr"), name = document.createElement("td"), result = document.createElement("td"), action = document.createElement("td");
+      name.textContent = `${unit[0]} (${unit[1]})`; result.textContent = `${format(converted)} ${unit[1]}`;
+      const button = document.createElement("button"); button.className = "btn table-copy"; button.type = "button"; button.textContent = "Copy"; button.addEventListener("click", () => copy(`${format(converted)} ${unit[1]}`));
+      action.append(button); row.append(name,result,action); body.append(row);
+    }
+  }
+  function convert() {
+    const value = Number(amount.value);
+    const invalid = (message) => { $("result").textContent = message; $("unitTable").replaceChildren(); $("tableNote").textContent = ""; $("status").textContent = ""; };
+    if (amount.value.trim() === "" || !Number.isFinite(value)) { invalid("Enter a valid finite number."); return; }
+    if (["data","length","mass"].includes(category.value) && value < 0) { invalid("This quantity cannot be negative."); return; }
+    if (category.value === "temperature" && convertTemperature(value, from.value, "°C") < -273.1500000001) { invalid("Temperatures below absolute zero are not physically valid."); return; }
+    let result, base;
+    if (category.value === "temperature") result = convertTemperature(value, from.value, to.value);
+    else { base = value * lookup(from.value)[2]; result = base / lookup(to.value)[2]; }
+    const text = `${format(value)} ${from.value} = ${format(result)} ${to.value}`;
+    $("result").textContent = text; $("status").textContent = ""; populateTable(value, base); addHistory(text);
+  }
+  async function copy(text) {
+    try { await navigator.clipboard.writeText(text); $("status").textContent = "Copied."; }
+    catch { $("status").textContent = "Clipboard access was unavailable. Select and copy the result manually."; }
+  }
+  function setupDataInputs() {
+    const options = units.data.map((unit) => `<option value="${unit[1]}">${unit[0]} (${unit[1]})</option>`).join("");
+    $("capacityUnit").innerHTML = options; $("fileUnit").innerHTML = options;
+    $("capacityUnit").value = "GB"; $("fileUnit").value = "MB";
+  }
+  function calcFit() {
+    const capacity = Number($("capacity").value), size = Number($("fileSize").value);
+    const capacityUnit = units.data.find((u) => u[1] === $("capacityUnit").value);
+    const fileUnit = units.data.find((u) => u[1] === $("fileUnit").value);
+    if ($("capacity").value.trim() === "" || $("fileSize").value.trim() === "" || !(capacity >= 0) || !(size > 0) || !Number.isFinite(capacity) || !Number.isFinite(size)) { $("fitResult").textContent = "Enter a non-negative capacity and a positive file size."; return; }
+    const count = Math.floor((capacity * capacityUnit[2]) / (size * fileUnit[2]));
+    $("fitResult").textContent = `${format(count)} whole ${count === 1 ? "file" : "files"} fit`;
+  }
+  function changeCategory() {
+    const isData = category.value === "data";
+    const previousFrom = from.value, previousTo = to.value;
+    makeOptions(from, previousFrom); makeOptions(to, previousTo);
+    $("dataPresets").hidden = !isData; $("fitCard").hidden = !isData;
+    if (category.value === "temperature") { from.value = "°C"; to.value = "°F"; }
+    else if (isData && !lookup(previousFrom)) { from.value = "B"; to.value = "bit"; }
+    convert();
+  }
+  category.addEventListener("change", changeCategory);
+  $("convert").addEventListener("click", convert);
+  $("copy").addEventListener("click", () => copy($("result").textContent));
+  $("fit").addEventListener("click", calcFit);
+  [amount,from,to].forEach((element) => element.addEventListener("change", convert));
+  $("dataPresets").addEventListener("click", (event) => { const button = event.target.closest("button[data-unit]"); if (!button) return; category.value = "data"; changeCategory(); amount.value = button.dataset.value; from.value = button.dataset.unit; convert(); });
+  $("fitPresets").addEventListener("click", (event) => { const button = event.target.closest("button[data-unit]"); if (!button) return; $("capacity").value = button.dataset.value; $("capacityUnit").value = button.dataset.unit; calcFit(); });
+  $("saveHistory").addEventListener("change", () => { if (!$("saveHistory").checked) $("historyStatus").textContent = "History is off. Saved entries remain until you clear them or browser site data is removed."; renderHistory(); });
+  $("clearHistory").addEventListener("click", () => { try { localStorage.removeItem(historyKey); renderHistory(); $("historyStatus").textContent = "Saved history cleared from this browser."; } catch { $("historyStatus").textContent = "Could not clear localStorage."; } });
+  setupDataInputs(); makeOptions(from); makeOptions(to); from.value = "B"; to.value = "bit";
+  $("capacityUnit").value = "GB"; $("fileUnit").value = "MB"; convert(); calcFit(); renderHistory();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  
+  <!-- SEO & Primary Meta Tags -->
+  <title>Understanding HTTP Status Codes: 200, 403, 404, 500, 502, 503 & 504 · HostVitals</title>
+  <meta name="description" content="Complete reference guide to HTTP response status codes. Learn what 200 OK, 403 Forbidden (WAF), 404 Not Found, 500 Internal Server Error, 502 Bad Gateway, and 503 mean." />
+  <meta name="keywords" content="http status codes, 502 bad gateway meaning, 503 service unavailable, 504 gateway timeout, 403 forbidden waf, 404 not found, hostvitals guides" />
+  <meta name="author" content="zrina.app" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://zrina.app/hostvitals/guides/http-status-codes.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="zrina.app" />
+  <meta property="og:url" content="https://zrina.app/hostvitals/guides/http-status-codes.html" />
+  <meta property="og:title" content="HTTP Status Code Guide · HostVitals" />
+  <meta property="og:description" content="Understand common HTTP responses including 200, 403, 404, 500, 502, 503 and 504." />
+  <meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="HTTP Status Code Guide · HostVitals" />
+  <meta name="twitter:description" content="Interpret common HTTP responses and gateway errors." />
+  <meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+
+  <!-- Mobile Browser Theme Colors -->
+  <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+
+  <meta name="theme-color" content="#070b16" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/tool-icons/hostvitals.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/tool-icons/hostvitals-192.png" />
+  <link rel="stylesheet" href="../../assets/tool-footer.css" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/tool-icons/hostvitals-180.png" />
+
+  <!-- Schema.org TechArticle Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Understanding HTTP Status Codes: 200, 403, 404, 500, 502, 503, and 504",
+    "description": "Comprehensive guide to interpreting HTTP response status codes, CDN gateway errors, and Web Application Firewall (WAF) challenges.",
+    "url": "https://zrina.app/hostvitals/guides/http-status-codes.html",
+    "author": {
+      "@type": "Organization",
+      "name": "zrina.app",
+      "url": "https://zrina.app/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "HostVitals · zrina.app",
+      "url": "https://zrina.app/hostvitals/"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg-page: #fafafa;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f4f4f5;
+      --border-subtle: #e4e4e7;
+      --border-strong: #d4d4d8;
+      --text-primary: #09090b;
+      --text-secondary: #52525b;
+      --text-muted: #71717a;
+      --up-color: #059669;
+      --up-dot: #10b981;
+      --up-bg: rgba(16, 185, 129, 0.1);
+      --down-color: #dc2626;
+      --down-bg: rgba(239, 68, 68, 0.09);
+      --warn-color: #d97706;
+      --warn-bg: rgba(245, 158, 11, 0.12);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    [data-resolved-theme="dark"] {
+      --bg-page: #09090b;
+      --bg-surface: #121215;
+      --bg-subtle: #18181c;
+      --border-subtle: #27272a;
+      --border-strong: #3f3f46;
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --up-color: #34d399;
+      --up-dot: #10b981;
+      --up-bg: rgba(16, 185, 129, 0.12);
+      --down-color: #f87171;
+      --down-bg: rgba(239, 68, 68, 0.12);
+      --warn-color: #fbbf24;
+      --warn-bg: rgba(245, 158, 11, 0.14);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .topbar {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .brand-name { font-weight: 600; color: var(--text-primary); letter-spacing: -0.02em; }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .back-link {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+
+    .back-link:hover { color: var(--text-primary); }
+
+    .theme-switch {
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .theme-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 0.22rem 0.55rem;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .theme-btn.active {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .main-wrapper {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1.75rem 1.25rem 4rem;
+      flex: 1;
+    }
+
+    .article-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: clamp(1.5rem, 4vw, 2.75rem);
+    }
+
+    .guide-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--up-color);
+      background: var(--up-bg);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: clamp(1.65rem, 4vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 0.85rem;
+    }
+
+    .article-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    h2 {
+      font-size: 1.22rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin: 2rem 0 0.75rem;
+      color: var(--text-primary);
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .code-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .code-item {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+    }
+
+    .code-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .code-number {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .verdict-pill {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.14rem 0.5rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .verdict-pill.up {
+      background: var(--up-bg);
+      color: var(--up-color);
+    }
+
+    .verdict-pill.warn {
+      background: var(--warn-bg);
+      color: var(--warn-color);
+    }
+
+    .verdict-pill.down {
+      background: var(--down-bg);
+      color: var(--down-color);
+    }
+
+    .code-item p {
+      font-size: 0.88rem;
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+
+    .callout-box {
+      background: var(--bg-subtle);
+      border-left: 3px solid var(--up-dot);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .related-guides {
+      margin-top: 2.25rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+      margin-top: 0.85rem;
+    }
+
+    .related-link-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: border-color 0.15s;
+    }
+
+    .related-link-card:hover { border-color: var(--border-strong); }
+
+    .related-link-card strong {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .related-link-card span {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      padding: 1.75rem 1.25rem;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-primary);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .related-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="../../tools/" class="brand tool-brand" aria-label="HostVitals by Zrina, all tools">
+      <img src="../../assets/tool-icons/hostvitals-192.png" alt="" width="32" height="32" />
+      <span class="brand-name">HostVitals</span>
+      <span class="tool-brand-by">by Zrina</span>
+    </a>
+
+    <div class="topbar-right">
+      <a href="../index.html" class="back-link">← Back to Status Checker</a>
+      <div class="theme-switch" role="group" aria-label="Theme toggle">
+        <button type="button" class="theme-btn" data-set-theme="auto">Auto</button>
+        <button type="button" class="theme-btn" data-set-theme="light">☀</button>
+        <button type="button" class="theme-btn" data-set-theme="dark">☾</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+    <article class="article-card">
+      <span class="guide-badge">HTTP &amp; Security Reference</span>
+      <h1>Understanding HTTP Status Codes: 200, 403, 404, 500, 502, 503, and 504</h1>
+      <div class="article-meta">
+        Published by <strong>zrina.app Tools · HostVitals</strong> · Web Protocol Documentation
+      </div>
+
+      <p>
+        Every time your browser connects to a website, the web server replies with a three-digit <strong>HTTP response status code</strong>. These codes are grouped into five standardized classes (<code>1xx</code> through <code>5xx</code>) that immediately tell you whether the server is healthy, enforcing security rules, or experiencing a backend crash.
+      </p>
+
+      <h2>1. 2xx Success &amp; 3xx Redirection Codes (A Response Was Received)</h2>
+      <p>
+        When a server returns a <code>2xx</code> or <code>3xx</code> status code, its networking stack, TLS encryption, and HTTP routing are functioning normally:
+      </p>
+      <div class="code-list">
+        <div class="code-item">
+          <div class="code-item-header">
+            <span class="code-number mono">HTTP 200 OK</span>
+            <span class="verdict-pill up">Server Up</span>
+          </div>
+          <p>The standard response for successful HTTP requests. The web server processed the request and delivered the page payload normally.</p>
+        </div>
+
+        <div class="code-item">
+          <div class="code-item-header">
+            <span class="code-number mono">HTTP 301 / 302 / 307 / 308 Redirects</span>
+            <span class="verdict-pill up">Server Up</span>
+          </div>
+          <p>The server is active and automatically forwarding your browser to a canonical address—for example, redirecting <code>http://</code> to <code>https://</code> or forwarding an apex domain to <code>www</code>.</p>
+        </div>
+      </div>
+
+      <h2>2. 4xx Client &amp; WAF Codes (Why 403 Often Means the Site is Up)</h2>
+      <p>
+        <code>4xx</code> codes indicate that a server or gateway responded but did not fulfill the specific request:
+      </p>
+      <div class="code-list">
+        <div class="code-item">
+          <div class="code-item-header">
+            <span class="code-number mono">HTTP 403 Forbidden &amp; 429 Too Many Requests</span>
+            <span class="verdict-pill warn">Online · WAF Protected</span>
+          </div>
+          <p>
+            A <code>403</code> or <code>429</code> means a server or gateway returned an access-related response. A WAF or rate limit may be responsible, but the code alone does not prove which component responded or why access was denied.
+          </p>
+        </div>
+
+        <div class="code-item">
+          <div class="code-item-header">
+            <span class="code-number mono">HTTP 404 Not Found</span>
+            <span class="verdict-pill warn">Host Responded · Path Missing</span>
+          </div>
+          <p>
+            The domain and web server are online, but the specific page or file path you requested does not exist on the server.
+          </p>
+        </div>
+      </div>
+
+      <h2>3. 5xx Server &amp; Gateway Errors (Service or Upstream Problems)</h2>
+      <p>
+        A <code>5xx</code> response means the responding server or gateway reports a service-side problem. It does not by itself prove a complete outage or identify whether the fault is at the edge, upstream, or application:
+      </p>
+      <div class="code-list">
+        <div class="code-item">
+          <div class="code-item-header">
+            <span class="code-number mono">HTTP 500 Internal Server Error</span>
+            <span class="verdict-pill down">Application Crash</span>
+          </div>
+          <p>The web server is reachable, but the backend application code (Node.js, Python, PHP, Go) encountered an unhandled exception or database connection failure.</p>
+        </div>
+
+        <div class="code-item">
+          <div class="code-item-header">
+            <span class="code-number mono">HTTP 502 Bad Gateway &amp; 504 Gateway Timeout</span>
+            <span class="verdict-pill down">Upstream / Gateway Error</span>
+          </div>
+          <p>The reverse proxy or CDN edge server (such as Cloudflare or Nginx) is working, but it could not get a valid or timely response from the upstream origin server behind it.</p>
+        </div>
+
+        <div class="code-item">
+          <div class="code-item-header">
+            <span class="code-number mono">HTTP 503 Service Unavailable</span>
+            <span class="verdict-pill down">Overloaded / Maintenance</span>
+          </div>
+          <p>The responding server or gateway is reporting temporary unavailability. Causes can include overload, maintenance, upstream issues, or a security challenge; the status code alone cannot distinguish them.</p>
+        </div>
+
+        <div class="code-item">
+          <div class="code-item-header">
+            <span class="code-number mono">Cloudflare 520 / 521 / 522 / 524</span>
+            <span class="verdict-pill down">Cloudflare Origin Error</span>
+          </div>
+          <p>Cloudflare-specific codes commonly indicate that an edge request could not complete against the origin, for example a refused connection (<code>521</code>) or timeout (<code>522</code> / <code>524</code>). These are path-specific errors, not proof that every region or service is down.</p>
+        </div>
+      </div>
+
+      <div class="callout-box">
+        <strong>Compare Two Probe Paths:</strong> Use the <a href="../index.html" style="color:var(--text-primary);font-weight:600;">HostVitals Website Connectivity Checker</a> to compare a browser fetch with an HTTP status check from the HostVitals edge function; public gateways are fallbacks if it is unavailable. The browser fetch does not reveal the HTTP status or TLS handshake timing, and these probes cannot establish global availability.
+      </div>
+
+      <div class="related-guides">
+        <strong style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-muted);">Continue Reading</strong>
+        <div class="related-grid">
+          <a href="flush-dns.html" class="related-link-card">
+            <strong>How to Flush Your Local DNS Cache →</strong>
+            <span>Clear stale DNS records on Windows, Mac &amp; Mobile</span>
+          </a>
+          <a href="dns-vs-server-outage.html" class="related-link-card">
+            <strong>Server Outage vs. DNS Failure →</strong>
+            <span>How to diagnose where a connection breaks</span>
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-about">
+          <a href="../../tools/" class="footer-brand"><img src="../../assets/tool-icons/hostvitals-192.png" alt="" width="32" height="32" /><span class="brand-name">HostVitals</span><span class="footer-brand-by">by Zrina</span></a>
+          <p>HostVitals compares browser, edge HTTP and DNS observations; its results are limited to those checks and are not a global availability verdict.</p>
+        </div>
+        <nav class="footer-links" aria-label="Tool and site information">
+          <a href="../index.html">Status checker</a><a href="../about.html">Methodology</a><a href="../../tools/guides/">Guides</a><a href="../../tools/">All tools</a>
+          <a href="../../tools/about.html">About the tools</a><a href="../../tools/privacy.html">Privacy</a>
+          <a href="../../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../../">Portfolio</a>
+        </nav>
+      </div>
+      <div class="footer-bottom"><span>© 2026 zrina.app · Built by Zrina</span></div>
+    </div>
+  </footer>
+
+  <script>
+    const THEME_KEY = 'hostvitals_theme_pref';
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const themeBtns = document.querySelectorAll('[data-set-theme]');
+
+    function applyTheme(pref) {
+      const resolved = pref === 'auto' ? (mediaQuery.matches ? 'dark' : 'light') : pref;
+      document.documentElement.setAttribute('data-theme', pref);
+      document.documentElement.setAttribute('data-resolved-theme', resolved);
+      themeBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.setTheme === pref));
+    }
+
+    let currentThemePref = localStorage.getItem(THEME_KEY) || 'auto';
+    applyTheme(currentThemePref);
+    mediaQuery.addEventListener('change', () => { if (currentThemePref === 'auto') applyTheme('auto'); });
+    themeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentThemePref = btn.dataset.setTheme;
+        localStorage.setItem(THEME_KEY, currentThemePref);
+        applyTheme(currentThemePref);
+      });
+    });
+  </script>
+</body>
+</html>

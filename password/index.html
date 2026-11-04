@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Secure Password &amp; Passphrase Generator | zrina.app</title>
+<meta name="description" content="Generate random passwords and passphrases in your browser with crypto.getRandomValues, unbiased selection, entropy estimates and cautious crack-time assumptions. Nothing is stored or sent." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://zrina.app/password/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="zrina.app" />
+<meta property="og:url" content="https://zrina.app/password/" />
+<meta property="og:title" content="Secure Password &amp; Passphrase Generator" />
+<meta property="og:description" content="Local password and passphrase generator using the browser's cryptographic random source." />
+<meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Secure Password &amp; Passphrase Generator" />
+<meta name="twitter:description" content="Random passwords and passphrases generated locally, never stored." />
+<meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta name="theme-color" content="#070b16" />
+<link rel="icon" type="image/svg+xml" href="../assets/tool-icons/password.svg" />
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/password-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/password-512.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/password-180.png" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Password Generator","url":"https://zrina.app/password/","applicationCategory":"SecurityApplication","operatingSystem":"All","description":"Client-side password and passphrase generator using crypto.getRandomValues.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+</script>
+<link rel="stylesheet" href="../assets/tool-shell.css" />
+<style>
+:root{--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--bd)}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;text-decoration:none}
+nav{display:flex;gap:14px;flex-wrap:wrap}nav a{color:var(--tx2);text-decoration:none;font-size:14px}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:36px 0 8px;letter-spacing:-.02em}
+.lead{color:var(--tx2);margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:20px}
+label,legend{font-size:13px;font-weight:600;color:var(--tx2)}
+label.block{display:block;margin-bottom:6px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+input[type=number],select{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:9px 12px;font:inherit;min-width:0}
+input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #55e6f2;outline-offset:2px}
+.row{display:flex;gap:16px;flex-wrap:wrap;align-items:end;margin-bottom:14px}
+.row>div{flex:1 1 220px}
+.checks{display:flex;gap:6px 18px;flex-wrap:wrap}
+.checks label{display:inline-flex;align-items:center;gap:7px;font-weight:500;color:var(--tx);font-size:14px}
+.buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{background:var(--ac);color:var(--acf);border:0;border-radius:9px;padding:9px 14px;font:inherit;font-size:14px;font-weight:650;cursor:pointer}
+.btn.secondary{background:var(--sub);color:var(--tx);border:1px solid var(--bd)}
+.status{min-height:1.4em;font-size:14px;margin-top:10px}.status.error{color:#fb7185}
+.out{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--sub);margin-bottom:8px}
+.out code{flex:1;min-width:0;font:15px/1.5 var(--mono);overflow-wrap:anywhere;word-break:break-all;color:var(--tx);user-select:all}
+.meter{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:14px}
+.meter div{padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--sub)}
+.meter strong{display:block;font-size:12px;color:var(--tx2);margin-bottom:4px}
+.warning{border-left:3px solid #f59e0b;padding:10px 13px;background:var(--sub);color:var(--tx2);font-size:14px;border-radius:6px}
+.note{color:var(--mut);font-size:13px}
+.privacy-badge{display:inline-flex;align-items:center;margin:-10px 0 18px;padding:5px 10px;border:1px solid var(--bd);border-radius:999px;color:var(--ac);font-size:12px;font-weight:700}
+.range{display:flex;gap:10px;align-items:center}.range input[type=range]{flex:1;min-width:0}.range input[type=number]{width:84px}
+section.info h2{font-size:20px;margin:28px 0 8px}section.info p,section.info li{color:var(--tx2)}
+footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(--mut);font-size:13px}
+[hidden]{display:none!important}
+@media(max-width:600px){.card{padding:15px}.wrap{padding:0 16px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand tool-brand" href="../tools/" aria-label="Password Generator by Zrina, open Tools hub">
+<img src="../assets/tool-icons/password-192.png" alt="" width="32" height="32" />
+<span class="tool-brand-name">Password Generator</span><span class="tool-brand-by">by Zrina</span>
+</a>
+<nav aria-label="Tool navigation"><a href="../tools/">Tools</a><a href="../base64/">Base64</a><a href="../uuid/">UUID</a><a href="../json/">JSON</a><a href="../timestamp/">Timestamp</a></nav>
+</div></header>
+<main class="wrap">
+<h1>Password &amp; Passphrase Generator</h1>
+<p class="lead">Random secrets created in this browser with the Web Crypto random source. Nothing is stored, logged or sent anywhere.</p>
+<p class="privacy-badge">Never stored · generated locally</p>
+
+<section class="card" aria-labelledby="opt-h">
+<h2 id="opt-h" style="font-size:18px;margin:0 0 14px">Options</h2>
+<div class="row">
+  <div><label class="block" for="mode">Type</label><select id="mode"><option value="password">Password (random characters)</option><option value="passphrase">Passphrase (random words)</option></select></div>
+  <div><label class="block" for="count">Number of results (1–20)</label><input id="count" type="number" min="1" max="20" value="1" inputmode="numeric" /></div>
+</div>
+
+<div id="pwOpts">
+  <div class="row"><div>
+    <label class="block" for="length">Length (8–128)</label>
+    <div class="range"><input id="lengthRange" type="range" min="8" max="128" value="20" aria-label="Length slider" /><input id="length" type="number" min="8" max="128" value="20" inputmode="numeric" /></div>
+  </div></div>
+  <fieldset class="row"><div><legend>Character sets</legend>
+    <div class="checks">
+      <label><input type="checkbox" id="lower" checked /> Lowercase a–z</label>
+      <label><input type="checkbox" id="upper" checked /> Uppercase A–Z</label>
+      <label><input type="checkbox" id="digits" checked /> Digits 0–9</label>
+      <label><input type="checkbox" id="symbols" checked /> Symbols</label>
+      <label><input type="checkbox" id="ambiguous" /> Avoid ambiguous (I l 1 O 0 o)</label>
+    </div>
+  </div></fieldset>
+</div>
+
+<div id="ppOpts" hidden>
+  <div class="row">
+    <div><label class="block" for="words">Words (4–8)</label><input id="words" type="number" min="4" max="8" value="5" inputmode="numeric" /></div>
+    <div><label class="block" for="sep">Separator</label><select id="sep"><option value="-">Hyphen (-)</option><option value=" ">Space</option><option value=".">Period (.)</option><option value="_">Underscore (_)</option><option value="">None</option></select></div>
+  </div>
+  <div class="checks"><label><input type="checkbox" id="cap" /> Capitalise each word</label></div>
+</div>
+
+<div class="buttons">
+  <button class="btn" id="generate" type="button">Regenerate</button>
+  <button class="btn secondary" id="copyAll" type="button">Copy all</button>
+</div>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+</section>
+
+<section class="card" aria-labelledby="res-h">
+<h2 id="res-h" style="font-size:18px;margin:0 0 12px">Results</h2>
+<div id="results"></div>
+<div class="meter" aria-live="polite">
+  <div><strong>Estimated entropy</strong><span id="entropy">–</span></div>
+  <div><strong>Fast offline attack (10<sup>10</sup> guesses/s)</strong><span id="t1">–</span></div>
+  <div><strong>Very large rig (10<sup>12</sup> guesses/s)</strong><span id="t2">–</span></div>
+</div>
+<p class="warning" style="margin-top:14px">Crack times are rough illustrations, not guarantees. They assume the attacker already has a fast, unsalted hash, knows exactly how this secret was generated, and averages half the search space. Real-world resistance depends on how the service stores passwords (slow salted hashes are far harder to attack, weak hashes easier), on breaches, phishing and malware, and on never reusing a secret. Online guessing is usually rate-limited and much slower.</p>
+</section>
+
+<section class="info">
+<h2>How it works</h2>
+<ul>
+<li>Randomness comes only from <code>crypto.getRandomValues</code>; <code>Math.random</code> is never used.</li>
+<li>Each character or word is picked with rejection sampling, so there is no modulo bias.</li>
+<li>When several character sets are selected, a password is regenerated until it contains at least one of each. Entropy is computed from the exact number of qualifying strings.</li>
+<li>Passphrase entropy is words × log<sub>2</sub>(7,776) ≈ 12.9 bits per word. Capitalisation and separators are fixed and add nothing.</li>
+<li>Results exist only in this page's memory and are cleared when you leave it. Use a password manager to store them.</li>
+</ul>
+<p class="note">Word list: EFF Large Wordlist for Passphrases (7,776 words) by the Electronic Frontier Foundation, licensed CC BY 3.0 US, bundled locally.</p>
+</section>
+</main>
+<footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">Generated locally; secrets are not uploaded or stored.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+<script src="words.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

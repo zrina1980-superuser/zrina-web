@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Unix Timestamp Converter · Epoch to Date and Back | zrina.app</title>
+<meta name="description" content="Convert Unix timestamps in seconds, milliseconds, microseconds or nanoseconds. Compare local, UTC and IANA time zones, and inspect time-based IDs." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://zrina.app/timestamp/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="zrina.app" />
+<meta property="og:url" content="https://zrina.app/timestamp/" />
+<meta property="og:title" content="Unix Timestamp Converter" />
+<meta property="og:description" content="Convert epoch time to dates and back, with a live clock." />
+<meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="zrina.app web tools" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Unix Timestamp Converter" />
+<meta name="twitter:description" content="Convert Unix timestamps to dates and back with a live clock." />
+<meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta name="theme-color" content="#070b16" />
+<link rel="icon" type="image/svg+xml" href="../assets/tool-icons/timestamp.svg" />
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/timestamp-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/timestamp-512.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/timestamp-180.png" />
+<!-- GOOGLE ADSENSE: enable only after production deployment and the required consent setup.
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Unix Timestamp Converter","url":"https://zrina.app/timestamp/","applicationCategory":"DeveloperApplication","operatingSystem":"All","description":"Convert Unix epoch timestamps to dates and back.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+</script>
+<style>
+:root{--bg:#fafafa;--card:#fff;--sub:#f4f4f5;--bd:#e4e4e7;--tx:#09090b;--tx2:#52525b;--mut:#71717a;--ac:#18181b;--acf:#fff;--ok:#059669;--bad:#dc2626;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#09090b;--card:#121215;--sub:#18181b;--bd:#27272a;--tx:#fafafa;--tx2:#a1a1aa;--mut:#71717a;--ac:#fafafa;--acf:#09090b;--ok:#34d399;--bad:#f87171}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:inherit}.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--bd)}header.top .wrap{display:flex;justify-content:space-between;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;text-decoration:none}.brand span{color:var(--mut);font-weight:500}
+nav a{margin-left:14px;color:var(--tx2);text-decoration:none;font-size:14px}nav a:hover{color:var(--tx)}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:36px 0 8px;letter-spacing:-.02em}.lead{color:var(--tx2);margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:20px}
+label{display:block;font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:6px}
+input,select{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font:inherit;min-width:0}
+input:focus,select:focus{outline:2px solid var(--ac);outline-offset:1px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.btn{background:var(--sub);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:8px 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.big{font-family:var(--mono);font-size:clamp(28px,7vw,48px);font-weight:500;letter-spacing:-.02em;overflow-wrap:anywhere}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:14px}
+.kv div{background:var(--sub);border-radius:10px;padding:10px 12px;min-width:0}
+.kv small{display:block;color:var(--mut);font-size:12px}.kv b{font-family:var(--mono);font-size:14px;overflow-wrap:anywhere;font-weight:500}
+.err{color:var(--bad);font-size:14px;margin-top:10px}.note{color:var(--mut);font-size:13px}
+.chk{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:14px;color:var(--tx2)}.chk input{width:auto}
+section.info h2{font-size:20px;margin:28px 0 8px}section.info p,section.info li{color:var(--tx2)}
+.disc{background:var(--sub);border:1px dashed var(--bd);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--tx2);margin:16px 0}
+footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(--mut);font-size:13px}
+</style>
+<link rel="stylesheet" href="../assets/tool-shell.css" />
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand tool-brand" href="../tools/" aria-label="Unix Timestamp Converter by Zrina, all tools">
+<img src="../assets/tool-icons/timestamp-192.png" alt="" width="32" height="32" />
+<span class="tool-brand-name">Unix Timestamp Converter</span><span class="tool-brand-by">by Zrina</span>
+</a>
+<nav><a href="../hostvitals/">HostVitals</a><a href="../speedcalc/">Speed calc</a><a href="../cidr/">CIDR</a><a href="../netplanner/">Network planner</a><a href="../uuid/">UUID</a><a href="../json/">JSON</a><a href="../myip/">My IP</a><a href="../cron/">Cron</a></nav>
+</div></header>
+<main class="wrap">
+<h1>Unix Timestamp Converter</h1>
+<p class="lead">Live epoch clock, epoch → date and date → epoch. Everything runs locally in your browser.</p>
+
+<div class="card">
+<div class="note">Current Unix timestamp</div>
+<div class="big" id="nowS">—</div>
+<div class="note"><span id="nowMs">—</span> ms · <button class="btn" id="cpNow" type="button">Copy seconds</button> · <button class="btn" id="useNow" type="button">Use now below</button> <span id="copyStatus" role="status" aria-live="polite"></span></div>
+</div>
+
+<div class="card">
+<label for="ep">Epoch → date</label>
+<div class="row">
+<input id="ep" placeholder="e.g. 1762102800 or 1762102800000" inputmode="numeric" autocomplete="off" />
+<select id="unit" aria-label="Epoch unit"><option value="auto">Auto-detect unit</option><option value="s">Seconds</option><option value="ms">Milliseconds</option><option value="us">Microseconds</option><option value="ns">Nanoseconds</option></select>
+</div>
+<div id="epErr" class="err" role="alert"></div>
+<div class="kv" id="epOut"></div>
+</div>
+
+<div class="card">
+<label for="dt">Date → epoch</label>
+<input id="dt" type="datetime-local" step="1" />
+<label for="zone" style="margin-top:12px">Display and interpret in IANA time zone</label>
+<input id="zone" list="zoneOptions" autocomplete="off" />
+<datalist id="zoneOptions"><option value="UTC"><option value="Europe/Zagreb"><option value="Europe/London"><option value="America/New_York"><option value="America/Los_Angeles"><option value="Asia/Tokyo"><option value="Australia/Sydney"></datalist>
+<div class="note">For a local time skipped by a daylight-saving change, the date cannot be converted. A repeated fall-back time can refer to either occurrence.</div>
+<div id="dtErr" class="err" role="alert"></div>
+<div class="kv" id="dtOut"></div>
+</div>
+
+<div class="card">
+<label for="idValue">Inspect a time-based ID</label>
+<div class="row"><input id="idValue" placeholder="UUID, ULID, ObjectId, or Snowflake ID" autocomplete="off" spellcheck="false" /><select id="idType" aria-label="Snowflake format"><option value="auto">UUID / ULID / ObjectId</option><option value="twitter">Twitter / X Snowflake</option><option value="discord">Discord Snowflake</option></select><a class="btn" id="idInspect" href="../uuid/">Open UUID Inspector</a></div>
+<div class="note">The UUID Inspector decodes supported identifiers locally, including their embedded timestamps. The ID is added to the URL only after you follow this link.</div>
+</div>
+
+<!-- AD SLOT 1 (below the tool). Enable after AdSense approval:
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+
+<section class="info">
+<h2>What is a Unix timestamp?</h2>
+<p>A Unix timestamp (epoch time) counts the seconds elapsed since 1 January 1970 00:00:00 UTC, ignoring leap seconds. It is a compact, time-zone-independent way to store moments in databases, logs and APIs.</p>
+<h2>Seconds, milliseconds, microseconds or nanoseconds?</h2>
+<p>JavaScript and Java commonly use milliseconds. Some databases and high-resolution clocks use microseconds or nanoseconds. Choose the unit explicitly when known; auto-detection is only a size-based estimate. JavaScript dates display millisecond precision.</p>
+<h2>Time zones and daylight saving</h2>
+<p>The selected IANA time zone controls display and interpretation of date-time inputs. A wall time skipped by a daylight-saving transition cannot be converted. During a repeated fall-back hour, the same wall time can represent two different instants.</p>
+<h2>Year 2038</h2>
+<p>Systems storing the timestamp as a signed 32-bit integer overflow on 19 January 2038 at 03:14:07 UTC. Modern 64-bit systems are not affected.</p>
+</section>
+</main>
+<footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">Conversions run locally. An ID is included in a URL only if you choose to open it in the UUID Inspector. Related: <a href="../cron/">cron expression explainer</a>.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+<script>
+const $=id=>document.getElementById(id);
+const rtf=new Intl.RelativeTimeFormat('en',{numeric:'auto'});
+const escapeHtml=value=>String(value).replace(/[&<>"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[char]));
+function selectedZone(){
+  const zone=$('zone').value.trim()||Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';
+  try{new Intl.DateTimeFormat('en',{timeZone:zone});return zone}
+  catch{throw new Error('Enter a valid IANA time zone, such as Europe/Zagreb or UTC.')}
+}
+function rel(ms){
+  const diff=(ms-Date.now())/1000,a=Math.abs(diff);
+  const u=[['year',31557600],['month',2629800],['day',86400],['hour',3600],['minute',60],['second',1]];
+  for(const [n,s] of u)if(a>=s||n==='second')return rtf.format(Math.round(diff/s),n);
+}
+function cards(ms){
+  const d=new Date(ms);
+  const zone=selectedZone();
+  const rows=[
+    ['UTC',d.toUTCString()],['ISO 8601',d.toISOString()],
+    ['Selected zone ('+zone+')',d.toLocaleString('en-GB',{dateStyle:'full',timeStyle:'long',timeZone:zone})],
+    ['Relative',rel(ms)],['Seconds',String(ms/1000)],['Milliseconds',String(ms)],
+    ['Microseconds (millisecond precision)',String(ms*1000)],['Nanoseconds (millisecond precision)',String(ms*1e6)]
+  ];
+  return rows.map(r=>'<div><small>'+escapeHtml(r[0])+'</small><b>'+escapeHtml(r[1])+'</b></div>').join('');
+}
+function tick(){const n=Date.now();$('nowS').textContent=Math.floor(n/1000);$('nowMs').textContent=n}
+tick();setInterval(tick,250);
+$('cpNow').onclick=async()=>{try{if(!navigator.clipboard?.writeText)throw new Error();await navigator.clipboard.writeText(String(Math.floor(Date.now()/1000)));$('copyStatus').textContent='Copied.'}catch{$('copyStatus').textContent='Clipboard access is unavailable.'}};
+$('useNow').onclick=()=>{$('ep').value=Math.floor(Date.now()/1000);epConv();try{$('dt').value=localInputInZone(Date.now(),selectedZone());dtConv()}catch(error){$('dtErr').textContent=error.message}};
+function partsAt(date,zone){
+  const parts=new Intl.DateTimeFormat('en-US',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(date);
+  return Object.fromEntries(parts.filter(part=>part.type!=='literal').map(part=>[part.type,Number(part.value)]));
+}
+function utcFromParts(parts){
+  const date=new Date(0);
+  date.setUTCFullYear(parts.year,parts.month-1,parts.day);
+  date.setUTCHours(parts.hour,parts.minute,parts.second,0);
+  return date.getTime();
+}
+function localInputInZone(ms,zone){
+  const p=partsAt(new Date(ms),zone),pad=n=>String(n).padStart(2,'0');
+  return String(p.year).padStart(4,'0')+'-'+pad(p.month)+'-'+pad(p.day)+'T'+pad(p.hour)+':'+pad(p.minute)+':'+pad(p.second);
+}
+function dateInZone(value,zone){
+  const match=value.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/);
+  if(!match)throw new Error('Enter a valid date and time.');
+  const target={year:+match[1],month:+match[2],day:+match[3],hour:+match[4],minute:+match[5],second:+(match[6]||0)};
+  const targetMs=utcFromParts(target);
+  const normalized=partsAt(new Date(targetMs),'UTC');
+  if(Object.keys(target).some(key=>normalized[key]!==target[key]))throw new Error('Enter a valid calendar date and time.');
+  let candidate=targetMs;
+  for(let i=0;i<5;i++){
+    const local=partsAt(new Date(candidate),zone);
+    const correction=targetMs-utcFromParts(local);
+    if(correction===0)break;
+    candidate+=correction;
+  }
+  const actual=partsAt(new Date(candidate),zone);
+  if(Object.keys(target).some(key=>actual[key]!==target[key]))throw new Error('This local time does not exist in the selected zone because of a daylight-saving transition.');
+  return candidate;
+}
+function epConv(){
+  const raw=$('ep').value.trim();$('epErr').textContent='';$('epOut').innerHTML='';
+  if(!raw)return;
+  if(!/^-?\d+(\.\d+)?$/.test(raw)){$('epErr').textContent='Enter digits only (a number of seconds or milliseconds).';return}
+  const n=Number(raw),selected=$('unit').value;
+  const u=selected==='auto'?(Math.abs(n)>=1e17?'ns':Math.abs(n)>=1e14?'us':Math.abs(n)>=1e11?'ms':'s'):selected;
+  const ms=n*({s:1000,ms:1,us:0.001,ns:0.000001}[u]);
+  if(!Number.isFinite(ms)){$('epErr').textContent='That value is outside the range of representable dates.';return}
+  if(isNaN(new Date(ms).getTime())){$('epErr').textContent='That value is outside the range of representable dates.';return}
+  try{$('epOut').innerHTML=cards(Math.round(ms))}
+  catch(error){$('epErr').textContent=error.message}
+}
+function dtConv(){
+  let v=$('dt').value;$('dtErr').textContent='';$('dtOut').innerHTML='';
+  if(!v)return;
+  try{$('dtOut').innerHTML=cards(dateInZone(v,selectedZone()))}
+  catch(error){$('dtErr').textContent=error.message}
+}
+$('ep').addEventListener('input',epConv);$('unit').addEventListener('change',epConv);
+$('dt').addEventListener('input',dtConv);$('zone').addEventListener('input',()=>{epConv();dtConv()});
+$('zone').value=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';
+function updateIdLink(){
+  const url=new URL('../uuid/',location.href),value=$('idValue').value.trim(),type=$('idType').value;
+  if(value)url.searchParams.set('id',value);
+  if(type!=='auto')url.searchParams.set('type',type);
+  $('idInspect').href=url.href;
+}
+$('idValue').addEventListener('input',updateIdLink);$('idType').addEventListener('change',updateIdLink);
+updateIdLink();
+</script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UUID Inspector &amp; GUID Byte Order Converter | zrina.app</title>
+<meta name="description" content="Inspect UUID, ULID and MongoDB ObjectId values. Compare RFC and .NET/SQL Server bytes, Base64URL and Crockford Base32, and decode embedded timestamps locally." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://zrina.app/uuid/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="zrina.app" />
+<meta property="og:url" content="https://zrina.app/uuid/" />
+<meta property="og:title" content="UUID Inspector &amp; GUID Byte Order Converter" />
+<meta property="og:description" content="Inspect UUIDs and time-based IDs, including RFC versus .NET/SQL Server byte order." />
+<meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="UUID Inspector &amp; GUID Byte Order Converter" />
+<meta name="twitter:description" content="Decode UUID, ULID and ObjectId bytes and timestamps locally." />
+<meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta name="theme-color" content="#070b16" />
+<link rel="icon" type="image/svg+xml" href="../assets/tool-icons/uuid.svg" />
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/uuid-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/uuid-512.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/uuid-180.png" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"UUID Inspector","url":"https://zrina.app/uuid/","applicationCategory":"DeveloperApplication","operatingSystem":"All","description":"Client-side UUID, ULID and ObjectId inspector with byte-order conversion and timestamp decoding.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+</script>
+<link rel="stylesheet" href="../assets/tool-shell.css" />
+<style>
+:root{--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--bd)}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;text-decoration:none}.brand span{color:var(--mut);font-weight:500}
+nav{display:flex;gap:14px;flex-wrap:wrap}nav a{color:var(--tx2);text-decoration:none;font-size:14px}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:36px 0 8px;letter-spacing:-.02em}
+.lead{color:var(--tx2);margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:20px}
+label{display:block;font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:6px}
+textarea,select{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font:inherit;min-width:0}
+textarea{font-family:var(--mono);font-size:15px;min-height:76px;resize:vertical}
+textarea:focus,select:focus,button:focus-visible,a:focus-visible{outline:2px solid #55e6f2;outline-offset:2px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+.row>div{flex:1 1 260px}
+.buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{background:var(--ac);color:var(--acf);border:0;border-radius:9px;padding:9px 14px;font:inherit;font-size:14px;font-weight:650;cursor:pointer}
+.btn.secondary{background:var(--sub);color:var(--tx);border:1px solid var(--bd)}
+.status{min-height:1.4em;font-size:14px;margin-top:10px}.status.error{color:#fb7185}
+.results{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.result{min-width:0;padding:13px;border:1px solid var(--bd);border-radius:10px;background:var(--sub)}
+.result strong{display:block;font-size:12px;color:var(--tx2);margin-bottom:5px}
+.result code{font:13px/1.5 var(--mono);overflow-wrap:anywhere;word-break:break-all;color:var(--tx)}
+.warning{border-left:3px solid #f59e0b;padding:10px 13px;background:var(--sub);color:var(--tx2);font-size:14px;border-radius:6px}
+.note{color:var(--mut);font-size:13px}
+section.info h2{font-size:20px;margin:28px 0 8px}section.info p,section.info li{color:var(--tx2)}
+footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(--mut);font-size:13px}
+@media(max-width:600px){.card{padding:15px}.wrap{padding:0 16px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand tool-brand" href="../tools/" aria-label="UUID Inspector by Zrina, all tools">
+<img src="../assets/tool-icons/uuid-192.png" alt="" width="32" height="32" />
+<span class="tool-brand-name">UUID Inspector</span><span class="tool-brand-by">by Zrina</span>
+</a>
+<nav aria-label="Tool navigation"><a href="../hostvitals/">HostVitals</a><a href="../speedcalc/">Speed calc</a><a href="../cidr/">CIDR</a><a href="../json/">JSON</a><a href="../timestamp/">Timestamp</a><a href="../cron/">Cron</a><a href="../netplanner/">Network planner</a></nav>
+</div></header>
+<main class="wrap">
+<h1>UUID Inspector &amp; GUID Byte Order</h1>
+<p class="lead">Paste an identifier to inspect its bytes, common encodings and embedded timestamp. Everything runs in this browser.</p>
+
+<section class="card" aria-labelledby="input-heading">
+<div class="row">
+  <div><label id="input-heading" for="identifier">UUID, ULID, ObjectId or Snowflake ID</label><textarea id="identifier" spellcheck="false" autocomplete="off" placeholder="e.g. 018f3a2b-7c4d-7e5f-8a9b-0c1d2e3f4a5b"></textarea></div>
+  <div style="max-width:300px"><label for="idType">Identifier type</label><select id="idType"><option value="auto">Auto-detect UUID / ULID / ObjectId</option><option value="twitter">Twitter / X Snowflake</option><option value="discord">Discord Snowflake</option></select></div>
+</div>
+<div class="buttons">
+<button class="btn" id="generateV4" type="button">Generate UUID v4</button>
+<button class="btn secondary" id="generateV7" type="button">Generate UUID v7</button>
+<button class="btn secondary" id="generateUlid" type="button">Generate ULID</button>
+<button class="btn secondary" id="copyId" type="button">Copy input</button>
+<button class="btn secondary" id="clear" type="button">Clear</button>
+</div>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+</section>
+
+<section class="card" aria-labelledby="results-heading" aria-live="polite">
+<h2 id="results-heading" style="font-size:18px;margin:0 0 12px">Decoded identifier</h2>
+<div id="results" class="results"><p class="note">Paste an identifier above to inspect it.</p></div>
+<p id="timestampWarning" class="warning" hidden></p>
+</section>
+
+<section class="info">
+<h2>UUID byte order</h2>
+<p>UUID text and RFC/network bytes use the same left-to-right byte order. The traditional .NET <code>Guid.ToByteArray()</code> and SQL Server <code>uniqueidentifier</code> binary representation reverse the first 4-byte, 2-byte and 2-byte groups; the final 8 bytes stay in place. SQL Server comparison/sort order is a separate behavior and is not represented by this byte conversion.</p>
+<h2>Embedded timestamps</h2>
+<p>UUID versions 1, 6 and 7, ULIDs, MongoDB ObjectIds and Snowflake IDs contain or encode time. Their time portion is useful for inspection but can reveal creation time; do not treat these identifiers as secrets or authentication tokens.</p>
+<h2>Snowflake epochs</h2>
+<p>Twitter/X Snowflake IDs use the Twitter epoch; Discord IDs use the Discord epoch. Other Snowflake implementations may use different epochs or bit layouts and are not decoded by these presets.</p>
+</section>
+</main>
+<footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">All inspection and generation happen locally; identifiers are not uploaded.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+<script>
+const $=id=>document.getElementById(id);
+const input=$('identifier'),results=$('results'),status=$('status'),warning=$('timestampWarning');
+const CROCKFORD='0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+const GREGORIAN_OFFSET=122192928000000000n;
+function bytesHex(bytes){return Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('')}
+function groupedHex(bytes){return Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join(' ').toUpperCase()}
+function bytesToUuid(bytes){const h=bytesHex(bytes);return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20)}
+function uuidBytes(text){let clean=text.trim().replace(/^urn:uuid:/i,'');if(clean.startsWith('{')||clean.endsWith('}')){if(!/^\{[^{}]+\}$/.test(clean))return null;clean=clean.slice(1,-1)}if(!/^[\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12}$/i.test(clean))return null;return Uint8Array.from(clean.replace(/-/g,'').match(/../g),part=>parseInt(part,16))}
+function bytesToBigInt(bytes){return bytes.reduce((n,b)=>(n<<8n)|BigInt(b),0n)}
+function toBase32(value,length){let out='';for(let i=0;i<length;i++){out=CROCKFORD[Number(value&31n)]+out;value>>=5n}return out}
+function base64Url(bytes){let binary='';bytes.forEach(byte=>binary+=String.fromCharCode(byte));return btoa(binary).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function timestampResult(ms,label){if(ms<BigInt(-8640000000000000)||ms>BigInt(8640000000000000))return label+': outside JavaScript date range';const date=new Date(Number(ms));return label+': '+date.toISOString()+' · '+date.toLocaleString()}
+function uuidTimestamp(bytes,version){
+  if(version===7){const ms=bytesToBigInt(bytes.slice(0,6));return timestampResult(ms,'UUIDv7 Unix milliseconds')}
+  if(version!==1&&version!==6)return null;
+  let ticks;
+  if(version===1){const low=bytesToBigInt(bytes.slice(0,4)),mid=bytesToBigInt(bytes.slice(4,6)),hi=bytesToBigInt(bytes.slice(6,8))&0xfffn;ticks=(hi<<48n)|(mid<<32n)|low}
+  else{const high=bytesToBigInt(bytes.slice(0,6)),low=((BigInt(bytes[6]&15)<<8n)|BigInt(bytes[7]));ticks=(high<<12n)|low}
+  return timestampResult((ticks-GREGORIAN_OFFSET)/10000n,'UUIDv'+version+' Gregorian timestamp')
+}
+function renderRows(rows,warn=''){
+  results.replaceChildren();
+  rows.forEach(([label,value])=>{const box=document.createElement('div'),title=document.createElement('strong'),code=document.createElement('code');box.className='result';title.textContent=label;code.textContent=value;box.append(title,code);results.append(box)});
+  warning.textContent=warn;warning.hidden=!warn;
+}
+function inspectUuid(bytes){
+  const version=bytes[6]>>4,variant=(bytes[8]&0xc0)===0x80?'RFC variant':'non-RFC variant';
+  const net=bytes.slice(),dotnet=bytes.slice();[dotnet[0],dotnet[3]]=[dotnet[3],dotnet[0]];[dotnet[1],dotnet[2]]=[dotnet[2],dotnet[1]];[dotnet[4],dotnet[5]]=[dotnet[5],dotnet[4]];[dotnet[6],dotnet[7]]=[dotnet[7],dotnet[6]];
+  const versionText='UUID version '+version+' · '+variant;
+  const value=bytesToBigInt(bytes);
+  const time=uuidTimestamp(bytes,version);
+  const rows=[['UUID',bytesToUuid(bytes)],['Version / variant',versionText],['RFC / network bytes',groupedHex(net)],['.NET Guid.ToByteArray() / SQL Server binary',groupedHex(dotnet)],['Base64URL',base64Url(bytes)],['Crockford Base32 (128-bit value)',toBase32(value,26)]];
+  if(time)rows.push(['Timestamp',time]);
+  return{rows,warning:time?'This UUID version contains a creation timestamp. It is not a secret or authentication token.':''};
+}
+function inspectUlid(text){
+  const normalized=text.trim().toUpperCase();
+  if(!/^[0-9A-HJKMNP-TV-Z]{26}$/.test(normalized))return null;
+  let value=0n;for(const char of normalized)value=(value<<5n)|BigInt(CROCKFORD.indexOf(char));
+  if(value>=(1n<<128n))throw new Error('ULID exceeds the 128-bit range.');
+  const ms=value>>80n,bytes=new Uint8Array(16);let rest=value;for(let i=15;i>=0;i--){bytes[i]=Number(rest&255n);rest>>=8n}
+  return{rows:[['ULID',normalized],['Timestamp',timestampResult(ms,'Unix milliseconds')],['RFC / network bytes',groupedHex(bytes)],['Base64URL',base64Url(bytes)],['UUID-shaped bytes',bytesToUuid(bytes)]],warning:'A ULID encodes its creation time in its first 10 Crockford Base32 characters. It is not a secret or authentication token.'};
+}
+function inspectObjectId(text){
+  if(!/^[\da-f]{24}$/i.test(text.trim()))return null;
+  const hex=text.trim().toLowerCase(),seconds=BigInt('0x'+hex.slice(0,8)),bytes=Uint8Array.from(hex.match(/../g),part=>parseInt(part,16));
+  return{rows:[['MongoDB ObjectId',hex],['Timestamp',timestampResult(seconds*1000n,'Unix seconds')],['Timestamp bytes (big-endian)',groupedHex(bytes.slice(0,4))],['Remaining bytes',groupedHex(bytes.slice(4))]],warning:'An ObjectId embeds its creation time in the first 4 bytes. It is not a secret or authentication token.'};
+}
+function inspectSnowflake(text,kind){
+  if(!/^\d{1,20}$/.test(text.trim()))throw new Error('Enter a decimal Snowflake ID.');
+  const id=BigInt(text.trim());if(id>0xffffffffffffffffn)throw new Error('Snowflake IDs must fit in an unsigned 64-bit value.');const epoch=kind==='discord'?1420070400000n:1288834974657n,ms=(id>>22n)+epoch;
+  return{rows:[['Snowflake ID',id.toString()],['Format',kind==='discord'?'Discord':'Twitter / X'],['Timestamp',timestampResult(ms,'Unix milliseconds')],['Worker / sequence bits','Implementation-specific fields are not decoded']],warning:'The selected Snowflake epoch was used. Other systems may use different epochs or bit layouts.'};
+}
+function inspect(){
+  const text=input.value.trim();status.textContent='';status.className='status';
+  if(!text){renderRows([]);results.innerHTML='<p class="note">Paste an identifier above to inspect it.</p>';return}
+  try{
+    const type=$('idType').value;let parsed=null;
+    if(type==='twitter'||type==='discord')parsed=inspectSnowflake(text,type);
+    else{
+      const bytes=uuidBytes(text);
+      if(bytes)parsed=inspectUuid(bytes);
+      else if(type==='auto')parsed=inspectUlid(text)||inspectObjectId(text);
+    }
+    if(!parsed)throw new Error(type==='auto'?'Unrecognized identifier. Paste a UUID, ULID, or 24-character MongoDB ObjectId.':'Unrecognized identifier format.');
+    renderRows(parsed.rows,parsed.warning);
+  }catch(error){renderRows([]);status.textContent=error.message;status.className='status error'}
+}
+function secureRandom(length){if(!globalThis.crypto?.getRandomValues)throw new Error('Secure random generation is unavailable in this browser.');return crypto.getRandomValues(new Uint8Array(length))}
+function generateUuid(version){
+  const bytes=secureRandom(16);
+  if(version===4){bytes[6]=(bytes[6]&15)|0x40;bytes[8]=(bytes[8]&63)|0x80}
+  else{let now=BigInt(Date.now());for(let i=5;i>=0;i--){bytes[i]=Number(now&255n);now>>=8n}bytes[6]=(bytes[6]&15)|0x70;bytes[8]=(bytes[8]&63)|0x80}
+  input.value=bytesToUuid(bytes);inspect();
+}
+function generateUlid(){
+  const random=secureRandom(10),now=BigInt(Date.now());let value=now;
+  for(const byte of random)value=(value<<8n)|BigInt(byte);
+  input.value=toBase32(value,26);inspect();
+}
+$('generateV4').addEventListener('click',()=>{try{generateUuid(4)}catch(error){status.textContent=error.message;status.className='status error'}});
+$('generateV7').addEventListener('click',()=>{try{generateUuid(7)}catch(error){status.textContent=error.message;status.className='status error'}});
+$('generateUlid').addEventListener('click',()=>{try{generateUlid()}catch(error){status.textContent=error.message;status.className='status error'}});
+$('copyId').addEventListener('click',async()=>{if(!input.value)return;try{await navigator.clipboard.writeText(input.value);status.textContent='Identifier copied.';status.className='status'}catch(error){status.textContent='Clipboard access is unavailable.';status.className='status error'}});
+$('clear').addEventListener('click',()=>{input.value='';status.textContent='';renderRows([]);results.innerHTML='<p class="note">Paste an identifier above to inspect it.</p>';input.focus()});
+input.addEventListener('input',inspect);$('idType').addEventListener('change',inspect);
+const params=new URLSearchParams(location.search),typeQuery=params.get('type'),query=params.get('id');if(['twitter','discord'].includes(typeQuery))$('idType').value=typeQuery;if(query){input.value=query;inspect()}
+</script>
+</body>
+</html>

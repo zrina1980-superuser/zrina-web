@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unix Timestamps: Seconds or Milliseconds? · zrina.app</title>
+  <meta name="description" content="Learn to recognize Unix timestamps in seconds and milliseconds, convert them safely in JavaScript, and distinguish an instant from its displayed time zone." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://zrina.app/tools/guides/unix-timestamps-seconds-milliseconds.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="zrina.app Tools" />
+  <meta property="og:url" content="https://zrina.app/tools/guides/unix-timestamps-seconds-milliseconds.html" />
+  <meta property="og:title" content="Unix Timestamps: Seconds or Milliseconds? · zrina.app" />
+  <meta property="og:description" content="A practical way to recognize timestamp units and avoid common conversion mistakes." />
+  <meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Unix Timestamps: Seconds or Milliseconds? · zrina.app" />
+  <meta name="twitter:description" content="Convert timestamps carefully and understand time-zone display." />
+  <meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+  <meta name="theme-color" content="#070b16" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/tool-icons/tools.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/tool-icons/tools-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/tool-icons/tools-180.png" />
+  <link rel="stylesheet" href="../../assets/tool-shell.css" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"TechArticle","headline":"Unix Timestamps: Seconds or Milliseconds?","description":"Recognize Unix timestamps in seconds or milliseconds and convert them safely.","datePublished":"2026-11-03","dateModified":"2026-11-03","author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"},"publisher":{"@type":"Organization","name":"zrina.app Tools","url":"https://zrina.app/tools/"},"mainEntityOfPage":"https://zrina.app/tools/guides/unix-timestamps-seconds-milliseconds.html"}
+  </script>
+  <style>
+    .guide-article { max-width: 78ch; margin-inline: auto; }
+    .guide-article .eyebrow { color: var(--ac); font-size: .75rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .guide-article h1 { max-width: 18ch; margin: .65rem 0 1rem; }
+    .guide-article .meta, .guide-article .lede, .guide-article p, .guide-article li { color: var(--tx2); line-height: 1.75; }
+    .guide-article .lede { font-size: 1.08rem; }
+    .guide-article h2 { margin: 2rem 0 .65rem; font-size: 1.3rem; }
+    .guide-article h3 { margin: 1.4rem 0 .45rem; font-size: 1.05rem; }
+    .guide-article pre { overflow-x: auto; padding: 1rem; border: 1px solid var(--bd); border-radius: .75rem; background: var(--sub); color: var(--tx); }
+    .guide-article code { overflow-wrap: anywhere; }
+    .guide-article .callout { margin: 1.25rem 0; padding: 1rem 1.2rem; border-left: 3px solid var(--ac); border-radius: .5rem; background: var(--sub); color: var(--tx2); line-height: 1.7; }
+    .guide-article .sources li + li { margin-top: .45rem; }
+    .guide-article .backlinks { display: flex; flex-wrap: wrap; gap: .75rem 1.2rem; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--bd); }
+  </style>
+</head>
+<body>
+  <header class="top"><div class="wrap"><a class="brand tool-brand" href="../" aria-label="Tools Guides by Zrina, all tools"><img src="../../assets/tool-icons/tools-192.png" alt="" width="32" height="32"><span class="tool-brand-name">Tools Guides</span><span class="tool-brand-by">by Zrina</span></a><nav aria-label="Site navigation"><a href="../">Tools hub</a><a href="./">Guides</a><a href="../../hostvitals/">HostVitals</a></nav></div></header>
+  <main class="wrap guide-article">
+    <article>
+      <span class="eyebrow">Date and time</span>
+      <h1>Unix timestamps: seconds or milliseconds?</h1>
+      <p class="meta">A practical reference · Reviewed November 3, 2026</p>
+      <p class="lede">A timestamp is a number only after you know its unit and epoch. Treating seconds as milliseconds—or the reverse—can move a date by decades or thousands of years.</p>
+
+      <h2>What Unix time represents</h2>
+      <p>Unix time commonly counts seconds from the Unix epoch, 1970-01-01 00:00:00 UTC. Many APIs and logs use a signed integer in seconds, while browser JavaScript uses milliseconds for its built-in <code>Date</code> time value. Other systems may use microseconds, nanoseconds, or an entirely different epoch, so check the source format before converting.</p>
+
+      <h2>A quick magnitude check</h2>
+      <p>For dates in the 2000s, a seconds timestamp is commonly around ten digits and a milliseconds timestamp around thirteen. This is a useful clue, not a reliable format specification: values can be rounded, negative, truncated, or use another unit. Prefer explicit metadata or documentation when available.</p>
+      <pre><code>Seconds:      1,700,000,000
+Milliseconds: 1,700,000,000,000</code></pre>
+      <p>The two values above refer to the same approximate instant. The millisecond value is the seconds value multiplied by 1,000.</p>
+
+      <h2>Convert deliberately in JavaScript</h2>
+      <pre><code>const seconds = 1_700_000_000;
+const date = new Date(seconds * 1000);
+console.log(date.toISOString());</code></pre>
+      <p><code>Date</code> expects milliseconds. Passing <code>1_700_000_000</code> directly makes JavaScript interpret it as milliseconds after 1970, not seconds. Conversely, dividing a millisecond value by 1,000 is needed when an API expects Unix seconds.</p>
+
+      <h2>An instant is not the same as its display</h2>
+      <p>A Unix timestamp identifies an instant. A formatted clock time also needs a time zone. The same instant can be shown as different local dates and times in Zagreb, London or New York. When comparing logs, convert to UTC first or make the display zone explicit; do not assume two different clock readings represent different instants.</p>
+      <p>JavaScript's ISO string method, <code>toISOString()</code>, formats a date in UTC. Methods such as <code>toLocaleString()</code> normally use the environment's locale and time zone unless options specify otherwise. Daylight-saving rules affect local display, not the underlying timestamp number.</p>
+
+      <h2>What about the year 2038?</h2>
+      <p>The well-known 2038 issue concerns systems that store Unix seconds in a signed 32-bit integer: that representation reaches its maximum in January 2038. It does not mean every timestamp, database or modern system will fail then. The actual risk depends on the integer width and how each component handles dates.</p>
+      <div class="callout"><strong>Tip:</strong> When a number converts to a date near January 1970, check whether you passed seconds to a millisecond API. Use the <a href="../../timestamp/">Unix Timestamp Converter</a> to inspect common seconds and milliseconds values.</div>
+
+      <h2>Primary references</h2>
+      <ul class="sources">
+        <li><a href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html">The Open Group Base Specifications — General concepts, including seconds since the Epoch</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">MDN — JavaScript Date</a></li>
+        <li><a href="https://www.iana.org/time-zones">IANA Time Zone Database</a></li>
+      </ul>
+      <nav class="backlinks" aria-label="Related pages"><a href="../../timestamp/">Open Timestamp Converter</a><a href="../../cron/">Open Cron Explainer</a><a href="./">All guides</a></nav>
+    </article>
+  </main>
+  <footer class="tool-footer"><div class="wrap"><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../">All tools</a><a href="./">Guides</a><a href="../about.html">About the tools</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+</body>
+</html>

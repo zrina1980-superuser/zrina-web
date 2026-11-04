@@ -1,0 +1,1915 @@
+[
+  {
+    "id": "shoplist",
+    "name": "shoplist.app",
+    "category": "public",
+    "status": "public",
+    "featuredRank": null,
+    "accent": "#c084fc",
+    "icon": "shoplist/shoplist-logo.png",
+    "screenshot": "assets/portfolio/previews/shoplist_preview.jpg",
+    "projectUrl": "shoplist/project.html",
+    "landingUrl": "https://shoplist-zrina-app.ai.studio/",
+    "launchUrl": "https://shoplist-zrina-app.ai.studio/",
+    "email": "shoplist@zrina.app",
+    "subject": "shoplist.app — Tehnički upit / Technical Inquiry",
+    "description": {
+      "hr": "Zajednički popisi za kupnju, glasovni unos i skeniranje računa.",
+      "en": "Shared grocery lists with voice input and receipt scanning."
+    },
+    "tech": {
+      "hr": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Firebase",
+        "Web Speech API",
+        "Gemini AI"
+      ],
+      "en": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Firebase",
+        "Web Speech API",
+        "Gemini AI"
+      ]
+    },
+    "preview": {
+      "src": "shoplist/share-card.png",
+      "kind": "cover",
+      "aspectRatio": "1200 / 630"
+    },
+    "projectPage": {
+      "title": {
+        "hr": "Kupovina koja se lakše dogovara.",
+        "en": "Shopping that is easier to coordinate."
+      },
+      "lead": {
+        "hr": "Zajednički popis za kupovinu osmišljen za dvoje ili obitelj: dodavanje artikala, glasovni unos i sinkronizacija pomažu da svi prate isti popis, uključujući i dok su u trgovini.",
+        "en": "A shared shopping list for couples and families. Add items by typing or voice, and keep everyone in sync—even while you shop."
+      },
+      "overview": {
+        "hr": [
+          "Projekt polazi od jednostavne svakodnevne potrebe: popis treba biti brz za dopunjavanje, razumljiv svim članovima kućanstva i ažuran na više uređaja. Umjesto da popis ostane na jednom telefonu, promjene se mogu pratiti zajednički.",
+          "Glasovni unos olakšava bilježenje kada tipkanje nije praktično, dok raspored po odjelima i skeniranje računa povezuju pripremu kupovine s pregledom obavljene kupnje."
+        ],
+        "en": [
+          "The project starts with a familiar everyday need: a list should be quick to update, clear to everyone in a household and kept current across devices. Rather than living on one phone, changes can be shared.",
+          "Voice input helps capture items when typing is inconvenient, while aisle grouping and receipt scanning connect shopping preparation with a review of the completed purchase."
+        ]
+      },
+      "workflow": [
+        {
+          "hr": [
+            "Sastavi popis",
+            "Dodaj artikle i količine tipkanjem ili hrvatskim glasovnim unosom; popis je spreman za zajedničko planiranje."
+          ],
+          "en": [
+            "Build the list",
+            "Add items and quantities by typing or Croatian voice input, then prepare the list together."
+          ]
+        },
+        {
+          "hr": [
+            "Uskladi kupovinu",
+            "Članovi kućanstva prate isti popis i njegov status, umjesto da uspoređuju odvojene poruke ili bilješke."
+          ],
+          "en": [
+            "Coordinate the shop",
+            "Household members follow the same list and its status rather than reconciling separate messages or notes."
+          ]
+        },
+        {
+          "hr": [
+            "Prati odjele",
+            "Grupiranje proizvoda po odjelima pomaže proći trgovinu sustavno i označiti stavke dok se kupuju."
+          ],
+          "en": [
+            "Move through aisles",
+            "Grouping products by aisle helps organise the trip and mark items as they are picked up."
+          ]
+        },
+        {
+          "hr": [
+            "Pregledaj račun",
+            "Skeniranje računa uz OCR može prepoznati stavke i iznose, pa nakon kupovine ostaje pregled onoga što je evidentirano."
+          ],
+          "en": [
+            "Review the receipt",
+            "Receipt OCR can identify items and amounts, leaving a record to review after the shopping trip."
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "hr": [
+            "Zajednički popis",
+            "Stavke i njihove količine sinkroniziraju se između članova, uz vidljiv status kada je netko u kupovini."
+          ],
+          "en": [
+            "Shared list",
+            "Items and quantities stay in sync, so everyone can see when someone is out shopping."
+          ]
+        },
+        {
+          "hr": [
+            "Glasovni unos",
+            "Govorni unos na hrvatskom pretvara izgovorene proizvode i količine u stavke popisa."
+          ],
+          "en": [
+            "Voice entry",
+            "Croatian speech input turns spoken products and quantities into list items."
+          ]
+        },
+        {
+          "hr": [
+            "Raspored po odjelima",
+            "Prikaz grupira artikle prema odjelima trgovine kako bi popis bio praktičniji za korištenje u prolazu."
+          ],
+          "en": [
+            "Aisle grouping",
+            "Items are grouped by store aisle to make the list easier to use while walking through a shop."
+          ]
+        },
+        {
+          "hr": [
+            "Skeniranje računa",
+            "AI OCR analiza fotografije računa izdvaja prepoznate proizvode i iznose u eurima radi pregleda kupovine."
+          ],
+          "en": [
+            "Receipt scanning",
+            "AI receipt OCR extracts recognised products and euro amounts from a receipt image for later review."
+          ]
+        },
+        {
+          "hr": [
+            "Stanje kupovine",
+            "Označavanje stavki i vidljiv status pomažu članovima kućanstva znati što je već preuzeto, a što još nedostaje."
+          ],
+          "en": [
+            "Shopping progress",
+            "Item check-offs and shared status help household members see what has already been picked up and what remains."
+          ]
+        }
+      ],
+      "flow": [
+        {
+          "hr": [
+            "Popis i glasovni unos",
+            "Stavke, količine i status kupovine."
+          ],
+          "en": [
+            "List and voice entry",
+            "Items, quantities and shopping status."
+          ]
+        },
+        {
+          "hr": [
+            "Aplikacijska logika",
+            "Obrada unosa, rasporeda i računa."
+          ],
+          "en": [
+            "Application logic",
+            "Input, aisle grouping and receipt processing."
+          ]
+        },
+        {
+          "hr": [
+            "Zajednički prikaz",
+            "Sinkronizacija podataka među korisnicima."
+          ],
+          "en": [
+            "Shared view",
+            "Data synchronisation between participants."
+          ]
+        }
+      ],
+      "privacy": {
+        "hr": "Za suradničku sinkronizaciju koriste se Firebase servisi; značajke glasa i AI obrade oslanjaju se na dostupnost podržanih pregledničkih i vanjskih servisa.",
+        "en": "Collaborative synchronisation uses Firebase services; voice and AI processing depend on supported browser capabilities and external services."
+      },
+      "tech": {
+        "hr": "React 19, TypeScript, Tailwind CSS, Firebase Authentication i Cloud Firestore, Web Speech API te Gemini AI za OCR računa.",
+        "en": "React 19, TypeScript, Tailwind CSS, Firebase Authentication and Cloud Firestore, Web Speech API, and Gemini AI for receipt OCR."
+      }
+    },
+    "techDescription": {
+      "hr": "React 19, TypeScript, Tailwind v4, Firebase Auth & Firestore, Web Speech API, Gemini AI.",
+      "en": "React 19, TypeScript, Tailwind v4, Firebase Auth & Firestore, Web Speech API, Gemini AI."
+    }
+  },
+  {
+    "id": "wood",
+    "name": "wood.app",
+    "category": "public",
+    "status": "public",
+    "featuredRank": null,
+    "accent": "#f59e0b",
+    "icon": "wood/woodapp-logo.png",
+    "screenshot": "assets/portfolio/previews/wood_preview.jpg",
+    "projectUrl": "wood/project.html",
+    "landingUrl": "https://wood-app-394279937544.europe-west1.run.app/",
+    "launchUrl": "https://wood-app-394279937544.europe-west1.run.app/",
+    "email": "wood@zrina.app",
+    "subject": "wood.app — Tehnički upit / Technical Inquiry",
+    "description": {
+      "hr": "Stolarski PWA alat za interaktivne 3D modele, tehničke nacrte i planiranje rezanja u milimetrima.",
+      "en": "A woodworking PWA for interactive 3D models, technical drawings and metric cut planning."
+    },
+    "tech": {
+      "hr": [
+        "React",
+        "TypeScript",
+        "Three.js",
+        "SVG",
+        "Node.js",
+        "Express",
+        "Google Cloud Run"
+      ],
+      "en": [
+        "React",
+        "TypeScript",
+        "Three.js",
+        "SVG",
+        "Node.js",
+        "Express",
+        "Google Cloud Run"
+      ]
+    },
+    "preview": {
+      "src": "wood/share-card.png",
+      "kind": "cover",
+      "aspectRatio": "1200 / 630"
+    },
+    "projectPage": {
+      "title": {
+        "hr": "Od mjere do nacrta i krojne liste.",
+        "en": "From measurements to drawings and a cut list."
+      },
+      "lead": {
+        "hr": "Stolarski alat koji pretvara mjere i opis projekta u strukturirani model, interaktivni 3D prikaz, 2D nacrte i krojnu listu.",
+        "en": "A woodworking tool that turns project dimensions and a description into a structured model, interactive 3D view, 2D drawings and a cut list."
+      },
+      "overview": {
+        "hr": [
+          "Unesi opis i mjere projekta, a wood.app pripremit će strukturirani model s popisom dijelova. Parametarski generator može izraditi projekt i bez AI-ja; ako je AI omogućen, njegov prijedlog prolazi dodatne stolarske provjere.",
+          "Model možeš pregledati u interaktivnom 3D prikazu te otvoriti 2D projekcije i A4 tehnički list. Mjere su u milimetrima, a kalkulator rezanja uračunava širinu lista pile."
+        ],
+        "en": [
+          "Enter a project description and its dimensions to create a structured model and parts list. The parametric generator can build a plan without AI; when AI is enabled, its suggestions go through additional carpentry checks.",
+          "Inspect the model in an interactive 3D view, then open 2D projections and an A4 technical sheet. Dimensions are in millimetres, and cut calculations account for the saw blade."
+        ]
+      },
+      "workflow": [
+        {
+          "hr": [
+            "Unesi geometriju",
+            "Zadaj dimenzije i konstrukcijske parametre u milimetrima kako bi aplikacija mogla izračunati pojedine dijelove sklopa."
+          ],
+          "en": [
+            "Enter the geometry",
+            "Set dimensions and construction parameters in millimetres so the application can calculate the assembly parts."
+          ]
+        },
+        {
+          "hr": [
+            "Provjeri oblik",
+            "Pregledaj izometrijski i rastavljeni prikaz kako bi razumio odnose elemenata prije početka izrade."
+          ],
+          "en": [
+            "Inspect the form",
+            "Review the isometric and exploded views to understand how components relate before fabrication."
+          ]
+        },
+        {
+          "hr": [
+            "Usporedi projekcije",
+            "Otvori tlocrt, nacrt i bokocrt te provjeri tehničke prikaze iz više smjerova."
+          ],
+          "en": [
+            "Compare projections",
+            "Use top, front and side views to inspect the design from multiple directions."
+          ]
+        },
+        {
+          "hr": [
+            "Isplaniraj rezanje",
+            "Pregledaj krojnu listu i procjenu građe uz uračunatu širinu reza pile, pa pripremi materijal za radionicu."
+          ],
+          "en": [
+            "Plan the cuts",
+            "Review the cut list and timber estimate, including the saw-blade width, then prepare your materials."
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "hr": [
+            "Parametarski model",
+            "Strukturirani parametri opisuju dimenzije, tip konstrukcije i dijelove sklopa prije njihova prikaza."
+          ],
+          "en": [
+            "Parametric model",
+            "Structured parameters describe dimensions, construction type and assembly parts before they are rendered."
+          ]
+        },
+        {
+          "hr": [
+            "Izometrija i rastavljeni prikaz",
+            "Interaktivni Three.js prikaz omogućuje rotiranje modela i pregled rastavljenog sklopa prije izrade."
+          ],
+          "en": [
+            "Isometric and exploded views",
+            "The interactive Three.js view lets you rotate the model and inspect its exploded assembly before fabrication."
+          ]
+        },
+        {
+          "hr": [
+            "Tehničke projekcije",
+            "Tlocrt, nacrt i bokocrt nude pregled iz različitih smjerova, uz list spreman za ispis."
+          ],
+          "en": [
+            "Technical projections",
+            "Top, front and side views provide multiple perspectives, with a printable sheet."
+          ]
+        },
+        {
+          "hr": [
+            "Krojna lista i građa",
+            "Optimizacija duljina uz uračunatu širinu reza i kalkulator potrebnog materijala."
+          ],
+          "en": [
+            "Cut list and lumber",
+            "Optimised cut lengths that account for the saw blade, plus a timber calculator."
+          ]
+        },
+        {
+          "hr": [
+            "Ispis pripreme",
+            "Tehnički prikazi mogu se pregledati kao radna dokumentacija i pripremiti za ispis prije odlaska u radionicu."
+          ],
+          "en": [
+            "Printable plans",
+            "Technical views can be reviewed as working documentation and prepared for printing before heading to the workshop."
+          ]
+        }
+      ],
+      "flow": [
+        {
+          "hr": [
+            "Mjere i parametri",
+            "Ulazne dimenzije projekta u milimetrima."
+          ],
+          "en": [
+            "Dimensions and parameters",
+            "Project measurements entered in millimetres."
+          ]
+        },
+        {
+          "hr": [
+            "Geometrija i izračuni",
+            "Modeliranje, projekcije i optimizacija rezanja."
+          ],
+          "en": [
+            "Geometry and calculations",
+            "Modelling, projections and cut optimisation."
+          ]
+        },
+        {
+          "hr": [
+            "Nacrti i popis materijala",
+            "Pregled sklopa i dokumenti za planiranje izrade."
+          ],
+          "en": [
+            "Drawings and material list",
+            "Assembly views and documents for planning the build."
+          ]
+        }
+      ],
+      "privacy": {
+        "hr": "Konstruktor može koristiti AI ako je ta mogućnost uključena; ugrađeni parametarski generator radi i bez vanjskog AI-ja. Prije izrade provjeri mjere, spojeve i nosivost jer prikazi i izračuni služe za planiranje.",
+        "en": "The builder can use AI when enabled; the built-in parametric generator also works without external AI. Verify dimensions, joints and load capacity before building, as the views and calculations are planning aids."
+      },
+      "tech": {
+        "hr": "React 19, TypeScript, Three.js za interaktivni 3D, SVG za 2D nacrte te Node.js/Express na Google Cloud Runu.",
+        "en": "React 19, TypeScript, Three.js for interactive 3D, SVG for 2D drawings, and Node.js/Express on Google Cloud Run."
+      }
+    },
+    "techDescription": {
+      "hr": "React 19, TypeScript, Three.js, SVG, Node.js/Express i Google Cloud Run.",
+      "en": "React 19, TypeScript, Three.js, SVG, Node.js/Express and Google Cloud Run."
+    }
+  },
+  {
+    "id": "gljivo",
+    "name": "gljivobook.app",
+    "category": "public",
+    "status": "public",
+    "featuredRank": 1,
+    "accent": "#00c8ee",
+    "icon": "gljivobook/gljivobook-192.png",
+    "screenshot": "assets/portfolio/previews/gljivobook_preview.jpg",
+    "projectUrl": "gljivobook/project.html",
+    "landingUrl": "https://gljivobook-zrina.ai.studio/",
+    "launchUrl": "https://gljivobook-zrina.ai.studio/",
+    "email": "gljivobook@zrina.app",
+    "subject": "gljivobook.app — Tehnički upit / Technical Inquiry",
+    "description": {
+      "hr": "Terenski vodič za 169 vrsta, lokalni determinator i dnevnik za rad u šumi i bez signala.",
+      "en": "A field guide to 169 mushroom species, an on-device identification tool and an offline field journal."
+    },
+    "tech": {
+      "hr": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "IndexedDB",
+        "Leaflet",
+        "Open-Meteo",
+        "Canvas",
+        "Workbox PWA"
+      ],
+      "en": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "IndexedDB",
+        "Leaflet",
+        "Open-Meteo",
+        "Canvas",
+        "Workbox PWA"
+      ]
+    },
+    "preview": {
+      "src": "gljivobook/share-card.png",
+      "kind": "cover",
+      "aspectRatio": "1200 / 630"
+    },
+    "projectPage": {
+      "title": {
+        "hr": "Terenski vodič, dnevnik i lokalni determinator.",
+        "en": "A field guide, journal and on-device identification tool."
+      },
+      "lead": {
+        "hr": "Besplatan PWA terenski priručnik za 169 vrsta gljiva Hrvatske, s izvanmrežnim morfološkim filtrom i dnevnikom nalaza.",
+        "en": "A free PWA field guide to 169 mushroom species found in Croatia, with an offline, feature-based identifier and a field journal."
+      },
+      "overview": {
+        "hr": [
+          "Gljivobook spaja enciklopediju 169 autohtonih vrsta Hrvatske s osobnim terenskim dnevnikom, narodnim nazivima, pametnim razvrstavanjem i morfološkim filtrom koji pomaže suziti izbor prije fotografiranja.",
+          "Lokalni determinator uspoređuje vidljiva obilježja i fotografije bez vanjskog AI ključa. Karta, GPS bilješke i spremljeni podaci podupiru rad na terenu; identifikacija je edukativna pomoć i ne jamči jestivost."
+        ],
+        "en": [
+          "Gljivobook combines an encyclopedia of 169 Croatian species with a personal field journal, local names, smart sorting and a morphology-based filter that narrows options before taking a photo.",
+          "Its on-device identifier compares visible traits and photos without an external AI key. Maps, GPS notes and saved records support field work; identification is educational assistance and cannot guarantee edibility."
+        ]
+      },
+      "workflow": [
+        {
+          "hr": [
+            "Pripremi teren",
+            "Otvori vodič i spremljene sadržaje; PWA predmemorija i lokalna pohrana omogućuju korištenje i kada nema signala."
+          ],
+          "en": [
+            "Prepare for the field",
+            "Open the guide and saved content; PWA caching and local storage support use when there is no reception."
+          ]
+        },
+        {
+          "hr": [
+            "Usporedi obilježja",
+            "Odaberi vidljiva obilježja i usporedi moguće vrste; po potrebi pregledaj fotografije iz više kutova uz upozorenja na opasne dvojnike."
+          ],
+          "en": [
+            "Compare characteristics",
+            "Select visible traits to compare possible species; review photos from multiple angles and warnings about dangerous lookalikes when needed."
+          ]
+        },
+        {
+          "hr": [
+            "Zabilježi nalaz",
+            "Zabilježi nalaz, fotografiju i GPS lokaciju; pregled karte i izvoz GPX pomažu vratiti se na mjesto."
+          ],
+          "en": [
+            "Log a find",
+            "Save a mushroom find with a photo and GPS location. Use the map or export a GPX track to find the spot again."
+          ]
+        },
+        {
+          "hr": [
+            "Pregledaj teren i sigurnost",
+            "Pregledaj lokalni dnevnik, prognozu i sezonska upozorenja; vremenski podaci ovise o vezi, a nijedan alat ne potvrđuje jestivost."
+          ],
+          "en": [
+            "Review field notes and safety",
+            "Review local records, forecasts and seasonal alerts; weather data needs a connection, and no tool confirms edibility."
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "hr": [
+            "Vodič kroz 169 vrsta",
+            "Autohtone vrste Hrvatske s narodnim nazivima, sezonskim upozorenjima i mogućim dvojnicama."
+          ],
+          "en": [
+            "Guide to 169 species",
+            "Croatian species with local names, seasonal warnings and potential lookalikes."
+          ]
+        },
+        {
+          "hr": [
+            "Lokalni morfološki determinator",
+            "Četiri skupine opaženih obilježja sužavaju izbor; lokalna analiza fotografija iz triju kutova radi bez vanjskog AI ključa."
+          ],
+          "en": [
+            "On-device morphology identifier",
+            "Four groups of visible traits narrow the selection; local analysis of photos from three angles works without an external AI key."
+          ]
+        },
+        {
+          "hr": [
+            "Terenski dnevnik i karta",
+            "Fotografije, GPS nalazišta, interaktivna karta, GPX izvoz i lokator parkiranog automobila."
+          ],
+          "en": [
+            "Field journal and maps",
+            "Photos, GPS locations, interactive maps, GPX export and a parked-car locator."
+          ]
+        },
+        {
+          "hr": [
+            "Meteo i sezonska upozorenja",
+            "Gljivarski indeks, prognoza i zalazak sunca daju kontekst; determinator ne zamjenjuje stručnu procjenu."
+          ],
+          "en": [
+            "Weather and seasonal alerts",
+            "A mushroom index, forecast and sunset time add context; the identifier does not replace expert assessment."
+          ]
+        },
+        {
+          "hr": [
+            "Offline pristup i sigurnost",
+            "Vodič, osobni zapisi i lokalni determinator dostupni su bez stalne veze; karta i prognoza ovise o vanjskim servisima."
+          ],
+          "en": [
+            "Offline access and safety",
+            "The guide, personal records and local identifier work without a continuous connection; maps and forecasts depend on external services."
+          ]
+        }
+      ],
+      "flow": [
+        {
+          "hr": [
+            "Odabir obilježja",
+            "Terenski filtar i lokalna analiza."
+          ],
+          "en": [
+            "Select traits",
+            "Field filter and local analysis."
+          ]
+        },
+        {
+          "hr": [
+            "Vodič i teren",
+            "169 vrsta, karta i vremenski kontekst."
+          ],
+          "en": [
+            "Guide and field work",
+            "169 species, maps and weather context."
+          ]
+        },
+        {
+          "hr": [
+            "Dnevnik i sigurnost",
+            "Lokalni zapisi i važne upute."
+          ],
+          "en": [
+            "Journal and safety",
+            "Saved field notes and safety guidance."
+          ]
+        }
+      ],
+      "privacy": {
+        "hr": "Dnevnik i GPS podaci pohranjuju se lokalno u IndexedDB. Morfološko filtriranje i analiza fotografija obrađuju se na uređaju; karte i prognoza koriste vanjske servise kada je veza dostupna. SOS podaci u aplikaciji navode Centar za kontrolu otrovanja pri Institutu za medicinska istraživanja i medicinu rada (IMI): +385 1 2348 342, uz hitne brojeve 112 / 194.",
+        "en": "Journal and GPS records are stored locally in IndexedDB. Morphology filtering and photo analysis run on-device; maps and forecasts use external services when connected. The app lists the Poison Control Centre at IMI at +385 1 2348 342 and emergency numbers 112 / 194."
+      },
+      "tech": {
+        "hr": "React 19, TypeScript, Tailwind CSS v4, Vite 6, Workbox PWA, IndexedDB, Leaflet, Open-Meteo i Canvas.",
+        "en": "React 19, TypeScript, Tailwind CSS v4, Vite 6, Workbox PWA, IndexedDB, Leaflet, Open-Meteo and Canvas."
+      }
+    },
+    "techDescription": {
+      "hr": "React 19, TypeScript, Tailwind CSS v4, Vite 6, IndexedDB, Leaflet, Open-Meteo i HTML5 Canvas.",
+      "en": "React 19, TypeScript, Tailwind CSS v4, Vite 6, IndexedDB, Leaflet, Open-Meteo and HTML5 Canvas."
+    },
+    "caseStudy": {
+      "role": {
+        "hr": "Uloga: ideja, dizajn, razvoj i testiranje — samostalno, uz AI alate kao asistenta.",
+        "en": "Role: idea, design, development and testing — solo, with AI tools as an assistant."
+      },
+      "facts": [
+        {
+          "hr": [
+            "Vrste",
+            "169"
+          ],
+          "en": [
+            "Species",
+            "169"
+          ]
+        },
+        {
+          "hr": [
+            "Rad bez mreže",
+            "Da, PWA"
+          ],
+          "en": [
+            "Offline",
+            "Yes, PWA"
+          ]
+        },
+        {
+          "hr": [
+            "AI ključ",
+            "Nije potreban"
+          ],
+          "en": [
+            "AI key",
+            "Not required"
+          ]
+        },
+        {
+          "hr": [
+            "Teme",
+            "Svijetla + tamna"
+          ],
+          "en": [
+            "Themes",
+            "Light + dark"
+          ]
+        }
+      ],
+      "problem": {
+        "hr": [
+          "Berači gljiva u Hrvatskoj većinom se oslanjaju na stare knjige i savjete, a na terenu često nema signala. Postojeće aplikacije uglavnom nisu prilagođene hrvatskim vrstama i narodnim nazivima.",
+          "Pogrešna odluka može biti opasna, pa alat mora biti oprezan, jasan i uvijek dostupan."
+        ],
+        "en": [
+          "Mushroom pickers in Croatia mostly rely on old books and advice, and there is often no signal in the forest. Existing apps are rarely adapted to Croatian species and local names.",
+          "A wrong decision can be dangerous, so the tool has to be careful, clear and always available."
+        ]
+      },
+      "solution": {
+        "hr": [
+          "PWA koja radi potpuno izvan mreže: vodič za 169 vrsta s narodnim nazivima, morfološki determinator koji sužava izbor prema vidljivim obilježjima te terenski dnevnik s fotografijom, GPS-om i GPX izvozom.",
+          "Uz svaku vrstu su upozorenja na opasne dvojnike, a SOS protokol upućuje na Centar za kontrolu otrovanja. Aplikacija ne tvrdi da može potvrditi jestivost."
+        ],
+        "en": [
+          "A PWA that works fully offline: a guide to 169 species with local names, a feature-based identifier that narrows the choice by visible traits, and a field journal with photo, GPS and GPX export.",
+          "Every species lists dangerous lookalikes, and an SOS protocol points to the Poison Control Centre. The app never claims it can confirm edibility."
+        ]
+      },
+      "decisions": [
+        {
+          "hr": [
+            "Determinator bez vanjskog AI-ja",
+            "Identifikacija je pravilima vođen morfološki filtar na uređaju. Rezultat je predvidljiv, besplatan za pokretanje i radi bez veze."
+          ],
+          "en": [
+            "Identifier without an external AI",
+            "Identification is a rule-based, on-device morphology filter. It is predictable, free to run and works with no connection."
+          ]
+        },
+        {
+          "hr": [
+            "Offline-first",
+            "Podaci i dnevnik žive u IndexedDB-u, a Workbox predmemorira aplikaciju. Karta i prognoza koriste mrežu samo kad je ima."
+          ],
+          "en": [
+            "Offline-first",
+            "Data and the journal live in IndexedDB and Workbox caches the app. The map and forecast only use the network when it is there."
+          ]
+        },
+        {
+          "hr": [
+            "Sigurnost ispred značajki",
+            "Upozorenja na dvojnike, sezonske opomene i jasna izjava da alat ne jamči jestivost ugrađeni su u sam tok korištenja."
+          ],
+          "en": [
+            "Safety before features",
+            "Lookalike warnings, seasonal alerts and a clear no-guarantee statement are built into the flow itself."
+          ]
+        },
+        {
+          "hr": [
+            "Čitljivost na terenu",
+            "Svijetla “Paperlike” tema za sunce, tamna za sumrak i kontrola veličine slova (Aa) za svaku dob."
+          ],
+          "en": [
+            "Readable in the field",
+            "A light “Paperlike” theme for sunlight, a dark one for dusk, and a text-size control (Aa) for every age."
+          ]
+        }
+      ],
+      "learned": {
+        "hr": [
+          "Najviše sam naučio o tome kako dizajnirati za nesigurne uvjete: bez signala, na suncu, s mokrim prstima. To je promijenilo način na koji razmišljam o svakom sučelju.",
+          "Naučio sam i da je u aplikacijama gdje se odlučuje o zdravlju iskreno ograničavanje obećanja važnije od dojmljive značajke."
+        ],
+        "en": [
+          "The biggest lesson was designing for poor conditions: no signal, bright sun, wet fingers. It changed how I think about every interface.",
+          "I also learned that in apps touching health decisions, honestly limiting the promise matters more than an impressive feature."
+        ]
+      }
+    }
+  },
+  {
+    "id": "drone",
+    "name": "dronelogbook.app",
+    "category": "public",
+    "status": "public",
+    "featuredRank": 2,
+    "accent": "#38bdf8",
+    "icon": "drone-logbook/droneapp-logo.png",
+    "screenshot": "drone-logbook/drone-dashboard.jpg",
+    "projectUrl": "drone-logbook/project.html",
+    "landingUrl": "drone-logbook/index.html",
+    "launchUrl": "https://dronelogbook-zrina-app.ai.studio/",
+    "email": "drone@zrina.app",
+    "subject": "dronelogbook.app — Tehnički upit / Technical Inquiry",
+    "description": {
+      "hr": "Instalabilna PWA za evidenciju letova, flote, dokumenata i održavanja te pregled pravila za 195 država.",
+      "en": "An installable PWA for logging flights, managing a fleet and pilot documents, tracking maintenance and looking up rules for 195 countries."
+    },
+    "tech": {
+      "hr": [
+        "React 19",
+        "TypeScript",
+        "PWA · Workbox",
+        "Firebase Auth",
+        "Cloud Firestore",
+        "Leaflet",
+        "Open-Meteo"
+      ],
+      "en": [
+        "React 19",
+        "TypeScript",
+        "PWA · Workbox",
+        "Firebase Auth",
+        "Cloud Firestore",
+        "Leaflet",
+        "Open-Meteo"
+      ]
+    },
+    "preview": {
+      "src": "drone-logbook/drone-dashboard.jpg",
+      "kind": "screenshot",
+      "aspectRatio": "1365 / 768"
+    },
+    "projectPage": {
+      "title": {
+        "hr": "Sve za let — od pripreme do dnevnika.",
+        "en": "Everything for a flight, from prep to logbook."
+      },
+      "lead": {
+        "hr": "Instalabilna PWA za planiranje leta, GPS kartu i vremenske uvjete, evidenciju flote i održavanja te pregled regulatornih referenci za 195 država.",
+        "en": "An installable PWA for flight planning, GPS mapping and weather, fleet and maintenance records, and regulatory references for 195 countries."
+      },
+      "overview": {
+        "hr": [
+          "dronelogbook.app je instalabilna PWA za pripremu leta i vođenje evidencije na terenu. Upiši lokaciju ili odaberi je na karti, provjeri vremenske uvjete i spremi trajanje, radijus, kontrolni popis i bilješke.",
+          "Aplikacija obuhvaća i flotu, pilotske dokumente, servisne zapise te regulatorne reference za 195 država. Može se koristiti iz preglednika ili instalirati na početni zaslon."
+        ],
+        "en": [
+          "dronelogbook.app is an installable PWA for preparing flights and keeping records in the field. Enter a location or pick it on the map, check the weather, and save the duration, radius, checklist and notes.",
+          "It also covers fleet details, pilot documents, maintenance records and regulatory references for 195 countries. Use it in a browser or install it on your home screen."
+        ]
+      },
+      "workflow": [
+        {
+          "hr": [
+            "Pripremi let",
+            "Odaberi lokaciju na karti ili upotrijebi GPS, zatim provjeri vrijeme i postavi radijus leta."
+          ],
+          "en": [
+            "Plan the flight",
+            "Pick a location on the map or use GPS, then check the weather and set the flight radius."
+          ]
+        },
+        {
+          "hr": [
+            "Prođi provjeru",
+            "Zabilježi trajanje leta i prođi kontrolni popis prije polijetanja."
+          ],
+          "en": [
+            "Run the checklist",
+            "Set the flight duration and work through the pre-flight checklist before take-off."
+          ]
+        },
+        {
+          "hr": [
+            "Vodi evidenciju",
+            "Spremi let i napomene, prati održavanje te upravljaj podacima o dronu i pilotskim dokumentima."
+          ],
+          "en": [
+            "Keep your records",
+            "Save flights and notes, track maintenance, and manage drone details and pilot documents."
+          ]
+        },
+        {
+          "hr": [
+            "Koristi online ili offline",
+            "Aplikacija čuva podatke lokalno za rad bez mreže; prijavom Google računom možeš ih sinkronizirati sa svojim prostorom u oblaku."
+          ],
+          "en": [
+            "Work online or offline",
+            "The app keeps local data available offline; sign in with Google to sync it with your personal cloud workspace."
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "hr": [
+            "Dnevnik letova",
+            "Zabilježi lokaciju, vrijeme, trajanje i radijus leta, dodaj napomene te označi stavke na kontrolnom popisu; lokaciju možeš odrediti GPS-om ili na karti."
+          ],
+          "en": [
+            "Flight log",
+            "Record location, timing, duration, radius, checklist and notes; use GPS or pick a point on the map."
+          ]
+        },
+        {
+          "hr": [
+            "Predletna provjera",
+            "Kontrolni popis pomaže provjeriti sigurnosne korake prije polijetanja."
+          ],
+          "en": [
+            "Pre-flight check",
+            "A checklist helps work through safety steps before take-off."
+          ]
+        },
+        {
+          "hr": [
+            "Servis i održavanje",
+            "Prati održavanje flote, zamjene dijelova, kalibracije i servisne bilješke."
+          ],
+          "en": [
+            "Service and maintenance",
+            "Track fleet maintenance, part replacements, calibrations and service notes."
+          ]
+        },
+        {
+          "hr": [
+            "Regulatorne informacije",
+            "Pretraživa baza obuhvaća regulatorne reference i nacionalna pravila za 195 država."
+          ],
+          "en": [
+            "Regulatory information",
+            "Search regulatory references and national rules across 195 countries."
+          ]
+        },
+        {
+          "hr": [
+            "Rad bez mreže",
+            "PWA predmemorira aplikaciju za terenski rad; lokalni zapisi dostupni su bez mreže, dok sinkronizacija s oblakom i vanjski izvori zahtijevaju internet."
+          ],
+          "en": [
+            "Offline field work",
+            "The PWA caches the app for field use; local records work offline, while cloud sync and external sources need an internet connection."
+          ]
+        }
+      ],
+      "flow": [
+        {
+          "hr": [
+            "Planiranje leta",
+            "Karta, GPS, vrijeme i sigurnosna provjera."
+          ],
+          "en": [
+            "Flight planning",
+            "Map, GPS, weather and safety check."
+          ]
+        },
+        {
+          "hr": [
+            "Lokalna pohrana",
+            "Čist profil i rad bez mreže."
+          ],
+          "en": [
+            "Local storage",
+            "Clean Slate and offline access."
+          ]
+        },
+        {
+          "hr": [
+            "Osobni prostor u oblaku",
+            "Firebase prijava i sinkronizacija."
+          ],
+          "en": [
+            "Personal cloud",
+            "Firebase sign-in and sync."
+          ]
+        }
+      ],
+      "privacy": {
+        "hr": "Aplikacija se otvara bez tuđih podataka. Zapisi su dostupni lokalno za rad bez mreže; prijavom Google računom korisnik može sinkronizirati svoje podatke s osobnim prostorom u Firebase Firestoreu. Karta i vremenski podaci ovise o vanjskim servisima.",
+        "en": "The app starts without anyone else’s data. Records remain available locally for offline use; signing in with Google lets each user sync their data to a personal Firebase Firestore workspace. Maps and weather rely on external services."
+      },
+      "tech": {
+        "hr": "React 19, TypeScript, Vite 8, PWA/Workbox, Firebase Authentication i Firestore, Leaflet, Esri, Open-Meteo i LocalStorage.",
+        "en": "React 19, TypeScript, Vite 8, PWA/Workbox, Firebase Authentication and Firestore, Leaflet, Esri, Open-Meteo and LocalStorage."
+      }
+    },
+    "techDescription": {
+      "hr": "React 19, TypeScript, Vite 8, Workbox, Firebase Authentication, Cloud Firestore, Leaflet i Open-Meteo.",
+      "en": "React 19, TypeScript, Vite 8, Workbox, Firebase Authentication, Cloud Firestore, Leaflet and Open-Meteo."
+    },
+    "caseStudy": {
+      "role": {
+        "hr": "Uloga: ideja, dizajn, razvoj, sigurnosni model i testiranje — samostalno, uz AI alate kao asistenta.",
+        "en": "Role: idea, design, development, security model and testing — solo, with AI tools as an assistant."
+      },
+      "facts": [
+        {
+          "hr": [
+            "Pravila",
+            "195 država"
+          ],
+          "en": [
+            "Rules",
+            "195 countries"
+          ]
+        },
+        {
+          "hr": [
+            "Pohrana",
+            "Lokalno + oblak"
+          ],
+          "en": [
+            "Storage",
+            "Local + cloud"
+          ]
+        },
+        {
+          "hr": [
+            "Model",
+            "Višekorisnički"
+          ],
+          "en": [
+            "Model",
+            "Multi-tenant"
+          ]
+        },
+        {
+          "hr": [
+            "Sigurnosni testovi",
+            "“Dirty Dozen”"
+          ],
+          "en": [
+            "Security tests",
+            "“Dirty Dozen”"
+          ]
+        }
+      ],
+      "problem": {
+        "hr": [
+          "Pilot drona prije leta mora provjeriti vrijeme, lokaciju, kontrolni popis, dokumente i lokalna pravila, a poslije vesti evidenciju leta i održavanja. To je obično raspršeno po bilježnicama, tablicama i više aplikacija.",
+          "Ujedno su to osobni podaci — dokumenti i lokacije — koje treba zaštititi."
+        ],
+        "en": [
+          "Before a flight a drone pilot has to check weather, location, a checklist, documents and local rules, then log the flight and maintenance. That is usually scattered across notebooks, spreadsheets and several apps.",
+          "It is also personal data — documents and locations — that has to be protected."
+        ]
+      },
+      "solution": {
+        "hr": [
+          "Jedna instalabilna PWA: planiranje leta s kartom, GPS-om i vremenom, kontrolni popis, flota i servis, trezor dokumenata, CSV izvoz i pretraživa baza pravila za 195 država.",
+          "Radi lokalno i bez mreže, a prijavom Google računom podaci se sinkroniziraju u osobni prostor u Firestoreu."
+        ],
+        "en": [
+          "One installable PWA: flight planning with map, GPS and weather, a checklist, fleet and service records, a document vault, CSV export and a searchable rules database for 195 countries.",
+          "It works locally and offline, and signing in with Google syncs the data to a personal Firestore space."
+        ]
+      },
+      "decisions": [
+        {
+          "hr": [
+            "Izolacija podataka po korisniku",
+            "Svaki korisnik ima vlastiti prostor, a Firestore pravila su “zero-trust”: sve što nije izričito dopušteno je zabranjeno."
+          ],
+          "en": [
+            "Per-user data isolation",
+            "Every user gets their own space, and Firestore rules are zero-trust: anything not explicitly allowed is denied."
+          ]
+        },
+        {
+          "hr": [
+            "Pravila s testovima",
+            "Sigurnosna pravila pokrivena su testovima napada (“Dirty Dozen”) i dokumentirana u sigurnosnoj specifikaciji, kako izmjene ne bi tiho otvorile rupu."
+          ],
+          "en": [
+            "Rules backed by tests",
+            "The security rules are covered by attack tests (“Dirty Dozen”) and documented in a security spec, so changes can’t silently open a hole."
+          ]
+        },
+        {
+          "hr": [
+            "Lokalno prvo, oblak po izboru",
+            "Aplikacija se otvara čista i korisna bez računa. Oblak je opcija za sinkronizaciju, ne preduvjet."
+          ],
+          "en": [
+            "Local first, cloud by choice",
+            "The app opens clean and useful without an account. The cloud is an option for sync, not a prerequisite."
+          ]
+        },
+        {
+          "hr": [
+            "Pravila zemalja kao podaci",
+            "Baza pravila za 195 država odvojena je od koda pa se može ažurirati bez diranja logike."
+          ],
+          "en": [
+            "Country rules as data",
+            "The rules for 195 countries are kept apart from the code so they can be updated without touching the logic."
+          ]
+        }
+      ],
+      "learned": {
+        "hr": [
+          "Prvi put sam ozbiljno razradio višekorisnički model: kako spriječiti da jedan korisnik vidi tuđe podatke i kako to dokazati testovima, a ne vjerovanjem.",
+          "Naučio sam i da sigurnost nije faza na kraju, nego odluka koju donosiš u prvom danu modeliranja podataka."
+        ],
+        "en": [
+          "It was my first serious multi-tenant design: how to stop one user from seeing another’s data and how to prove it with tests rather than belief.",
+          "I also learned that security is not a final phase but a decision you make on day one of data modelling."
+        ]
+      }
+    }
+  },
+  {
+    "id": "teka",
+    "name": "Mamina Teka",
+    "category": "public",
+    "status": "demo",
+    "featuredRank": 3,
+    "accent": "#d9694b",
+    "icon": "teka/teka-192.png",
+    "screenshot": "assets/portfolio/previews/teka_preview.jpg",
+    "projectUrl": "teka/project.html",
+    "landingUrl": "mailto:maminateka@zrina.app",
+    "launchUrl": "mailto:maminateka@zrina.app",
+    "email": "maminateka@zrina.app",
+    "subject": "Mamina Teka — Upit za demo / Demo request",
+    "description": {
+      "hr": "Obiteljski trezor recepata: AI prepisuje rukopis, recepti se dijele u obitelji i ispisuju kao knjiga.",
+      "en": "A family recipe vault: AI transcribes handwriting, recipes are shared within the family and printed as a book."
+    },
+    "tech": {
+      "hr": [
+        "React 19",
+        "TypeScript",
+        "Firebase Auth",
+        "Firestore",
+        "IndexedDB",
+        "Gemini API",
+        "PWA"
+      ],
+      "en": [
+        "React 19",
+        "TypeScript",
+        "Firebase Auth",
+        "Firestore",
+        "IndexedDB",
+        "Gemini API",
+        "PWA"
+      ]
+    },
+    "preview": {
+      "src": "teka/share-card.jpg",
+      "kind": "cover",
+      "aspectRatio": "1200 / 630"
+    },
+    "caseStudy": {
+      "role": {
+        "hr": "Uloga: ideja, dizajn, razvoj i testiranje — samostalno, uz AI alate kao asistenta. Projekt je nastao za moju obitelj.",
+        "en": "Role: idea, design, development and testing — solo, with AI tools as an assistant. Built for my own family."
+      },
+      "facts": [
+        {
+          "hr": [
+            "Fokus",
+            "Obiteljsko nasljeđe"
+          ],
+          "en": [
+            "Focus",
+            "Family heritage"
+          ]
+        },
+        {
+          "hr": [
+            "Jezik",
+            "Hrvatski rukopis"
+          ],
+          "en": [
+            "Language",
+            "Croatian handwriting"
+          ]
+        },
+        {
+          "hr": [
+            "Ispis",
+            "A4 registrator + A5 knjižica"
+          ],
+          "en": [
+            "Print",
+            "A4 binder + A5 booklet"
+          ]
+        },
+        {
+          "hr": [
+            "Stanje",
+            "Demo na upit"
+          ],
+          "en": [
+            "Status",
+            "Demo on request"
+          ]
+        }
+      ],
+      "problem": {
+        "hr": [
+          "Obiteljski recepti žive na masnim papirićima, u rukopisu i u glavama starijih. Kad ih nema, nestaju i priče uz njih. Gotove aplikacije za recepte uglavnom su tehnički organizatori obroka i loše razumiju hrvatski rukopis i stare mjere poput “prstohvata” ili “žlice”.",
+          "Starijim ljudima unos mora biti krajnje jednostavan, inače odustaju."
+        ],
+        "en": [
+          "Family recipes live on greasy scraps of paper, in handwriting and in the heads of older relatives. When they are gone, the stories go too. Ready-made recipe apps are mostly technical meal planners and handle Croatian handwriting and old measures like “a pinch” or “a spoon” poorly.",
+          "For older people the entry has to be extremely simple, or they give up."
+        ]
+      },
+      "solution": {
+        "hr": [
+          "Obiteljski trezor recepata: fotografiraš stranicu, AI prepisuje rukopis i prepoznaje regionalne mjere, a izvorna slika rukopisa ostaje uz recept. Recepte možeš skalirati, preračunati za drugi kalup i kuhati u posebnom načinu rada.",
+          "Prijavom Google računom recepti se sinkroniziraju u obiteljski trezor koji dijeliš s bližnjima, a mogu se ispisati kao A4 registrator ili A5 knjižica."
+        ],
+        "en": [
+          "A family recipe vault: you photograph a page, AI transcribes the handwriting and recognises regional measures, and the original handwriting image stays with the recipe. You can scale recipes, convert for another pan size and cook in a dedicated mode.",
+          "Signing in with Google syncs the recipes into a family vault you share with relatives, and they can be printed as an A4 binder or an A5 booklet."
+        ]
+      },
+      "decisions": [
+        {
+          "hr": [
+            "AI ključ samo na poslužitelju",
+            "Gemini ključ nikad ne ide u preglednik: OCR i generiranje slika prolaze kroz vlastiti Express poslužitelj, a kod nema ključeva."
+          ],
+          "en": [
+            "AI key only on the server",
+            "The Gemini key never reaches the browser: OCR and image generation go through my own Express server, and the code contains no keys."
+          ]
+        },
+        {
+          "hr": [
+            "Offline-first",
+            "Recepti se prvo spremaju lokalno (Dexie / IndexedDB), a tek zatim sinkroniziraju. Brisanje koristi oznake (tombstones) kako se obrisano ne bi vratilo."
+          ],
+          "en": [
+            "Offline-first",
+            "Recipes are saved locally first (Dexie / IndexedDB) and synced after. Deletes use tombstones so deleted items do not come back."
+          ]
+        },
+        {
+          "hr": [
+            "Default-deny pravila",
+            "Firestore pravila zabranjuju sve osim izričito dopuštenog pristupa vlastitom i obiteljskom trezoru."
+          ],
+          "en": [
+            "Default-deny rules",
+            "Firestore rules deny everything except explicitly allowed access to your own and your family’s vault."
+          ]
+        },
+        {
+          "hr": [
+            "Tisak kao značajka",
+            "Knjižica koristi imposiciju stranica (višekratnici broja 4) kako bi se ispisana knjiga stvarno mogla preklopiti i zaklamati."
+          ],
+          "en": [
+            "Print as a feature",
+            "The booklet uses page imposition (multiples of 4) so the printed book can actually be folded and stapled."
+          ]
+        }
+      ],
+      "learned": {
+        "hr": [
+          "Naučio sam graditi proizvod oko emocije, a ne oko značajki. Najvažnija odluka nije bila tehnička, nego da izvorni rukopis uvijek ostane vidljiv.",
+          "Naučio sam i da AI u aplikaciji nije besplatan: mora postojati plan za ključ, kvote i troškove prije nego što se aplikacija javno otvori. Zato je javna verzija još u pripremi."
+        ],
+        "en": [
+          "I learned to build a product around emotion rather than features. The most important decision was not technical but that the original handwriting always stays visible.",
+          "I also learned that AI in an app is not free: there has to be a plan for the key, quotas and costs before the app is opened to the public. That is why the public version is still in preparation."
+        ]
+      },
+      "gallery": [
+        {
+          "src": "teka/shot-handwriting.jpg",
+          "alt": {
+            "hr": "Izvorni rukopis recepta u aplikaciji, s povećalom",
+            "en": "The original handwritten recipe inside the app, with a magnifier"
+          },
+          "caption": {
+            "hr": "Izvorni rukopis ostaje uz recept, s povećalom za detalje.",
+            "en": "The original handwriting stays with the recipe, with a magnifier for details."
+          }
+        },
+        {
+          "src": "teka/shot-recipe.jpg",
+          "alt": {
+            "hr": "Digitalizirani recept s preračunatim količinama",
+            "en": "A digitised recipe with converted quantities"
+          },
+          "caption": {
+            "hr": "AI prepisuje rukopis i pretvara stare mjere (“20 dkg” → 200 g); izvornik je vidljiv ispod svake stavke.",
+            "en": "AI transcribes the handwriting and converts old measures (“20 dkg” → 200 g); the original is shown under each item."
+          }
+        }
+      ]
+    },
+    "projectPage": {
+      "title": {
+        "hr": "Bakini recepti, sačuvani za obitelj.",
+        "en": "Grandma’s recipes, kept for the family."
+      },
+      "lead": {
+        "hr": "PWA za čuvanje obiteljskih recepata s AI prepisom rukopisa, obiteljskim trezorom i ispisom u knjigu.",
+        "en": "A PWA for keeping family recipes with AI handwriting transcription, a shared family vault and book printing."
+      },
+      "overview": {
+        "hr": [
+          "Mamina Teka čuva recepte onako kako su stvarno nastali: uz sliku rukopisa, priču i obitelj koja ih kuha. Tekst se prepisuje pomoću AI-ja, ali izvornik uvijek ostaje vidljiv.",
+          "Javna inačica još je u pripremi, pa je trenutačno dostupna kao demo na upit."
+        ],
+        "en": [
+          "Mamina Teka keeps recipes the way they really came to be: with the handwriting image, the story and the family that cooks them. Text is transcribed with AI, but the original always stays visible.",
+          "The public version is still in preparation, so it is currently available as a demo on request."
+        ]
+      },
+      "workflow": [
+        {
+          "hr": [
+            "Fotografiraj",
+            "Slikaj stranicu s receptom ili ga upiši ručno."
+          ],
+          "en": [
+            "Photograph",
+            "Take a picture of the recipe page or type it in."
+          ]
+        },
+        {
+          "hr": [
+            "Prepiši",
+            "AI prepoznaje hrvatski rukopis i regionalne mjere; izvorna slika ostaje uz recept."
+          ],
+          "en": [
+            "Transcribe",
+            "AI reads Croatian handwriting and regional measures; the original image stays with the recipe."
+          ]
+        },
+        {
+          "hr": [
+            "Podijeli",
+            "Poveži obitelj u zajednički trezor i čuvaj recepte na jednom mjestu."
+          ],
+          "en": [
+            "Share",
+            "Connect your family into a shared vault and keep recipes in one place."
+          ]
+        },
+        {
+          "hr": [
+            "Kuhaj i ispiši",
+            "Skaliraj porcije, kuhaj korak po korak ili ispiši kao A4 registrator ili A5 knjižicu."
+          ],
+          "en": [
+            "Cook and print",
+            "Scale servings, cook step by step or print as an A4 binder or A5 booklet."
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "hr": [
+            "AI prepis rukopisa",
+            "OCR prilagođen hrvatskom rukopisu i starim mjerama."
+          ],
+          "en": [
+            "AI handwriting transcription",
+            "OCR tuned for Croatian handwriting and old measures."
+          ]
+        },
+        {
+          "hr": [
+            "Pregled rukopisa",
+            "Povećalo i kontrola kontrasta za izblijedjele stranice."
+          ],
+          "en": [
+            "Handwriting viewer",
+            "A magnifier and contrast control for faded pages."
+          ]
+        },
+        {
+          "hr": [
+            "Skaliranje i način kuhanja",
+            "Preračun porcija i veličine kalupa te način rada za kuhanje."
+          ],
+          "en": [
+            "Scaling and cooking mode",
+            "Servings and pan-size recalculation plus a cooking mode."
+          ]
+        },
+        {
+          "hr": [
+            "Obiteljski trezor",
+            "Sinkronizacija između članova obitelji, uz rad bez mreže."
+          ],
+          "en": [
+            "Family vault",
+            "Sync between family members, working offline too."
+          ]
+        },
+        {
+          "hr": [
+            "Ispis u knjigu",
+            "A4 registrator ili A5 knjižica s ispravnom imposicijom stranica."
+          ],
+          "en": [
+            "Print to book",
+            "An A4 binder or A5 booklet with correct page imposition."
+          ]
+        }
+      ],
+      "flow": [
+        {
+          "hr": [
+            "Fotografija i prepis",
+            "Kamera, AI prepis, izvorni rukopis."
+          ],
+          "en": [
+            "Photo and transcription",
+            "Camera, AI transcription, original handwriting."
+          ]
+        },
+        {
+          "hr": [
+            "Lokalna pohrana",
+            "IndexedDB, rad bez mreže."
+          ],
+          "en": [
+            "Local storage",
+            "IndexedDB, offline use."
+          ]
+        },
+        {
+          "hr": [
+            "Obiteljski trezor",
+            "Firebase prijava i Firestore sinkronizacija."
+          ],
+          "en": [
+            "Family vault",
+            "Firebase sign-in and Firestore sync."
+          ]
+        }
+      ],
+      "privacy": {
+        "hr": "Recepti se prvo spremaju lokalno, a prijavom Google računom sinkroniziraju u privatni obiteljski trezor. Firestore pravila zabranjuju sve osim pristupa vlastitom i obiteljskom trezoru. AI ključ postoji samo na poslužitelju.",
+        "en": "Recipes are saved locally first and, after Google sign-in, synced to a private family vault. Firestore rules deny everything except access to your own and your family’s vault. The AI key exists only on the server."
+      },
+      "tech": {
+        "hr": "React 19, TypeScript, Tailwind CSS v4, Dexie (IndexedDB), Firebase Auth i Firestore, Express poslužitelj, Google Gemini API, vite-plugin-pwa.",
+        "en": "React 19, TypeScript, Tailwind CSS v4, Dexie (IndexedDB), Firebase Auth and Firestore, an Express server, the Google Gemini API, vite-plugin-pwa."
+      }
+    },
+    "techDescription": {
+      "hr": "React 19 i TypeScript PWA s offline-first pohranom, Firebase sinkronizacijom i AI prepisom rukopisa preko vlastitog poslužitelja.",
+      "en": "A React 19 and TypeScript PWA with offline-first storage, Firebase sync and AI handwriting transcription through its own server."
+    }
+  },
+  {
+    "id": "fm",
+    "name": "zrinaFM",
+    "category": "public",
+    "status": "public",
+    "featuredRank": null,
+    "accent": "#e879f9",
+    "icon": "radio/radioapp-logo.png",
+    "screenshot": "assets/portfolio/previews/radio_preview.jpg",
+    "projectUrl": "radio/project.html",
+    "landingUrl": "https://zrinafm.ai.studio/",
+    "launchUrl": "https://zrinafm.ai.studio/",
+    "email": "radio@zrina.app",
+    "subject": "zrinaFM — Tehnički upit / Technical Inquiry",
+    "description": {
+      "hr": "Web radio player za javne postaje i osobne favorite.",
+      "en": "A web radio player for public stations and personal favourites."
+    },
+    "tech": {
+      "hr": [
+        "React",
+        "HLS.js",
+        "Web Audio API",
+        "Express",
+        "LRCLIB API"
+      ],
+      "en": [
+        "React",
+        "HLS.js",
+        "Web Audio API",
+        "Express",
+        "LRCLIB API"
+      ]
+    },
+    "preview": {
+      "src": "radio/share-card.png",
+      "kind": "cover",
+      "aspectRatio": "1200 / 630"
+    },
+    "projectPage": {
+      "title": {
+        "hr": "Radio bez suvišnog sučelja.",
+        "en": "Radio without the clutter."
+      },
+      "lead": {
+        "hr": "Web radio tuner usmjeren na brzo pronalaženje javno dostupnih postaja, pouzdano slušanje streama i osobni popis favorita, uz kontrole zvuka i prikaz informacija o pjesmi.",
+        "en": "A web radio tuner focused on finding publicly available stations, listening to streams and keeping a personal favourites list, with audio controls and track information."
+      },
+      "overview": {
+        "hr": [
+          "zrinaFM svodi radio sučelje na slušanje: pretraži postaju, pokreni stream i zadrži favorite pri ruci. Preglednik upravlja reprodukcijom, a izgled ostaje čitljiv na različitim veličinama zaslona.",
+          "Za one koji žele više kontrole, aplikacija dodaje višepojasni ekvalizator, vizualizaciju zvuka, metapodatke streama, tekstove pjesama kada su dostupni i sleep timer."
+        ],
+        "en": [
+          "zrinaFM keeps the radio interface focused on listening: find a station, start a stream and keep favourites close. Playback is handled in the browser and the interface remains readable across screen sizes.",
+          "For more control, the application adds a multi-band equaliser, audio visualisation, stream metadata, lyrics where available and a sleep timer."
+        ]
+      },
+      "workflow": [
+        {
+          "hr": [
+            "Pronađi postaju",
+            "Pretraži javno dostupan katalog i suzi izbor prema željenom nazivu ili lokaciji; dostupnost pojedinog streama ovisi o izvoru."
+          ],
+          "en": [
+            "Find a station",
+            "Search the public directory and narrow the choice by name or location; each stream's availability depends on its source."
+          ]
+        },
+        {
+          "hr": [
+            "Pokreni slušanje",
+            "Odabrani stream reproducira se u pregledniku, uz prikaz osnovnih informacija i metapodataka kada ih postaja šalje."
+          ],
+          "en": [
+            "Start listening",
+            "The selected stream plays in the browser, with basic information and metadata when the station provides them."
+          ]
+        },
+        {
+          "hr": [
+            "Prilagodi zvuk",
+            "Ekvalizator, vizualizacija i glasnoća nude kontrole reprodukcije; tekstovi pjesama prikazuju se samo kada ih povezani servis pronađe."
+          ],
+          "en": [
+            "Adjust the sound",
+            "Equaliser, visualiser and volume provide playback controls; lyrics appear only when a connected service can find them."
+          ]
+        },
+        {
+          "hr": [
+            "Sačuvaj svoj izbor",
+            "Favoriti i sleep timer olakšavaju povratak omiljenim postajama i zaustavljanje reprodukcije nakon odabranog vremena."
+          ],
+          "en": [
+            "Save your favourites",
+            "Favourites and the sleep timer make it easier to return to preferred stations and stop playback after a chosen interval."
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "hr": [
+            "Pretraga i favoriti",
+            "Pretraživanje javno dostupnog kataloga postaja i čuvanje osobnog izbora."
+          ],
+          "en": [
+            "Search and favourites",
+            "Search a publicly available station directory and keep a personal selection."
+          ]
+        },
+        {
+          "hr": [
+            "Stream i metapodaci",
+            "Reprodukcija podržanih streamova uz čitanje ICY/Icecast podataka kada su dostupni."
+          ],
+          "en": [
+            "Stream and metadata",
+            "Playback of supported streams with ICY/Icecast metadata when available."
+          ]
+        },
+        {
+          "hr": [
+            "Obrada zvuka",
+            "Petopojasni Web Audio API ekvalizator i vizualizator povezani sa zvukom."
+          ],
+          "en": [
+            "Audio processing",
+            "A five-band Web Audio API equaliser and visualiser connected to audio output."
+          ]
+        },
+        {
+          "hr": [
+            "Tekstovi i timer",
+            "Sinkronizirani tekstovi kada ih servis nudi i automatsko zaustavljanje nakon zadanog vremena."
+          ],
+          "en": [
+            "Lyrics and timer",
+            "Synced lyrics when available from the service and automatic stop after a chosen duration."
+          ]
+        },
+        {
+          "hr": [
+            "Prilagodba slušanja",
+            "Glasnoća, petopojasni ekvalizator i vizualizacija daju pregled i kontrolu zvuka bez prenatrpavanja osnovnog prikaza."
+          ],
+          "en": [
+            "Listening controls",
+            "Volume, a five-band equaliser and visualisation add sound control without cluttering the main listening view."
+          ]
+        }
+      ],
+      "flow": [
+        {
+          "hr": [
+            "Katalog postaja",
+            "Pretraga i odabir javnog streama."
+          ],
+          "en": [
+            "Station directory",
+            "Search and select a public stream."
+          ]
+        },
+        {
+          "hr": [
+            "Web reprodukcija",
+            "Stream dekoder i obrada zvuka u pregledniku."
+          ],
+          "en": [
+            "Browser playback",
+            "Stream decoding and audio processing in the browser."
+          ]
+        },
+        {
+          "hr": [
+            "Osobne postavke",
+            "Favoriti i odabrane postavke na uređaju."
+          ],
+          "en": [
+            "Personal settings",
+            "Favourites and selected settings on the device."
+          ]
+        }
+      ],
+      "privacy": {
+        "hr": "Favoriti i postavke čuvaju se lokalno. Streamovi i dodatni metapodaci dolaze od vanjskih pružatelja, a aplikacija ih ne emitira niti pohranjuje.",
+        "en": "Favourites and settings are stored locally. Streams and additional metadata come from external providers; the application does not broadcast or store their audio."
+      },
+      "tech": {
+        "hr": "React 19, Web Audio API i BiquadFilter DSP, HLS.js, Node.js/Express ICY proxy te LRCLIB za tekstove pjesama.",
+        "en": "React 19, Web Audio API and BiquadFilter DSP, HLS.js, Node.js/Express ICY proxy and LRCLIB for lyrics."
+      }
+    },
+    "techDescription": {
+      "hr": "React 19, Web Audio API DSP, Node.js/Express ICY Stream Proxy, LRCLIB API, HLS.js.",
+      "en": "React 19, Web Audio API DSP, Node.js/Express ICY Stream Proxy, LRCLIB API, HLS.js."
+    }
+  },
+  {
+    "id": "tv",
+    "name": "zrinaTV",
+    "category": "public",
+    "status": "public",
+    "featuredRank": null,
+    "accent": "#00f0ff",
+    "icon": "tv/tvapp-logo.png",
+    "screenshot": "assets/portfolio/previews/tv_preview.jpg",
+    "projectUrl": "tv/project.html",
+    "landingUrl": "https://zrinatv-app.ai.studio/",
+    "launchUrl": "https://zrinatv-app.ai.studio/",
+    "email": "tv@zrina.app",
+    "subject": "zrinaTV — Tehnički upit / Technical Inquiry",
+    "description": {
+      "hr": "Minimalistički web TV player za HLS streamove, uvoz M3U popisa i lokalne favorite.",
+      "en": "A minimalist web TV player for HLS streams, M3U imports and locally stored favourites."
+    },
+    "tech": {
+      "hr": [
+        "React",
+        "HLS.js",
+        "Web Audio API",
+        "Express"
+      ],
+      "en": [
+        "React",
+        "HLS.js",
+        "Web Audio API",
+        "Express"
+      ]
+    },
+    "preview": {
+      "src": "tv/share-card.png",
+      "kind": "cover",
+      "aspectRatio": "1200 / 630"
+    },
+    "projectPage": {
+      "title": {
+        "hr": "Jednostavan pregled TV streamova.",
+        "en": "A straightforward way to browse TV streams."
+      },
+      "lead": {
+        "hr": "Minimalistički web TV player za pregled kanala iz kataloga i vlastitih M3U popisa, s HLS reprodukcijom, provjerom dostupnosti i lokalno spremljenim favoritima.",
+        "en": "A minimalist web TV player for browsing catalogue channels and personal M3U lists, with HLS playback, availability checks and locally stored favourites."
+      },
+      "overview": {
+        "hr": [
+          "zrinaTV je player, a ne TV nakladnik: sučelje organizira odabrane izvore i prikazuje ih kroz web player. Korisnik može uvesti vlastiti M3U popis; uvoz je tehnička funkcija i ne provjerava autorska prava ni licence izvora.",
+          "U uobičajenom toku HLS reprodukcija i provjera dostupnosti odvijaju se izravno iz preglednika prema izvoru. Aplikacija ima i Express backend s proxy rutama: M3U proxy služi kao fallback za dohvat popisa, a image proxy može poslužiti logotipe; stream proxy i serverska provjera dostupnosti implementirani su, ali ih sučelje trenutačno ne koristi u uobičajenom toku.",
+          "Favoriti, vlastiti popisi, povijest, predmemorija provjere i status instalacije PWA-a pohranjuju se lokalno u pregledniku. Za mrežne zahtjeve prema aplikaciji, hostingu i vanjskim izvorima mogu se obrađivati IP adrese i tehnički podaci zahtjeva."
+        ],
+        "en": [
+          "zrinaTV is a player, not a TV broadcaster. It organises selected sources for playback in a web player. Users can import their own M3U playlists; importing is a technical feature and does not check copyright or source licences.",
+          "In the usual flow, HLS playback and availability checks run directly from the browser to the source. The app also has an Express backend with proxy routes: the M3U proxy is a fallback for fetching playlists, and the image proxy can serve logos; the stream proxy and server-side availability check are implemented but are not currently used by the interface in its usual flow.",
+          "Favourites, personal playlists, history, the availability cache and PWA installation status are stored locally in the browser. Network requests to the app, its hosting and external sources may involve IP addresses and technical request data."
+        ]
+      },
+      "workflow": [
+        {
+          "hr": [
+            "Odaberi izvor",
+            "Pregledaj zadani katalog ili dodaj vlastitu M3U/M3U8 listu; uvezene poveznice ostaju korisnički odabrani izvori."
+          ],
+          "en": [
+            "Choose a source",
+            "Browse the supplied catalogue or add a personal M3U/M3U8 list; imported links remain user-selected sources."
+          ]
+        },
+        {
+          "hr": [
+            "Pronađi program",
+            "Pretraživanje i filtri sužavaju popis, dok favoriti i skriveni programi prilagođavaju pregled navikama korisnika."
+          ],
+          "en": [
+            "Find a channel",
+            "Search and filters narrow the list, while favourites and hidden channels tailor browsing to the user's preferences."
+          ]
+        },
+        {
+          "hr": [
+            "Provjeri i reproduciraj",
+            "Provjera dostupnosti pomaže prepoznati neaktivne izvore, a podržani HLS stream reproducira se u web playeru."
+          ],
+          "en": [
+            "Check and play",
+            "Availability checks help identify inactive sources, and supported HLS streams play in the web player."
+          ]
+        },
+        {
+          "hr": [
+            "Nastavi gdje si stao",
+            "Favoriti, uvezene liste, skriveni kanali i postavke pohranjuju se lokalno kako bi se pregled na uređaju zadržao."
+          ],
+          "en": [
+            "Keep the setup",
+            "Favourites, imported lists, hidden channels and settings are stored locally so the device retains its setup."
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "hr": [
+            "Pregled kanala",
+            "Pretraživanje, filtriranje i favoriti olakšavaju pronalaženje željenog izvora."
+          ],
+          "en": [
+            "Channel browsing",
+            "Search, filters and favourites make it easier to find a source."
+          ]
+        },
+        {
+          "hr": [
+            "Vlastiti M3U popis",
+            "Uvoz osobnih M3U/M3U8 poveznica kao funkcionalnost playera."
+          ],
+          "en": [
+            "Personal M3U playlist",
+            "Import personal M3U/M3U8 links as a player feature."
+          ]
+        },
+        {
+          "hr": [
+            "HLS player",
+            "Reprodukcija podržanih video izvora uz prilagodbu playera i picture-in-picture."
+          ],
+          "en": [
+            "HLS player",
+            "Playback of supported video sources with player controls and picture-in-picture."
+          ]
+        },
+        {
+          "hr": [
+            "Provjera izvora",
+            "Pozadinska provjera dostupnosti pomaže označiti streamove koji više ne rade, no ne jamči trajnu dostupnost vanjskog izvora."
+          ],
+          "en": [
+            "Source checks",
+            "Background availability checks help flag streams that no longer work, but cannot guarantee a third-party source will remain available."
+          ]
+        },
+        {
+          "hr": [
+            "Osobne postavke",
+            "Favoriti, vlastiti popisi i sakriveni programi ostaju spremljeni na uređaju i mogu se uređivati kroz sučelje playera."
+          ],
+          "en": [
+            "Personal settings",
+            "Favourites, personal playlists and hidden channels remain stored on the device and can be managed through the player."
+          ]
+        }
+      ],
+      "flow": [
+        {
+          "hr": [
+            "Katalog ili M3U",
+            "Odabir javnog ili osobno unesenog izvora."
+          ],
+          "en": [
+            "Catalogue or M3U",
+            "Choose a public channel or add your own source."
+          ]
+        },
+        {
+          "hr": [
+            "Provjera i HLS",
+            "Dostupnost izvora i reprodukcija u playeru."
+          ],
+          "en": [
+            "Check and HLS",
+            "Source availability and playback in the player."
+          ]
+        },
+        {
+          "hr": [
+            "Lokalne postavke",
+            "Favoriti, skriveni kanali i osobni odabiri."
+          ],
+          "en": [
+            "Local settings",
+            "Favourites, hidden channels and personal choices."
+          ]
+        }
+      ],
+      "privacy": {
+        "hr": "Favoriti, vlastiti popisi, povijest, predmemorija provjere i status instalacije PWA-a spremaju se u localStorage preglednika. Reprodukcija i uobičajena provjera dostupnosti šalju zahtjeve izravno iz preglednika prema vanjskim izvorima; backend koristi M3U proxy kao fallback za popise i image proxy za logotipe po potrebi. Stream proxy i serverska provjera postoje, ali ih sučelje trenutačno ne koristi u uobičajenom toku. Vanjski izvori, hosting i poslužitelji mogu obrađivati IP adrese i tehničke podatke zahtjeva; njihovo zapisivanje ovisi o operatoru.",
+        "en": "Favourites, personal playlists, history, the availability cache and PWA installation status are stored in the browser's localStorage. Playback and usual availability checks send requests directly from the browser to external sources; the backend uses the M3U proxy as a playlist-fetch fallback and the image proxy for logos when needed. The stream proxy and server-side check exist but are not currently used by the interface in its usual flow. External sources, hosting and servers may process IP addresses and technical request data; logging is determined by each operator."
+      },
+      "tech": {
+        "hr": "React 19, HLS.js, Web Audio API za obradu zvuka, Express proxy i lokalna pohrana postavki.",
+        "en": "React 19, HLS.js, Web Audio API audio processing, Express proxy and local storage for settings."
+      }
+    },
+    "techDescription": {
+      "hr": "React 19, HLS.js, Web Audio API (BiquadFilter + DynamicsCompressor + GainNode), Express Proxy.",
+      "en": "React 19, HLS.js, Web Audio API (BiquadFilter + DynamicsCompressor + GainNode), Express Proxy."
+    }
+  },
+  {
+    "id": "carwash",
+    "name": "carwash.app",
+    "category": "b2b",
+    "status": "case",
+    "accent": "#00f0ff",
+    "icon": "carwash/carwash-logo.png",
+    "screenshot": "assets/portfolio/previews/praona_preview.jpg",
+    "projectUrl": "carwash/index.html",
+    "landingUrl": "carwash/index.html",
+    "launchUrl": "carwash/index.html",
+    "email": "carwash@zrina.app",
+    "subject": "carwash.app — Tehnički upit / Case Study Inquiry",
+    "description": {
+      "hr": "Operativni tijek pranja vozila, timske uloge i evidencija ključeva.",
+      "en": "Vehicle-wash operations with team roles and key tracking."
+    },
+    "tech": {
+      "hr": [
+        "Google Apps Script",
+        "Android Java",
+        "ML Kit OCR"
+      ],
+      "en": [
+        "Google Apps Script",
+        "Android Java",
+        "ML Kit OCR"
+      ]
+    },
+    "preview": {
+      "src": "carwash/share-card.png",
+      "kind": "cover",
+      "aspectRatio": "1200 / 630"
+    },
+    "techDescription": {
+      "hr": "Google Apps Script V8, Smart Sync sinkronizacija (~3 s), Android Java WebView i ML Kit OCR, izolirano testno okruženje.",
+      "en": "Google Apps Script V8, Smart Sync (~3s), Android Java WebView and ML Kit OCR, isolated test environment."
+    }
+  },
+  {
+    "id": "tirehotel",
+    "name": "tirehotel.app",
+    "category": "b2b",
+    "status": "case",
+    "featuredRank": null,
+    "accent": "#fbbf24",
+    "icon": "tirehotel/tirehotel-logo.png",
+    "screenshot": "assets/portfolio/previews/gume_preview.jpg",
+    "projectUrl": "tirehotel/index.html",
+    "landingUrl": "tirehotel/index.html",
+    "launchUrl": "tirehotel/index.html",
+    "email": "tirehotel@zrina.app",
+    "subject": "tirehotel.app — Tehnički upit / Case Study Inquiry",
+    "description": {
+      "hr": "Digitalna evidencija prijema, stanja i skladištenja kompleta guma.",
+      "en": "Digital records for tire intake, condition and storage."
+    },
+    "tech": {
+      "hr": [
+        "SVG",
+        "Canvas",
+        "PDF generation",
+        "Audit Log"
+      ],
+      "en": [
+        "SVG",
+        "Canvas",
+        "PDF generation",
+        "Audit Log"
+      ]
+    },
+    "preview": {
+      "src": "tirehotel/share-card.png",
+      "kind": "cover",
+      "aspectRatio": "1200 / 630"
+    },
+    "techDescription": {
+      "hr": "4.560+ linija koda, vektorski SVG generator zona felge, HTML5 Canvas potpis -> PDF Blob generator, Audit Log.",
+      "en": "4,560+ LOC, custom SVG radial sector rim damage mapper, HTML5 Canvas signature-to-PDF compiler, full audit trail."
+    }
+  },
+  {
+    "id": "alatnica",
+    "name": "alatnica.app",
+    "category": "public",
+    "status": "public",
+    "featuredRank": null,
+    "accent": "#10b981",
+    "icon": "alatnica/alatnica-logo.png",
+    "screenshot": "alatnica/alatnica-dashboard.png",
+    "projectUrl": "alatnica/index.html",
+    "landingUrl": "https://alatnica-zrina-app.ai.studio/",
+    "launchUrl": "https://alatnica-zrina-app.ai.studio/",
+    "email": "alatnica@zrina.app",
+    "subject": "alatnica.app — Tehnički upit / Technical Inquiry",
+    "description": {
+      "hr": "Instalabilna PWA za katalog alata, zaduživanje, kalibraciju i inventuru u radionicama.",
+      "en": "An installable PWA for workshop tool catalogues, check-outs, calibration and stocktaking."
+    },
+    "tech": {
+      "hr": [
+        "React 19",
+        "TypeScript",
+        "Firebase",
+        "PWA"
+      ],
+      "en": [
+        "React 19",
+        "TypeScript",
+        "Firebase",
+        "PWA"
+      ]
+    },
+    "preview": {
+      "src": "alatnica/share-card.png",
+      "kind": "cover",
+      "aspectRatio": "1200 / 630"
+    },
+    "techDescription": {
+      "hr": "React 19, TypeScript i Vite; Firebase Authentication i Firestore za odvojene radne prostore; lokalni demo, RBAC, QR skeniranje i PWA instalacija.",
+      "en": "React 19, TypeScript and Vite; Firebase Authentication and Firestore for isolated workspaces; local demo, RBAC, QR scanning and PWA installation."
+    }
+  }
+]

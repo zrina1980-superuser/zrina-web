@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Download Time &amp; Required Speed Calculator | zrina.app</title>
+<meta name="description" content="Estimate download or upload time, or calculate the connection speed needed to transfer a file within a chosen time window." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://zrina.app/speedcalc/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="zrina.app" />
+<meta property="og:url" content="https://zrina.app/speedcalc/" />
+<meta property="og:title" content="Download Time &amp; Required Speed Calculator" />
+<meta property="og:description" content="Estimate transfer time or calculate the speed needed for a file and deadline." />
+<meta property="og:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="zrina.app web tools" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Download Time &amp; Required Speed Calculator" />
+<meta name="twitter:description" content="Estimate transfer time or calculate the speed needed for a file and deadline." />
+<meta name="twitter:image" content="https://zrina.app/assets/tool-icons/tools-og.png" />
+<meta name="theme-color" content="#070b16" />
+<link rel="icon" type="image/svg+xml" href="../assets/tool-icons/speedcalc.svg" />
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/tool-icons/speedcalc-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/speedcalc-512.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/speedcalc-180.png" />
+<!-- GOOGLE ADSENSE: enable only after production deployment and the required consent setup.
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Download Time & Required Speed Calculator","url":"https://zrina.app/speedcalc/","applicationCategory":"UtilitiesApplication","operatingSystem":"All","description":"Calculates file transfer time or required connection speed for a chosen size and time window.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+</script>
+<style>
+:root{--bg:#fafafa;--card:#fff;--sub:#f4f4f5;--bd:#e4e4e7;--tx:#09090b;--tx2:#52525b;--mut:#71717a;--ac:#18181b;--acf:#fff;--ok:#059669;--bad:#dc2626;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#09090b;--card:#121215;--sub:#18181b;--bd:#27272a;--tx:#fafafa;--tx2:#a1a1aa;--mut:#71717a;--ac:#fafafa;--acf:#09090b;--ok:#34d399;--bad:#f87171}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:inherit}.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--bd)}header.top .wrap{display:flex;justify-content:space-between;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;text-decoration:none}.brand span{color:var(--mut);font-weight:500}
+nav a{margin-left:14px;color:var(--tx2);text-decoration:none;font-size:14px}nav a:hover{color:var(--tx)}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:36px 0 8px;letter-spacing:-.02em}.lead{color:var(--tx2);margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:20px}
+label{display:block;font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:6px}
+input,select,textarea{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font:inherit;min-width:0}
+input[type=range]{padding:0;accent-color:var(--ac)}
+input:focus,select:focus{outline:2px solid var(--ac);outline-offset:1px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:14px}
+.pair{display:grid;grid-template-columns:1fr 110px;gap:8px}
+.btn{background:var(--sub);color:var(--tx);border:1px solid var(--bd);border-radius:9px;padding:8px 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}.btn:hover{border-color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.big{font-size:clamp(28px,6vw,44px);font-weight:800;letter-spacing:-.02em;overflow-wrap:anywhere}
+.note{color:var(--mut);font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd)}td:last-child{font-family:var(--mono)}
+section.info h2{font-size:20px;margin:28px 0 8px}section.info p,section.info li{color:var(--tx2)}
+.disc{background:var(--sub);border:1px dashed var(--bd);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--tx2);margin:16px 0}
+footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(--mut);font-size:13px}
+</style>
+<link rel="stylesheet" href="../assets/tool-shell.css" />
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand tool-brand" href="../tools/" aria-label="Download Time Calculator by Zrina, all tools">
+<img src="../assets/tool-icons/speedcalc-192.png" alt="" width="32" height="32" />
+<span class="tool-brand-name">Download Time Calculator</span><span class="tool-brand-by">by Zrina</span>
+</a>
+<nav><a href="../hostvitals/">HostVitals</a><a href="../cidr/">CIDR</a><a href="../netplanner/">Network planner</a><a href="../uuid/">UUID</a><a href="../json/">JSON</a><a href="../myip/">My IP</a><a href="../timestamp/">Timestamp</a><a href="../cron/">Cron</a></nav>
+</div></header>
+<main class="wrap">
+<h1>Download Time Calculator</h1>
+<p class="lead">Estimate transfer time from file size and speed, or find the connection speed needed to meet a deadline.</p>
+
+<div class="card">
+<div class="chips" aria-label="Presets">
+<button class="btn" data-s="150" data-u="GB">Large AAA game · 150 GB</button>
+<button class="btn" data-s="25" data-u="GB">4K movie · 25 GB</button>
+<button class="btn" data-s="40" data-u="GB">Console update · 40 GB</button>
+<button class="btn" data-s="1" data-u="TB">Disk backup · 1 TB</button>
+<button class="btn" data-s="700" data-u="MB">Software ISO · 700 MB</button>
+</div>
+<div class="row">
+<div><label for="mode">Calculation mode</label><select id="mode"><option value="time">Estimate transfer time</option><option value="required-speed">Required speed for a time window</option></select></div>
+</div>
+<div class="row">
+<div><label for="size">File size</label><div class="pair"><input id="size" type="number" min="0" step="any" value="120" inputmode="decimal" /><select id="sizeUnit" aria-label="Size unit"><option value="MB">MB</option><option value="GB" selected>GB</option><option value="TB">TB</option></select></div></div>
+<div id="speedField"><label for="speed">Connection speed (download or upload)</label><div class="pair"><input id="speed" type="number" min="0" step="any" value="300" inputmode="decimal" /><select id="speedUnit" aria-label="Speed unit"><option selected>Mbps</option><option>Gbps</option><option>MB/s</option></select></div></div>
+</div>
+<div class="row">
+<div><label for="sizeBase">File size convention</label><select id="sizeBase"><option value="1000">Decimal (1 GB = 1,000 MB)</option><option value="1024" selected>Binary (1 GiB = 1,024 MiB)</option></select></div>
+<div><label for="windowHours">Available transfer window (hours)</label><input id="windowHours" type="number" min="0" step="0.25" value="8" inputmode="decimal" /></div>
+</div>
+<div class="row">
+<div><label for="ovh">Protocol overhead: <span id="ovhV">10</span>%</label><input id="ovh" type="range" min="0" max="30" value="10" /></div>
+<div><label for="cong">Real-world throughput: <span id="congV">100</span>%</label><input id="cong" type="range" min="10" max="100" value="100" /></div>
+</div>
+<div class="note">Lower "real-world throughput" to simulate congestion, Wi-Fi loss or a busy server.</div>
+</div>
+
+<div class="card" aria-live="polite">
+<div class="note" id="outLabel">Estimated time</div>
+<div class="big" id="out">—</div>
+<div class="note" id="sub"></div>
+<div class="note" id="windowOut" role="status" aria-live="polite"></div>
+</div>
+
+<!-- AD SLOT 1 (below result, never next to the inputs). Enable after AdSense approval:
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+
+<div class="card" id="speedTable"><table><thead><tr><th>Speed</th><th>Time for this file</th></tr></thead><tbody id="tbl"></tbody></table></div>
+
+<section class="info">
+<h2>How the calculation works</h2>
+<p>Time = file size in bits ÷ effective speed. In reverse mode, the calculator finds the nominal connection speed needed for the chosen transfer window, accounting for the selected overhead and throughput assumptions. Choose decimal (base 1000) or binary (base 1024) units to match the reported file size. Speeds use 1 Mbps = 1,000,000 bit/s and 1 MB/s = 8 Mbps. This is an estimate, not a transfer measurement or schedule.</p>
+<h2>Why is my real download slower than the advertised speed?</h2>
+<p>Advertised speeds are line rates. TCP/IP headers, Wi-Fi interference, server-side limits and other devices on your network can reduce the throughput you actually get. Upload and download speeds vary by connection and plan; use the relevant measured or advertised rate for your transfer direction.</p>
+<h2>Mbps vs MB/s</h2>
+<p>Internet plans are sold in megabits per second (Mbps). Download managers usually show megabytes per second (MB/s). One byte is 8 bits, so a 400 Mbps connection tops out around 50 MB/s before overhead.</p>
+</section>
+</main>
+<footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">All calculations run locally in your browser; nothing is uploaded. Results are estimates. Related: <a href="../myip/">see your IP address and ISP</a>.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
+<script>
+const $=id=>document.getElementById(id);
+const SPD={Mbps:1e6,Gbps:1e9,'MB/s':8e6};
+function fmt(sec){
+  if(!isFinite(sec)||sec<0)return '—';
+  if(sec===0)return '0 seconds';
+  if(sec<1)return '< 1 second';
+  sec=Math.round(sec);
+  const d=Math.floor(sec/86400),h=Math.floor(sec%86400/3600),m=Math.floor(sec%3600/60),s=sec%60;
+  const p=[];if(d)p.push(d+' d');if(h)p.push(h+' h');if(m)p.push(m+' min');if(s&&!d)p.push(s+' s');
+  return p.join(' ');
+}
+function secs(bits,bps){return bps>0?bits/bps:Infinity}
+function updateSizeUnits(){
+  const binary=$('sizeBase').value==='1024';
+  for(const option of $('sizeUnit').options){
+    const unit=option.value;
+    option.textContent=binary?unit.replace('B','iB'):unit;
+  }
+}
+function calc(){
+  const size=parseFloat($('size').value),spd=parseFloat($('speed').value);
+  const reverse=$('mode').value==='required-speed';
+  const ov=+$('ovh').value,cg=+$('cong').value;
+  $('ovhV').textContent=ov;$('congV').textContent=cg;
+  const base=Number($('sizeBase').value),sizes={MB:base**2,GB:base**3,TB:base**4};
+  const bits=size*sizes[$('sizeUnit').value]*8;
+  const factor=(1-ov/100)*(cg/100);
+  const bps=spd*SPD[$('speedUnit').value]*factor;
+  const windowHours=parseFloat($('windowHours').value),windowOut=$('windowOut');
+  $('outLabel').textContent=reverse?'Required connection speed':'Estimated time';
+  $('speedField').hidden=reverse;
+  $('speedTable').hidden=reverse;
+  if(!Number.isFinite(size)||size<0||!Number.isFinite(bits)||!Number.isFinite(factor)||factor<=0||(!reverse&&(!Number.isFinite(spd)||spd<=0))){$('out').textContent='—';$('sub').textContent='Enter a finite, non-negative file size and valid transfer settings.';windowOut.textContent='';$('tbl').innerHTML='';return}
+  if(reverse){
+    if(!Number.isFinite(windowHours)||windowHours<=0){$('out').textContent='—';$('sub').textContent='';windowOut.textContent='Enter a time window greater than zero hours.';$('tbl').innerHTML='';return}
+    const requiredBps=bits/(windowHours*3600)/factor;
+    if(!Number.isFinite(requiredBps)){$('out').textContent='—';$('sub').textContent='';windowOut.textContent='The required speed is outside the calculator’s numeric range.';$('tbl').innerHTML='';return}
+    $('out').textContent=requiredBps>=1e9?(requiredBps/1e9).toFixed(2)+' Gbps':(requiredBps/1e6).toFixed(1)+' Mbps';
+    $('sub').textContent='Required nominal rate; effective throughput after assumptions ≈ '+(requiredBps*factor/1e6).toFixed(1)+' Mbps.';
+    windowOut.textContent='Includes '+ov+'% overhead and '+cg+'% real-world throughput. This estimate does not guarantee the transfer will finish on time.';
+    $('tbl').innerHTML='';
+    return;
+  }
+  if(!Number.isFinite(bps)||bps<=0){$('out').textContent='—';$('sub').textContent='Enter a finite, non-negative file size and a speed above zero.';windowOut.textContent='';$('tbl').innerHTML='';return}
+  const duration=secs(bits,bps);
+  $('out').textContent=fmt(duration);
+  $('sub').textContent='Effective speed ≈ '+(bps/1e6).toFixed(1)+' Mbps ('+(bps/8e6).toFixed(2)+' MB/s)';
+  if(!Number.isFinite(windowHours)||windowHours<0){windowOut.textContent='Enter a non-negative time window to check whether the transfer fits.'}
+  else{windowOut.textContent=duration<=windowHours*3600?'Fits in the available '+windowHours+' hour window.':'Does not fit in the available '+windowHours+' hour window.'}
+  $('tbl').innerHTML=[10,25,50,100,300,500,1000].map(m=>'<tr><td>'+(m>=1000?'1 Gbps':m+' Mbps')+'</td><td>'+fmt(secs(bits,m*1e6*(1-ov/100)*(cg/100)))+'</td></tr>').join('');
+}
+['size','sizeUnit','speed','speedUnit','ovh','cong','windowHours'].forEach(i=>$(i).addEventListener('input',calc));
+['mode','sizeUnit','speedUnit','sizeBase'].forEach(i=>$(i).addEventListener('change',calc));
+$('sizeBase').addEventListener('change',updateSizeUnits);
+document.querySelectorAll('[data-s]').forEach(b=>b.addEventListener('click',()=>{$('size').value=b.dataset.s;$('sizeUnit').value=b.dataset.u;calc()}));
+updateSizeUnits();
+calc();
+</script>
+</body>
+</html>
