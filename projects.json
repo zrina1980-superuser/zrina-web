@@ -411,8 +411,8 @@
     "icon": "gljivobook/gljivobook-192.png",
     "screenshot": "assets/portfolio/previews/gljivobook_preview.jpg",
     "projectUrl": "gljivobook/project.html",
-    "landingUrl": "https://gljivobook-zrina.ai.studio/",
-    "launchUrl": "https://gljivobook-zrina.ai.studio/",
+    "landingUrl": "https://gljivobook.zrina.app/",
+    "launchUrl": "https://gljivobook.zrina.app/",
     "email": "gljivobook@zrina.app",
     "subject": "gljivobook.app — Tehnički upit / Technical Inquiry",
     "description": {
@@ -736,7 +736,7 @@
     "screenshot": "drone-logbook/drone-dashboard.jpg",
     "projectUrl": "drone-logbook/project.html",
     "landingUrl": "drone-logbook/index.html",
-    "launchUrl": "https://dronelogbook-zrina-app.ai.studio/",
+    "launchUrl": "https://dronelogbook.zrina.app/",
     "email": "drone@zrina.app",
     "subject": "dronelogbook.app — Tehnički upit / Technical Inquiry",
     "description": {

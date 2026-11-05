@@ -171,7 +171,7 @@
             <button type="button" data-lang="hr" aria-pressed="true">HR</button>
             <button type="button" data-lang="en" aria-pressed="false">EN</button>
           </div>
-          <a class="button button-primary" href="https://dronelogbook-zrina-app.ai.studio/" target="_blank" rel="noopener noreferrer"><span data-copy="openApp">Otvori aplikaciju</span><span aria-hidden="true">↗</span></a>
+          <a class="button button-primary" href="https://dronelogbook.zrina.app/" target="_blank" rel="noopener noreferrer"><span data-copy="openApp">Otvori aplikaciju</span><span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </nav>
@@ -183,7 +183,7 @@
         <h1 id="hero-title"><span data-copy="heroTitle">Let planiraj. Evidenciju vodi.</span></h1>
         <p data-copy="heroLead">dronelogbook.app objedinjuje planiranje leta, GPS kartu, vremenske uvjete, evidenciju flote i održavanja te regulatorne reference — u aplikaciji spremnoj za teren i instalaciju na mobitel.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="https://dronelogbook-zrina-app.ai.studio/" target="_blank" rel="noopener noreferrer"><span data-copy="openApp">Otvori aplikaciju</span><span aria-hidden="true">↗</span></a>
+          <a class="button button-primary" href="https://dronelogbook.zrina.app/" target="_blank" rel="noopener noreferrer"><span data-copy="openApp">Otvori aplikaciju</span><span aria-hidden="true">↗</span></a>
           <a class="button" href="#features" data-copy="explore">Pogledaj mogućnosti</a>
         </div>
         <ul class="quick-points" aria-label="Glavne značajke" data-copy-aria="quickLabel">
@@ -247,7 +247,7 @@
       <div class="contact">
         <div><h2 data-copy="contactTitle">Isprobaj dronelogbook.app</h2><p data-copy="contactText">Otvori aplikaciju ili mi se javi ako imaš pitanje o projektu.</p></div>
         <div class="contact-actions">
-          <a class="button button-primary" href="https://dronelogbook-zrina-app.ai.studio/" target="_blank" rel="noopener noreferrer"><span data-copy="openApp">Otvori aplikaciju</span><span aria-hidden="true">↗</span></a>
+          <a class="button button-primary" href="https://dronelogbook.zrina.app/" target="_blank" rel="noopener noreferrer"><span data-copy="openApp">Otvori aplikaciju</span><span aria-hidden="true">↗</span></a>
           <a class="button" href="mailto:drone@zrina.app?subject=dronelogbook.app" data-copy="contactButton">Kontaktiraj me</a>
         </div>
       </div>
@@ -329,7 +329,7 @@
         }
       };
 
-      const appUrl = "https://dronelogbook-zrina-app.ai.studio/";
+      const appUrl = "https://dronelogbook.zrina.app/";
       const toast = document.getElementById("toast");
       let toastTimer;
       function showStorageError(message) {
@@ -364,7 +364,7 @@
         document.querySelectorAll("[data-lang]").forEach((button) => {
           button.setAttribute("aria-pressed", String(button.dataset.lang === selected));
         });
-        document.querySelectorAll('a[href^="https://dronelogbook-zrina-app.ai.studio/"]').forEach((link) => {
+        document.querySelectorAll('a[href^="https://dronelogbook.zrina.app/"]').forEach((link) => {
           link.href = appUrl;
         });
         if (persist) {
