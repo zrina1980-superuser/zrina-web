@@ -176,3 +176,9 @@ dialog p { color: var(--muted); font-size: .92rem; }
   .card { transition: none; }
   #bg-canvas { display: none; }
 }
+
+.repo-list { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.repo-list li { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+.repo-list a { font-weight: 600; text-decoration: none; }
+.repo-list a:hover { color: var(--cyan); }
+.repo-list span { font-size: .9rem; opacity: .8; }

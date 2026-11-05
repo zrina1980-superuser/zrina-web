@@ -47,7 +47,49 @@ export async function onRequestPost({ request, env }) {
     })
   });
 
-  return response.ok ? json({ ok: true }) : json({ error: "send_failed" }, 502);
+  if (!response.ok) return json({ error: "send_failed" }, 502);
+
+  // Best-effort confirmation to the sender; a failure here must not fail the submission.
+  if (validEmail) {
+    const en = data.lang === "en";
+    const ack = en
+      ? {
+          subject: "We received your app suggestion — zrina.app",
+          lines: [
+            "Hi,",
+            "thank you for getting in touch. Your suggestion has arrived and I am glad you shared it with me.",
+            "I will read it carefully and get back to you as soon as I can. Not every idea can be built, but I will always reply honestly.",
+            "This is an automatic message from a no-reply address. To add something, just write to kontakt@zrina.app.",
+            "Vedran, zrina.app"
+          ]
+        }
+      : {
+          subject: "Zaprimili smo tvoj prijedlog aplikacije — zrina.app",
+          lines: [
+            "Bok,",
+            "hvala ti što si se javio. Tvoj prijedlog je stigao i veseli me što si ga podijelio sa mnom.",
+            "Pročitat ću ga pažljivo i javiti ti se što prije mogu. Ne mogu izraditi baš svaku ideju, ali ti uvijek odgovaram iskreno.",
+            "Ovo je automatska poruka, pa na nju nemoj odgovarati. Ako želiš nešto dodati, piši na kontakt@zrina.app.",
+            "Vedran, zrina.app"
+          ]
+        };
+    try {
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
+        body: JSON.stringify({
+          from: env.SUGGEST_FROM,
+          to: [validEmail],
+          reply_to: "kontakt@zrina.app",
+          subject: ack.subject,
+          text: ack.lines.join("\n\n"),
+          html: ack.lines.map((line) => `<p>${escapeHtml(line)}</p>`).join("")
+        })
+      });
+    } catch {}
+  }
+
+  return json({ ok: true });
 }
 
 export const onRequest = () => json({ error: "method_not_allowed" }, 405);

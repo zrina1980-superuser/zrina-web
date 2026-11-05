@@ -1051,14 +1051,14 @@
     "id": "teka",
     "name": "Mamina Teka",
     "category": "public",
-    "status": "demo",
+    "status": "public",
     "featuredRank": 3,
     "accent": "#d9694b",
     "icon": "teka/teka-192.png",
     "screenshot": "assets/portfolio/previews/teka_preview.jpg",
     "projectUrl": "teka/project.html",
-    "landingUrl": "mailto:maminateka@zrina.app",
-    "launchUrl": "mailto:maminateka@zrina.app",
+    "landingUrl": "https://mamina-teka.zrina.app",
+    "launchUrl": "https://mamina-teka.zrina.app",
     "email": "maminateka@zrina.app",
     "subject": "Mamina Teka — Upit za demo / Demo request",
     "description": {
@@ -1129,11 +1129,11 @@
         {
           "hr": [
             "Stanje",
-            "Demo na upit"
+            "Javno, besplatno"
           ],
           "en": [
             "Status",
-            "Demo on request"
+            "Public, free"
           ]
         }
       ],
@@ -1202,11 +1202,11 @@
       "learned": {
         "hr": [
           "Naučio sam graditi proizvod oko emocije, a ne oko značajki. Najvažnija odluka nije bila tehnička, nego da izvorni rukopis uvijek ostane vidljiv.",
-          "Naučio sam i da AI u aplikaciji nije besplatan: mora postojati plan za ključ, kvote i troškove prije nego što se aplikacija javno otvori. Zato je javna verzija još u pripremi."
+          "Naučio sam i da AI u aplikaciji nije besplatan: mora postojati plan za ključ, kvote i troškove prije nego što se aplikacija javno otvori. Zato javna verzija radi s vlastitim Gemini ključem svakog korisnika."
         ],
         "en": [
           "I learned to build a product around emotion rather than features. The most important decision was not technical but that the original handwriting always stays visible.",
-          "I also learned that AI in an app is not free: there has to be a plan for the key, quotas and costs before the app is opened to the public. That is why the public version is still in preparation."
+          "I also learned that AI in an app is not free: there has to be a plan for the key, quotas and costs before the app is opened to the public. That is why the public version runs on each user’s own Gemini key."
         ]
       },
       "gallery": [
@@ -1246,11 +1246,11 @@
       "overview": {
         "hr": [
           "Mamina Teka čuva recepte onako kako su stvarno nastali: uz sliku rukopisa, priču i obitelj koja ih kuha. Tekst se prepisuje pomoću AI-ja, ali izvornik uvijek ostaje vidljiv.",
-          "Javna inačica još je u pripremi, pa je trenutačno dostupna kao demo na upit."
+          "Javna inačica je besplatna: prijaviš se Google računom, a za AI prepis upišeš vlastiti Gemini API ključ (upute su u aplikaciji). Ključ ostaje samo u tvom pregledniku."
         ],
         "en": [
           "Mamina Teka keeps recipes the way they really came to be: with the handwriting image, the story and the family that cooks them. Text is transcribed with AI, but the original always stays visible.",
-          "The public version is still in preparation, so it is currently available as a demo on request."
+          "The public version is free: sign in with Google and enter your own Gemini API key for AI transcription (instructions are in the app). The key stays in your browser only."
         ]
       },
       "workflow": [
@@ -1874,6 +1874,7 @@
     "id": "alatnica",
     "name": "alatnica.app",
     "category": "public",
+    "workshop": true,
     "status": "public",
     "featuredRank": null,
     "accent": "#10b981",
@@ -1885,8 +1886,8 @@
     "email": "alatnica@zrina.app",
     "subject": "alatnica.app — Tehnički upit / Technical Inquiry",
     "description": {
-      "hr": "Instalabilna PWA za katalog alata, zaduživanje, kalibraciju i inventuru u radionicama.",
-      "en": "An installable PWA for workshop tool catalogues, check-outs, calibration and stocktaking."
+      "hr": "Katalog alata, zaduživanje, kalibracija i inventura u radionicama. Nedavno prebačeno iz Google Apps Scripta u novo probno sučelje (PWA) koje možeš isprobati.",
+      "en": "Workshop tool catalogue, check-outs, calibration and stocktaking. Recently moved from Google Apps Script to a new trial interface (PWA) you can try."
     },
     "tech": {
       "hr": [

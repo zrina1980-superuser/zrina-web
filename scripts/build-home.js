@@ -5,6 +5,13 @@ const path = require("node:path");
 const root = path.resolve(__dirname, "..");
 const SITE = "https://zrina.app";
 const LINKEDIN = "https://www.linkedin.com/in/vedran-zrinski";
+const GITHUB = "https://github.com/zrina1980-superuser";
+const REPOS = [
+  ["mamina-teka", { hr: "Obiteljski trezor recepata s AI prepisom rukopisa.", en: "Family recipe vault with AI handwriting transcription." }],
+  ["gljivobook.app", { hr: "Aplikacija za ljubitelje gljivarenja.", en: "An app for mushroom foragers." }],
+  ["dronelogbook.app", { hr: "Aplikacija za pilote dronova.", en: "An app for drone pilots." }],
+  ["zrina-web", { hr: "Ovaj portfolio i besplatni alati (Cloudflare Pages).", en: "This portfolio and the free tools (Cloudflare Pages)." }]
+];
 const MAIL = "kontakt@zrina.app";
 
 const esc = (value) => String(value).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -40,7 +47,7 @@ const copy = {
     othersLead: "Manje, fokusirane aplikacije izrađene za konkretnu potrebu.",
     open: "Otvori projekt",
     workshopTitle: "Iz servisne radionice",
-    workshopLead: "Studije slučaja alata za auto-praonice i vulkanizere, nastale iz mog stvarnog radnog iskustva.",
+    workshopLead: "Alati za auto-praonice, vulkanizere i radionice, nastali iz mog stvarnog radnog iskustva. Carwash i Tirehotel trenutačno prelaze na moderno sučelje prilagođenije korisniku. alatnica.app je nedavno prebačena iz Google Apps Scripta u novo probno sučelje koje možeš isprobati.",
     openStudy: "Otvori studiju slučaja",
     toolsTitle: "Besplatni online alati",
     toolsLead: "Mali, brzi alati koji rade u pregledniku i ne traže registraciju.",
@@ -66,6 +73,9 @@ const copy = {
     contactTitle: "Kontakt",
     contactText: "Za suradnju, pitanja o projektima ili prijedlog aplikacije.",
     linkedin: "LinkedIn",
+    codeTitle: "Izvorni kod",
+    codeLead: "Javni repozitoriji na GitHubu — kod možeš pregledati i provjeriti kako radim.",
+    codeAll: "Svi repozitoriji",
     footer: "Autorski projekti Vedrana Zrinskog.",
     privacy: "Privatnost",
     legalTitle: "Privatnost i uvjeti",
@@ -76,7 +86,7 @@ const copy = {
       "Sadržaj i izvorni kod autorski su rad. Aplikacije se nude „kakve jesu”, bez jamstva."
     ],
     close: "Zatvori",
-    types: { demo: "Demo na upit", public: "Javna aplikacija", case: "Studija slučaja" },
+    types: { demo: "Demo na upit", public: "Javna aplikacija", case: "Studija slučaja", trial: "Probno sučelje" },
     altLang: { label: "EN", title: "English version", href: "en/" }
   },
   en: {
@@ -103,7 +113,7 @@ const copy = {
     othersLead: "Smaller, focused apps built for a specific need.",
     open: "Open project",
     workshopTitle: "From the service workshop",
-    workshopLead: "Case studies of tools for car washes and tyre shops, born from my real working experience.",
+    workshopLead: "Tools for car washes, tyre shops and workshops, born from my real working experience. Carwash and Tirehotel are currently being moved to a more modern, more user-friendly interface. alatnica.app was recently moved from Google Apps Script to a new trial interface you can try out.",
     openStudy: "Open case study",
     toolsTitle: "Free online tools",
     toolsLead: "Small, fast tools that run in your browser and need no sign-up.",
@@ -129,6 +139,9 @@ const copy = {
     contactTitle: "Contact",
     contactText: "For collaboration, questions about the projects or an app suggestion.",
     linkedin: "LinkedIn",
+    codeTitle: "Source code",
+    codeLead: "Public repositories on GitHub — browse the code and see how I work.",
+    codeAll: "All repositories",
     footer: "Independent projects by Vedran Zrinski.",
     privacy: "Privacy",
     legalTitle: "Privacy and terms",
@@ -139,7 +152,7 @@ const copy = {
       "Content and source code are original work. Apps are provided “as is”, without warranty."
     ],
     close: "Close",
-    types: { demo: "Demo on request", public: "Public app", case: "Case study" },
+    types: { demo: "Demo on request", public: "Public app", case: "Case study", trial: "Trial interface" },
     altLang: { label: "HR", title: "Hrvatska verzija", href: "../" }
   }
 };
@@ -242,7 +255,7 @@ function topbar(c, prefix, homeHref, suggestHref, altHref) {
 
 function card(c, p, prefix, flagship) {
   const href = `${prefix}${p.projectUrl}`;
-  const type = p.status === "demo" ? c.types.demo : p.category === "b2b" ? c.types.case : c.types.public;
+  const type = p.workshop ? c.types.trial : p.status === "demo" ? c.types.demo : p.category === "b2b" ? c.types.case : c.types.public;
   const tags = p.tech[c.lang].slice(0, flagship ? 5 : 3).map((t) => `<li>${esc(t)}</li>`).join("");
   const isMail = p.launchUrl.startsWith("mailto:");
   const launch = p.category === "public"
@@ -268,14 +281,14 @@ function homePage(c) {
   const selfUrl = en ? `${SITE}/en/` : `${SITE}/`;
   const suggestHref = en ? "suggest/" : "predlozi/";
   const flagship = projects.filter((p) => p.featuredRank).sort((a, b) => a.featuredRank - b.featuredRank);
-  const others = projects.filter((p) => !p.featuredRank && p.category === "public");
-  const workshop = projects.filter((p) => !p.featuredRank && p.category === "b2b");
+  const others = projects.filter((p) => !p.featuredRank && p.category === "public" && !p.workshop);
+  const workshop = projects.filter((p) => !p.featuredRank && (p.category === "b2b" || p.workshop));
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "WebSite", name: "zrina.app", url: `${SITE}/`, inLanguage: c.lang },
       {
-        "@type": "Person", name: "Vedran Zrinski", url: `${SITE}/`, sameAs: [LINKEDIN],
+        "@type": "Person", name: "Vedran Zrinski", url: `${SITE}/`, sameAs: [LINKEDIN, GITHUB],
         jobTitle: en ? "Developer, AI builder, app designer" : "Developer, AI graditelj, dizajner aplikacija",
         knowsAbout: ["React", "TypeScript", "Progressive Web Apps", "Firebase", "AI-assisted development", "UX design"]
       }
@@ -328,6 +341,12 @@ function homePage(c) {
       <p><a class="btn ghost" href="${prefix}tools/">${c.toolsAll} <span aria-hidden="true">→</span></a></p>
     </section>
 
+    <section id="kod" class="section">
+      <div class="section-head"><h2>${c.codeTitle}</h2><p>${c.codeLead}</p></div>
+      <ul class="repo-list">${REPOS.map(([n, d]) => `<li><a href="${GITHUB}/${n}" target="_blank" rel="noopener noreferrer">${n} <span aria-hidden="true">↗</span></a><span>${d[c.lang]}</span></li>`).join("")}</ul>
+      <p><a class="btn ghost" href="${GITHUB}" target="_blank" rel="noopener noreferrer">${c.codeAll} <span aria-hidden="true">↗</span></a></p>
+    </section>
+
     <section id="proces" class="section">
       <div class="section-head"><h2>${c.processTitle}</h2></div>
       <ol class="steps">${c.process.map(([t, d], i) => `<li><span>${String(i + 1).padStart(2, "0")}</span><h3>${t}</h3><p>${d}</p></li>`).join("")}</ol>
@@ -352,6 +371,7 @@ function homePage(c) {
       <div class="contact-links">
         <a class="btn primary" href="mailto:${MAIL}">${MAIL}</a>
         <a class="btn ghost" href="${LINKEDIN}" target="_blank" rel="noopener noreferrer">${c.linkedin} <span aria-hidden="true">↗</span></a>
+        <a class="btn ghost" href="${GITHUB}" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
       </div>
     </section>
   </main>

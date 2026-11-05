@@ -18,6 +18,7 @@
     if (!form.reportValidity()) return;
     const data = Object.fromEntries(new FormData(form).entries());
     data.elapsed = Date.now() - loadedAt;
+    data.lang = document.documentElement.lang;
     button.disabled = true;
     button.textContent = d.sending;
     try {
