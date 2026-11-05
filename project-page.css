@@ -734,3 +734,4 @@ body[data-atmosphere="heirloom"] {
 .support-link{color:var(--page-muted);text-decoration:none;border-bottom:1px dotted currentColor}
 .support-link:hover,.support-link:focus-visible{color:var(--page-accent)}
 
+.support-icon{vertical-align:-4px;margin-right:4px}
