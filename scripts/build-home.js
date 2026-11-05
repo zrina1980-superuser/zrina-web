@@ -63,7 +63,7 @@ const copy = {
     about: [
       "Više od dvadeset godina radim s ljudima i procesima u automobilskoj servisnoj struci. Danas sam certificirani servisni savjetnik, senior specijalist: svaki dan pretvaram tuđe probleme u jasan plan popravka. Tamo sam shvatio koliko dobrih ideja strada zbog neprikladnih alata.",
       "Zato sam počeo graditi vlastite. Većina projekata nastala je iz konkretne potrebe — moje, moje obitelji ili ljudi s kojima radim. Naučio sam React, TypeScript, PWA, Firebase i rad s AI modelima, a posebno me zanima kako od ideje doći do proizvoda koji je jednostavan, siguran i koristan.",
-      "Uz to već godinama vodim kuharski YouTube kanal <a href=\"https://www.youtube.com/@zrina1980\" target=\"_blank\" rel=\"noopener noreferrer\">@zrina1980</a> s više od 600 000 pregleda i preko tisuću pretplatnika. Tamo sam naučio kako ljudima objasniti nešto korak po korak, a odatle je potekla i Mamina Teka.",
+      "Uz to već godinama vodim kuharski YouTube kanal <a href=\"https://www.youtube.com/@Vekiukuhinji\" target=\"_blank\" rel=\"noopener noreferrer\">@Vekiukuhinji</a> s više od 600 000 pregleda i preko tisuću pretplatnika. Tamo sam naučio kako ljudima objasniti nešto korak po korak, a odatle je potekla i Mamina Teka.",
       "Trenutačno aktivno ne tražim novi posao, ali sam otvoren za zanimljive uloge i projekte u razvoju aplikacija, AI-ju i dizajnu proizvoda."
     ],
     skillsTitle: "Čime radim",
@@ -130,7 +130,7 @@ const copy = {
     about: [
       "For over twenty years I’ve worked with people and processes in the automotive service trade, and today I am a certified service advisor, senior specialist: every day I turn other people’s problems into a clear repair plan. There I saw how many good ideas die because of unsuitable tools.",
       "So I started building my own. Most projects came from a concrete need — mine, my family’s or my colleagues’. I’ve learned React, TypeScript, PWAs, Firebase and working with AI models, and I’m especially interested in turning an idea into a product that is simple, safe and useful.",
-      "For years I have also run a cooking channel on YouTube, <a href=\"https://www.youtube.com/@zrina1980\" target=\"_blank\" rel=\"noopener noreferrer\">@zrina1980</a>, with over 600,000 views and more than a thousand subscribers. It taught me to explain things step by step, and it is where the idea for Mamina Teka came from.",
+      "For years I have also run a cooking channel on YouTube, <a href=\"https://www.youtube.com/@Vekiukuhinji\" target=\"_blank\" rel=\"noopener noreferrer\">@Vekiukuhinji</a>, with over 600,000 views and more than a thousand subscribers. It taught me to explain things step by step, and it is where the idea for Mamina Teka came from.",
       "I’m not actively job-hunting right now, but I’m open to interesting roles and projects in app development, AI and product design."
     ],
     skillsTitle: "What I work with",
