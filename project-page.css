@@ -31,16 +31,19 @@ body {
 }
 
 body[data-atmosphere="shopping"] {
+  --page-panel: rgba(26, 14, 32, .86);
   --page-bg: #120b17;
   --page-surface: #211327;
 }
 
 body[data-atmosphere="wood"] {
+  --page-panel: rgba(30, 22, 10, .86);
   --page-bg: #171108;
   --page-surface: #241b0c;
 }
 
 body[data-atmosphere="mycelium"] {
+  --page-panel: rgba(10, 28, 20, .86);
   --page-bg: #07150f;
   --page-surface: #0d2118;
 }
@@ -51,6 +54,7 @@ body[data-atmosphere="flight"] {
 }
 
 body[data-atmosphere="radio"] {
+  --page-panel: rgba(28, 12, 26, .86);
   --page-bg: #110812;
   --page-surface: #21101e;
 }
