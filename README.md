@@ -25,10 +25,14 @@ npx wrangler pages deploy dist --project-name YOUR_PAGES_PROJECT --branch main
 
 Replace `YOUR_PAGES_PROJECT` with the existing Cloudflare Pages project name. After deployment, verify `https://zrina.app/hostvitals/api/probe?url=https%3A%2F%2Fexample.com` returns JSON instead of 404; without the Pages Function, HostVitals falls back to public gateways that may rate-limit or time out.
 
-Before enabling AdSense, add the real publisher and ad-unit configuration only to tool pages, configure the required consent flow, and validate/update the tool-path CSP for the actual ad and consent providers. Add an `ads.txt` record only when the real publisher ID is available. Do not apply ad or consent configuration globally or to portfolio/project pages.
+The root `ads.txt` declares Google as the direct seller for the existing publisher account. It only identifies authorized sellers; it does not display ads. Before enabling AdSense, add ad units and the required consent flow only to tool pages, and validate/update the tool-path CSP for the actual providers. Do not apply ad or consent scripts globally or to portfolio/project pages.
 
 Reserved ad positions are planning notes only, not active ad units. Create the European regulations message in AdSense, but load its CMP/AdSense code only on tool pages after approval and before ads are enabled. Do not install a site-wide script or enable Auto ads.
 
 The JSON tool formats source tokens directly so large number spellings, duplicate keys, and original key order are not silently changed; sorting is an explicit action. Its repair action is limited to converting single-quoted strings and removing trailing commas. The Cron tool supports Linux/POSIX, Kubernetes, GitHub Actions, and AWS EventBridge syntax, and previews upcoming runs in an IANA time zone while warning about platform-specific time-zone behavior.
 
 The UUID Inspector decodes UUID/ULID/ObjectId and selected Snowflake identifiers in the browser. The Network Planner supports IPv4/IPv6 CIDRs, overlap and gap checks, aligned next-subnet selection, VLSM, CSV export, and share links; share links include the entered address plan.
+
+## Support
+
+If these tools have been useful, you can support their development on [Ko-fi](https://ko-fi.com/I2I61XNULM).

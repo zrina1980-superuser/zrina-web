@@ -85,7 +85,7 @@ const copy = {
     legal: [
       "Ova stranica je osobni portfolio. Ne koristi kolačiće za praćenje ni analitiku, ne učitava vanjske fontove i ne prikazuje oglase.",
       "Odabir jezika pamti se lokalno u pregledniku. Pojedine aplikacije i alati mogu koristiti lokalnu pohranu ili vanjske servise za svoje funkcije; pojedinosti su navedene u samoj aplikaciji.",
-      "E-poštu koju mi pošalješ koristim samo za odgovor na tvoj upit.",
+      "Prijedlozi poslani obrascem i navedeni kontaktni podaci šalju se putem Resenda, pružatelja usluge e-pošte, kako bih primio prijedlog i mogao odgovoriti. Ako mi pišeš izravno, e-poštu koristim za odgovor.",
       "Sadržaj i izvorni kod autorski su rad. Aplikacije se nude „kakve jesu”, bez jamstva."
     ],
     close: "Zatvori",
@@ -153,7 +153,7 @@ const copy = {
     legal: [
       "This site is a personal portfolio. It uses no tracking cookies or analytics, loads no external fonts and shows no ads.",
       "The selected language is stored locally in your browser. Individual apps and tools may use local storage or external services for their features; details are given in each app.",
-      "I only use the email you send me to reply to your enquiry.",
+      "Suggestions submitted through the form and the contact details provided are sent through Resend, an email delivery provider, so I can receive the suggestion and reply. If you email me directly, I use your email to respond.",
       "Content and source code are original work. Apps are provided “as is”, without warranty."
     ],
     close: "Close",
@@ -181,7 +181,7 @@ const suggestCopy = {
     ok: "Hvala! Prijedlog je poslan. Ako si ostavio e-poštu, javit ću ti se.",
     fallback: "Slanje trenutačno nije dostupno. Otvaram tvoj program za e-poštu s ispunjenim prijedlogom.",
     error: "Nešto je pošlo po zlu. Pokušaj ponovno ili piši na",
-    privacy: "Podaci iz obrasca koriste se samo za odgovor na tvoj prijedlog i ne dijele se s trećima.",
+    privacy: "Prijedlog i navedeni kontaktni podaci obrađuju se putem Resenda, pružatelja usluge e-pošte, kako bi prijedlog stigao do mene i kako bih ti mogao odgovoriti. Ako slanje obrasca nije dostupno, otvorit će se tvoj program za e-poštu.",
     back: "← Natrag na portfolio",
     hp: "Ne popunjavaj ovo polje",
     subject: "Prijedlog aplikacije"
@@ -204,7 +204,7 @@ const suggestCopy = {
     ok: "Thank you! Your suggestion was sent. If you left an email, I’ll get back to you.",
     fallback: "Sending is not available right now. Opening your email app with the suggestion filled in.",
     error: "Something went wrong. Please try again or write to",
-    privacy: "Form data is used only to reply to your suggestion and is never shared with third parties.",
+    privacy: "Your suggestion and any contact details you provide are processed through Resend, an email delivery provider, so I can receive your message and reply. If form delivery is unavailable, your email app will open instead.",
     back: "← Back to portfolio",
     hp: "Leave this field empty",
     subject: "App suggestion"
