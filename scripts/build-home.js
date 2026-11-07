@@ -6,6 +6,7 @@ const root = path.resolve(__dirname, "..");
 const SITE = "https://zrina.app";
 const LINKEDIN = "https://www.linkedin.com/in/vedran-zrinski";
 const GITHUB = "https://github.com/zrina1980-superuser";
+const YOUTUBE = "https://www.youtube.com/@zrinaapp";
 const REPOS = [
   ["mamina-teka", { hr: "Obiteljski trezor recepata s AI prepisom rukopisa.", en: "Family recipe vault with AI handwriting transcription." }],
   ["gljivobook.app", { hr: "Aplikacija za ljubitelje gljivarenja.", en: "An app for mushroom foragers." }],
@@ -74,6 +75,7 @@ const copy = {
     contactTitle: "Kontakt",
     contactText: "Za suradnju, pitanja o projektima ili prijedlog aplikacije.",
     linkedin: "LinkedIn",
+    youtube: "YouTube kanal",
     codeTitle: "Izvorni kod",
     codeLead: "Javni repozitoriji na GitHubu — kod možeš pregledati i provjeriti kako radim.",
     codeAll: "Svi repozitoriji",
@@ -141,6 +143,7 @@ const copy = {
     contactTitle: "Contact",
     contactText: "For collaboration, questions about the projects or an app suggestion.",
     linkedin: "LinkedIn",
+    youtube: "YouTube channel",
     codeTitle: "Source code",
     codeLead: "Public repositories on GitHub — browse the code and see how I work.",
     codeAll: "All repositories",
@@ -373,6 +376,7 @@ function homePage(c) {
       <div class="contact-links">
         <a class="btn primary" href="mailto:${MAIL}">${MAIL}</a>
         <a class="btn ghost" href="${LINKEDIN}" target="_blank" rel="noopener noreferrer">${c.linkedin} <span aria-hidden="true">↗</span></a>
+        <a class="btn ghost" href="${YOUTUBE}" target="_blank" rel="noopener noreferrer">${c.youtube} <span aria-hidden="true">↗</span></a>
         <a class="btn ghost" href="${GITHUB}" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
       </div>
     </section>
