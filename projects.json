@@ -1160,12 +1160,12 @@
       "decisions": [
         {
           "hr": [
-            "AI ključ samo na poslužitelju",
-            "Gemini ključ nikad ne ide u preglednik: OCR i generiranje slika prolaze kroz vlastiti Express poslužitelj, a kod nema ključeva."
+            "Gemini ključ korisnika, bez trajne pohrane",
+            "Korisnik unosi svoj Gemini API ključ. Aplikacija ga sprema u localStorage preglednika i šalje uz AI zahtjeve; poslužitelj ga koristi za poziv Geminiju, ali ga ne pohranjuje trajno."
           ],
           "en": [
-            "AI key only on the server",
-            "The Gemini key never reaches the browser: OCR and image generation go through my own Express server, and the code contains no keys."
+            "User-supplied key, not stored by the server",
+            "Each user supplies their Gemini API key. The app stores it in browser localStorage and sends it with AI requests; the server uses it to call Gemini but does not persist it."
           ]
         },
         {
@@ -1246,11 +1246,11 @@
       "overview": {
         "hr": [
           "Mamina Teka čuva recepte onako kako su stvarno nastali: uz sliku rukopisa, priču i obitelj koja ih kuha. Tekst se prepisuje pomoću AI-ja, ali izvornik uvijek ostaje vidljiv.",
-          "Javna inačica je besplatna: prijaviš se Google računom, a za AI prepis upišeš vlastiti Gemini API ključ (upute su u aplikaciji). Ključ ostaje samo u tvom pregledniku."
+          "Javna inačica je besplatna: prijaviš se Google računom, a za AI funkcije upišeš vlastiti Gemini API ključ. Ključ se čuva u localStorage preglednika i šalje aplikacijskom poslužitelju uz AI zahtjeve; poslužitelj ga koristi za poziv Geminiju, bez trajnog spremanja."
         ],
         "en": [
           "Mamina Teka keeps recipes the way they really came to be: with the handwriting image, the story and the family that cooks them. Text is transcribed with AI, but the original always stays visible.",
-          "The public version is free: sign in with Google and enter your own Gemini API key for AI transcription (instructions are in the app). The key stays in your browser only."
+          "The public version is free: sign in with Google and enter your own Gemini API key for AI features. The key is stored in browser localStorage and sent to the app server with AI requests; the server uses it to call Gemini but does not persist it."
         ]
       },
       "workflow": [
@@ -1380,8 +1380,8 @@
         }
       ],
       "privacy": {
-        "hr": "Recepti se prvo spremaju lokalno, a prijavom Google računom sinkroniziraju u privatni obiteljski trezor. Firestore pravila zabranjuju sve osim pristupa vlastitom i obiteljskom trezoru. AI ključ postoji samo na poslužitelju.",
-        "en": "Recipes are saved locally first and, after Google sign-in, synced to a private family vault. Firestore rules deny everything except access to your own and your family’s vault. The AI key exists only on the server."
+        "hr": "Recepti se prvo spremaju lokalno, a prijavom Google računom sinkroniziraju u privatni obiteljski trezor. Firestore pravila ograničavaju pristup na vlastiti i obiteljski trezor. Gemini ključ unosi korisnik, čuva se u localStorage preglednika i šalje aplikacijskom poslužitelju uz AI zahtjeve; poslužitelj ga koristi za poziv Geminiju, ali ga ne pohranjuje trajno.",
+        "en": "Recipes are saved locally first and, after Google sign-in, synced to a private family vault. Firestore rules restrict access to your own and your family’s vault. The user supplies the Gemini key; it is stored in browser localStorage and sent to the app server with AI requests. The server uses it for the Gemini call but does not persist it."
       },
       "tech": {
         "hr": "React 19, TypeScript, Tailwind CSS v4, Dexie (IndexedDB), Firebase Auth i Firestore, Express poslužitelj, Google Gemini API, vite-plugin-pwa.",
