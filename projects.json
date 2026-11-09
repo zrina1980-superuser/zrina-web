@@ -8,7 +8,8 @@
     "accent": "#c084fc",
     "icon": "shoplist/shoplist-logo.png",
     "screenshot": "assets/portfolio/previews/shoplist_preview.jpg",
-    "projectUrl": "shoplist/project.html",
+    "projectUrl": "shoplist/",
+    "projectPageSource": "shoplist/project.html",
     "landingUrl": "https://shoplist-zrina-app.ai.studio/",
     "launchUrl": "https://shoplist-zrina-app.ai.studio/",
     "email": "shoplist@zrina.app",
@@ -36,7 +37,7 @@
       ]
     },
     "preview": {
-      "src": "shoplist/share-card.png",
+      "src": "shoplist/share-card-v2.png",
       "kind": "cover",
       "aspectRatio": "1200 / 630"
     },
@@ -208,7 +209,8 @@
     "accent": "#f59e0b",
     "icon": "wood/woodapp-logo.png",
     "screenshot": "assets/portfolio/previews/wood_preview.jpg",
-    "projectUrl": "wood/project.html",
+    "projectUrl": "wood/",
+    "projectPageSource": "wood/project.html",
     "landingUrl": "https://wood-app-394279937544.europe-west1.run.app/",
     "launchUrl": "https://wood-app-394279937544.europe-west1.run.app/",
     "email": "wood@zrina.app",
@@ -238,7 +240,7 @@
       ]
     },
     "preview": {
-      "src": "wood/share-card.png",
+      "src": "wood/share-card-v2.png",
       "kind": "cover",
       "aspectRatio": "1200 / 630"
     },
@@ -410,7 +412,8 @@
     "accent": "#34d399",
     "icon": "gljivobook/gljivobook-192.png",
     "screenshot": "assets/portfolio/previews/gljivobook_preview.jpg",
-    "projectUrl": "gljivobook/project.html",
+    "projectUrl": "gljivobook/",
+    "projectPageSource": "gljivobook/project.html",
     "landingUrl": "https://gljivobook.zrina.app/",
     "launchUrl": "https://gljivobook.zrina.app/",
     "email": "gljivobook@zrina.app",
@@ -734,8 +737,9 @@
     "accent": "#38bdf8",
     "icon": "drone-logbook/droneapp-logo.png",
     "screenshot": "drone-logbook/drone-dashboard.jpg",
-    "projectUrl": "drone-logbook/project.html",
-    "landingUrl": "drone-logbook/index.html",
+    "projectUrl": "drone-logbook/",
+    "projectPageSource": "drone-logbook/project.html",
+    "landingUrl": "drone-logbook/",
     "launchUrl": "https://dronelogbook.zrina.app/",
     "email": "drone@zrina.app",
     "subject": "dronelogbook.app — Tehnički upit / Technical Inquiry",
@@ -1056,7 +1060,8 @@
     "accent": "#d9694b",
     "icon": "teka/teka-192.png",
     "screenshot": "assets/portfolio/previews/teka_preview.jpg",
-    "projectUrl": "teka/project.html",
+    "projectUrl": "teka/",
+    "projectPageSource": "teka/project.html",
     "landingUrl": "https://mamina-teka.zrina.app",
     "launchUrl": "https://mamina-teka.zrina.app",
     "email": "maminateka@zrina.app",
@@ -1402,7 +1407,8 @@
     "accent": "#e879f9",
     "icon": "radio/radioapp-logo.png",
     "screenshot": "assets/portfolio/previews/radio_preview.jpg",
-    "projectUrl": "radio/project.html",
+    "projectUrl": "radio/",
+    "projectPageSource": "radio/project.html",
     "landingUrl": "https://zrinafm.ai.studio/",
     "launchUrl": "https://zrinafm.ai.studio/",
     "email": "radio@zrina.app",
@@ -1428,7 +1434,7 @@
       ]
     },
     "preview": {
-      "src": "radio/share-card.png",
+      "src": "radio/share-card-v2.png",
       "kind": "cover",
       "aspectRatio": "1200 / 630"
     },
@@ -1600,7 +1606,8 @@
     "accent": "#00f0ff",
     "icon": "tv/tvapp-logo.png",
     "screenshot": "assets/portfolio/previews/tv_preview.jpg",
-    "projectUrl": "tv/project.html",
+    "projectUrl": "tv/",
+    "projectPageSource": "tv/project.html",
     "landingUrl": "https://zrinatv-app.ai.studio/",
     "launchUrl": "https://zrinatv-app.ai.studio/",
     "email": "tv@zrina.app",
@@ -1624,7 +1631,7 @@
       ]
     },
     "preview": {
-      "src": "tv/share-card.png",
+      "src": "tv/share-card-v2.png",
       "kind": "cover",
       "aspectRatio": "1200 / 630"
     },
@@ -1819,7 +1826,7 @@
       ]
     },
     "preview": {
-      "src": "carwash/share-card.png",
+      "src": "carwash/share-card-v2.png",
       "kind": "cover",
       "aspectRatio": "1200 / 630"
     },
@@ -1861,7 +1868,7 @@
       ]
     },
     "preview": {
-      "src": "tirehotel/share-card.png",
+      "src": "tirehotel/share-card-v2.png",
       "kind": "cover",
       "aspectRatio": "1200 / 630"
     },
@@ -1904,7 +1911,7 @@
       ]
     },
     "preview": {
-      "src": "alatnica/share-card.png",
+      "src": "alatnica/share-card-v2.png",
       "kind": "cover",
       "aspectRatio": "1200 / 630"
     },

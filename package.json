@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "node scripts/build.js && node scripts/build-qr.js && node scripts/build-dist.js",
+    "build": "node scripts/build.js && node scripts/build-app-entry-pages.js && node scripts/build-project-share-cards.js && node scripts/build-share-metadata.js && node scripts/build-blog.js && node scripts/build-qr.js && node scripts/build-dist.js",
     "deploy": "npm run build && npx wrangler pages deploy dist --project-name zrina-app-web --branch main",
     "optimize:images": "node scripts/optimize-images.js",
     "test:qr": "node --test qr/tests/qr.test.mjs"

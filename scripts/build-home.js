@@ -29,7 +29,7 @@ const copy = {
     title: "Vedran Zrinski — developer, AI graditelj i dizajner aplikacija | zrina.app",
     description: "Portfolio Vedrana Zrinskog: gradim web aplikacije od ideje do objave — PWA, React, TypeScript, Firebase i AI. Gljivobook, DroneLogbook, Mamina Teka i drugi projekti.",
     ogTitle: "Vedran Zrinski — gradim aplikacije od ideje do objave",
-    nav: { work: "Radovi", about: "O meni", tools: "Alati", suggest: "Predloži aplikaciju", contact: "Kontakt" },
+    nav: { work: "Radovi", about: "O meni", tools: "Alati", blog: "Blog", suggest: "Predloži aplikaciju", contact: "Kontakt" },
     skip: "Preskoči na sadržaj",
     pill: "Developer · AI graditelj · Dizajner aplikacija",
     h1: "Gradim aplikacije od ideje do objave.",
@@ -97,7 +97,7 @@ const copy = {
     title: "Vedran Zrinski — developer, AI builder and app designer | zrina.app",
     description: "Portfolio of Vedran Zrinski: I build web apps from idea to launch — PWA, React, TypeScript, Firebase and AI. Gljivobook, DroneLogbook, Mamina Teka and more.",
     ogTitle: "Vedran Zrinski — I build apps from idea to launch",
-    nav: { work: "Work", about: "About", tools: "Tools", suggest: "Suggest an app", contact: "Contact" },
+    nav: { work: "Work", about: "About", tools: "Tools", blog: "Blog (HR)", suggest: "Suggest an app", contact: "Contact" },
     skip: "Skip to content",
     pill: "Developer · AI builder · App designer",
     h1: "I build apps from idea to launch.",
@@ -251,6 +251,7 @@ function topbar(c, prefix, homeHref, suggestHref, altHref) {
       <a href="${homeHref}#radovi">${c.nav.work}</a>
       <a href="${homeHref}#o-meni">${c.nav.about}</a>
       <a href="${homeHref}#alati">${c.nav.tools}</a>
+      <a href="${prefix}blog/">${c.nav.blog}</a>
       <a href="${suggestHref}">${c.nav.suggest}</a>
       <a class="nav-cta" href="${homeHref}#kontakt">${c.nav.contact}</a>
       <a class="lang-link" href="${altHref}" hreflang="${c.lang === "hr" ? "en" : "hr"}" title="${c.altLang.title}">${c.altLang.label}</a>

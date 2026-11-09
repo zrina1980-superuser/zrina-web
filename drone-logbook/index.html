@@ -3,13 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#060a14">
-  <meta name="description" content="Instalabilna PWA za planiranje leta, GPS kartu i vremenske uvjete, evidenciju flote i održavanja te regulatorne reference za 195 država.">
-  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#08121a">
+  <meta name="description" content="Planiraj let, pregledaj kartu i vrijeme, vodi evidenciju flote te provjeri regulatorne reference za 195 država.">
   <link rel="canonical" href="https://zrina.app/drone-logbook/">
-  <link rel="icon" type="image/png" href="droneapp-logo.png">
-  <link rel="apple-touch-icon" href="droneapp-logo.png">
-  <title>dronelogbook.app — Dnevnik leta spreman za teren</title>
   <meta property="og:type" content="website">
   <meta property="og:locale" content="hr_HR">
   <meta property="og:site_name" content="dronelogbook.app">
@@ -19,374 +15,38 @@
   <meta property="og:image" content="https://zrina.app/drone-logbook/share-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="dronelogbook.app — dnevnik letova i alati za pilote dronova">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="dronelogbook.app — Dnevnik leta spreman za teren">
-  <meta name="twitter:description" content="Instalabilna PWA za letove, GPS kartu, održavanje i regulatorne reference za 195 država.">
+  <meta name="twitter:description" content="Planiraj let, pregledaj kartu i vrijeme, vodi evidenciju flote te provjeri regulatorne reference za 195 država.">
   <meta name="twitter:image" content="https://zrina.app/drone-logbook/share-card.png">
+  <title>dronelogbook.app — Dnevnik leta spreman za teren</title>
   <link rel="stylesheet" href="../portfolio-page-transition.css">
-  <script src="../portfolio-page-transition.js" defer></script>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #060a14;
-      --surface: #0b1324;
-      --surface-raised: #101b2e;
-      --line: rgba(148, 163, 184, .18);
-      --text: #f3f7fc;
-      --muted: #a3b0c2;
-      --cyan: #00e5f4;
-      --pink: #ff4fba;
-      --green: #00d78a;
-      --page-width: 1160px;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-synthesis: none;
-      text-rendering: optimizeLegibility;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 88px; background: var(--bg); }
-    body { min-width: 320px; margin: 0; background: radial-gradient(ellipse at 52% -18%, rgba(0, 229, 244, .12), transparent 42%), var(--bg); color: var(--text); line-height: 1.6; }
-    a { color: inherit; }
-    button { font: inherit; }
-    .skip-link { position: fixed; z-index: 10; top: 10px; left: 10px; padding: 10px 14px; transform: translateY(-160%); border-radius: 8px; background: var(--cyan); color: #06101a; font-weight: 750; }
-    .skip-link:focus { transform: translateY(0); }
-    .shell { width: min(var(--page-width), calc(100% - 48px)); margin-inline: auto; }
-    .topbar { position: sticky; z-index: 5; top: 0; border-bottom: 1px solid rgba(148, 163, 184, .12); background: rgba(6, 10, 20, .88); backdrop-filter: blur(16px); }
-    .nav { display: flex; min-height: 72px; align-items: center; justify-content: space-between; gap: 22px; }
-    .brand { display: inline-flex; min-width: 0; align-items: center; gap: 11px; text-decoration: none; }
-    .brand img { width: 38px; height: 38px; border: 1px solid rgba(0, 229, 244, .44); border-radius: 11px; object-fit: cover; box-shadow: 0 0 22px rgba(0, 229, 244, .12); }
-    .brand-copy { display: grid; line-height: 1.15; }
-    .brand-copy strong { font-size: .91rem; letter-spacing: -.035em; }
-    .brand-copy small { margin-top: 4px; color: var(--muted); font-size: .65rem; letter-spacing: .06em; }
-    .nav-links { display: flex; align-items: center; gap: 20px; }
-    .nav-links > a:not(.button) { color: var(--muted); font-size: .83rem; text-decoration: none; }
-    .nav-links > a:not(.button):hover { color: var(--text); }
-    .nav-tools { display: flex; align-items: center; gap: 10px; }
-    .language { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
-    .language button { min-width: 37px; padding: 5px 7px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; font-size: .72rem; font-weight: 750; }
-    .language button[aria-pressed="true"] { background: var(--surface-raised); color: var(--cyan); }
-    .button { display: inline-flex; min-height: 43px; align-items: center; justify-content: center; gap: 9px; padding: 10px 16px; border: 1px solid rgba(0, 229, 244, .38); border-radius: 10px; background: rgba(0, 229, 244, .08); color: var(--text); font-size: .85rem; font-weight: 720; text-decoration: none; transition: background .18s ease, border-color .18s ease, transform .18s ease; }
-    .button:hover { transform: translateY(-1px); border-color: var(--cyan); background: rgba(0, 229, 244, .15); }
-    .button-primary { border-color: transparent; background: linear-gradient(105deg, #00d8ee, #36c7ed); color: #04101a; box-shadow: 0 8px 26px rgba(0, 229, 244, .13); }
-    .button-primary:hover { background: linear-gradient(105deg, #39ebf5, #68d7f6); }
-    .hero { padding-top: 74px; }
-    .hero-copy { max-width: 790px; margin: 0 auto; text-align: center; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--cyan); font-size: .73rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-    .eyebrow::before { width: 7px; height: 7px; border-radius: 50%; background: currentColor; content: ""; box-shadow: 0 0 14px currentColor; }
-    h1, h2, h3, p { margin-top: 0; }
-    h1 { max-width: 850px; margin: 18px auto 15px; font-size: clamp(2.5rem, 6vw, 4.9rem); line-height: 1.02; letter-spacing: -.065em; }
-    h1 span { color: var(--cyan); }
-    .hero-copy > p { max-width: 730px; margin: 0 auto; color: var(--muted); font-size: clamp(1rem, 1.7vw, 1.18rem); line-height: 1.75; }
-    .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 11px; margin-top: 25px; }
-    .quick-points { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; margin: 22px 0 36px; padding: 0; list-style: none; }
-    .quick-points li { padding: 6px 11px; border: 1px solid var(--line); border-radius: 999px; background: rgba(16, 27, 46, .6); color: #c4cfdd; font-size: .75rem; }
-    .quick-points strong { color: var(--cyan); }
-    .screen { position: relative; margin: 0; overflow: hidden; border: 1px solid rgba(0, 229, 244, .24); border-radius: 18px; background: var(--surface); box-shadow: 0 24px 90px rgba(0, 0, 0, .36), 0 0 54px rgba(0, 229, 244, .07); }
-    .screen img { display: block; width: 100%; height: auto; }
-    .screen figcaption { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: .74rem; }
-    .screen figcaption span:last-child { color: var(--cyan); }
-    .section { padding-top: 100px; }
-    .section-head { max-width: 680px; margin-bottom: 28px; }
-    .section-head h2 { margin: 12px 0 9px; font-size: clamp(1.85rem, 3.8vw, 2.7rem); line-height: 1.12; letter-spacing: -.045em; }
-    .section-head p { margin-bottom: 0; color: var(--muted); font-size: 1rem; }
-    .feature-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .feature { min-height: 190px; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(150deg, rgba(16, 27, 46, .9), rgba(9, 15, 28, .92)); }
-    .feature-icon { display: grid; width: 38px; height: 38px; place-items: center; margin-bottom: 16px; border: 1px solid rgba(0, 229, 244, .22); border-radius: 11px; background: rgba(0, 229, 244, .08); color: var(--cyan); font-size: 1.1rem; }
-    .feature h3 { margin-bottom: 7px; font-size: 1.02rem; letter-spacing: -.02em; }
-    .feature p { margin-bottom: 0; color: var(--muted); font-size: .88rem; line-height: 1.65; }
-    .workflow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; counter-reset: steps; }
-    .step { position: relative; min-height: 165px; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); counter-increment: steps; }
-    .step::before { display: block; margin-bottom: 16px; color: var(--cyan); content: "0" counter(steps); font: 750 .75rem ui-monospace, monospace; letter-spacing: .12em; }
-    .step h3 { margin-bottom: 7px; font-size: 1rem; }
-    .step p { margin-bottom: 0; color: var(--muted); font-size: .87rem; }
-    .privacy-panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, .75fr); gap: 24px; padding: clamp(22px, 4vw, 36px); border: 1px solid rgba(0, 229, 244, .2); border-radius: 16px; background: linear-gradient(125deg, rgba(0, 229, 244, .07), rgba(16, 27, 46, .78) 45%, rgba(255, 79, 186, .045)); }
-    .privacy-panel h2 { margin: 10px 0; font-size: clamp(1.5rem, 3vw, 2.15rem); letter-spacing: -.04em; }
-    .privacy-panel p { margin-bottom: 0; color: #c0cada; font-size: .92rem; }
-    .privacy-list { display: grid; gap: 10px; align-content: center; margin: 0; padding: 0; list-style: none; }
-    .privacy-list li { display: flex; gap: 10px; color: #c0cada; font-size: .84rem; }
-    .privacy-list li::before { flex: 0 0 auto; color: var(--green); content: "✓"; font-weight: 900; }
-    .notice { margin-top: 16px; padding: 14px 17px; border-left: 2px solid var(--pink); border-radius: 0 9px 9px 0; background: rgba(255, 79, 186, .055); color: #c0cada; font-size: .82rem; }
-    .contact { display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
-    .contact h2 { margin: 0 0 5px; font-size: 1.35rem; }
-    .contact p { margin: 0; color: var(--muted); font-size: .88rem; }
-    .contact-actions { display: flex; flex-shrink: 0; flex-wrap: wrap; gap: 10px; }
-    footer { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 80px; padding-block: 24px 34px; border-top: 1px solid var(--line); color: var(--muted); font-size: .75rem; }
-    footer a { color: #c6d1df; text-decoration: none; }
-    footer a:hover { color: var(--cyan); }
-    .toast { position: fixed; z-index: 8; right: 20px; bottom: 20px; max-width: calc(100vw - 40px); padding: 11px 15px; transform: translateY(12px); border: 1px solid var(--line); border-radius: 9px; background: var(--surface-raised); color: var(--text); opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease; }
-    .toast.visible { transform: translateY(0); opacity: 1; }
-    :focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
-    @media (max-width: 850px) {
-      .nav-links { gap: 12px; }
-      .nav-links > a:not(.button) { display: none; }
-      .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .privacy-panel { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 560px) {
-      .shell { width: min(var(--page-width), calc(100% - 30px)); }
-      .nav { min-height: 64px; gap: 10px; }
-      .brand img { width: 34px; height: 34px; }
-      .brand-copy small { font-size: .58rem; }
-      .nav-links { gap: 0; }
-      .nav-tools { gap: 6px; }
-      .nav-tools > .button { min-height: 38px; padding: 8px 10px; font-size: .76rem; }
-      .language button { min-width: 31px; padding-inline: 5px; }
-      .hero { padding-top: 54px; }
-      h1 { font-size: clamp(2.35rem, 11vw, 3.45rem); }
-      .hero-actions { display: grid; grid-template-columns: 1fr; }
-      .hero-actions .button { width: 100%; }
-      .quick-points { gap: 7px; margin-bottom: 26px; }
-      .quick-points li { font-size: .7rem; }
-      .screen { border-radius: 12px; }
-      .screen figcaption { align-items: flex-start; flex-direction: column; gap: 2px; padding: 9px 11px; font-size: .68rem; }
-      .section { padding-top: 70px; }
-      .feature-grid, .workflow { grid-template-columns: 1fr; }
-      .feature { min-height: 0; }
-      .step { min-height: 0; }
-      .contact { align-items: flex-start; flex-direction: column; padding: 22px; }
-      .contact-actions { width: 100%; }
-      .contact-actions .button { flex: 1; }
-      footer { align-items: flex-start; flex-direction: column; margin-top: 55px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
-    }
-  </style>
+  <link rel="stylesheet" href="../portfolio-atmosphere.css">
+  <link rel="stylesheet" href="../project-page.css">
+  <script src="../portfolio-atmosphere.js" defer></script>
+  <script type="application/json" id="project-data">{"id":"drone","name":"dronelogbook.app","category":"public","status":"public","featuredRank":2,"accent":"#38bdf8","icon":"drone-logbook/droneapp-logo.png","screenshot":"drone-logbook/drone-dashboard.jpg","projectUrl":"drone-logbook/","projectPageSource":"drone-logbook/project.html","landingUrl":"drone-logbook/","launchUrl":"https://dronelogbook.zrina.app/","email":"drone@zrina.app","subject":"dronelogbook.app — Tehnički upit / Technical Inquiry","description":{"hr":"Instalabilna PWA za evidenciju letova, flote, dokumenata i održavanja te pregled pravila za 195 država.","en":"An installable PWA for logging flights, managing a fleet and pilot documents, tracking maintenance and looking up rules for 195 countries."},"tech":{"hr":["React 19","TypeScript","PWA · Workbox","Firebase Auth","Cloud Firestore","Leaflet","Open-Meteo"],"en":["React 19","TypeScript","PWA · Workbox","Firebase Auth","Cloud Firestore","Leaflet","Open-Meteo"]},"preview":{"src":"drone-logbook/drone-dashboard.jpg","kind":"screenshot","aspectRatio":"1365 / 768"},"projectPage":{"title":{"hr":"Sve za let — od pripreme do dnevnika.","en":"Everything for a flight, from prep to logbook."},"lead":{"hr":"Instalabilna PWA za planiranje leta, GPS kartu i vremenske uvjete, evidenciju flote i održavanja te pregled regulatornih referenci za 195 država.","en":"An installable PWA for flight planning, GPS mapping and weather, fleet and maintenance records, and regulatory references for 195 countries."},"overview":{"hr":["dronelogbook.app je instalabilna PWA za pripremu leta i vođenje evidencije na terenu. Upiši lokaciju ili odaberi je na karti, provjeri vremenske uvjete i spremi trajanje, radijus, kontrolni popis i bilješke.","Aplikacija obuhvaća i flotu, pilotske dokumente, servisne zapise te regulatorne reference za 195 država. Može se koristiti iz preglednika ili instalirati na početni zaslon."],"en":["dronelogbook.app is an installable PWA for preparing flights and keeping records in the field. Enter a location or pick it on the map, check the weather, and save the duration, radius, checklist and notes.","It also covers fleet details, pilot documents, maintenance records and regulatory references for 195 countries. Use it in a browser or install it on your home screen."]},"workflow":[{"hr":["Pripremi let","Odaberi lokaciju na karti ili upotrijebi GPS, zatim provjeri vrijeme i postavi radijus leta."],"en":["Plan the flight","Pick a location on the map or use GPS, then check the weather and set the flight radius."]},{"hr":["Prođi provjeru","Zabilježi trajanje leta i prođi kontrolni popis prije polijetanja."],"en":["Run the checklist","Set the flight duration and work through the pre-flight checklist before take-off."]},{"hr":["Vodi evidenciju","Spremi let i napomene, prati održavanje te upravljaj podacima o dronu i pilotskim dokumentima."],"en":["Keep your records","Save flights and notes, track maintenance, and manage drone details and pilot documents."]},{"hr":["Koristi online ili offline","Aplikacija čuva podatke lokalno za rad bez mreže; prijavom Google računom možeš ih sinkronizirati sa svojim prostorom u oblaku."],"en":["Work online or offline","The app keeps local data available offline; sign in with Google to sync it with your personal cloud workspace."]}],"modules":[{"hr":["Dnevnik letova","Zabilježi lokaciju, vrijeme, trajanje i radijus leta, dodaj napomene te označi stavke na kontrolnom popisu; lokaciju možeš odrediti GPS-om ili na karti."],"en":["Flight log","Record location, timing, duration, radius, checklist and notes; use GPS or pick a point on the map."]},{"hr":["Predletna provjera","Kontrolni popis pomaže provjeriti sigurnosne korake prije polijetanja."],"en":["Pre-flight check","A checklist helps work through safety steps before take-off."]},{"hr":["Servis i održavanje","Prati održavanje flote, zamjene dijelova, kalibracije i servisne bilješke."],"en":["Service and maintenance","Track fleet maintenance, part replacements, calibrations and service notes."]},{"hr":["Regulatorne informacije","Pretraživa baza obuhvaća regulatorne reference i nacionalna pravila za 195 država."],"en":["Regulatory information","Search regulatory references and national rules across 195 countries."]},{"hr":["Rad bez mreže","PWA predmemorira aplikaciju za terenski rad; lokalni zapisi dostupni su bez mreže, dok sinkronizacija s oblakom i vanjski izvori zahtijevaju internet."],"en":["Offline field work","The PWA caches the app for field use; local records work offline, while cloud sync and external sources need an internet connection."]}],"flow":[{"hr":["Planiranje leta","Karta, GPS, vrijeme i sigurnosna provjera."],"en":["Flight planning","Map, GPS, weather and safety check."]},{"hr":["Lokalna pohrana","Čist profil i rad bez mreže."],"en":["Local storage","Clean Slate and offline access."]},{"hr":["Osobni prostor u oblaku","Firebase prijava i sinkronizacija."],"en":["Personal cloud","Firebase sign-in and sync."]}],"privacy":{"hr":"Aplikacija se otvara bez tuđih podataka. Zapisi su dostupni lokalno za rad bez mreže; prijavom Google računom korisnik može sinkronizirati svoje podatke s osobnim prostorom u Firebase Firestoreu. Karta i vremenski podaci ovise o vanjskim servisima.","en":"The app starts without anyone else’s data. Records remain available locally for offline use; signing in with Google lets each user sync their data to a personal Firebase Firestore workspace. Maps and weather rely on external services."},"tech":{"hr":"React 19, TypeScript, Vite 8, PWA/Workbox, Firebase Authentication i Firestore, Leaflet, Esri, Open-Meteo i LocalStorage.","en":"React 19, TypeScript, Vite 8, PWA/Workbox, Firebase Authentication and Firestore, Leaflet, Esri, Open-Meteo and LocalStorage."}},"techDescription":{"hr":"React 19, TypeScript, Vite 8, Workbox, Firebase Authentication, Cloud Firestore, Leaflet i Open-Meteo.","en":"React 19, TypeScript, Vite 8, Workbox, Firebase Authentication, Cloud Firestore, Leaflet and Open-Meteo."},"caseStudy":{"role":{"hr":"Uloga: ideja, dizajn, razvoj, sigurnosni model i testiranje — samostalno, uz AI alate kao asistenta.","en":"Role: idea, design, development, security model and testing — solo, with AI tools as an assistant."},"facts":[{"hr":["Pravila","195 država"],"en":["Rules","195 countries"]},{"hr":["Pohrana","Lokalno + oblak"],"en":["Storage","Local + cloud"]},{"hr":["Model","Višekorisnički"],"en":["Model","Multi-tenant"]},{"hr":["Sigurnosni testovi","“Dirty Dozen”"],"en":["Security tests","“Dirty Dozen”"]}],"problem":{"hr":["Pilot drona prije leta mora provjeriti vrijeme, lokaciju, kontrolni popis, dokumente i lokalna pravila, a poslije vesti evidenciju leta i održavanja. To je obično raspršeno po bilježnicama, tablicama i više aplikacija.","Ujedno su to osobni podaci — dokumenti i lokacije — koje treba zaštititi."],"en":["Before a flight a drone pilot has to check weather, location, a checklist, documents and local rules, then log the flight and maintenance. That is usually scattered across notebooks, spreadsheets and several apps.","It is also personal data — documents and locations — that has to be protected."]},"solution":{"hr":["Jedna instalabilna PWA: planiranje leta s kartom, GPS-om i vremenom, kontrolni popis, flota i servis, trezor dokumenata, CSV izvoz i pretraživa baza pravila za 195 država.","Radi lokalno i bez mreže, a prijavom Google računom podaci se sinkroniziraju u osobni prostor u Firestoreu."],"en":["One installable PWA: flight planning with map, GPS and weather, a checklist, fleet and service records, a document vault, CSV export and a searchable rules database for 195 countries.","It works locally and offline, and signing in with Google syncs the data to a personal Firestore space."]},"decisions":[{"hr":["Izolacija podataka po korisniku","Svaki korisnik ima vlastiti prostor, a Firestore pravila su “zero-trust”: sve što nije izričito dopušteno je zabranjeno."],"en":["Per-user data isolation","Every user gets their own space, and Firestore rules are zero-trust: anything not explicitly allowed is denied."]},{"hr":["Pravila s testovima","Sigurnosna pravila pokrivena su testovima napada (“Dirty Dozen”) i dokumentirana u sigurnosnoj specifikaciji, kako izmjene ne bi tiho otvorile rupu."],"en":["Rules backed by tests","The security rules are covered by attack tests (“Dirty Dozen”) and documented in a security spec, so changes can’t silently open a hole."]},{"hr":["Lokalno prvo, oblak po izboru","Aplikacija se otvara čista i korisna bez računa. Oblak je opcija za sinkronizaciju, ne preduvjet."],"en":["Local first, cloud by choice","The app opens clean and useful without an account. The cloud is an option for sync, not a prerequisite."]},{"hr":["Pravila zemalja kao podaci","Baza pravila za 195 država odvojena je od koda pa se može ažurirati bez diranja logike."],"en":["Country rules as data","The rules for 195 countries are kept apart from the code so they can be updated without touching the logic."]}],"learned":{"hr":["Prvi put sam ozbiljno razradio višekorisnički model: kako spriječiti da jedan korisnik vidi tuđe podatke i kako to dokazati testovima, a ne vjerovanjem.","Naučio sam i da sigurnost nije faza na kraju, nego odluka koju donosiš u prvom danu modeliranja podataka."],"en":["It was my first serious multi-tenant design: how to stop one user from seeing another’s data and how to prove it with tests rather than belief.","I also learned that security is not a final phase but a decision you make on day one of data modelling."]}}}</script>
+  <script src="../project-page.js" defer></script>
+  <meta property="og:image:alt" content="dronelogbook.app — dnevnik letova i alati za pilote dronova">
 </head>
-<body>
-  <a class="skip-link" href="#main" data-copy="skipLink">Preskoči na sadržaj</a>
-  <header class="topbar">
-    <nav class="nav shell" aria-label="Glavna navigacija" data-copy-aria="navLabel">
-      <a class="brand" href="#top" aria-label="dronelogbook.app — početna stranica" data-copy-aria="brandAria">
-        <img src="droneapp-logo.png" alt="">
-        <span class="brand-copy"><strong>dronelogbook.app</strong><small data-copy="brandTag">PWA za pilote dronova</small></span>
-      </a>
-      <div class="nav-links">
-        <a href="#features" data-copy="navFeatures">Mogućnosti</a>
-        <a href="#privacy" data-copy="navPrivacy">Privatnost</a>
-        <div class="nav-tools">
-          <div class="language" role="group" aria-label="Odabir jezika" data-copy-aria="langLabel">
-            <button type="button" data-lang="hr" aria-pressed="true">HR</button>
-            <button type="button" data-lang="en" aria-pressed="false">EN</button>
-          </div>
-          <a class="button button-primary" href="https://dronelogbook.zrina.app/" target="_blank" rel="noopener noreferrer"><span data-copy="openApp">Otvori aplikaciju</span><span aria-hidden="true">↗</span></a>
-        </div>
-      </div>
+<body data-project="drone" data-atmosphere="flight">
+  <div class="page-shell">
+    <nav class="page-topbar" aria-label="Glavna navigacija">
+      <a class="page-brand" href="../index.html"><img id="project-logo" src="./droneapp-logo.png" alt=""><span><span id="project-name">dronelogbook.app</span><small>zrina.app · Project notes</small></span></a>
+      <div class="page-nav"><a class="page-home" href="../index.html" data-copy="home">← Svi projekti</a><div class="page-language" role="group" aria-label="Odabir jezika"><button type="button" data-lang="hr" aria-pressed="true">HR</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div></div>
     </nav>
-  </header>
-  <main id="main">
-    <section class="hero shell" id="top" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <span class="eyebrow" data-copy="heroEyebrow">PWA dnevnik za pilote dronova</span>
-        <h1 id="hero-title"><span data-copy="heroTitle">Let planiraj. Evidenciju vodi.</span></h1>
-        <p data-copy="heroLead">dronelogbook.app objedinjuje planiranje leta, GPS kartu, vremenske uvjete, evidenciju flote i održavanja te regulatorne reference — u aplikaciji spremnoj za teren i instalaciju na mobitel.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="https://dronelogbook.zrina.app/" target="_blank" rel="noopener noreferrer"><span data-copy="openApp">Otvori aplikaciju</span><span aria-hidden="true">↗</span></a>
-          <a class="button" href="#features" data-copy="explore">Pogledaj mogućnosti</a>
-        </div>
-        <ul class="quick-points" aria-label="Glavne značajke" data-copy-aria="quickLabel">
-          <li><strong>195</strong> <span data-copy="countries">država</span></li>
-          <li data-copy="offlineTag">PWA · radi i bez mreže</li>
-          <li data-copy="mapTag">GPS · karta · vrijeme</li>
-        </ul>
-      </div>
-      <figure class="screen">
-        <img src="drone-dashboard.jpg" width="1365" height="768" alt="Nadzorna ploča aplikacije dronelogbook.app s GPS kartom, formom za novi let i pregledom flote" data-copy-alt="screenAlt" fetchpriority="high" decoding="async">
-        <figcaption><span data-copy="screenCaption">Sučelje PWA aplikacije · prazan demo profil</span><span data-copy="screenNote">Podaci na snimci ne predstavljaju stvarni korisnički račun</span></figcaption>
-      </figure>
-    </section>
-
-    <section class="section shell" id="features" aria-labelledby="features-title">
-      <div class="section-head">
-        <span class="eyebrow" data-copy="featuresEyebrow">Priprema, let i evidencija</span>
-        <h2 id="features-title" data-copy="featuresTitle">Važni podaci leta, na jednom mjestu.</h2>
-        <p data-copy="featuresLead">Od odabira lokacije do pregleda pravila, sučelje je složeno oko pripreme i praćenja leta.</p>
-      </div>
-      <div class="feature-grid">
-        <article class="feature"><span class="feature-icon" aria-hidden="true">⌖</span><h3 data-copy="flightTitle">Planiranje leta</h3><p data-copy="flightText">Odaberi lokaciju na satelitskoj ili cestovnoj karti ili upotrijebi GPS. Postavi radijus, vrijeme i trajanje leta te prođi kontrolni popis prije polijetanja.</p></article>
-        <article class="feature"><span class="feature-icon" aria-hidden="true">◌</span><h3 data-copy="weatherTitle">Vrijeme na lokaciji</h3><p data-copy="weatherText">Pregledaj temperaturu, brzinu i udare vjetra te informativnu procjenu uvjeta za polijetanje.</p></article>
-        <article class="feature"><span class="feature-icon" aria-hidden="true">▦</span><h3 data-copy="fleetTitle">Flota i dokumenti</h3><p data-copy="fleetText">Vodi podatke o više dronova i čuvaj pilotske dokumente za dozvolu, registraciju operatera i osiguranje.</p></article>
-        <article class="feature"><span class="feature-icon" aria-hidden="true">≋</span><h3 data-copy="recordsTitle">Letovi i održavanje</h3><p data-copy="recordsText">Pretražuj i uređuj dnevnik letova, prati servisne radove te izvezi evidenciju letova u CSV-u.</p></article>
-        <article class="feature"><span class="feature-icon" aria-hidden="true">◎</span><h3 data-copy="rulesTitle">Pravila za 195 država</h3><p data-copy="rulesText">Pretraži nacionalne regulatorne podatke, službene izvore i dostupne informacije o unosu drona preko granice.</p></article>
-        <article class="feature"><span class="feature-icon" aria-hidden="true">↻</span><h3 data-copy="pwaTitle">Instalabilna PWA</h3><p data-copy="pwaText">Dodaj aplikaciju na početni zaslon. Workbox predmemorira aplikacijske resurse kako bi sučelje bilo dostupno i bez veze.</p></article>
-      </div>
-    </section>
-
-    <section class="section shell" aria-labelledby="workflow-title">
-      <div class="section-head">
-        <span class="eyebrow" data-copy="workflowEyebrow">Od instalacije do osobne evidencije</span>
-        <h2 id="workflow-title" data-copy="workflowTitle">Kreni praznim profilom, nastavi svojim tempom.</h2>
-        <p data-copy="workflowLead">Nema unaprijed upisanih tuđih podataka. Lokalni rad dostupan je odmah, a sinkronizacija s oblakom nakon prijave.</p>
-      </div>
-      <div class="workflow">
-        <article class="step"><h3 data-copy="stepOneTitle">Otvori ili instaliraj PWA</h3><p data-copy="stepOneText">Pokreni aplikaciju u pregledniku ili dodaj je na početni zaslon. Instalacijski koraci ovise o uređaju i pregledniku.</p></article>
-        <article class="step"><h3 data-copy="stepTwoTitle">Unesi svoje podatke</h3><p data-copy="stepTwoText">Dodaj dron i dokumente, zatim pripremi let: odaberi lokaciju i vrijeme, postavi radijus i prođi kontrolni popis.</p></article>
-        <article class="step"><h3 data-copy="stepThreeTitle">Sinkroniziraj po želji</h3><p data-copy="stepThreeText">Podaci su dostupni lokalno. Prijavom Google računom možeš ih sinkronizirati sa svojim prostorom u oblaku.</p></article>
-      </div>
-    </section>
-
-    <section class="section shell" id="privacy" aria-labelledby="privacy-title">
-      <div class="privacy-panel">
-        <div>
-          <span class="eyebrow" data-copy="privacyEyebrow">Lokalna pohrana · sinkronizacija s oblakom po prijavi</span>
-          <h2 id="privacy-title" data-copy="privacyTitle">Tvoji podaci, tvoj profil.</h2>
-          <p data-copy="privacyText">Aplikacija se otvara u čistom stanju. Lokalna pohrana podržava rad bez mreže; prijava Google računom omogućuje sinkronizaciju s osobnim prostorom u Firebase Firestoreu.</p>
-        </div>
-        <ul class="privacy-list">
-          <li data-copy="privacyItemOne">Nova instalacija ne prikazuje tuđe profile ni evidenciju.</li>
-          <li data-copy="privacyItemTwo">Firestore pristup odvojen je po prijavljenom korisniku.</li>
-          <li data-copy="privacyItemThree">Karta, geokodiranje i vremenski podaci koriste vanjske servise.</li>
-        </ul>
-      </div>
-      <p class="notice" data-copy="rulesNotice">Regulatorni podaci služe kao informativni pregled, a ne kao pravni savjet ni potvrđena izravna EASA API veza. Prije leta provjeri aktualne zahtjeve kod nadležnog tijela.</p>
-    </section>
-
-    <section class="section shell" aria-label="Kontakt" data-copy-aria="contactLabel">
-      <div class="contact">
-        <div><h2 data-copy="contactTitle">Isprobaj dronelogbook.app</h2><p data-copy="contactText">Otvori aplikaciju ili mi se javi ako imaš pitanje o projektu.</p></div>
-        <div class="contact-actions">
-          <a class="button button-primary" href="https://dronelogbook.zrina.app/" target="_blank" rel="noopener noreferrer"><span data-copy="openApp">Otvori aplikaciju</span><span aria-hidden="true">↗</span></a>
-          <a class="button" href="mailto:drone@zrina.app?subject=dronelogbook.app" data-copy="contactButton">Kontaktiraj me</a>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer class="shell">
-    <span data-copy="footerCopy">dronelogbook.app · autorski projekt u portfelju zrina.app</span>
-    <a href="../index.html" data-copy="backLink">← Svi projekti</a>
-  </footer>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script>
-    (() => {
-      const translations = {
-        hr: {
-          pageTitle: "dronelogbook.app — Dnevnik leta spreman za teren",
-          pageDescription: "Instalabilna PWA za planiranje leta, GPS kartu i vremenske uvjete, evidenciju flote i održavanja te regulatorne reference za 195 država.",
-          navLabel: "Glavna navigacija", langLabel: "Odabir jezika", quickLabel: "Glavne značajke", contactLabel: "Kontakt", brandAria: "dronelogbook.app — početna stranica",
-          skipLink: "Preskoči na sadržaj", brandTag: "PWA za pilote dronova", navFeatures: "Mogućnosti", navPrivacy: "Privatnost",
-          openApp: "Otvori aplikaciju", heroEyebrow: "PWA dnevnik za pilote dronova", heroTitle: "Let planiraj. Evidenciju vodi.",
-          heroLead: "dronelogbook.app objedinjuje planiranje leta, GPS kartu, vremenske uvjete, evidenciju flote i održavanja te regulatorne reference — u aplikaciji spremnoj za teren i instalaciju na mobitel.",
-          explore: "Pogledaj mogućnosti", countries: "država", offlineTag: "PWA · radi i bez mreže", mapTag: "GPS · karta · vrijeme",
-          screenAlt: "Nadzorna ploča aplikacije dronelogbook.app s GPS kartom, formom za novi let i pregledom flote",
-          screenCaption: "Sučelje PWA aplikacije · prazan demo profil", screenNote: "Podaci na snimci ne predstavljaju stvarni korisnički račun",
-          featuresEyebrow: "Priprema, let i evidencija", featuresTitle: "Važni podaci leta, na jednom mjestu.",
-          featuresLead: "Od odabira lokacije do pregleda pravila, sučelje je složeno oko pripreme i praćenja leta.",
-          flightTitle: "Planiranje leta", flightText: "Odaberi lokaciju na satelitskoj ili cestovnoj karti ili upotrijebi GPS. Postavi radijus, vrijeme i trajanje leta te prođi kontrolni popis prije polijetanja.",
-          weatherTitle: "Vrijeme na lokaciji", weatherText: "Pregledaj temperaturu, brzinu i udare vjetra te informativnu procjenu uvjeta za polijetanje.",
-          fleetTitle: "Flota i dokumenti", fleetText: "Vodi podatke o više dronova i čuvaj pilotske dokumente za dozvolu, registraciju operatera i osiguranje.",
-          recordsTitle: "Letovi i održavanje", recordsText: "Pretražuj i uređuj dnevnik letova, prati servisne radove te izvezi evidenciju letova u CSV-u.",
-          rulesTitle: "Pravila za 195 država", rulesText: "Pretraži nacionalne regulatorne podatke, službene izvore i dostupne informacije o unosu drona preko granice.",
-          pwaTitle: "Instalabilna PWA", pwaText: "Dodaj aplikaciju na početni zaslon. Workbox predmemorira aplikacijske resurse kako bi sučelje bilo dostupno i bez veze.",
-          workflowEyebrow: "Od instalacije do osobne evidencije", workflowTitle: "Kreni praznim profilom, nastavi svojim tempom.",
-          workflowLead: "Nema unaprijed upisanih tuđih podataka. Lokalni rad dostupan je odmah, a sinkronizacija s oblakom nakon prijave.",
-          stepOneTitle: "Otvori ili instaliraj PWA", stepOneText: "Pokreni aplikaciju u pregledniku ili dodaj je na početni zaslon. Instalacijski koraci ovise o uređaju i pregledniku.",
-          stepTwoTitle: "Unesi svoje podatke", stepTwoText: "Dodaj dron i dokumente, zatim pripremi let: odaberi lokaciju i vrijeme, postavi radijus i prođi kontrolni popis.",
-          stepThreeTitle: "Sinkroniziraj po želji", stepThreeText: "Podaci su dostupni lokalno. Prijavom Google računom možeš ih sinkronizirati sa svojim prostorom u oblaku.",
-          privacyEyebrow: "Lokalna pohrana · sinkronizacija s oblakom po prijavi", privacyTitle: "Tvoji podaci, tvoj profil.",
-          privacyText: "Aplikacija se otvara u čistom stanju. Lokalna pohrana podržava rad bez mreže; prijava Google računom omogućuje sinkronizaciju s osobnim prostorom u Firebase Firestoreu.",
-          privacyItemOne: "Nova instalacija ne prikazuje tuđe profile ni evidenciju.",
-          privacyItemTwo: "Firestore pristup odvojen je po prijavljenom korisniku.",
-          privacyItemThree: "Karta, geokodiranje i vremenski podaci koriste vanjske servise.",
-          rulesNotice: "Regulatorni podaci služe kao informativni pregled, a ne kao pravni savjet ni potvrđena izravna EASA API veza. Prije leta provjeri aktualne zahtjeve kod nadležnog tijela.",
-          contactTitle: "Isprobaj dronelogbook.app", contactText: "Otvori aplikaciju ili mi se javi ako imaš pitanje o projektu.",
-          contactButton: "Kontaktiraj me", footerCopy: "dronelogbook.app · autorski projekt u portfelju zrina.app", backLink: "← Svi projekti",
-          storageError: "Jezik je promijenjen, ali postavku nije moguće spremiti."
-        },
-        en: {
-          pageTitle: "dronelogbook.app — A flight log for the field",
-          pageDescription: "An installable PWA for flight planning, GPS mapping and weather, fleet and maintenance records, and regulatory references for 195 countries.",
-          navLabel: "Main navigation", langLabel: "Language selector", quickLabel: "Key features", contactLabel: "Contact", brandAria: "dronelogbook.app — home",
-          skipLink: "Skip to content", brandTag: "A PWA for drone pilots", navFeatures: "Features", navPrivacy: "Privacy",
-          openApp: "Open the app", heroEyebrow: "A PWA flight log for drone pilots", heroTitle: "Plan the flight. Keep the record.",
-          heroLead: "dronelogbook.app brings together flight planning, GPS mapping, weather, fleet and maintenance records, and regulatory references in an app built for the field and your phone’s home screen.",
-          explore: "Explore features", countries: "countries", offlineTag: "PWA · works offline", mapTag: "GPS · map · weather",
-          screenAlt: "dronelogbook.app dashboard showing the GPS map, new-flight form and fleet overview",
-          screenCaption: "PWA interface · blank demo profile", screenNote: "The screenshot does not show a real user account",
-          featuresEyebrow: "Plan, fly and keep records", featuresTitle: "The details of each flight, all in one place.",
-          featuresLead: "From choosing a location to checking regulations, the app is built around flight preparation and record-keeping.",
-          flightTitle: "Flight planning", flightText: "Choose a location on the satellite or street map, or use GPS. Set a radius, flight times and duration, then run through the pre-flight checklist.",
-          weatherTitle: "Weather at the location", weatherText: "Check the temperature, wind speed and gusts, with an informational assessment of take-off conditions.",
-          fleetTitle: "Fleet and documents", fleetText: "Keep details for multiple drones and store pilot documents for your certificate, operator registration and insurance.",
-          recordsTitle: "Flights and maintenance", recordsText: "Search and edit your flight log, track maintenance work and export flight records as CSV.",
-          rulesTitle: "Rules for 195 countries", rulesText: "Search national regulatory information, official sources and available guidance on bringing a drone across borders.",
-          pwaTitle: "Installable PWA", pwaText: "Add the app to your home screen. Workbox caches app resources so the interface remains available offline.",
-          workflowEyebrow: "From install to your own records", workflowTitle: "Start with a clean profile and build your log as you go.",
-          workflowLead: "No one else’s information is pre-filled. Local use is available right away; cloud sync is available after sign-in.",
-          stepOneTitle: "Open or install the PWA", stepOneText: "Use the app in your browser or add it to your home screen. Installation steps depend on your device and browser.",
-          stepTwoTitle: "Add your information", stepTwoText: "Add a drone and your documents, then prepare a flight with its location, timing, radius and checklist.",
-          stepThreeTitle: "Sync when you choose", stepThreeText: "Your data is available locally. Sign in with Google to use your personal cloud workspace for syncing.",
-          privacyEyebrow: "Local first · cloud after sign-in", privacyTitle: "Your data, your profile.",
-          privacyText: "The app starts in a clean state. Local storage supports offline use; signing in with Google lets you sync with your personal Firebase Firestore workspace.",
-          privacyItemOne: "A new installation does not show someone else’s profile or records.",
-          privacyItemTwo: "Firestore access is scoped to the signed-in user.",
-          privacyItemThree: "Maps, geocoding and weather use external services.",
-          rulesNotice: "Regulatory information is a reference, not legal advice or a confirmed direct EASA API connection. Check current requirements with the relevant authority before flying.",
-          contactTitle: "Try dronelogbook.app", contactText: "Open the app, or email me if you have a question about the project.",
-          contactButton: "Email me", footerCopy: "dronelogbook.app · an independent project in the zrina.app portfolio", backLink: "← All projects",
-          storageError: "The language changed, but the preference could not be saved."
-        }
-      };
-
-      const appUrl = "https://dronelogbook.zrina.app/";
-      const toast = document.getElementById("toast");
-      let toastTimer;
-      function showStorageError(message) {
-        toast.textContent = message;
-        toast.classList.add("visible");
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => toast.classList.remove("visible"), 3200);
-      }
-      function setLanguage(language, persist = true) {
-        const selected = language === "en" ? "en" : "hr";
-        const copy = translations[selected];
-        document.documentElement.lang = selected;
-        document.title = copy.pageTitle;
-        document.querySelector('meta[name="description"]').content = copy.pageDescription;
-        document.querySelector('meta[property="og:title"]').content = copy.pageTitle;
-        document.querySelector('meta[property="og:description"]').content = copy.pageDescription;
-        document.querySelector('meta[property="og:locale"]').content = selected === "hr" ? "hr_HR" : "en_US";
-        document.querySelector('meta[name="twitter:title"]').content = copy.pageTitle;
-        document.querySelector('meta[name="twitter:description"]').content = copy.pageDescription;
-        document.querySelectorAll("[data-copy]").forEach((element) => {
-          const value = copy[element.dataset.copy];
-          if (value !== undefined) element.textContent = value;
-        });
-        document.querySelectorAll("[data-copy-aria]").forEach((element) => {
-          const value = copy[element.dataset.copyAria];
-          if (value !== undefined) element.setAttribute("aria-label", value);
-        });
-        document.querySelectorAll("[data-copy-alt]").forEach((element) => {
-          const value = copy[element.dataset.copyAlt];
-          if (value !== undefined) element.alt = value;
-        });
-        document.querySelectorAll("[data-lang]").forEach((button) => {
-          button.setAttribute("aria-pressed", String(button.dataset.lang === selected));
-        });
-        document.querySelectorAll('a[href^="https://dronelogbook.zrina.app/"]').forEach((link) => {
-          link.href = appUrl;
-        });
-        if (persist) {
-          try {
-            localStorage.setItem("zrina_lang", selected);
-            localStorage.setItem("drone_lang", selected);
-          } catch {
-            showStorageError(copy.storageError);
-          }
-        }
-      }
-      document.querySelectorAll("[data-lang]").forEach((button) => {
-        button.addEventListener("click", () => setLanguage(button.dataset.lang));
-      });
-      let savedLanguage = "hr";
-      try {
-        savedLanguage = localStorage.getItem("zrina_lang") || localStorage.getItem("drone_lang") || "hr";
-      } catch {
-        savedLanguage = "hr";
-      }
-      setLanguage(savedLanguage, false);
-    })();
-  </script>
+    <main>
+      <noscript><p>Ovaj tehnički pregled treba JavaScript. <a href="./index.html">Otvori dronelogbook.app</a> ili se vrati na <a href="../index.html">sve projekte</a>.</p></noscript>
+      <section class="page-hero">
+        <div><div class="page-eyebrow" id="project-kicker">Autorski projekt · Tehnički pregled</div><h1 id="project-title">Pouzdan dnevnik za letenje na terenu.</h1><p class="page-lead" id="project-lead"></p><div class="page-actions"><a class="page-button primary" id="project-app-link" href="./">Pokreni aplikaciju</a><a class="page-button secondary" href="../index.html" data-copy="home">← Svi projekti</a></div></div>
+        <aside class="system-card" aria-label="Sažetak toka aplikacije"><div class="system-head"><strong>FLIGHT OPERATIONS</strong><span class="system-status">PROJECT / 04</span></div><div class="system-flow" id="system-flow"></div><div class="system-foot">zrina.app <span aria-hidden="true">·</span> <span id="system-state">Projektni pregled</span></div></aside>
+      </section>
+      <section class="page-section"><div class="page-section-head"><div><span class="page-label">01 / CONTEXT</span><h2 id="page-overview-title">Polazište projekta</h2></div></div><div class="overview-copy" id="project-overview"></div></section>
+      <section class="page-section workflow-section"><div class="page-section-head"><div><span class="page-label">02 / WORKFLOW</span><h2 id="page-workflow-title">Kako se aplikacija koristi</h2></div><p id="page-workflow-intro"></p></div><div class="workflow-grid" id="project-workflow"></div></section>
+      <section class="page-section"><div class="page-section-head"><div><span class="page-label">02 / CAPABILITIES</span><h2 id="page-modules-title">Što aplikacija obuhvaća</h2></div><p id="page-modules-intro"></p></div><div class="module-grid" id="project-modules"></div></section>
+      <section class="page-section"><div class="page-section-head"><div><span class="page-label">03 / ARCHITECTURE</span><h2 id="page-architecture-title">Arhitektura i tok podataka</h2></div><p id="page-architecture-intro"></p></div><div class="architecture-grid" id="project-flow"></div><div class="tech-note"><strong id="page-stack-title">Tehnički sastav</strong><br><span id="project-tech"></span></div><div class="privacy-note" style="margin-top:12px"><strong id="page-privacy-title">Podaci i privatnost</strong><br><span id="project-privacy"></span></div></section>
+      <section class="contact-panel"><div><h2 id="contact-title">Tehnička pitanja i razmjena iskustava</h2><p id="contact-text"></p></div><a id="contact-email" href="mailto:drone@zrina.app">drone@zrina.app</a></section>
+    </main>
+    <footer class="page-footer"><span>© <span id="page-year"></span> zrina.app</span><span id="page-footer-copy">Autorski projekt u osobnom inženjerskom portfelju.</span><a class="support-link" href="https://ko-fi.com/zrina" target="_blank" rel="noopener noreferrer"><img src="/kofi-symbol.svg" alt="" width="18" height="18" class="support-icon"> Podrži / Support</a></footer>
+  </div>
 </body>
 </html>

@@ -65,9 +65,10 @@ for (const id of requiredProjects) {
 }
 
 for (const project of projects.filter((item) => item.projectPage)) {
-  const projectPagePath = path.resolve(root, project.projectUrl);
+  const projectPageSource = project.projectPageSource || project.projectUrl;
+  const projectPagePath = path.resolve(root, projectPageSource);
   if (!projectPagePath.startsWith(`${root}${path.sep}`) || !fs.existsSync(projectPagePath)) {
-    throw new Error(`Project "${project.id}" references a missing or out-of-root project page: ${project.projectUrl}`);
+    throw new Error(`Project "${project.id}" references a missing or out-of-root project page: ${projectPageSource}`);
   }
 
   let projectPageHtml = fs.readFileSync(projectPagePath, "utf8");
