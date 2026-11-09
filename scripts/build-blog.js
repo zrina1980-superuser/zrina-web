@@ -115,13 +115,19 @@ function header(blogIndex = false) {
   </header>`;
 }
 
-function getPublishedPosts(now = new Date()) {
-  const today = new Intl.DateTimeFormat("en-CA", {
+function getTodayInZagreb(now = new Date()) {
+  const dateParts = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Europe/Zagreb",
     year: "numeric",
     month: "2-digit",
     day: "2-digit"
-  }).format(now);
+  }).formatToParts(now);
+  const date = Object.fromEntries(dateParts.map(({ type, value }) => [type, value]));
+  return `${date.year}-${date.month}-${date.day}`;
+}
+
+function getPublishedPosts(now = new Date()) {
+  const today = getTodayInZagreb(now);
   return posts.filter((post) => post.date <= today);
 }
 
@@ -329,7 +335,7 @@ async function main() {
   console.log(`Generated blog index, ${publishedPosts.length} published articles and share cards.`);
 }
 
-module.exports = { getPublishedPosts };
+module.exports = { getPublishedPosts, getTodayInZagreb, posts };
 
 if (require.main === module) {
   main().catch((error) => {
