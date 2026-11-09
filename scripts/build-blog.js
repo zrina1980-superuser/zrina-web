@@ -1,6 +1,5 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const sharp = require("sharp");
 
 const root = path.resolve(__dirname, "..");
 const site = "https://zrina.app";
@@ -285,6 +284,7 @@ function shareCard(title, description, accent) {
 }
 
 async function buildCard(post) {
+  const sharp = require("sharp");
   const logo = await sharp(path.join(root, post.icon)).resize(360, 360, { fit: "contain" }).png().toBuffer();
   await sharp(shareCard(post.title, post.description, post.accent))
     .composite([{ input: logo, left: 780, top: 145 }])
@@ -331,6 +331,7 @@ async function main() {
     "utf8"
   );
   const overviewSvg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#091322"/><stop offset="1" stop-color="#14213a"/></linearGradient></defs><rect width="1200" height="630" fill="#050811"/><rect x="36" y="34" width="1128" height="562" rx="8" fill="url(#g)"/><circle cx="1010" cy="100" r="230" fill="#00f0ff" opacity=".1"/><text x="92" y="135" fill="#00f0ff" font-family="Arial,sans-serif" font-size="28" font-weight="700">zrina.app</text><text x="92" y="275" fill="#f3f6fb" font-family="Arial,sans-serif" font-size="68" font-weight="700">Bilješke</text><text x="92" y="345" fill="#c3ceda" font-family="Arial,sans-serif" font-size="30">Ideje, alati i aplikacije iz stvarnog života.</text><rect x="92" y="450" width="180" height="4" fill="#00f0ff"/></svg>`);
+  const sharp = require("sharp");
   await sharp(overviewSvg).png().toFile(path.join(root, "assets", "share-cards", "blog", "blog.png"));
   console.log(`Generated blog index, ${publishedPosts.length} published articles and share cards.`);
 }
