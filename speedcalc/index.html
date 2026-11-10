@@ -77,6 +77,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 <button class="btn" data-s="1" data-u="TB">Disk backup · 1 TB</button>
 <button class="btn" data-s="700" data-u="MB">Software ISO · 700 MB</button>
 </div>
+<div class="note">Presets use decimal units (MB, GB or TB) and switch the file size convention to decimal.</div>
 <div class="row">
 <div><label for="mode">Calculation mode</label><select id="mode"><option value="time">Estimate transfer time</option><option value="required-speed">Required speed for a time window</option></select></div>
 </div>
@@ -115,6 +116,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 <p>Advertised speeds are line rates. TCP/IP headers, Wi-Fi interference, server-side limits and other devices on your network can reduce the throughput you actually get. Upload and download speeds vary by connection and plan; use the relevant measured or advertised rate for your transfer direction.</p>
 <h2>Mbps vs MB/s</h2>
 <p>Internet plans are sold in megabits per second (Mbps). Download managers usually show megabytes per second (MB/s). One byte is 8 bits, so a 400 Mbps connection tops out around 50 MB/s before overhead.</p>
+<p>See the worked example in <a href="../tools/guides/gb-vs-gib-download-time.html">GB vs GiB and download time</a>.</p>
 </section>
 </main>
 <footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">All calculations run locally in your browser; nothing is uploaded. Results are estimates. Related: <a href="../myip/">see your IP address and ISP</a>.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
@@ -173,7 +175,7 @@ function calc(){
 ['size','sizeUnit','speed','speedUnit','ovh','cong','windowHours'].forEach(i=>$(i).addEventListener('input',calc));
 ['mode','sizeUnit','speedUnit','sizeBase'].forEach(i=>$(i).addEventListener('change',calc));
 $('sizeBase').addEventListener('change',updateSizeUnits);
-document.querySelectorAll('[data-s]').forEach(b=>b.addEventListener('click',()=>{$('size').value=b.dataset.s;$('sizeUnit').value=b.dataset.u;calc()}));
+document.querySelectorAll('[data-s]').forEach(b=>b.addEventListener('click',()=>{$('sizeBase').value='1000';updateSizeUnits();$('size').value=b.dataset.s;$('sizeUnit').value=b.dataset.u;calc()}));
 updateSizeUnits();
 calc();
 </script>

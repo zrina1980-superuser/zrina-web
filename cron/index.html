@@ -127,6 +127,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 <p>When both fields are restricted (neither starts with <code>*</code>), standard cron runs the job when <em>either</em> matches. If one is <code>*</code>, only the other restricts the schedule.</p>
 <h2>Scope</h2>
 <p>This tool does not support Quartz seconds or special day operators such as <code>L</code>, <code>W</code> and <code>#</code>. Linux macros such as <code>@monthly</code> are not portable to Kubernetes, GitHub Actions or EventBridge; convert a regular expression instead. Kubernetes time zones are configured on the CronJob, Linux uses the daemon's zone, and EventBridge schedules use UTC unless a different schedule time zone is configured. Verify the scheduler's own DST behavior before relying on repeated or skipped local times.</p>
+<p>For worked examples, see <a href="../tools/guides/cron-time-zones.html">cron schedules and time zones</a>.</p>
 </section>
 </main>
 <footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">Parsing runs locally; nothing is uploaded. Related: <a href="../timestamp/">Unix timestamp converter</a>.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>

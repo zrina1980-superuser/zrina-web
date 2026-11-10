@@ -87,7 +87,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 <div class="card">
 <label for="split">Split into smaller subnets</label>
 <select id="split"></select>
-<div class="scroll" style="margin-top:12px"><table><thead><tr><th>#</th><th>Network</th><th>Usable range</th><th>Broadcast</th></tr></thead><tbody id="subs"></tbody></table></div>
+<div class="scroll" style="margin-top:12px"><table><thead><tr><th>#</th><th>Network</th><th>Usable range</th><th>Last address</th></tr></thead><tbody id="subs"></tbody></table></div>
 <div class="note" id="subnote"></div>
 </div>
 
@@ -97,7 +97,8 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 <h2>Usable hosts</h2>
 <p>Normally the first address is the network address and the last is the broadcast address, so usable hosts = 2<sup>(32 − prefix)</sup> − 2. Special cases: /31 (point-to-point links, RFC 3021) has 2 usable addresses and /32 is a single host.</p>
 <h2>Private ranges</h2>
-<p>Common private IPv4 ranges are 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16. The calculator labels the address type when it recognises one.</p>
+<p>Common private IPv4 ranges are 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16. The calculator labels some familiar ranges, but does not check every special-purpose range or determine whether an address is reachable.</p>
+<p>For a worked example, see <a href="../tools/guides/cidr-subnetting-explained.html">CIDR and subnet masks, step by step</a>.</p>
 </section>
 </main>
 <footer class="tool-footer"><div class="wrap"><p class="tool-footer-note">This calculator handles one IPv4 subnet; all calculations run locally in your browser. Related: <a href="../netplanner/">plan IPv4/IPv6 networks</a> · <a href="../hostvitals/">check website reachability</a>.</p><nav class="tool-footer-links" aria-label="Tool and site information"><a href="../tools/">All tools</a><a href="../tools/guides/">Guides</a><a href="../tools/about.html">About the tools</a><a href="../tools/privacy.html">Privacy</a><a href="../tools/terms.html">Terms</a><a href="mailto:tools@zrina.app">Contact</a><a href="../">Portfolio</a></nav><small>Part of zrina.app · by Zrina</small></div></footer>
@@ -127,7 +128,7 @@ function kind(ip){
   if(a===100&&b>=64&&b<=127)return 'Carrier-grade NAT (100.64.0.0/10)';
   if(a>=224&&a<=239)return 'Multicast (224.0.0.0/4)';
   if(a>=240)return 'Reserved';
-  return 'Public / routable';
+  return 'Other (not classified)';
 }
 function info(ip,l){
   const mask=maskOf(l),net=(ip&mask)>>>0,wild=(~mask)>>>0,bc=(net|wild)>>>0;
@@ -140,7 +141,9 @@ function parse(){
   const raw=$('ip').value.trim();
   let l=+lenSel.value,addr=raw;
   if(raw.includes('/')){
-    const [a,p]=raw.split('/');
+    const parts=raw.split('/');
+    if(parts.length!==2)return{error:'Enter one IPv4 address and one prefix, e.g. 192.168.10.0/24.'};
+    const [a,p]=parts;
     if(!/^\d{1,2}$/.test(p)||+p>32)return{error:'Prefix must be a number from 0 to 32.'};
     addr=a;l=+p;
   }
@@ -156,7 +159,7 @@ function render(){
   const i=info(r.ip,r.l);
   const rows=[
     ['Address',intToIp(r.ip)+'/'+r.l],['Type',kind(r.ip)],
-    ['Network address',intToIp(i.net)],['Broadcast address',intToIp(i.bc)],
+    ['Network address',intToIp(i.net)],[r.l>=31?'Last address (no broadcast)':'Broadcast address',intToIp(i.bc)],
     ['First usable host',intToIp(i.first)],['Last usable host',intToIp(i.last)],
     ['Total addresses',i.total.toLocaleString('en-US')],['Usable hosts',i.usable.toLocaleString('en-US')],
     ['Subnet mask',intToIp(i.mask)],['Wildcard mask',intToIp(i.wild)],
