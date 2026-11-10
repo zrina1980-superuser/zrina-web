@@ -170,7 +170,7 @@ const suggestCopy = {
     lead: "Postoji li nešto što ti treba, a nisi našao gotovo rješenje? Opiši mi to. Ako ga mogu riješiti, pokušat ćemo zajedno izraditi aplikaciju točno onako kako si je zamislio.",
     free: "Sve što objavljujem je besplatno. Ako želiš aplikaciju prilagođenu samo sebi, slobodno se javi na e-poštu.",
     fields: {
-      problem: ["Koji problem želiš riješiti?", "Što trenutačno radiš ručno ili nezgrapno?"],
+      problem: ["Koji problem želiš riješiti?", "Što trenutačno radiš ručno ili nezgrapno? Opiši problem s najmanje 10 znakova."],
       who: ["Tko bi je koristio?", "Ti sam, obitelj, tvrtka, hobi grupa…"],
       tried: ["Što si već probao?", "Koje aplikacije ili alate i zašto ti nisu odgovarali?"],
       email: ["Tvoja e-pošta (neobavezno)", "Samo ako želiš odgovor."],
@@ -179,6 +179,7 @@ const suggestCopy = {
     send: "Pošalji prijedlog",
     sending: "Šaljem…",
     ok: "Hvala! Prijedlog je poslan. Ako si ostavio e-poštu, javit ću ti se.",
+    problemShort: "Molim te, opiši problem s najmanje 10 znakova.",
     fallback: "Slanje trenutačno nije dostupno. Otvaram tvoj program za e-poštu s ispunjenim prijedlogom.",
     error: "Nešto je pošlo po zlu. Pokušaj ponovno ili piši na",
     privacy: "Prijedlog i navedeni kontaktni podaci obrađuju se putem Resenda, pružatelja usluge e-pošte, kako bi prijedlog stigao do mene i kako bih ti mogao odgovoriti. Ako slanje obrasca nije dostupno, otvorit će se tvoj program za e-poštu.",
@@ -193,7 +194,7 @@ const suggestCopy = {
     lead: "Is there something you need but couldn’t find a ready-made solution for? Describe it to me. If I can solve it, we’ll try to build the app exactly the way you imagined it.",
     free: "Everything I publish is free. If you want an app tailored just for you, feel free to get in touch by email.",
     fields: {
-      problem: ["What problem do you want to solve?", "What are you doing by hand or awkwardly right now?"],
+      problem: ["What problem do you want to solve?", "What are you doing by hand or awkwardly right now? Please use at least 10 characters."],
       who: ["Who would use it?", "Just you, family, a company, a hobby group…"],
       tried: ["What have you already tried?", "Which apps or tools, and why didn’t they fit?"],
       email: ["Your email (optional)", "Only if you want a reply."],
@@ -202,6 +203,7 @@ const suggestCopy = {
     send: "Send suggestion",
     sending: "Sending…",
     ok: "Thank you! Your suggestion was sent. If you left an email, I’ll get back to you.",
+    problemShort: "Please describe the problem using at least 10 characters.",
     fallback: "Sending is not available right now. Opening your email app with the suggestion filled in.",
     error: "Something went wrong. Please try again or write to",
     privacy: "Your suggestion and any contact details you provide are processed through Resend, an email delivery provider, so I can receive your message and reply. If form delivery is unavailable, your email app will open instead.",
@@ -415,7 +417,7 @@ function suggestPage(lang) {
     <h1>${s.h1}</h1>
     <p class="lead">${s.lead}</p>
     <p class="muted">${s.free}</p>
-    <form id="suggest-form" novalidate data-ok="${esc(s.ok)}" data-fallback="${esc(s.fallback)}" data-error="${esc(s.error)}" data-sending="${esc(s.sending)}" data-send="${esc(s.send)}" data-subject="${esc(s.subject)}" data-mail="${MAIL}">
+    <form id="suggest-form" novalidate data-ok="${esc(s.ok)}" data-problem-short="${esc(s.problemShort)}" data-fallback="${esc(s.fallback)}" data-error="${esc(s.error)}" data-sending="${esc(s.sending)}" data-send="${esc(s.send)}" data-subject="${esc(s.subject)}" data-mail="${MAIL}">
       ${field("problem", "text", s.fields.problem, true, 5)}
       ${field("who", "text", s.fields.who, false, 2)}
       ${field("tried", "text", s.fields.tried, false, 3)}

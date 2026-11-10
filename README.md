@@ -11,6 +11,8 @@ Run `npm run optimize:images` after adding large PNG/JPG screenshots. Carwash, T
 ## Suggest-an-app form
 
 `functions/api/suggest.js` sends form submissions by email through Resend. Set these environment variables (Cloudflare Pages > Settings > Variables and Secrets): `RESEND_API_KEY` (secret), `SUGGEST_TO` (destination mailbox) and `SUGGEST_FROM` (a sender on a domain verified in Resend, e.g. `zrina.app <noreply@zrina.app>`). Without them the function returns 503 and the page falls back to a pre-filled `mailto:`.
+
+The problem description must contain at least 10 characters after trimming whitespace and removing control characters. The form explains this requirement in both languages and keeps the entered values when validation fails. Run `node --test tests/suggest.test.cjs` to test the client-side validation.
 ## Tool policies and Cloudflare Pages
 
 The shared About, Terms, and Privacy pages for the nine utilities live in `tools/`. The portfolio homepage and generated project pages remain separate and ad-free. `_headers` scopes security headers to tool URL paths and to the portfolio/project pages; `_redirects` sends tool paths without a trailing slash to their canonical paths and legacy HostVitals policy URLs to the shared pages.

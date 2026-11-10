@@ -17,6 +17,13 @@
     status.textContent = "";
     if (!form.reportValidity()) return;
     const data = Object.fromEntries(new FormData(form).entries());
+    const problem = data.problem.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim();
+    if (problem.length < 10) {
+      status.className = "status err";
+      status.textContent = d.problemShort;
+      form.querySelector("#problem").focus();
+      return;
+    }
     data.elapsed = Date.now() - loadedAt;
     data.lang = document.documentElement.lang;
     button.disabled = true;
@@ -30,6 +37,10 @@
         status.className = "status ok";
         status.textContent = d.ok;
         form.reset();
+      } else if (response.status === 400 && (await response.json()).error === "problem_required") {
+        status.className = "status err";
+        status.textContent = d.problemShort;
+        form.querySelector("#problem").focus();
       } else {
         throw new Error(String(response.status));
       }
