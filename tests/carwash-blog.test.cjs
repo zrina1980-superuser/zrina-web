@@ -18,6 +18,8 @@ test("carwash article is published with neutral text and a project link", () => 
   assert.match(post.body, /samoinicijativno/);
   assert.match(post.body, /danas se ondje više ne koristi/i);
   assert.match(post.body, /pomoć AI alata/);
+  assert.match(post.body, /Od iskustva iz servisa do rješenja uz AI/);
+  assert.match(post.body, /nije konačno uvedena/);
   assert.match(post.body, /function pokreniSmartSync\(\)/);
   assert.match(post.body, /setInterval\(osvjeziRadionicu, 3000\)/);
   assert.match(post.body, /cache\.put\('db_verzija', Date\.now\(\)\.toString\(\), 21600\)/);

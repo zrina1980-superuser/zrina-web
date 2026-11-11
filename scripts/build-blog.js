@@ -78,7 +78,12 @@ if (isValidVINChecksum(popravljeno)) score += 100;</code></pre>
       <p>Isječak je dio veće petlje: ostatak funkcije priprema tekst, razmatra različite kandidate i dodatno ih boduje. Kontrolna znamenka ovdje povećava broj bodova kandidata; sama po sebi ne dokazuje da je odabrani tekst točan.</p>
       <h2>Tri izvedbe, jedan problem</h2>
       <p>Od izvorne verzije nastala je i zasebna web-izvedba s drukčijim poslužiteljem i bazom, a kasnije eksperimentalna PWA verzija razvijena uz AI Studio. To nisu iste implementacije i ne treba pretpostaviti da svaka funkcija originala radi jednako u novijim verzijama.</p>
-      <aside class="article-note"><strong>Što nosim dalje:</strong> razumjeti posao prije odabira tehnologije, provjeriti ponašanje u stvarnim uvjetima i jasno reći gdje su granice rješenja.</aside>
+      <h2>Od iskustva iz servisa do rješenja uz AI</h2>
+      <p>Kao servisni savjetnik, problem nisam upoznao iz opisa zadatka. Radio sam s kolegama koji su svakodnevno tražili vozila i ključeve, usklađivali predaju i prepisivali podatke. Iskustvo iz operative pomoglo mi je prepoznati gdje proces zapinje i koje informacije ljudima trebaju baš u trenutku kad su im ruke i dan već puni posla.</p>
+      <p>Uz vlastiti angažman, tehničko znanje i pomoć AI alata tu sam ideju pretvorio u aplikaciju koju su kolege isprobali u stvarnom radnom procesu i za koju sam dobio pozitivne povratne informacije. AI mi je pomogao u izradi, ali nije mogao umjesto mene upoznati taj posao, odrediti što je korisno ili potvrditi da je svaka funkcija ispravna.</p>
+      <p>Zato mi je važnije od samog izbora tehnologije pitanje: pomaže li rješenje čovjeku da obavi posao jednostavnije? Treba misliti i na rubne slučajeve: što kad veza nestane, podatak nije ažuriran ili se isti unos pokuša napraviti dvaput? Kod koji izgleda uredno još uvijek treba provjeriti, a kad nešto pođe po zlu, poruka o grešci treba pomoći pronaći uzrok.</p>
+      <p>Izvorna aplikacija isprobana je u konkretnom radnom okruženju, ali nije konačno uvedena. Za širu upotrebu potrebne su dodatne provjere, osobito prijave, ovlasti, pouzdanosti i zaštite podataka. Eksperimentalnu PWA izvedbu također treba promatrati zasebno, a ne kao potvrđeno gotov proizvod.</p>
+      <aside class="article-note"><strong>Što nosim dalje:</strong> razumjeti posao, slušati ljude koji ga rade i koristiti tehnologiju kao pomoć da se stvarni problemi pretvore u provjerena, korisna rješenja.</aside>
       <p>Više o tijeku rada i originalnoj arhitekturi nalazi se na <a href="/carwash/">stranici projekta carwash.app</a>.</p>
     `
   },
