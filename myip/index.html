@@ -77,7 +77,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 <div id="rtcOut" class="kv"><div><small>Status</small><b>not run yet</b></div></div>
 <div id="rtcVerdict" class="verdict"></div>
 <button class="btn" id="rtcBtn" type="button">Run WebRTC check</button>
-<div class="note" style="margin-top:10px">The check contacts a public STUN server (stun.l.google.com) from your browser, which is how WebRTC discovers addresses.</div>
+<div class="note" style="margin-top:10px">The check contacts a public STUN server (stun.l.google.com) from your browser, which is how WebRTC discovers addresses. It cannot prove a VPN is leak-free; compare addresses of the same family and test on the network you actually use.</div>
 </div>
 
 <div class="card">
@@ -179,7 +179,8 @@ $('rtcBtn').onclick=()=>{
     const diff=pubIp&&pub.some(p=>p.ip!==pubIp&&!(pubIp.includes(':')!==p.ip.includes(':')));
     if(local.length){verdict.textContent='WebRTC exposed a local network address to this page.';verdict.className='verdict warn'}
     else if(diff){verdict.textContent='WebRTC reported a public address that differs from the one above. Check your VPN or proxy settings.';verdict.className='verdict warn'}
-    else if(rows.length){verdict.textContent='No local address exposed'+(mdns.length?' (hidden by browser mDNS protection).':'.');verdict.className='verdict ok'}
+    else if(rows.length){verdict.textContent='No local address exposed in this check'+(mdns.length?' (hidden by browser mDNS protection).':'.')+' This does not prove that a VPN is leak-free.';verdict.className='verdict ok'}
+    else{verdict.textContent='Inconclusive: no candidates were observed. This does not establish whether a VPN is protected.';verdict.className='verdict warn'}
   };
   pc.onicecandidate=e=>{
     if(!e.candidate){finish();return}
@@ -190,7 +191,7 @@ $('rtcBtn').onclick=()=>{
     else if(typ==='host'||isPrivate(addr))found.set(addr,{ip:addr,type:isPrivate(addr)?'local':'public'});
     else found.set(addr,{ip:addr,type:'public'});
   };
-  pc.createOffer().then(o=>pc.setLocalDescription(o)).catch(()=>{out.innerHTML=kv('Status','WebRTC check failed.');done=true});
+  pc.createOffer().then(o=>pc.setLocalDescription(o)).catch(()=>{if(done)return;done=true;pc.close();out.innerHTML=kv('Status','WebRTC check failed.');verdict.textContent='The check could not complete; no conclusion about VPN protection is possible.';verdict.className='verdict warn'});
   setTimeout(finish,4000);
 };
 loadIp();

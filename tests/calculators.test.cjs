@@ -52,6 +52,8 @@ test("CIDR rejects additional slashes and clears stale results", () => {
 test("CIDR handles boundary prefixes and does not claim unclassified addresses are routable", () => {
   const h = harness("cidr", { ip: "192.0.2.1/24" });
   assert.match(h.element("res").innerHTML, /Other \(not classified\)/);
+  assert.match(h.element("res").innerHTML, /Network \(24 bits\)/);
+  assert.match(h.element("res").innerHTML, /Host \(8 bits\)/);
   for (const [address, expectedLast, expectedHosts] of [
     ["10.0.0.1/31", "10.0.0.1", "2"],
     ["10.0.0.1/32", "10.0.0.1", "1"]
@@ -77,4 +79,18 @@ test("download presets use their labelled decimal units and calculation", () => 
   h.element("sizeBase").handlers.change();
   assert.equal(h.element("sizeUnit").options[1].textContent, "GiB");
   assert.equal(h.element("out").textContent, "1 h 11 min 35 s");
+});
+
+test("example transfers use current speed and clear after invalid input", () => {
+  const h = harness("speedcalc", {
+    size: 120, speed: 100, mode: "time", ovh: 0, cong: 100,
+    sizeBase: 1024, sizeUnit: "GB", speedUnit: "Mbps", windowHours: 8
+  });
+  assert.match(h.element("scenarios").innerHTML, /Film · 25 GB<\/td><td>33 min 20 s/);
+  h.element("speed").value = "0";
+  h.element("speed").handlers.input();
+  assert.equal(h.element("scenarios").innerHTML, "");
+  h.element("mode").value = "required-speed";
+  h.element("mode").handlers.change();
+  assert.equal(h.element("scenarioCard").hidden, true);
 });

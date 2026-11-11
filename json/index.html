@@ -4,21 +4,21 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Private JSON Formatter &amp; Validator · 100% Client-Side | zrina.app</title>
-<meta name="description" content="Format, minify and validate JSON without changing large number tokens or key order. Repair simple syntax mistakes locally; your data never leaves your browser." />
+<meta name="description" content="Format, validate and compare JSON locally without rounding large numbers. Duplicate keys are preserved and flagged." />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://zrina.app/json/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="zrina.app" />
 <meta property="og:url" content="https://zrina.app/json/" />
 <meta property="og:title" content="Private JSON Formatter &amp; Validator · 100% Client-Side | zrina.app" />
-<meta property="og:description" content="Format, minify and validate JSON without changing large number tokens or key order. Repair simple syntax mistakes locally; your data never leaves your browser." />
+<meta property="og:description" content="Format, validate and compare JSON locally without rounding large numbers. Duplicate keys are preserved and flagged." />
 <meta property="og:image" content="https://zrina.app/assets/share-cards/tools/json-index.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Private JSON Formatter &amp; Validator · 100% Client-Side — Format, minify and validate JSON without changing large number tokens or key order. Repair simple syntax mistakes locally; your data never leaves your browser." />
+<meta property="og:image:alt" content="Private JSON Formatter &amp; Validator · 100% Client-Side — Format, validate and compare JSON locally without rounding large numbers. Duplicate keys are preserved and flagged." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Private JSON Formatter &amp; Validator · 100% Client-Side | zrina.app" />
-<meta name="twitter:description" content="Format, minify and validate JSON without changing large number tokens or key order. Repair simple syntax mistakes locally; your data never leaves your browser." />
+<meta name="twitter:description" content="Format, validate and compare JSON locally without rounding large numbers. Duplicate keys are preserved and flagged." />
 <meta name="twitter:image" content="https://zrina.app/assets/share-cards/tools/json-index.png" />
 <meta name="theme-color" content="#070b16" />
 <link rel="icon" type="image/svg+xml" href="../assets/tool-icons/json.svg" />
@@ -68,7 +68,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 </div></header>
 <main class="wrap">
 <h1>Private JSON Formatter &amp; Validator</h1>
-<p class="lead">100% client-side. Format JSON without rounding large numbers or reordering keys. Your text is never uploaded or stored.</p>
+<p class="lead">Format and compare JSON locally without rounding large numbers. Duplicate keys are preserved and flagged; your text is never uploaded or stored.</p>
 
 <div class="card">
 <div class="cols">
@@ -87,6 +87,14 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 <button class="btn alt" id="clear">Clear</button>
 </div>
 <div id="status" class="status" role="status" aria-live="polite"></div>
+</div>
+
+<div class="card">
+<h2>Compare with another JSON document</h2>
+<p>Compare the input above with a second document. Objects are compared by key, arrays by position, and number spelling is preserved. Duplicate keys must be resolved first.</p>
+<label for="compareInput">Second JSON document</label><textarea id="compareInput" spellcheck="false"></textarea>
+<div class="bar"><button class="btn alt" id="compare" type="button">Compare documents</button></div>
+<pre id="compareResult" class="status" role="status" aria-live="polite" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>
 </div>
 
 <!-- AD SLOT 1 (below the tool, not next to the buttons). Enable after AdSense approval:
@@ -228,6 +236,35 @@ function duplicatesText(duplicates){
   if(!duplicates.length)return'';
   return' Duplicate keys preserved (ambiguous in some parsers): '+duplicates.slice(0,5).map(x=>'"'+x.key+'" at '+x.path).join(', ')+(duplicates.length>5?'…':'')+'.';
 }
+function compareNodes(left,right,limit=100){
+  const differences=[];
+  let truncated=false;
+  const add=message=>{if(differences.length<limit)differences.push(message);else truncated=true};
+  const pointer=(path,key)=>path+'/'+String(key).replace(/~/g,'~0').replace(/\//g,'~1');
+  function visit(a,b,path){
+    if(truncated)return;
+    const name=path||'/ (root)';
+    if(!a){add(name+': added');return}
+    if(!b){add(name+': removed');return}
+    if(a.type!==b.type){add(name+': type changed from '+a.type+' to '+b.type);return}
+    if(a.type==='primitive'){
+      if(a.raw!==b.raw)add(name+': value or number spelling changed ('+a.raw+' → '+b.raw+')');
+    }else if(a.type==='string'){
+      if(a.value!==b.value)add(name+': string value changed');
+    }else if(a.type==='array'){
+      for(let i=0;i<Math.max(a.items.length,b.items.length)&&!truncated;i++)visit(a.items[i],b.items[i],pointer(path,i));
+    }else{
+      const first=new Map(a.entries.map(entry=>[entry.key.value,entry.value]));
+      const second=new Map(b.entries.map(entry=>[entry.key.value,entry.value]));
+      for(const key of new Set([...first.keys(),...second.keys()])){
+        visit(first.get(key),second.get(key),pointer(path,key));
+        if(truncated)break;
+      }
+    }
+  }
+  visit(left,right,'');
+  return{differences,truncated};
+}
 function showError(error,text){
   const pos=Number.isInteger(error.position)?error.position:0;
   const {line,col}=lineCol(text,pos);
@@ -300,6 +337,15 @@ function repairText(text){
   return{result,changes};
 }
 $('fmt').onclick=()=>run('fmt');
+$('compare').onclick=()=>{
+  const result=$('compareResult');
+  try{
+    const first=parseJson(inp.value),second=parseJson($('compareInput').value);
+    if(first.duplicates.length||second.duplicates.length)throw new Error('Resolve duplicate keys in both documents before comparing; duplicate-key interpretation varies.');
+    const diff=compareNodes(first.root,second.root);
+    result.textContent=diff.differences.length?diff.differences.join('\n')+(diff.truncated?'\nMore differences omitted after 100.':''):'No differences found. Object key order and equivalent string escapes are ignored.';
+  }catch(error){result.textContent='Cannot compare: '+error.message}
+};
 $('min').onclick=()=>run('min');
 $('sort').onclick=()=>run('sort');
 $('repair').onclick=()=>{
@@ -312,9 +358,10 @@ $('repair').onclick=()=>{
   }catch(error){showError(error,inp.value);out.value=''}
 };
 $('copy').onclick=async()=>{if(!out.value)return;try{await navigator.clipboard.writeText(out.value);setStatus('Output copied.','ok')}catch{out.select();document.execCommand('copy');setStatus('Output copied.','ok')}};
-$('swap').onclick=()=>{if(out.value){inp.value=out.value;out.value='';validateInput()}};
-$('clear').onclick=()=>{inp.value='';out.value='';setStatus('')};
-let t;inp.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(()=>{const parsed=validateInput();if(parsed)setStatus('Valid JSON ✓  '+stats(inp.value,parsed.duplicates),'ok')},250)});
+$('swap').onclick=()=>{if(out.value){inp.value=out.value;out.value='';$('compareResult').textContent='';validateInput()}};
+$('clear').onclick=()=>{inp.value='';out.value='';$('compareInput').value='';$('compareResult').textContent='';setStatus('')};
+$('compareInput').addEventListener('input',()=>$('compareResult').textContent='');
+let t;inp.addEventListener('input',()=>{$('compareResult').textContent='';clearTimeout(t);t=setTimeout(()=>{const parsed=validateInput();if(parsed)setStatus('Valid JSON ✓  '+stats(inp.value,parsed.duplicates),'ok')},250)});
 </script>
 </body>
 </html>

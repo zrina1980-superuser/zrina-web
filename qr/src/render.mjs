@@ -12,7 +12,12 @@ export function makeMatrix(text, level) {
       ? "That content is too long for a QR code at this error-correction level. Shorten it or choose a lower level."
       : `Could not create QR code: ${error.message}`);
   }
-  return { size: qr.modules.size, get: (x, y) => qr.modules.data[y * qr.modules.size + x] === 1, version: qr.version };
+  return {
+    size: qr.modules.size,
+    get: (x, y) => qr.modules.data[y * qr.modules.size + x] === 1,
+    isReserved: (x, y) => qr.modules.isReserved(y, x),
+    version: qr.version
+  };
 }
 
 export function layout(n, size, margin, print) {
@@ -75,7 +80,8 @@ export function captionBand(captions, px) {
 }
 
 export function drawToCanvas(canvas, matrix, opts) {
-  const { fg, bg, transparent, margin, size, print, logo, caption } = opts;
+  const { fg, bg, transparent, margin, size, print, logo, caption, shape = "square" } = opts;
+  if (!["square", "rounded", "dots"].includes(shape)) throw new Error("Invalid module shape.");
   const { scale, px, offset } = layout(matrix.size, size, margin, print);
   const band = caption && caption.length ? captionBand(caption, px) : null;
   const height = px + (band ? band.height : 0);
@@ -92,7 +98,23 @@ export function drawToCanvas(canvas, matrix, opts) {
   for (let y = 0; y < matrix.size; y++) {
     for (let x = 0; x < matrix.size; x++) {
       if (!matrix.get(x, y) || inLogoPlate(matrix.size, x, y, !!logo)) continue;
-      ctx.fillRect(edge(x), edge(y), edge(x + 1) - edge(x), edge(y + 1) - edge(y));
+      const left = edge(x), top = edge(y), w = edge(x + 1) - left, h = edge(y + 1) - top;
+      if (shape === "square" || matrix.isReserved(x, y)) {
+        ctx.fillRect(left, top, w, h);
+      } else {
+        const radius = Math.min(w, h) * (shape === "dots" ? 0.5 : 0.25);
+        ctx.beginPath();
+        ctx.moveTo(left + radius, top);
+        ctx.lineTo(left + w - radius, top);
+        ctx.quadraticCurveTo(left + w, top, left + w, top + radius);
+        ctx.lineTo(left + w, top + h - radius);
+        ctx.quadraticCurveTo(left + w, top + h, left + w - radius, top + h);
+        ctx.lineTo(left + radius, top + h);
+        ctx.quadraticCurveTo(left, top + h, left, top + h - radius);
+        ctx.lineTo(left, top + radius);
+        ctx.quadraticCurveTo(left, top, left + radius, top);
+        ctx.fill();
+      }
     }
   }
   if (logo) {
@@ -115,7 +137,8 @@ export function drawToCanvas(canvas, matrix, opts) {
 }
 
 export function toSvg(matrix, opts) {
-  const { fg, bg, transparent, margin, print, size, logo, caption } = opts;
+  const { fg, bg, transparent, margin, print, size, logo, caption, shape = "square" } = opts;
+  if (!["square", "rounded", "dots"].includes(shape)) throw new Error("Invalid module shape.");
   checkColor(fg);
   checkColor(bg);
   const n = matrix.size;
@@ -126,12 +149,18 @@ export function toSvg(matrix, opts) {
   const view = print ? lay.px : lay.total;
   const at = (i) => off + (i + margin) * unit;
   let d = "";
+  let styled = "";
   for (let y = 0; y < n; y++) {
     let x = 0;
     while (x < n) {
       if (!matrix.get(x, y) || inLogoPlate(n, x, y, !!logo)) { x++; continue; }
+      if (shape !== "square" && !matrix.isReserved(x, y)) {
+        styled += `<rect x="${at(x)}" y="${at(y)}" width="${unit}" height="${unit}" rx="${unit * (shape === "dots" ? 0.5 : 0.25)}"/>`;
+        x++;
+        continue;
+      }
       const start = x;
-      while (x < n && matrix.get(x, y) && !inLogoPlate(n, x, y, !!logo)) x++;
+      while (x < n && matrix.get(x, y) && !inLogoPlate(n, x, y, !!logo) && (shape === "square" || matrix.isReserved(x, y))) x++;
       d += `M${at(start)} ${at(y)}h${(x - start) * unit}v${unit}h${(start - x) * unit}z`;
     }
   }
@@ -148,6 +177,7 @@ export function toSvg(matrix, opts) {
   }
   if (!transparent && !band) svg += `<rect width="${view}" height="${view}" fill="${bg}"/>`;
   svg += `<path d="${d}" fill="${fg}" shape-rendering="crispEdges"/>`;
+  if (styled) svg += `<g fill="${fg}">${styled}</g>`;
   if (logo && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(logo.dataUrl)) {
     const side = Math.max(1, Math.round(n * 0.2));
     const plate = (side + 2) * unit;

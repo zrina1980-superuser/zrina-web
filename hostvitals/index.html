@@ -7,7 +7,7 @@
   <!-- SEO & Primary Meta Tags -->
   <title>Is This Website Down? · HostVitals Status Checker</title>
   <meta name="title" content="Is This Website Down? · HostVitals Status Checker" />
-  <meta name="description" content="Check whether a website responds from your browser and HostVitals edge, compare DNS results, and review supported providers' official status pages." />
+  <meta name="description" content="Compare browser, DNS and edge HTTP checks, review supported providers' official status and get practical next steps without assuming a global outage." />
   <meta name="keywords" content="website connectivity checker, website status check, browser fetch test, HTTP status check, DNS lookup, hostvitals, zrina.app" />
   <meta name="author" content="zrina.app" />
   <meta name="robots" content="index, follow" />
@@ -22,17 +22,17 @@
   <meta property="og:site_name" content="zrina.app" />
   <meta property="og:url" content="https://zrina.app/hostvitals/" />
   <meta property="og:title" content="Is This Website Down? · HostVitals Status Checker" />
-  <meta property="og:description" content="Check whether a website responds from your browser and HostVitals edge, compare DNS results, and review supported providers' official status pages." />
+  <meta property="og:description" content="Compare browser, DNS and edge HTTP checks, review supported providers' official status and get practical next steps without assuming a global outage." />
   <meta property="og:image" content="https://zrina.app/assets/share-cards/tools/hostvitals-index.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Is This Website Down? · HostVitals Status Checker — Check whether a website responds from your browser and HostVitals edge, compare DNS results, and review supported providers' official status pages." />
+  <meta property="og:image:alt" content="Is This Website Down? · HostVitals Status Checker — Compare browser, DNS and edge HTTP checks, review supported providers' official status and get practical next steps without assuming a global outage." />
   <meta property="og:locale" content="en_US" />
 
   <!-- Twitter / X Cards -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Is This Website Down? · HostVitals Status Checker" />
-  <meta name="twitter:description" content="Check whether a website responds from your browser and HostVitals edge, compare DNS results, and review supported providers' official status pages." />
+  <meta name="twitter:description" content="Compare browser, DNS and edge HTTP checks, review supported providers' official status and get practical next steps without assuming a global outage." />
   <meta name="twitter:image" content="https://zrina.app/assets/share-cards/tools/hostvitals-index.png" />
   <meta name="theme-color" content="#070b16" />
 
@@ -1488,7 +1488,7 @@
     <section class="hero-checker">
       <h1 class="hero-title">Is this website down?</h1>
       <p class="hero-subtitle">
-        Check whether a website is responding from your browser and HostVitals edge, compare DNS, and view official status for supported services such as GitHub, Cloudflare, and OpenAI. Public gateways are fallback probes; results are not a global outage check.
+        Compare your browser, HostVitals edge and DNS checks, see official status for supported services, and get practical next steps. Public gateways are fallback probes; results are not a global outage check.
       </p>
 
       <form id="checkForm" class="search-shell" novalidate>
@@ -1541,6 +1541,7 @@
         </div>
 
         <div id="pipelineSteps" class="pipeline-steps"></div>
+        <div id="nextSteps" class="pipe-step" style="margin-top:1rem"></div>
       </div>
     </section>
 
@@ -2333,12 +2334,39 @@
         .replace(/"/g, '&quot;');
     }
 
+    function diagnosticNextSteps(report) {
+      const code = report.gatewayHttpCode;
+      if (report.dnsStatus === 'NXDOMAIN' && !report.hostResponded) {
+        return 'Check the spelling and domain registration; compare another DNS resolver before changing any settings.';
+      }
+      if (report.gatewayResponded && code === 404) {
+        return 'Check the exact URL and try the site’s home page. A 404 concerns this path, not necessarily the whole site.';
+      }
+      if (report.gatewayResponded && code >= 500) {
+        return 'Check the provider’s official status page if available, then retry later. Site owners can inspect server and upstream logs.';
+      }
+      if (report.gatewayResponded && code === 429) {
+        return 'Wait before retrying and check any rate limits. The response may apply to the probe rather than your own connection.';
+      }
+      if (report.gatewayResponded && code >= 400) {
+        return 'Check the requested URL, access requirements and permissions. A response alone does not identify the restriction’s cause.';
+      }
+      if (report.gatewayResponded && !report.localResponded) {
+        return 'Try opening the site directly and compare another network or device. A browser probe can fail because of browser or network restrictions.';
+      }
+      if (!report.gatewayResponded) {
+        return 'Try the address directly and compare another network. The HTTP status check was unavailable, so avoid treating this result as proof of an outage.';
+      }
+      return 'If the site still fails for you, try another browser or network and compare the results. These probes cannot establish availability everywhere.';
+    }
+
     function renderLiveHeroResult(report) {
       const resultTone = report.isInconclusive ? 'inconclusive' : report.isUp ? 'up' : 'down';
       liveResult.className = `live-result active ${resultTone}`;
       verdictOrb.textContent = report.isInconclusive ? '?' : report.isUp ? '✓' : '✕';
       verdictTitle.textContent = `${report.domain}: ${report.scopeVerdict}`;
       verdictSubtitle.textContent = report.reason;
+      document.getElementById('nextSteps').textContent = `What to try next: ${diagnosticNextSteps(report)}`;
 
       resultQuickMetrics.innerHTML = `
         <span class="metric-pill"><strong>${escapeHtml(report.scopeVerdict)}</strong></span>

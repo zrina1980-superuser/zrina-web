@@ -4,21 +4,21 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Download Time &amp; Required Speed Calculator | zrina.app</title>
-<meta name="description" content="Estimate download or upload time, or calculate the connection speed needed to transfer a file within a chosen time window." />
+<meta name="description" content="Estimate download or upload time, compare sample transfers at your speed, or calculate the speed needed for a deadline." />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://zrina.app/speedcalc/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="zrina.app" />
 <meta property="og:url" content="https://zrina.app/speedcalc/" />
 <meta property="og:title" content="Download Time &amp; Required Speed Calculator | zrina.app" />
-<meta property="og:description" content="Estimate download or upload time, or calculate the connection speed needed to transfer a file within a chosen time window." />
+<meta property="og:description" content="Estimate download or upload time, compare sample transfers at your speed, or calculate the speed needed for a deadline." />
 <meta property="og:image" content="https://zrina.app/assets/share-cards/tools/speedcalc-index.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Download Time &amp; Required Speed Calculator — Estimate download or upload time, or calculate the connection speed needed to transfer a file within a chosen time window." />
+<meta property="og:image:alt" content="Download Time &amp; Required Speed Calculator — Estimate download or upload time, compare sample transfers at your speed, or calculate the speed needed for a deadline." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Download Time &amp; Required Speed Calculator | zrina.app" />
-<meta name="twitter:description" content="Estimate download or upload time, or calculate the connection speed needed to transfer a file within a chosen time window." />
+<meta name="twitter:description" content="Estimate download or upload time, compare sample transfers at your speed, or calculate the speed needed for a deadline." />
 <meta name="twitter:image" content="https://zrina.app/assets/share-cards/tools/speedcalc-index.png" />
 <meta name="theme-color" content="#070b16" />
 <link rel="icon" type="image/svg+xml" href="../assets/tool-icons/speedcalc.svg" />
@@ -67,7 +67,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 </div></header>
 <main class="wrap">
 <h1>Download Time Calculator</h1>
-<p class="lead">Estimate transfer time from file size and speed, or find the connection speed needed to meet a deadline.</p>
+<p class="lead">Estimate transfer time, compare common file sizes at your speed, or find the speed needed to meet a deadline.</p>
 
 <div class="card">
 <div class="chips" aria-label="Presets">
@@ -108,6 +108,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
 
 <div class="card" id="speedTable"><table><thead><tr><th>Speed</th><th>Time for this file</th></tr></thead><tbody id="tbl"></tbody></table></div>
+<div class="card" id="scenarioCard"><h2>Example transfers at your speed</h2><p class="note">Examples use decimal units and your selected overhead and throughput. Actual file sizes and speeds vary.</p><table><thead><tr><th>Example</th><th>Estimated time</th></tr></thead><tbody id="scenarios"></tbody></table></div>
 
 <section class="info">
 <h2>How the calculation works</h2>
@@ -153,7 +154,8 @@ function calc(){
   $('outLabel').textContent=reverse?'Required connection speed':'Estimated time';
   $('speedField').hidden=reverse;
   $('speedTable').hidden=reverse;
-  if(!Number.isFinite(size)||size<0||!Number.isFinite(bits)||!Number.isFinite(factor)||factor<=0||(!reverse&&(!Number.isFinite(spd)||spd<=0))){$('out').textContent='—';$('sub').textContent='Enter a finite, non-negative file size and valid transfer settings.';windowOut.textContent='';$('tbl').innerHTML='';return}
+  $('scenarioCard').hidden=reverse;
+  if(!Number.isFinite(size)||size<0||!Number.isFinite(bits)||!Number.isFinite(factor)||factor<=0||(!reverse&&(!Number.isFinite(spd)||spd<=0))){$('out').textContent='—';$('sub').textContent='Enter a finite, non-negative file size and valid transfer settings.';windowOut.textContent='';$('tbl').innerHTML='';$('scenarios').innerHTML='';return}
   if(reverse){
     if(!Number.isFinite(windowHours)||windowHours<=0){$('out').textContent='—';$('sub').textContent='';windowOut.textContent='Enter a time window greater than zero hours.';$('tbl').innerHTML='';return}
     const requiredBps=bits/(windowHours*3600)/factor;
@@ -164,13 +166,14 @@ function calc(){
     $('tbl').innerHTML='';
     return;
   }
-  if(!Number.isFinite(bps)||bps<=0){$('out').textContent='—';$('sub').textContent='Enter a finite, non-negative file size and a speed above zero.';windowOut.textContent='';$('tbl').innerHTML='';return}
+  if(!Number.isFinite(bps)||bps<=0){$('out').textContent='—';$('sub').textContent='Enter a finite, non-negative file size and a speed above zero.';windowOut.textContent='';$('tbl').innerHTML='';$('scenarios').innerHTML='';return}
   const duration=secs(bits,bps);
   $('out').textContent=fmt(duration);
   $('sub').textContent='Effective speed ≈ '+(bps/1e6).toFixed(1)+' Mbps ('+(bps/8e6).toFixed(2)+' MB/s)';
   if(!Number.isFinite(windowHours)||windowHours<0){windowOut.textContent='Enter a non-negative time window to check whether the transfer fits.'}
   else{windowOut.textContent=duration<=windowHours*3600?'Fits in the available '+windowHours+' hour window.':'Does not fit in the available '+windowHours+' hour window.'}
   $('tbl').innerHTML=[10,25,50,100,300,500,1000].map(m=>'<tr><td>'+(m>=1000?'1 Gbps':m+' Mbps')+'</td><td>'+fmt(secs(bits,m*1e6*(1-ov/100)*(cg/100)))+'</td></tr>').join('');
+  $('scenarios').innerHTML=[['Software · 700 MB',700e6],['Film · 25 GB',25e9],['Game · 150 GB',150e9],['Backup · 1 TB',1e12]].map(([label,bytes])=>'<tr><td>'+label+'</td><td>'+fmt(secs(bytes*8,bps))+'</td></tr>').join('');
 }
 ['size','sizeUnit','speed','speedUnit','ovh','cong','windowHours'].forEach(i=>$(i).addEventListener('input',calc));
 ['mode','sizeUnit','speedUnit','sizeBase'].forEach(i=>$(i).addEventListener('change',calc));

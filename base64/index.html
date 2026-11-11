@@ -77,7 +77,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 </div></header>
 <main class="wrap">
 <h1>Base64 Encoder &amp; Decoder</h1>
-<p class="lead">Convert text or files to and from Base64 entirely in this browser. Nothing is uploaded.</p>
+<p class="lead">Encode or decode text and files locally, compare sizes and understand why Base64 is not encryption. Nothing is uploaded.</p>
 
 <section class="card" aria-labelledby="opt-h">
 <h2 id="opt-h" style="font-size:18px;margin:0 0 14px">Options</h2>
@@ -117,6 +117,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
   <div><strong>Ratio</strong><span id="sRatio">–</span></div>
   <div><strong>Detected type</strong><span id="sType">–</span></div>
 </div>
+<p id="sizeExplanation" class="note" aria-live="polite"></p>
 <div class="buttons">
   <button class="btn" id="copy" type="button" disabled>Copy output</button>
   <button class="btn secondary" id="download" type="button" disabled>Download</button>
@@ -129,9 +130,10 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 <section class="info">
 <h2>Notes</h2>
 <ul>
+<li>Three input bytes become four Base64 characters. For example, UTF-8 text <code>Man</code> (3 bytes) becomes <code>TWFu</code> (4 characters). Short final groups may use <code>=</code> padding. Line breaks add extra characters.</li>
 <li>Text is encoded as UTF-8. Decoded bytes are shown as text only if they are valid UTF-8; otherwise they are treated as binary.</li>
 <li>Decoding ignores whitespace and a leading <code>data:…;base64,</code> prefix. Characters from the wrong alphabet, misplaced padding and impossible lengths are reported as errors. Missing padding is accepted.</li>
-<li>Limits protect browser memory: files up to 20 MB to encode, Base64 input up to 28 MB to decode, text up to 5 million characters. Only the first 200,000 characters of long output are displayed; copy and download use the full result.</li>
+<li>Limits protect browser memory: files up to 20 MiB to encode, Base64 input up to 28 MiB to decode, text up to 5 million characters. Only the first 200,000 characters of long output are displayed; copy and download use the full result.</li>
 <li>Pretty-print wraps encoded output at 76 characters per line (MIME style).</li>
 </ul>
 </section>

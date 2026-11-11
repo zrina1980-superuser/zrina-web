@@ -184,6 +184,18 @@ $('count').addEventListener('change', () => { $('count').value = clampInt($('cou
 $('words').addEventListener('change', () => { $('words').value = clampInt($('words'), 4, 8, 5); });
 ['count', 'words', 'sep', 'cap', 'lower', 'upper', 'digits', 'symbols', 'ambiguous'].forEach(id => $(id).addEventListener('input', generate));
 $('mode').addEventListener('change', () => { toggleMode(); generate(); });
+document.querySelectorAll('[data-preset]').forEach(button => button.addEventListener('click', () => {
+  const phrase = button.dataset.preset === 'phrase';
+  $('mode').value = phrase ? 'passphrase' : 'password';
+  if (phrase) { $('words').value = '6'; $('sep').value = '-'; $('cap').checked = false; }
+  else {
+    $('length').value = $('lengthRange').value = '20';
+    ['lower', 'upper', 'digits', 'symbols'].forEach(id => { $(id).checked = true; });
+    $('ambiguous').checked = false;
+  }
+  toggleMode();
+  generate();
+}));
 $('generate').addEventListener('click', generate);
 $('copyAll').addEventListener('click', () => {
   if (!current.length) { setStatus('Nothing to copy.', true); return; }

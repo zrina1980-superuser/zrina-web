@@ -37,6 +37,12 @@ The CIDR calculator recognizes selected IPv4 address types but does not determin
 
 The UUID Inspector decodes UUID/ULID/ObjectId and selected Snowflake identifiers in the browser. The Network Planner supports IPv4/IPv6 CIDRs, overlap and gap checks, aligned next-subnet selection, VLSM, CSV export, and share links; share links include the entered address plan.
 
+The QR tool supports square, rounded and dot modules, as well as local scanning from an image or camera. Camera access requires browser permission and a secure context; the scanner does not open decoded links automatically. Styled codes should be tested before printing. Only the QR path permits camera access in `_headers`.
+
+The JSON comparison preserves numeric spelling and rejects duplicate keys, and limits displayed differences to 100. Cron and Timestamp can compare time zones, including daylight-saving transitions. HostVitals suggests follow-up checks based on observed results rather than asserting a global outage. Network Planner's allocation map is approximate and does not include proposed VLSM assignments. The remaining tools include transfer-size examples, CIDR bit boundaries, password presets, and clearer explanations of Base64 size, timestamp provenance and inconclusive WebRTC tests.
+
+Run `npm run test:qr` for QR generation and decoding tests. Run `node --test tests/calculators.test.cjs tests/cron.test.cjs tests/hostvitals-next-steps.test.cjs tests/json-compare.test.cjs tests/network-map.test.mjs tests/timestamp.test.cjs tests/myip.test.cjs tests/uuid-warning.test.cjs tests/suggest.test.cjs` for the related regression tests.
+
 ## Support
 
 If these tools have been useful, you can support their development on [Ko-fi](https://ko-fi.com/I2I61XNULM).

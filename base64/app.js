@@ -23,8 +23,8 @@ class UserError extends Error {}
 
 function fmtBytes(n) {
   if (n < 1024) return n + ' B';
-  if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
-  return (n / 1048576).toFixed(2) + ' MB';
+  if (n < 1048576) return (n / 1024).toFixed(1) + ' KiB';
+  return (n / 1048576).toFixed(2) + ' MiB';
 }
 
 function encodeBytes(bytes, alphabet, pad, pretty) {
@@ -150,6 +150,7 @@ function resetOutput() {
   $('output').value = '';
   $('truncNote').hidden = true;
   ['sOrig', 'sEnc', 'sRatio', 'sType'].forEach(id => { $(id).textContent = '–'; });
+  $('sizeExplanation').textContent = '';
   $('copy').disabled = true;
   $('download').disabled = true;
 }
@@ -167,6 +168,9 @@ function setStats(orig, enc, type) {
   $('sEnc').textContent = fmtBytes(enc);
   $('sRatio').textContent = orig ? (enc / orig).toFixed(2) + '×' : '–';
   $('sType').textContent = type;
+  $('sizeExplanation').textContent = outKind === 'encode'
+    ? `${orig.toLocaleString('en')} input bytes → ${enc.toLocaleString('en')} output characters (including any padding and line breaks). Base64 turns groups of 3 bytes into 4 characters; it does not encrypt the input.`
+    : `${enc.toLocaleString('en')} encoded characters → ${orig.toLocaleString('en')} decoded bytes. The count excludes whitespace but may include a data URL prefix; Base64 does not encrypt the content.`;
 }
 
 function currentSource() {

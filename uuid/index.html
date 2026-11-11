@@ -71,7 +71,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 </div></header>
 <main class="wrap">
 <h1>UUID Inspector &amp; GUID Byte Order</h1>
-<p class="lead">Paste an identifier to inspect its bytes, common encodings and embedded timestamp. Everything runs in this browser.</p>
+<p class="lead">Inspect UUID, ULID, ObjectId and selected Snowflake identifiers, compare byte orders and decode embedded timestamps locally.</p>
 
 <section class="card" aria-labelledby="input-heading">
 <div class="row">
@@ -98,7 +98,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 <h2>UUID byte order</h2>
 <p>UUID text and RFC/network bytes use the same left-to-right byte order. The traditional .NET <code>Guid.ToByteArray()</code> and SQL Server <code>uniqueidentifier</code> binary representation reverse the first 4-byte, 2-byte and 2-byte groups; the final 8 bytes stay in place. SQL Server comparison/sort order is a separate behavior and is not represented by this byte conversion.</p>
 <h2>Embedded timestamps</h2>
-<p>UUID versions 1, 6 and 7, ULIDs, MongoDB ObjectIds and Snowflake IDs contain or encode time. Their time portion is useful for inspection but can reveal creation time; do not treat these identifiers as secrets or authentication tokens.</p>
+<p>UUID versions 1, 6 and 7, ULIDs, MongoDB ObjectIds and Snowflake IDs contain or encode time. This can reveal an apparent creation time, but the generating clock may be wrong and identifiers can be fabricated. The decoded value does not prove when or by whom an ID was created. Do not treat identifiers as secrets or authentication tokens.</p>
 <h2>Snowflake epochs</h2>
 <p>Twitter/X Snowflake IDs use the Twitter epoch; Discord IDs use the Discord epoch. Other Snowflake implementations may use different epochs or bit layouts and are not decoded by these presets.</p>
 </section>
@@ -109,6 +109,7 @@ const $=id=>document.getElementById(id);
 const input=$('identifier'),results=$('results'),status=$('status'),warning=$('timestampWarning');
 const CROCKFORD='0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 const GREGORIAN_OFFSET=122192928000000000n;
+const timestampCaution='The encoded time depends on the generator clock and may be fabricated; it does not prove creation time or origin. IDs are not authentication tokens.';
 function bytesHex(bytes){return Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('')}
 function groupedHex(bytes){return Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join(' ').toUpperCase()}
 function bytesToUuid(bytes){const h=bytesHex(bytes);return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20)}
@@ -138,7 +139,7 @@ function inspectUuid(bytes){
   const time=uuidTimestamp(bytes,version);
   const rows=[['UUID',bytesToUuid(bytes)],['Version / variant',versionText],['RFC / network bytes',groupedHex(net)],['.NET Guid.ToByteArray() / SQL Server binary',groupedHex(dotnet)],['Base64URL',base64Url(bytes)],['Crockford Base32 (128-bit value)',toBase32(value,26)]];
   if(time)rows.push(['Timestamp',time]);
-  return{rows,warning:time?'This UUID version contains a creation timestamp. It is not a secret or authentication token.':''};
+  return{rows,warning:time?'This UUID version contains a timestamp. '+timestampCaution:''};
 }
 function inspectUlid(text){
   const normalized=text.trim().toUpperCase();
@@ -146,17 +147,17 @@ function inspectUlid(text){
   let value=0n;for(const char of normalized)value=(value<<5n)|BigInt(CROCKFORD.indexOf(char));
   if(value>=(1n<<128n))throw new Error('ULID exceeds the 128-bit range.');
   const ms=value>>80n,bytes=new Uint8Array(16);let rest=value;for(let i=15;i>=0;i--){bytes[i]=Number(rest&255n);rest>>=8n}
-  return{rows:[['ULID',normalized],['Timestamp',timestampResult(ms,'Unix milliseconds')],['RFC / network bytes',groupedHex(bytes)],['Base64URL',base64Url(bytes)],['UUID-shaped bytes',bytesToUuid(bytes)]],warning:'A ULID encodes its creation time in its first 10 Crockford Base32 characters. It is not a secret or authentication token.'};
+  return{rows:[['ULID',normalized],['Timestamp',timestampResult(ms,'Unix milliseconds')],['RFC / network bytes',groupedHex(bytes)],['Base64URL',base64Url(bytes)],['UUID-shaped bytes',bytesToUuid(bytes)]],warning:'A ULID encodes a timestamp in its first 10 Crockford Base32 characters. '+timestampCaution};
 }
 function inspectObjectId(text){
   if(!/^[\da-f]{24}$/i.test(text.trim()))return null;
   const hex=text.trim().toLowerCase(),seconds=BigInt('0x'+hex.slice(0,8)),bytes=Uint8Array.from(hex.match(/../g),part=>parseInt(part,16));
-  return{rows:[['MongoDB ObjectId',hex],['Timestamp',timestampResult(seconds*1000n,'Unix seconds')],['Timestamp bytes (big-endian)',groupedHex(bytes.slice(0,4))],['Remaining bytes',groupedHex(bytes.slice(4))]],warning:'An ObjectId embeds its creation time in the first 4 bytes. It is not a secret or authentication token.'};
+  return{rows:[['MongoDB ObjectId',hex],['Timestamp',timestampResult(seconds*1000n,'Unix seconds')],['Timestamp bytes (big-endian)',groupedHex(bytes.slice(0,4))],['Remaining bytes',groupedHex(bytes.slice(4))]],warning:'An ObjectId embeds a timestamp in its first 4 bytes. '+timestampCaution};
 }
 function inspectSnowflake(text,kind){
   if(!/^\d{1,20}$/.test(text.trim()))throw new Error('Enter a decimal Snowflake ID.');
   const id=BigInt(text.trim());if(id>0xffffffffffffffffn)throw new Error('Snowflake IDs must fit in an unsigned 64-bit value.');const epoch=kind==='discord'?1420070400000n:1288834974657n,ms=(id>>22n)+epoch;
-  return{rows:[['Snowflake ID',id.toString()],['Format',kind==='discord'?'Discord':'Twitter / X'],['Timestamp',timestampResult(ms,'Unix milliseconds')],['Worker / sequence bits','Implementation-specific fields are not decoded']],warning:'The selected Snowflake epoch was used. Other systems may use different epochs or bit layouts.'};
+  return{rows:[['Snowflake ID',id.toString()],['Format',kind==='discord'?'Discord':'Twitter / X'],['Timestamp',timestampResult(ms,'Unix milliseconds')],['Worker / sequence bits','Implementation-specific fields are not decoded']],warning:'The selected Snowflake epoch was used. Other systems may use different epochs or bit layouts. '+timestampCaution};
 }
 function inspect(){
   const text=input.value.trim();status.textContent='';status.className='status';

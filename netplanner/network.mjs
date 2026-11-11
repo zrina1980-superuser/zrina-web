@@ -148,6 +148,14 @@ export function findGaps(pool, networks) {
   return gaps;
 }
 
+export function mapGapPositions(pool, gaps) {
+  const scale = 1000000n;
+  return gaps.map(gap => ({
+    start: Number((gap.start - pool.start) * scale / pool.size) / 10000,
+    end: Number((gap.end - pool.start + 1n) * scale / pool.size) / 10000
+  }));
+}
+
 export function findNextFree(pool, networks, prefix) {
   if (!Number.isInteger(prefix) || prefix < 0 || prefix > pool.bits) {
     throw new Error(`Requested prefix must be between 0 and ${pool.bits}.`);

@@ -59,7 +59,7 @@ footer{margin-top:2rem;padding:1.5rem 0;border-top:1px solid var(--bd);color:var
 </div></header>
 <main class="wrap">
 <h1>Regex Tester &amp; Debugger</h1>
-<p class="lead">Try JavaScript regular expressions against sample text. Matching runs only when you press Run, in a disposable worker with a time limit.</p>
+<p class="lead">Explore example patterns, capture groups and replacement previews for JavaScript regular expressions. Matching runs only when you press Run, in a worker with a time limit.</p>
 <section class="card" aria-label="Regular expression tester">
 <div class="field"><label for="preset">Start from a pattern preset</label><select id="preset"><option value="">Choose a preset…</option><option value="email">Email (practical)</option><option value="url">URL (HTTP/HTTPS)</option><option value="ipv4">IPv4 address</option><option value="ipv6">IPv6 address (common forms)</option><option value="phone">International phone</option><option value="date">Date (YYYY-MM-DD shape)</option><option value="hex">Hex color</option></select></div>
 <div class="pattern-row" style="margin-top:1rem">
@@ -112,7 +112,14 @@ footer{margin-top:2rem;padding:1.5rem 0;border-top:1px solid var(--bd);color:var
   let pendingRequest = null;
   let readyTimer = null;
   let showReplacement = false;
-  const markStale = () => showStatus("Inputs changed. Press Run pattern to refresh the results.");
+  const markStale = () => {
+    stopWorker();
+    fields.matches.replaceChildren();
+    fields.highlight.replaceChildren();
+    fields.replacementResult.textContent = "";
+    fields.summary.textContent = "Inputs changed. Run the pattern to see results.";
+    showStatus("Inputs changed. Press Run pattern to refresh the results.");
+  };
   function selectedFlags() { return flagBoxes.filter((box) => box.checked).map((box) => box.value).join(""); }
   function showStatus(message, error = false) { fields.status.textContent = message; fields.status.classList.toggle("error", error); }
   function explain(pattern) {

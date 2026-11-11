@@ -37,7 +37,7 @@ h1{margin:2rem 0 .5rem;font-size:clamp(2rem,5vw,3rem)}.lead{color:var(--tx2);max
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:1rem}.field label{display:block;margin-bottom:.35rem;color:var(--tx2);font-weight:700;font-size:.85rem}
 input,select{width:100%;min-width:0;padding:.7rem .8rem;border:1px solid var(--bd);border-radius:.7rem;background:var(--bg);color:var(--tx);font:inherit}
 .buttons,.presets{display:flex;gap:.55rem;flex-wrap:wrap;margin:.9rem 0}.btn{padding:.65rem .9rem;border:1px solid var(--bd);border-radius:.7rem;background:var(--sub);color:var(--tx);font:inherit;font-weight:650;cursor:pointer}.btn.primary{border-color:transparent;background:var(--ac);color:var(--acf)}
-.presets button{padding:.4rem .7rem;border:1px solid var(--bd);border-radius:999px;background:var(--sub);color:var(--tx2);cursor:pointer}
+.presets[hidden]{display:none}.presets button{padding:.4rem .7rem;border:1px solid var(--bd);border-radius:999px;background:var(--sub);color:var(--tx2);cursor:pointer}
 .result{font-size:clamp(1.2rem,4vw,2rem);font-weight:750;overflow-wrap:anywhere}.note{font-size:.9rem;color:var(--tx2)}.status{min-height:1.4em;color:var(--tx2)}
 .scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.92rem}th,td{text-align:left;padding:.6rem .5rem;border-bottom:1px solid var(--bd)}th{color:var(--tx)}td:last-child{font-family:var(--mono);overflow-wrap:anywhere}.table-copy{padding:.25rem .5rem}
 .check{display:flex;gap:.5rem;align-items:center;color:var(--tx2)}.check input{width:auto}
@@ -51,7 +51,7 @@ section.info{max-width:75ch;margin:2.5rem auto}section.info h2{font-size:1.2rem}
 <nav aria-label="Tool navigation"><a href="../tools/">Tools hub</a><a href="../speedcalc/">Speed calc</a><a href="../uuid/">UUID</a><a href="../json/">JSON</a><a href="../timestamp/">Timestamp</a></nav>
 </div></header>
 <main class="wrap">
-<h1>Unit Converter</h1><p class="lead">Convert storage units without mixing decimal SI prefixes and binary IEC prefixes. Also covers length, mass, temperature and speed. Calculations run locally.</p>
+<h1>Unit Converter</h1><p class="lead">Compare decimal SI and binary IEC storage units and estimate how many files fit. Also convert length, mass, temperature and speed locally.</p>
 <section class="card" aria-label="Unit conversion">
 <div class="grid">
 <div class="field"><label for="category">Category</label><select id="category"><option value="data">Data size</option><option value="length">Length</option><option value="mass">Mass</option><option value="temperature">Temperature</option><option value="speed">Speed</option></select></div>
@@ -60,7 +60,7 @@ section.info{max-width:75ch;margin:2.5rem auto}section.info h2{font-size:1.2rem}
 <div class="field"><label for="to">To</label><select id="to"></select></div>
 </div>
 <div class="presets" id="dataPresets" aria-label="Data size presets"><button type="button" data-value="700" data-unit="MB">CD · 700 MB</button><button type="button" data-value="4.7" data-unit="GB">DVD · 4.7 GB</button><button type="button" data-value="25" data-unit="GB">Blu-ray · 25 GB</button><button type="button" data-value="1" data-unit="GiB">1 GiB</button><button type="button" data-value="128" data-unit="GiB">128 GiB</button><button type="button" data-value="1" data-unit="PiB">1 PiB</button></div>
-<div class="buttons"><button class="btn primary" id="convert" type="button">Convert</button><button class="btn" id="copy" type="button">Copy result</button></div>
+<div class="buttons"><button class="btn primary" id="convert" type="button">Convert</button><button class="btn" id="swap" type="button">Swap units</button><button class="btn" id="copy" type="button">Copy result</button></div>
 <p id="result" class="result" aria-live="polite">1 byte = 8 bits</p><p id="status" class="status" role="status" aria-live="polite"></p>
 </section>
 <section class="card" id="fitCard"><h2 style="margin-top:0">How many files fit?</h2><p class="note">Estimate whole files that fit in a data capacity. SI units use powers of 1,000; IEC units use powers of 1,024. The result is a mathematical capacity estimate and excludes filesystem, formatting and reserved-space overhead.</p>
@@ -178,6 +178,7 @@ section.info{max-width:75ch;margin:2.5rem auto}section.info h2{font-size:1.2rem}
   }
   category.addEventListener("change", changeCategory);
   $("convert").addEventListener("click", convert);
+  $("swap").addEventListener("click", () => { const previous = from.value; from.value = to.value; to.value = previous; convert(); });
   $("copy").addEventListener("click", () => copy($("result").textContent));
   $("fit").addEventListener("click", calcFit);
   [amount,from,to].forEach((element) => element.addEventListener("change", convert));

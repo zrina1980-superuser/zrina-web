@@ -4,21 +4,21 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Subnet &amp; CIDR Calculator · IPv4 Network, Broadcast, Host Range | zrina.app</title>
-<meta name="description" content="Free IPv4 subnet and CIDR calculator. Get network address, broadcast, usable host range, subnet mask, wildcard mask and binary mask instantly. Runs in your browser." />
+<meta name="description" content="Calculate IPv4 subnet ranges and masks, split subnets and visualize network and host bits locally in your browser." />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://zrina.app/cidr/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="zrina.app" />
 <meta property="og:url" content="https://zrina.app/cidr/" />
 <meta property="og:title" content="Subnet &amp; CIDR Calculator · IPv4 Network, Broadcast, Host Range | zrina.app" />
-<meta property="og:description" content="Free IPv4 subnet and CIDR calculator. Get network address, broadcast, usable host range, subnet mask, wildcard mask and binary mask instantly. Runs in your browser." />
+<meta property="og:description" content="Calculate IPv4 subnet ranges and masks, split subnets and visualize network and host bits locally in your browser." />
 <meta property="og:image" content="https://zrina.app/assets/share-cards/tools/cidr-index.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Subnet &amp; CIDR Calculator · IPv4 Network, Broadcast, Host Range — Free IPv4 subnet and CIDR calculator. Get network address, broadcast, usable host range, subnet mask, wildcard mask and binary mask instantly. Runs in your browser." />
+<meta property="og:image:alt" content="Subnet &amp; CIDR Calculator · IPv4 Network, Broadcast, Host Range — Calculate IPv4 subnet ranges and masks, split subnets and visualize network and host bits locally in your browser." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Subnet &amp; CIDR Calculator · IPv4 Network, Broadcast, Host Range | zrina.app" />
-<meta name="twitter:description" content="Free IPv4 subnet and CIDR calculator. Get network address, broadcast, usable host range, subnet mask, wildcard mask and binary mask instantly. Runs in your browser." />
+<meta name="twitter:description" content="Calculate IPv4 subnet ranges and masks, split subnets and visualize network and host bits locally in your browser." />
 <meta name="twitter:image" content="https://zrina.app/assets/share-cards/tools/cidr-index.png" />
 <meta name="theme-color" content="#070b16" />
 <link rel="icon" type="image/svg+xml" href="../assets/tool-icons/cidr.svg" />
@@ -67,7 +67,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 </div></header>
 <main class="wrap">
 <h1>Subnet &amp; CIDR Calculator</h1>
-<p class="lead">Enter an IPv4 address with a prefix (e.g. <code>192.168.10.0/24</code>) to get the network, broadcast, host range and masks.</p>
+<p class="lead">Enter an IPv4 address and prefix to calculate subnet ranges, masks and splits, and see which bits identify the network and host.</p>
 <div class="disc">Planning multiple IPv4/IPv6 ranges? Use the <a href="../netplanner/">Network Planner</a> for overlap checks, free gaps, VLSM, cloud reservations and CSV export.</div>
 
 <div class="card">
@@ -165,7 +165,9 @@ function render(){
     ['Subnet mask',intToIp(i.mask)],['Wildcard mask',intToIp(i.wild)],
     ['Mask (binary)',bin(i.mask)],['Address (binary)',bin(r.ip)]
   ];
-  $('res').innerHTML='<div class="kv">'+rows.map(x=>'<div><small>'+x[0]+'</small><b>'+x[1]+'</b></div>').join('')+'</div>';
+  const bits=bin(r.ip).replace(/\./g,'');
+  $('res').innerHTML='<div class="kv">'+rows.map(x=>'<div><small>'+x[0]+'</small><b>'+x[1]+'</b></div>').join('')+'</div>'+
+    '<p><strong>Address bits by prefix</strong><br><span class="note">Network ('+r.l+' bits): </span><code>'+(bits.slice(0,r.l)||'none')+'</code><br><span class="note">Host ('+(32-r.l)+' bits): </span><code>'+(bits.slice(r.l)||'none')+'</code></p>';
   const prev=+splitSel.value;
   splitSel.innerHTML='';
   for(let k=r.l+1;k<=Math.min(32,r.l+8);k++)splitSel.add(new Option('/'+k+' ('+(2**(k-r.l))+' subnets)',k));

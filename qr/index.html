@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>QR Code Generator: WiFi, vCard, URL, Batch ZIP | zrina.app</title>
-<meta name="description" content="Free private QR code generator for text, URLs, WiFi, vCard, email and SMS. PNG, SVG, print-ready 300 DPI, logo and batch ZIP export. Runs entirely in your browser." />
+<title>QR Code Generator &amp; Scanner · Custom Styles and WiFi | zrina.app</title>
+<meta name="description" content="Create QR codes with custom colors, shapes and logos, or scan using a camera or image. Wi-Fi, contacts, PNG and SVG; processed in your browser." />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://zrina.app/qr/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="zrina.app" />
 <meta property="og:url" content="https://zrina.app/qr/" />
-<meta property="og:title" content="QR Code Generator: WiFi, vCard, URL, Batch ZIP | zrina.app" />
-<meta property="og:description" content="Free private QR code generator for text, URLs, WiFi, vCard, email and SMS. PNG, SVG, print-ready 300 DPI, logo and batch ZIP export. Runs entirely in your browser." />
+<meta property="og:title" content="QR Code Generator &amp; Scanner · Custom Styles and WiFi | zrina.app" />
+<meta property="og:description" content="Create QR codes with custom colors, shapes and logos, or scan using a camera or image. Wi-Fi, contacts, PNG and SVG; processed in your browser." />
 <meta property="og:image" content="https://zrina.app/assets/share-cards/tools/qr-index.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="QR Code Generator: WiFi, vCard, URL, Batch ZIP | zrina.app" />
-<meta name="twitter:description" content="Free private QR code generator for text, URLs, WiFi, vCard, email and SMS. PNG, SVG, print-ready 300 DPI, logo and batch ZIP export. Runs entirely in your browser." />
+<meta name="twitter:title" content="QR Code Generator &amp; Scanner · Custom Styles and WiFi | zrina.app" />
+<meta name="twitter:description" content="Create QR codes with custom colors, shapes and logos, or scan using a camera or image. Wi-Fi, contacts, PNG and SVG; processed in your browser." />
 <meta name="twitter:image" content="https://zrina.app/assets/share-cards/tools/qr-index.png" />
 <meta name="theme-color" content="#070b16" />
 <link rel="icon" type="image/svg+xml" href="../assets/tool-icons/qr.svg" />
@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="../assets/tool-icons/qr-512.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="../assets/tool-icons/qr-180.png" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"QR Code Generator","url":"https://zrina.app/qr/","applicationCategory":"UtilitiesApplication","operatingSystem":"All","description":"Client-side QR code generator for text, URLs, WiFi, vCard, email and SMS with PNG, SVG and batch ZIP export.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
+{"@context":"https://schema.org","@type":"WebApplication","name":"QR Code Generator and Scanner","url":"https://zrina.app/qr/","applicationCategory":"UtilitiesApplication","operatingSystem":"All","description":"Create styled QR codes for Wi-Fi, contacts and more, or scan a camera image locally. PNG, SVG and batch ZIP export.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}
 </script>
 <link rel="stylesheet" href="../assets/tool-shell.css" />
 <style>
@@ -50,6 +50,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-vis
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:12px}
 .check{display:flex;gap:8px;align-items:center;font-weight:500;margin:4px 0}.check input{width:auto}
 .buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.buttons[hidden]{display:none}
 .btn{background:var(--ac);color:var(--acf);border:0;border-radius:9px;padding:9px 14px;font:inherit;font-size:14px;font-weight:650;cursor:pointer}
 .btn.secondary{background:var(--sub);color:var(--tx);border:1px solid var(--bd)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
@@ -58,11 +59,13 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-vis
 .note{color:var(--mut);font-size:13px}
 .stage{display:flex;justify-content:center;padding:14px;background:repeating-conic-gradient(var(--sub) 0 25%,transparent 0 50%) 0 0/16px 16px;border-radius:10px;border:1px solid var(--bd)}
 #preview{max-width:100%;height:auto;image-rendering:pixelated}
+#scanVideo{display:block;width:100%;max-height:360px;background:#000;border-radius:10px}
+#scanVideo[hidden]{display:none}
 #batchErrors{color:var(--bad);font-size:13px;padding-left:20px}
 section.info h2{font-size:20px;margin:28px 0 8px}section.info p,section.info li{color:var(--tx2)}
 footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(--mut);font-size:13px}
 </style>
-  <meta property="og:image:alt" content="QR Code Generator: WiFi, vCard, URL, Batch ZIP — Free private QR code generator for text, URLs, WiFi, vCard, email and SMS. PNG, SVG, print-ready 300 DPI, logo and batch ZIP export. Runs entirely in your browser." />
+  <meta property="og:image:alt" content="QR Code Generator &amp; Scanner · Custom Styles and WiFi — Create QR codes with custom colors, shapes and logos, or scan using a camera or image. Wi-Fi, contacts, PNG and SVG; processed in your browser." />
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -73,8 +76,8 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 <nav aria-label="Tool navigation"><a href="../tools/">Tools</a><a href="../uuid/">UUID</a><a href="../json/">JSON</a><a href="../timestamp/">Timestamp</a><a href="../cidr/">CIDR</a></nav>
 </div></header>
 <main class="wrap">
-<h1>QR Code Generator</h1>
-<p class="lead">Text, URLs, WiFi, contacts, email and SMS, plus batch export. Everything is generated in this browser; nothing is uploaded.</p>
+<h1>QR Code Generator &amp; Scanner</h1>
+<p class="lead">Create QR codes in your own colors and shapes, add a logo, or read a code from an image or camera. Processing stays in your browser.</p>
 
 <div class="layout">
 <div>
@@ -139,12 +142,15 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 
 <section class="card" aria-labelledby="style-heading">
 <h2 id="style-heading">Style and export settings</h2>
+<div class="buttons" aria-label="Style presets"><button type="button" class="btn secondary" data-qr-style="classic">Classic</button><button type="button" class="btn secondary" data-qr-style="ocean">Ocean</button><button type="button" class="btn secondary" data-qr-style="forest">Forest dots</button></div>
+<p class="note">Presets change the colors and shape. Always test your finished code with several devices before printing.</p>
 <div class="grid">
 <div><label for="size">Size (128-1024 px)</label><input type="number" id="size" data-live min="128" max="1024" step="1" value="512" /></div>
 <div><label for="level">Error correction</label><select id="level" data-live><option value="L">L (7%)</option><option value="M" selected>M (15%)</option><option value="Q">Q (25%)</option><option value="H">H (30%)</option></select></div>
 <div><label for="margin">Quiet margin (modules)</label><input type="number" id="margin" data-live min="0" max="16" step="1" value="4" /></div>
 <div><label for="fg">Foreground</label><input type="color" id="fg" data-live value="#000000" /></div>
 <div><label for="bg">Background</label><input type="color" id="bg" data-live value="#ffffff" /></div>
+<div><label for="shape">Module shape</label><select id="shape" data-live><option value="square">Square</option><option value="rounded">Rounded</option><option value="dots">Dots</option></select></div>
 </div>
 <label class="check"><input type="checkbox" id="transparent" data-live /> Transparent PNG/SVG background</label>
 <label class="check"><input type="checkbox" id="print" /> Print-ready</label>
@@ -175,14 +181,25 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 </div>
 </div>
 
+<section class="card" aria-labelledby="scan-heading">
+<h2 id="scan-heading">Scan a QR code</h2>
+<p class="note">Use the camera or choose an image. Images are processed locally; decoded content is shown below and never opened automatically.</p>
+<div class="buttons"><button type="button" class="btn" id="scanStart">Start camera</button><button type="button" class="btn secondary" id="scanStop" disabled>Stop camera</button></div>
+<video id="scanVideo" playsinline muted hidden aria-label="Camera preview"></video>
+<label for="scanFile">Or scan an image (PNG, JPEG, WebP or GIF; up to 10 MB)</label><input type="file" id="scanFile" accept="image/png,image/jpeg,image/webp,image/gif" />
+<p id="scanStatus" class="status" role="status" aria-live="polite"></p>
+<div id="scanResultSection" hidden><label for="scanResult">Decoded content — check it before using</label><textarea id="scanResult" readonly></textarea></div>
+</section>
+
 <section class="info">
 <h2>Privacy</h2>
-<p>All QR codes, logos, WiFi passwords and contact details are processed in your browser. Nothing is sent to a server and no analytics run on this tool. Content is not saved after you close the page.</p>
+<p>QR codes, logos, WiFi passwords, contact details, selected images and camera frames are processed in your browser. The camera starts only with your permission and stops when the page is hidden. Nothing is sent to a server and no analytics run on this tool. Content is not saved after you close the page.</p>
 <h2>Good to know</h2>
 <ul>
 <li>A QR code is not encrypted: anyone who scans it reads its content, including WiFi passwords.</li>
 <li>Use dark modules on a light background and keep a quiet margin. Long content creates denser codes that need a larger print size.</li>
 <li>Adding a logo covers part of the code, so error correction is raised to H. Always test-scan the result.</li>
+<li>Styled modules can be harder for some scanners to read. The positioning and other reserved patterns remain square; use the classic style if scanning fails.</li>
 </ul>
 </section>
 </main>

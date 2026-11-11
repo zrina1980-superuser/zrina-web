@@ -83,6 +83,8 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 
 <section class="card" aria-labelledby="opt-h">
 <h2 id="opt-h" style="font-size:18px;margin:0 0 14px">Options</h2>
+<div class="buttons" aria-label="Starting presets"><button class="btn secondary" type="button" data-preset="password">20-character password</button><button class="btn secondary" type="button" data-preset="phrase">6-word passphrase</button></div>
+<p class="note">A preset changes the options and generates a new result. Check the service's rules and store unique secrets in a password manager.</p>
 <div class="row">
   <div><label class="block" for="mode">Type</label><select id="mode"><option value="password">Password (random characters)</option><option value="passphrase">Passphrase (random words)</option></select></div>
   <div><label class="block" for="count">Number of results (1–20)</label><input id="count" type="number" min="1" max="20" value="1" inputmode="numeric" /></div>

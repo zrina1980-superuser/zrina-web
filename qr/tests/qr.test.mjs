@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import { buildText, buildUrl, buildWifi, buildVcard, buildEmail, buildSms, parseBatch, safeFileName, PayloadError } from "../src/payload.mjs";
 import { makeMatrix, toSvg, captionBand, setPngDpi300, layout, contrast } from "../src/render.mjs";
 import { zipSync, unzipSync, strToU8 } from "fflate";
+import sharp from "sharp";
+import jsQR from "jsqr";
 
 test("URL normalisation and rejection", () => {
   assert.equal(buildUrl("example.com"), "https://example.com/");
@@ -132,4 +134,27 @@ test("caption size and print layout stay consistent", () => {
   assert.ok(band.lines.every((l) => l.length * band.fs * 0.6 <= 1024));
   const tr = toSvg(m, { ...o, print: false, transparent: true });
   assert.ok(!/<rect width="\d+" height="\d+" fill="#ffffff"/.test(tr.replace(/<rect x=.*?\/>/g, "")) && tr.includes("<text"));
+});
+
+test("styled SVGs remain decodable for multiple payloads and print modes", async () => {
+  for (const payload of ["https://zrina.app/", "WIFI:T:WPA;S:Family;P:abcdefgh;;", "A longer QR code with multiple lines.\n" + "Example ".repeat(20)]) {
+    const matrix = makeMatrix(payload, "H");
+    for (const shape of ["square", "rounded", "dots"]) {
+      for (const print of [false, true]) {
+        const svg = toSvg(matrix, { fg: "#194930", bg: "#ffffff", margin: 4, size: 512, print, shape });
+        const { data, info } = await sharp(Buffer.from(svg)).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+        const decoded = jsQR(new Uint8ClampedArray(data), info.width, info.height);
+        assert.equal(decoded?.data, payload, `${shape} print=${print}`);
+      }
+    }
+  }
+});
+
+test("styling preserves reserved patterns and rejects unknown shapes", () => {
+  const matrix = makeMatrix("Test", "M");
+  assert.ok(matrix.isReserved(0, 0));
+  assert.ok(!matrix.isReserved(10, 10));
+  const opts = { fg: "#000000", bg: "#ffffff", margin: 4, size: 512 };
+  assert.match(toSvg(matrix, { ...opts, shape: "dots" }), /rx="0.5"/);
+  assert.throws(() => toSvg(matrix, { ...opts, shape: "unknown" }), /Invalid module shape/);
 });

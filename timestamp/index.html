@@ -4,21 +4,21 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Unix Timestamp Converter · Epoch to Date and Back | zrina.app</title>
-<meta name="description" content="Convert Unix timestamps in seconds, milliseconds, microseconds or nanoseconds. Compare local, UTC and IANA time zones, and inspect time-based IDs." />
+<meta name="description" content="Convert Unix timestamps, compare time zones and see both possible instants for repeated local times when clocks change." />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://zrina.app/timestamp/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="zrina.app" />
 <meta property="og:url" content="https://zrina.app/timestamp/" />
 <meta property="og:title" content="Unix Timestamp Converter · Epoch to Date and Back | zrina.app" />
-<meta property="og:description" content="Convert Unix timestamps in seconds, milliseconds, microseconds or nanoseconds. Compare local, UTC and IANA time zones, and inspect time-based IDs." />
+<meta property="og:description" content="Convert Unix timestamps, compare time zones and see both possible instants for repeated local times when clocks change." />
 <meta property="og:image" content="https://zrina.app/assets/share-cards/tools/timestamp-index.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Unix Timestamp Converter · Epoch to Date and Back — Convert Unix timestamps in seconds, milliseconds, microseconds or nanoseconds. Compare local, UTC and IANA time zones, and inspect time-based IDs." />
+<meta property="og:image:alt" content="Unix Timestamp Converter · Epoch to Date and Back — Convert Unix timestamps, compare time zones and see both possible instants for repeated local times when clocks change." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Unix Timestamp Converter · Epoch to Date and Back | zrina.app" />
-<meta name="twitter:description" content="Convert Unix timestamps in seconds, milliseconds, microseconds or nanoseconds. Compare local, UTC and IANA time zones, and inspect time-based IDs." />
+<meta name="twitter:description" content="Convert Unix timestamps, compare time zones and see both possible instants for repeated local times when clocks change." />
 <meta name="twitter:image" content="https://zrina.app/assets/share-cards/tools/timestamp-index.png" />
 <meta name="theme-color" content="#070b16" />
 <link rel="icon" type="image/svg+xml" href="../assets/tool-icons/timestamp.svg" />
@@ -67,7 +67,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 </div></header>
 <main class="wrap">
 <h1>Unix Timestamp Converter</h1>
-<p class="lead">Live epoch clock, epoch → date and date → epoch. Everything runs locally in your browser.</p>
+<p class="lead">Convert timestamps and dates, compare time zones, and see both possible instants when a local time repeats. Everything runs locally.</p>
 
 <div class="card">
 <div class="note">Current Unix timestamp</div>
@@ -90,8 +90,10 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 <input id="dt" type="datetime-local" step="1" />
 <label for="zone" style="margin-top:12px">Display and interpret in IANA time zone</label>
 <input id="zone" list="zoneOptions" autocomplete="off" />
+<label for="compareZone" style="margin-top:12px">Also display in IANA time zone</label>
+<input id="compareZone" list="zoneOptions" value="Europe/Zagreb" autocomplete="off" />
 <datalist id="zoneOptions"><option value="UTC"><option value="Europe/Zagreb"><option value="Europe/London"><option value="America/New_York"><option value="America/Los_Angeles"><option value="Asia/Tokyo"><option value="Australia/Sydney"></datalist>
-<div class="note">For a local time skipped by a daylight-saving change, the date cannot be converted. A repeated fall-back time can refer to either occurrence.</div>
+<div class="note">A local time skipped by a clock change cannot be converted. For a repeated time, both possible instants are shown.</div>
 <div id="dtErr" class="err" role="alert"></div>
 <div class="kv" id="dtOut"></div>
 </div>
@@ -136,9 +138,12 @@ function rel(ms){
 function cards(ms){
   const d=new Date(ms);
   const zone=selectedZone();
+  const comparison=$('compareZone').value.trim();
+  try{new Intl.DateTimeFormat('en',{timeZone:comparison})}catch{throw new Error('Enter a valid comparison IANA time zone, such as Europe/Zagreb or UTC.')}
   const rows=[
     ['UTC',d.toUTCString()],['ISO 8601',d.toISOString()],
     ['Selected zone ('+zone+')',d.toLocaleString('en-GB',{dateStyle:'full',timeStyle:'long',timeZone:zone})],
+    ['Comparison zone ('+comparison+')',d.toLocaleString('en-GB',{dateStyle:'full',timeStyle:'long',timeZone:comparison})],
     ['Relative',rel(ms)],['Seconds',String(ms/1000)],['Milliseconds',String(ms)],
     ['Microseconds (millisecond precision)',String(ms*1000)],['Nanoseconds (millisecond precision)',String(ms*1e6)]
   ];
@@ -169,16 +174,16 @@ function dateInZone(value,zone){
   const targetMs=utcFromParts(target);
   const normalized=partsAt(new Date(targetMs),'UTC');
   if(Object.keys(target).some(key=>normalized[key]!==target[key]))throw new Error('Enter a valid calendar date and time.');
-  let candidate=targetMs;
-  for(let i=0;i<5;i++){
-    const local=partsAt(new Date(candidate),zone);
-    const correction=targetMs-utcFromParts(local);
-    if(correction===0)break;
-    candidate+=correction;
-  }
-  const actual=partsAt(new Date(candidate),zone);
-  if(Object.keys(target).some(key=>actual[key]!==target[key]))throw new Error('This local time does not exist in the selected zone because of a daylight-saving transition.');
-  return candidate;
+  const offsets=new Set([-48,-24,-12,0,12,24,48].map(hour=>{
+    const sample=targetMs+hour*3600000;
+    return utcFromParts(partsAt(new Date(sample),zone))-sample;
+  }));
+  const candidates=[...offsets].map(offset=>targetMs-offset).filter(candidate=>{
+    const actual=partsAt(new Date(candidate),zone);
+    return Object.keys(target).every(key=>actual[key]===target[key]);
+  }).sort((a,b)=>a-b);
+  if(!candidates.length)throw new Error('This local time does not exist in the selected zone because of a clock or time-zone transition.');
+  return candidates;
 }
 function epConv(){
   const raw=$('ep').value.trim();$('epErr').textContent='';$('epOut').innerHTML='';
@@ -195,11 +200,16 @@ function epConv(){
 function dtConv(){
   let v=$('dt').value;$('dtErr').textContent='';$('dtOut').innerHTML='';
   if(!v)return;
-  try{$('dtOut').innerHTML=cards(dateInZone(v,selectedZone()))}
+  try{
+    const candidates=dateInZone(v,selectedZone());
+    if(candidates.length>1)$('dtErr').textContent='This local time occurs twice during a clock change. Both possible instants are shown below.';
+    $('dtOut').innerHTML=candidates.map((ms,index)=>(candidates.length>1?'<div><small>Occurrence '+(index+1)+'</small><b>'+new Date(ms).toISOString()+'</b></div>':'')+cards(ms)).join('');
+  }
   catch(error){$('dtErr').textContent=error.message}
 }
 $('ep').addEventListener('input',epConv);$('unit').addEventListener('change',epConv);
 $('dt').addEventListener('input',dtConv);$('zone').addEventListener('input',()=>{epConv();dtConv()});
+$('compareZone').addEventListener('input',()=>{epConv();dtConv()});
 $('zone').value=Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';
 function updateIdLink(){
   const url=new URL('../uuid/',location.href),value=$('idValue').value.trim(),type=$('idType').value;

@@ -4,21 +4,21 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Cron Expression Explainer &amp; Next Run Times | zrina.app</title>
-<meta name="description" content="Explain Linux, Kubernetes, GitHub Actions and AWS EventBridge cron expressions, convert between formats, and preview next runs in an IANA time zone." />
+<meta name="description" content="Explain and convert cron expressions for Linux, Kubernetes, GitHub Actions and EventBridge. Compare upcoming run times in two time zones." />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://zrina.app/cron/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="zrina.app" />
 <meta property="og:url" content="https://zrina.app/cron/" />
 <meta property="og:title" content="Cron Expression Explainer &amp; Next Run Times | zrina.app" />
-<meta property="og:description" content="Explain Linux, Kubernetes, GitHub Actions and AWS EventBridge cron expressions, convert between formats, and preview next runs in an IANA time zone." />
+<meta property="og:description" content="Explain and convert cron expressions for Linux, Kubernetes, GitHub Actions and EventBridge. Compare upcoming run times in two time zones." />
 <meta property="og:image" content="https://zrina.app/assets/share-cards/tools/cron-index.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Cron Expression Explainer &amp; Next Run Times — Explain Linux, Kubernetes, GitHub Actions and AWS EventBridge cron expressions, convert between formats, and preview next runs in an IANA time zone." />
+<meta property="og:image:alt" content="Cron Expression Explainer &amp; Next Run Times — Explain and convert cron expressions for Linux, Kubernetes, GitHub Actions and EventBridge. Compare upcoming run times in two time zones." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Cron Expression Explainer &amp; Next Run Times | zrina.app" />
-<meta name="twitter:description" content="Explain Linux, Kubernetes, GitHub Actions and AWS EventBridge cron expressions, convert between formats, and preview next runs in an IANA time zone." />
+<meta name="twitter:description" content="Explain and convert cron expressions for Linux, Kubernetes, GitHub Actions and EventBridge. Compare upcoming run times in two time zones." />
 <meta name="twitter:image" content="https://zrina.app/assets/share-cards/tools/cron-index.png" />
 <meta name="theme-color" content="#070b16" />
 <link rel="icon" type="image/svg+xml" href="../assets/tool-icons/cron.svg" />
@@ -67,7 +67,7 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 </div></header>
 <main class="wrap">
 <h1>Cron Expression Explainer</h1>
-<p class="lead">Choose the scheduler dialect first. See what the expression means, convert formats, and preview upcoming runs in its time zone.</p>
+<p class="lead">Choose the scheduler dialect first. Explain and convert expressions, then compare upcoming run times in two time zones.</p>
 
 <div class="card">
 <div class="cols" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px">
@@ -111,9 +111,10 @@ footer{border-top:1px solid var(--bd);margin-top:40px;padding:24px 0;color:var(-
 
 <div class="card">
 <div class="top2"><strong>Next 5 runs</strong>
-<span class="note">Times shown in the selected IANA zone</span></div>
-<table><tbody id="runs"></tbody></table>
-<div class="note">DST can skip a local time in spring or repeat it in autumn. GitHub Actions schedules always use UTC; workflow starts may be delayed by up to 15 minutes.</div>
+<span class="note">The same instants, displayed in two zones</span></div>
+<label for="compareZone" style="margin-top:12px">Compare with IANA time zone</label><input id="compareZone" value="Europe/Zagreb" autocomplete="off" spellcheck="false" />
+<table><thead><tr><th>Schedule time zone</th><th>Comparison time zone</th></tr></thead><tbody id="runs"></tbody></table>
+<div class="note">DST can skip a local time in spring or repeat it in autumn; actual scheduler behavior can differ. GitHub Actions schedules always use UTC and can be delayed, especially during high load.</div>
 </div>
 
 <!-- AD SLOT 1 (below results). Enable after AdSense approval:
@@ -235,16 +236,15 @@ function zoneOffset(timestamp,formatter){
   const p=partsAt(new Date(timestamp),formatter);
   return Date.UTC(p.year,p.month-1,p.day,p.hour,p.minute,p.second)-Math.floor(timestamp/1000)*1000;
 }
-function wallTimeInstants(y,m,d,h,mi,timezone,formatter){
+function wallTimeInstants(y,m,d,h,mi,timezone,formatter,knownOffsets){
   const wall=Date.UTC(y,m-1,d,h,mi);
-  const offsets=new Set([-36,-12,0,12,36].map(hour=>zoneOffset(wall+hour*3600000,formatter)));
+  const offsets=knownOffsets||new Set([-36,-12,0,12,36].map(hour=>zoneOffset(wall+hour*3600000,formatter)));
   return [...offsets].map(offset=>wall-offset).filter(timestamp=>{
     const p=partsAt(new Date(timestamp),formatter);
     return p.year===y&&p.month===m&&p.day===d&&p.hour===h&&p.minute===mi;
   }).sort((a,b)=>a-b);
 }
-function nextRuns(c,timezone,n){
-  const now=new Date();
+function nextRuns(c,timezone,n,now=new Date()){
   let formatter;
   try{formatter=new Intl.DateTimeFormat('en-CA',{timeZone:timezone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'})}
   catch{throw new Error('Enter a valid IANA time zone, for example Europe/Zagreb or UTC.')}
@@ -258,14 +258,17 @@ function nextRuns(c,timezone,n){
     const domOk=c.dom.has(D),dowOk=c.dow.has(W);
     const ok=(c.domStar||c.dowStar)?(domOk&&dowOk):(domOk||dowOk);
     if(!ok)continue;
+    const midday=Date.UTC(Y,M,D,12);
+    const offsets=new Set([-48,-24,0,24,48].map(hour=>zoneOffset(midday+hour*3600000,formatter)));
+    const dayRuns=[];
     for(const h of hours)for(const mi of mins){
-      if(res.length>=n)break;
-      for(const timestamp of wallTimeInstants(Y,M+1,D,h,mi,timezone,formatter)){
+      for(const timestamp of wallTimeInstants(Y,M+1,D,h,mi,timezone,formatter,offsets)){
         const dt=new Date(timestamp);
-        if(dt>now)res.push(dt);
-        if(res.length>=n)break;
+        if(dt>now)dayRuns.push(dt);
       }
     }
+    dayRuns.sort((a,b)=>a-b);
+    res.push(...dayRuns.slice(0,n-res.length));
   }
   return{dates:res.slice(0,n),display};
 }
@@ -335,7 +338,10 @@ function render(){
     ].map(r=>'<tr><td>'+r[0]+'</td><td class="m">'+r[1].replace(/</g,'&lt;')+'</td><td>'+r[2]+'</td></tr>').join('');
     const zone=platform==='github'?'UTC':$('timezone').value.trim();
     const schedule=nextRuns(c,zone,5);
-    $('runs').innerHTML=schedule.dates.length?schedule.dates.map(d=>'<tr><td class="m">'+schedule.display.format(d)+'</td></tr>').join(''):'<tr><td>No run found in the supported year range (for example, an impossible calendar date).</td></tr>';
+    let comparison;
+    try{comparison=new Intl.DateTimeFormat('en-GB',{timeZone:$('compareZone').value.trim(),weekday:'short',year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',timeZoneName:'short'})}
+    catch{throw new Error('Enter a valid comparison IANA time zone, for example Europe/Zagreb or UTC.')}
+    $('runs').innerHTML=schedule.dates.length?schedule.dates.map(d=>'<tr><td class="m">'+schedule.display.format(d)+'</td><td class="m">'+comparison.format(d)+'</td></tr>').join(''):'<tr><td colspan="2">No run found in the supported year range (for example, an impossible calendar date).</td></tr>';
   }catch(e){
     $('err').textContent=e.message;$('human').textContent='—';$('fields').innerHTML='';$('runs').innerHTML='';
   }
@@ -351,6 +357,7 @@ function convert(){
 }
 $('cron').addEventListener('input',render);
 $('timezone').addEventListener('input',render);
+$('compareZone').addEventListener('input',render);
 $('platform').addEventListener('change',()=>{updatePlatform();render()});
 $('convert').addEventListener('click',convert);
 document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{$('cron').value=presets[$('platform').value][b.dataset.preset];render()}));

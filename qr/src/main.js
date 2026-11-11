@@ -1,6 +1,7 @@
 import { PayloadError, buildText, buildUrl, buildWifi, wifiWarning, buildVcard, buildEmail, buildSms, parseBatch, safeFileName } from "./payload.mjs";
 import { makeMatrix, drawToCanvas, captionBand, toSvg, checkColor, contrast, layout, setPngDpi300 } from "./render.mjs";
 import { zipSync, strToU8 } from "fflate";
+import "./scanner.js";
 
 const $ = (id) => document.getElementById(id);
 const modes = ["text", "url", "wifi", "vcard", "email", "sms", "batch"];
@@ -35,7 +36,7 @@ function options(overrides = {}) {
   if (!size) throw new PayloadError("Size must be between 128 and 1024.");
   let level = val("level");
   if (logo && level !== "H") level = "H";
-  return { fg: checkColor(val("fg")), bg: checkColor(val("bg")), transparent, margin, size, print, level, logo, ...overrides };
+  return { fg: checkColor(val("fg")), bg: checkColor(val("bg")), transparent, margin, size, print, level, logo, shape: val("shape"), ...overrides };
 }
 
 function updateModeUi() {
@@ -238,6 +239,19 @@ $("print").addEventListener("change", () => {
 });
 $("logoFile").addEventListener("change", (e) => loadLogo(e.target.files[0]));
 $("logoClear").addEventListener("click", () => { $("logoFile").value = ""; loadLogo(null); });
+document.querySelectorAll("[data-qr-style]").forEach((button) => button.addEventListener("click", () => {
+  const presets = {
+    classic: ["#000000", "#ffffff", "square"],
+    ocean: ["#063a56", "#ffffff", "rounded"],
+    forest: ["#194930", "#ffffff", "dots"]
+  };
+  const [fg, bg, shape] = presets[button.dataset.qrStyle];
+  $("fg").value = fg;
+  $("bg").value = bg;
+  $("shape").value = shape;
+  $("transparent").checked = false;
+  render();
+}));
 $("download-png").addEventListener("click", onDownloadPng);
 $("download-svg").addEventListener("click", onDownloadSvg);
 $("copy-image").addEventListener("click", onCopy);

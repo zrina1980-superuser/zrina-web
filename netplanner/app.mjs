@@ -5,6 +5,7 @@ import {
   findNextFree,
   findOverlaps,
   formatCount,
+  mapGapPositions,
   parseCidr,
   parseNetworks,
   toCsv
@@ -67,6 +68,15 @@ function renderSummary(pool, existing, gaps, next, cloud) {
     appendElement(card, 'strong', '', label);
     appendElement(card, 'span', '', value);
   }
+  const map = byId('poolMap');
+  map.replaceChildren();
+  map.hidden = false;
+  for (const gap of mapGapPositions(pool, gaps)) {
+    const segment = appendElement(map, 'span', 'pool-map-free');
+    segment.style.left = `${gap.start}%`;
+    segment.style.width = `${gap.end - gap.start}%`;
+  }
+  map.setAttribute('aria-label', `Address map for ${pool.network}: ${formatCount(totalFree)} of ${formatCount(pool.size)} addresses free. See the gap list for exact ranges.`);
   const warnings = byId('warnings');
   warnings.replaceChildren();
   if (pool.input !== pool.network) {
@@ -182,6 +192,9 @@ function analyze() {
     exportRows = [];
     byId('downloadCsv').disabled = true;
     byId('summary').replaceChildren();
+    byId('poolMap').replaceChildren();
+    byId('poolMap').hidden = true;
+    byId('poolMap').setAttribute('aria-label', 'No address map: correct the input and analyze again.');
     byId('networkResults').replaceChildren();
     byId('gaps').replaceChildren();
     byId('vlsmResults').replaceChildren();
