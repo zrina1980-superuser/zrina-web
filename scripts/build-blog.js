@@ -8,23 +8,48 @@ const posts = [
   {
     slug: "kako-sam-izgradio-aplikaciju-za-praonicu",
     title: "Kako sam izgradio aplikaciju za praćenje vozila u praonici",
-    description: "Od radnog procesa do aplikacije: sinkronizacija vozila, uloge, čitanje podataka kamerom i ono što sam naučio o radu bez veze.",
+    description: "Od traženja vozila i papirnatih evidencija do aplikacije za praonicu: lokacije, ključevi, obračun i tehničke odluke.",
     date: "2026-11-11",
     dateLabel: "11. studenoga 2026.",
     category: "Iza aplikacije",
     accent: "#40d9d0",
     icon: "carwash/carwash-logo.png",
     imageAlt: "carwash.app — aplikacija za praćenje tijeka vozila u praonici",
-    facebook: "Kako povezati status vozila, lokaciju i ključeve u jedan pregled? Pišem o nastanku aplikacije za praonicu i tehničkim odlukama iza nje. https://zrina.app/blog/kako-sam-izgradio-aplikaciju-za-praonicu/",
+    facebook: "Kako od traženja vozila i papirnatih evidencija doći do zajedničkog pregleda praonice? Pišem o stvarnom problemu i tehničkim odlukama iza aplikacije. https://zrina.app/blog/kako-sam-izgradio-aplikaciju-za-praonicu/",
     body: `
-      <p class="article-lead">Kad više ljudi sudjeluje u prijemu, pranju i predaji vozila, jednostavno pitanje „Gdje je auto i tko ima ključ?” može oduzeti više vremena nego što bi trebalo. Aplikaciju za praonicu počeo sam razvijati upravo oko tog svakodnevnog problema.</p>
-      <p>Cilj nije bio napraviti još jednu tablicu za popunjavanje, nego omogućiti timu da na jednom mjestu vidi što čeka, što je u tijeku i što je spremno za sljedeći korak. Izvorna verzija nastala je uz Google Apps Script i Google Sheets te je isprobana u stvarnom radnom procesu. Ovdje opisujem pristup bez podataka o korisnicima ili organizaciji.</p>
+      <p class="article-lead">„Gdje je auto? Gdje je ključ? Je li pranje gotovo?” To nisu bila pitanja na koja smo odgovarali jednim pogledom. Često su značila hodanje, telefonske pozive i potragu po više parkirališta. Upravo zato počeo sam razvijati aplikaciju za praonicu.</p>
+      <p>Izvorna verzija nastala je uz Google Apps Script i Google Sheets te je isprobana u stvarnom radnom procesu. U ovom tekstu namjerno izostavljam naziv organizacije, prepoznatljivu kartu i poslovne podatke, ali želim dočarati problem zbog kojeg je aplikacija nastala.</p>
+      <h2>Zašto je bilo teško pronaći jedan auto?</h2>
+      <p>Praonica je radila u sklopu većeg servisnog kompleksa, odvojena od prijema vozila. Koristio ju je servis, ali i drugi interni i vanjski korisnici. Automobili su tijekom dana mogli biti na različitim parkiralištima ili u različitim dijelovima kompleksa; ključ nije nužno bio ondje gdje i automobil.</p>
+      <p>Prije probnog korištenja aplikacije kolege servisni savjetnici i ja u prosjeku smo radili oko 15.000 koraka tijekom radnog dana, uz puno traženja vozila i ključeva te njihovo prevoženje za isporuku. To je moje iskustvo i približna procjena ukupnog broja koraka, a ne mjerenje koraka uzrokovanih isključivo traženjem. Nemam usporedivo mjerenje nakon uvođenja aplikacije pa ne mogu tvrditi kolika je bila ušteda.</p>
+      <h2>Desetak listova papira svaki dan</h2>
+      <p>Popis opranih vozila vodio se na ispisanim tablicama koje su se ispunjavale rukom — prema mojem iskustvu, oko deset A4 listova dnevno. Podatke je zatim trebalo prepisivati, razvrstavati i računati ručno. Na kraju mjeseca količine i različite vrste pranja obračunavale su se uz papir, olovku i kalkulator.</p>
+      <p>Servis je bio najveći korisnik. Pranje servisnog vozila u tom se procesu nije naplaćivalo kupcu, nego se obračun vodio interno između praonice i servisa. Trebalo je razlikovati naručitelje i vrste usluga kako bi evidencija poslužila kao podloga za odgovarajući obračun, ne samo kao popis automobila.</p>
+      <p>Aplikacija je zato povezala dnevni rad i evidenciju: podaci uneseni uz vozilo mogu se kasnije pregledavati po razdoblju, odjelu i vrsti pranja, uz pripadajući cjenik. Izvorna izvedba nudi pregled količina i iznosa te izvoz podataka. To pomaže pripremi obračuna, ali nije tvrdnja da sama izdaje račune ili da brojke ne treba provjeriti.</p>
       <h2>Jedan zapis, različiti poslovi</h2>
       <p>Vozilo prolazi kroz nekoliko koraka, a različitim ljudima trebaju različite informacije. Nekome je važan prijem, drugome redoslijed pranja, parkirno mjesto ili ključ. Zato su prikazi i dostupne radnje prilagođeni radnoj ulozi, dok svi rade nad zajedničkim zapisima.</p>
-      <p>Najvažnije pitanje u dizajnu nije bilo koliko podataka možemo prikazati, nego može li osoba brzo pronaći ono što joj treba usred smjene. Status, lokacija i ključ zato imaju konkretno mjesto u tijeku rada, umjesto da ostanu samo u usmenoj predaji.</p>
+      <p>Primjerice, osoba u praonici može označiti da je vozilo u pranju ili gotovo i zabilježiti gdje je ostavljeno. Savjetniku su zatim na raspolaganju status, posljednja upisana lokacija i podatak o ključu. Prikaz lokacije je koristan samo ako ga ljudi redovito ažuriraju: nije automatsko GPS praćenje niti jamstvo da je vozilo još uvijek na tom mjestu.</p>
+      <p>U originalu je za odabir lokacije korištena i karta radnog prostora, s dodatnim opisima pojedinih zona. Ona ovdje nije objavljena jer prikazuje stvarnu lokaciju. Važna ideja nije sama fotografija, nego mogućnost da tim koristi zajedničke, razumljive oznake umjesto neodređenog „tamo iza”.</p>
+      <h2>Kako sam razmišljao o rješenju</h2>
+      <p>Sljedeći primjeri namjerno su pojednostavljeni i napisani za ovaj članak: prikazuju načelo, nisu doslovno preuzeti produkcijski kod niti gotov sustav za korištenje. Ne uključuju stvarne podatke ni poslovna pravila organizacije.</p>
       <h2>Kako se promjene pojavljuju na drugim ekranima?</h2>
       <p>U izvornoj izvedbi Google Sheets služi kao zajedničko spremište, a Apps Script obrađuje zahtjeve klijenata. Nakon izmjena ažurira se oznaka verzije; otvoreni ekran periodički provjerava postoje li noviji podaci i po potrebi osvježava popis.</p>
+      <pre><code>// Ilustracija: provjera poznate verzije
+odgovor = provjeriPromjene(poznataVerzija)
+
+ako odgovor.imaPromjena:
+    prikazi(odgovor.vozila)
+    poznataVerzija = odgovor.verzija</code></pre>
+      <p>Ideja je da ekran ne mora svaki put ponovo preuzimati cijeli popis kad se ništa nije promijenilo. Nakon uspješne promjene u izvornom kodu ažurira se oznaka verzije; na sljedećoj provjeri poslužitelj može vratiti podatke ili odgovor da nema promjene.</p>
       <p>To je <em>polling</em>, a ne trenutačna push veza: u pregledanom kodu provjera se pokreće približno svake tri sekunde, uz dodatno vrijeme mreže i obrade. Lokalna kopija može ubrzati početni prikaz, ali ne zamjenjuje svježi odgovor poslužitelja. Ovaj način ne dokazuje da nikad neće doći do zastoja ili sukoba izmjena.</p>
+      <h2>Od zapisa do pripreme obračuna</h2>
+      <p>Umjesto ponovnog ručnog prebrojavanja papira, izvještaj prolazi kroz evidentirana vozila za odabrano razdoblje, razvrstava ih prema naručitelju i vrsti usluge te pridružuje cijenu iz cjenika. Pojednostavljeno:</p>
+      <pre><code>// Ilustracija: grupiranje stavki izvještaja
+za svaki zapis u odabranomRazdoblju:
+    grupa = dohvatiGrupu(zapis.odjel, zapis.vrstaPranja)
+    grupa.kolicina += 1
+    grupa.iznos += cijenaZa(grupa)</code></pre>
+      <p>U izvornom kodu izvještaj čita aktivne i arhivirane zapise, grupira ih po odjelu i vrsti pranja te koristi cjenik. Kvaliteta rezultata ovisi o unesenim zapisima i postavljenim cijenama; izvještaj zato ostaje podloga koju treba pregledati, a ne zamjena za računovodstvenu provjeru.</p>
       <h2>Bez signala: važna razlika između prikaza i spremanja</h2>
       <p>Zadnje poznate podatke korisno je vidjeti i kada veza oslabi. No prikaz spremljenog stanja nije isto što i pouzdano spremanje novih radnji bez interneta. U pregledanoj verziji klijent pri prekidu veze onemogućuje određene akcije; nisam potvrdio postojanje trajnog reda izmjena koji bi ih kasnije automatski poslao.</p>
       <p>To je za mene važna lekcija: offline mogućnost treba opisati i testirati po pojedinoj radnji, a ne obećavati je samo zato što je aplikacija dostupna na mobitelu.</p>
@@ -32,6 +57,7 @@ const posts = [
       <p>Izvorna verzija koristi identifikator pohranjen u pregledniku i postupak odobravanja korisnika i dodjele uloge. To olakšava organizaciju prikaza, ali identifikator preglednika sam po sebi nije pouzdana potvrda identiteta. Kod nove izvedbe takav pristup treba zamijeniti odgovarajućom autentifikacijom i provjerama ovlasti na poslužitelju.</p>
       <h2>Kamera i provjera prije potvrde</h2>
       <p>U originalnom Android okruženju fotografija se obrađuje prepoznavanjem teksta, a rezultat se dodatno prilagođava pravilima za podatke o vozilu. Prepoznavanje može pogriješiti — zato je rezultat pomoć pri unosu, ne zamjena za provjeru osobe koja radi s vozilom.</p>
+      <p>Na primjer, slovo O i znamenka 0 na fotografiji mogu izgledati vrlo slično. Kod VIN-a aplikacija može usporediti više mogućih zapisa, primijeniti pravila dopuštenih znakova i uzeti u obzir kontrolnu znamenku pri rangiranju. Kod registarske oznake ispravci ovise i o položaju znaka. To su pravila obrade rezultata OCR-a, a ne dokaz da je svaka fotografija ispravno pročitana.</p>
       <h2>Tri izvedbe, jedan problem</h2>
       <p>Od izvorne verzije nastala je i zasebna web-izvedba s drukčijim poslužiteljem i bazom, a kasnije eksperimentalna PWA verzija razvijena uz AI Studio. To nisu iste implementacije i ne treba pretpostaviti da svaka funkcija originala radi jednako u novijim verzijama.</p>
       <aside class="article-note"><strong>Što nosim dalje:</strong> razumjeti posao prije odabira tehnologije, provjeriti ponašanje u stvarnim uvjetima i jasno reći gdje su granice rješenja.</aside>
@@ -205,7 +231,7 @@ function head(title, description, canonical, image, type = "website", jsonLd = n
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/brand/zrinaapp_min.png">
   <link rel="stylesheet" href="/site.css?v=${assetVersion("site.css")}">
   <script src="/navigation.js?v=${assetVersion("navigation.js")}" defer></script>
-  <link rel="stylesheet" href="/blog.css">
+  <link rel="stylesheet" href="/blog.css?v=${assetVersion("blog.css")}">
 ${jsonLd ? `  <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>\n` : ""}</head>`;
 }
 

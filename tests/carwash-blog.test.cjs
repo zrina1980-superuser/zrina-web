@@ -12,6 +12,11 @@ test("carwash article is published with neutral text and a project link", () => 
   assert.ok(getPublishedPosts(new Date("2026-11-11T18:00:00Z")).includes(post));
   assert.match(post.body, /href="\/carwash\/"/);
   assert.doesNotMatch(JSON.stringify(post), /efac|emil[\s-]*frey/i);
+  assert.match(post.body, /oko 15\.000 koraka/);
+  assert.match(post.body, /nemam usporedivo mjerenje/i);
+  assert.match(post.body, /deset A4 listova dnevno/);
+  assert.match(post.body, /nisu doslovno preuzeti produkcijski kod/);
+  assert.match(post.body, /<pre><code>/);
   const project = fs.readFileSync(path.join(root, "carwash", "index.html"), "utf8");
   assert.match(project, /href="\.\.\/blog\/kako-sam-izgradio-aplikaciju-za-praonicu\/"/);
   assert.doesNotMatch(project, /efac|emil[\s-]*frey/i);

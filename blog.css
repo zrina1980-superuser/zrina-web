@@ -24,6 +24,7 @@
 .article-content h2 { color: #f7fafc; font-size: 1.48rem; margin: 32px 0 12px; }
 .article-content ul { padding-left: 1.4rem; margin: 0 0 20px; }
 .article-content li { padding-left: 4px; margin: 7px 0; }
+.article-content pre { max-width: 100%; overflow-x: auto; margin: 20px 0; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: #0a1623; color: #e4f6f6; font: .9rem/1.6 var(--mono); }
 .article-content a, .article-footer a:not(.btn) { color: var(--cyan); }
 .article-note, .safety-note { display: block; margin: 24px 0; padding: 18px 20px; border-left: 3px solid var(--cyan); border-radius: 0 12px 12px 0; background: rgba(0, 240, 255, .07); }
 .safety-note { border-left-color: #fbbf24; background: rgba(251, 191, 36, .09); color: #fff3cc; }
