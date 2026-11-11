@@ -1701,7 +1701,7 @@
       </div>
 
       <div class="guides-preview-grid">
-        <a href="guides/flush-dns.html" class="guide-preview-card">
+        <a href="guides/flush-dns" class="guide-preview-card">
           <div>
             <span class="guide-tag">Troubleshooting</span>
             <h3>How to Flush Your Local DNS Cache on Windows, Mac & Mobile</h3>
@@ -2373,7 +2373,7 @@
         <span class="metric-pill mono"><strong>${report.browserProbeMs}ms</strong> browser fetch</span>
         <span class="metric-pill mono"><strong>${escapeHtml(report.httpLabel)}</strong></span>
         <a class="metric-pill" href="?q=${encodeURIComponent(report.fullUrl)}" target="_blank" rel="noopener noreferrer">Share this check ↗</a>
-        ${report.gatewayResponded && !report.localResponded ? '<a class="metric-pill" href="guides/flush-dns.html">Compare local DNS ↗</a>' : ''}
+        ${report.gatewayResponded && !report.localResponded ? '<a class="metric-pill" href="guides/flush-dns">Compare local DNS ↗</a>' : ''}
       `;
 
       pipelineSteps.innerHTML = `

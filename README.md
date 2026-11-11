@@ -35,6 +35,8 @@ Reserved ad positions are planning notes only, not active ad units. Create the E
 
 The JSON tool formats source tokens directly so large number spellings, duplicate keys, and original key order are not silently changed; sorting is an explicit action. Its repair action is limited to converting single-quoted strings and removing trailing commas. The Cron tool supports Linux/POSIX, Kubernetes, GitHub Actions, and AWS EventBridge syntax, and previews upcoming runs in an IANA time zone while warning about platform-specific time-zone behavior.
 
+The HostVitals DNS guide uses the extensionless URL `/hostvitals/guides/flush-dns`: Cloudflare redirects its `.html` URL to that address. Keep its canonical, sitemap entry and internal links aligned. Run `node --test tests/flush-dns-guide.test.cjs` to check these signals and guide navigation.
+
 The CIDR calculator recognizes selected IPv4 address types but does not determine reachability; /31 host counts assume a point-to-point link. Download calculator presets use decimal units and select the decimal convention. Run `node --test tests/calculators.test.cjs` for calculator regression tests.
 
 The UUID Inspector decodes UUID/ULID/ObjectId and selected Snowflake identifiers in the browser. The Network Planner supports IPv4/IPv6 CIDRs, overlap and gap checks, aligned next-subnet selection, VLSM, CSV export, and share links; share links include the entered address plan.

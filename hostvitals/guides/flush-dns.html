@@ -5,23 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   
   <!-- SEO & Primary Meta Tags -->
-  <title>How to Flush Your Local DNS Cache (Windows, Mac, Linux & Mobile) · HostVitals</title>
-  <meta name="description" content="Step-by-step guide to flushing your local DNS resolver cache on Windows 11/10, macOS, Linux, Chrome, iOS, and Android when a working website fails to load." />
+  <title>How to Flush DNS Cache on Windows, Mac &amp; Linux | HostVitals</title>
+  <meta name="description" content="Find DNS cache commands for Windows, macOS and Linux, browser steps, and mobile troubleshooting. Learn when flushing DNS may help and what to check next." />
   <meta name="keywords" content="flush dns, ipconfig flushdns, clear dns cache mac, chrome net internals dns, website not loading dns cache, hostvitals guides" />
   <meta name="author" content="zrina.app" />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://zrina.app/hostvitals/guides/flush-dns.html" />
+  <link rel="canonical" href="https://zrina.app/hostvitals/guides/flush-dns" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="zrina.app" />
-  <meta property="og:url" content="https://zrina.app/hostvitals/guides/flush-dns.html" />
-  <meta property="og:title" content="How to Flush Your Local DNS Cache (Windows, Mac, Linux &amp; Mobile) · HostVitals" />
-  <meta property="og:description" content="Step-by-step guide to flushing your local DNS resolver cache on Windows 11/10, macOS, Linux, Chrome, iOS, and Android when a working website fails to load." />
+  <meta property="og:url" content="https://zrina.app/hostvitals/guides/flush-dns" />
+  <meta property="og:title" content="How to Flush DNS Cache on Windows, Mac &amp; Linux | HostVitals" />
+  <meta property="og:description" content="Find DNS cache commands for Windows, macOS and Linux, browser steps, and mobile troubleshooting. Learn when flushing DNS may help and what to check next." />
   <meta property="og:image" content="https://zrina.app/assets/share-cards/tools/hostvitals-guides-flush-dns.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="How to Flush Your Local DNS Cache (Windows, Mac, Linux &amp; Mobile) · HostVitals" />
-  <meta name="twitter:description" content="Step-by-step guide to flushing your local DNS resolver cache on Windows 11/10, macOS, Linux, Chrome, iOS, and Android when a working website fails to load." />
+  <meta name="twitter:title" content="How to Flush DNS Cache on Windows, Mac &amp; Linux | HostVitals" />
+  <meta name="twitter:description" content="Find DNS cache commands for Windows, macOS and Linux, browser steps, and mobile troubleshooting. Learn when flushing DNS may help and what to check next." />
   <meta name="twitter:image" content="https://zrina.app/assets/share-cards/tools/hostvitals-guides-flush-dns.png" />
 
   <!-- Mobile Browser Theme Colors -->
@@ -41,7 +41,7 @@
     "@type": "TechArticle",
     "headline": "How to Flush Your Local DNS Cache on Windows, macOS, Linux, and Mobile",
     "description": "Complete reference guide for clearing stale DNS resolver records across operating systems and browsers when a live website fails to connect.",
-    "url": "https://zrina.app/hostvitals/guides/flush-dns.html",
+    "url": "https://zrina.app/hostvitals/guides/flush-dns",
     "author": {
       "@type": "Organization",
       "name": "zrina.app",
@@ -253,6 +253,14 @@
       color: var(--text-primary);
       font-weight: 500;
     }
+    .guide-jumps { display: flex; flex-wrap: wrap; gap: .5rem; margin: .75rem 0 1.5rem; }
+    .guide-jumps a { display: inline-flex; align-items: center; min-height: 44px; padding: .4rem .8rem; border: 1px solid var(--border-subtle); border-radius: 999px; color: var(--text-primary); text-decoration: none; }
+    .guide-jumps a:hover { border-color: var(--up-dot); }
+    .cmd-block { flex-wrap: wrap; }
+    .cmd-block code { overflow-wrap: anywhere; }
+    .copy-command { min-height: 44px; padding: .4rem .8rem; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
+    .copy-command:focus-visible, .guide-jumps a:focus-visible { outline: 2px solid var(--up-dot); outline-offset: 2px; }
+    .copy-status { flex-basis: 100%; color: var(--text-secondary); font-size: .85rem; }
 
     .callout-box {
       background: var(--bg-subtle);
@@ -339,9 +347,11 @@
 
     @media (max-width: 640px) {
       .related-grid { grid-template-columns: 1fr; }
+      .topbar { flex-wrap: wrap; gap: .75rem; }
+      .topbar-right { flex-wrap: wrap; }
     }
   </style>
-  <meta property="og:image:alt" content="How to Flush Your Local DNS Cache (Windows, Mac, Linux &amp; Mobile) · HostVitals — Step-by-step guide to flushing your local DNS resolver cache on Windows 11/10, macOS, Linux, Chrome, iOS, and Android when a working website fails to load." />
+  <meta property="og:image:alt" content="How to Flush DNS Cache on Windows, Mac &amp; Linux | HostVitals — Find DNS cache commands for Windows, macOS and Linux, browser steps, and mobile troubleshooting. Learn when flushing DNS may help and what to check next." />
 </head>
 <body>
 
@@ -370,6 +380,10 @@
         Published by <strong>zrina.app Tools · HostVitals</strong> · Technical Networking Reference
       </div>
 
+      <p>Need to clear a local DNS cache? Choose your device for the steps. On Windows, open Command Prompt and run <code>ipconfig /flushdns</code>. Clearing a cache may help with stale DNS records, but it does not repair a server outage or change your DNS provider.</p>
+      <nav class="guide-jumps" aria-label="Jump to device instructions">
+        <a href="#windows">Windows</a><a href="#macos">Mac</a><a href="#linux">Linux</a><a href="#browser">Browser</a><a href="#mobile">iPhone &amp; Android</a>
+      </nav>
       <p>
         When you type a domain name like <code>perplexity.ai</code> or <code>github.com</code> into your browser, your operating system does not query global DNS servers every single time. Instead, it saves recently resolved IP addresses in a temporary local database known as the <strong>DNS Resolver Cache</strong>.
       </p>
@@ -381,7 +395,7 @@
         <strong>When might flushing DNS help?</strong> If the <a href="../index.html" style="color:var(--text-primary);font-weight:600;">HostVitals edge probe</a> (or a public gateway fallback) receives a response but your browser cannot load the site, a local DNS or network issue is one possible cause. HostVitals cannot identify the cause on its own; compare the result with another network or resolver before changing settings.
       </div>
 
-      <h2>1. Flush DNS Cache on Windows 10 &amp; Windows 11</h2>
+      <h2 id="windows">1. Flush DNS Cache on Windows 10 &amp; Windows 11</h2>
       <p>
         On Windows, the DNS Client service manages cached domain records. You can clear it in seconds using Command Prompt, PowerShell, or Windows Terminal:
       </p>
@@ -391,56 +405,69 @@
       </ol>
       <div class="cmd-block">
         <code class="mono">ipconfig /flushdns</code>
+        <button class="copy-command" type="button" aria-label="Copy Windows DNS command">Copy</button>
+        <span class="copy-status" role="status" aria-live="polite"></span>
       </div>
       <p>
-        You will immediately see the confirmation message: <em>"Successfully flushed the DNS Resolver Cache."</em>
+        If the command succeeds, Windows displays a confirmation. If it reports an error, check the message before proceeding.
       </p>
 
-      <h2>2. Flush DNS Cache on macOS (Sonoma, Sequoia, Ventura &amp; Monterey)</h2>
+      <h2 id="macos">2. Flush DNS Cache on macOS</h2>
       <p>
-        On modern macOS releases, DNS caching is handled by both a directory service cache and the <code>mDNSResponder</code> daemon. Open the <strong>Terminal</strong> app (via Spotlight <code>Cmd + Space</code>) and run:
+        On recent macOS releases, open the <strong>Terminal</strong> app (via Spotlight <code>Cmd + Space</code>) and run:
       </p>
       <div class="cmd-block">
         <code class="mono">sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code>
+        <button class="copy-command" type="button" aria-label="Copy macOS DNS command">Copy</button>
+        <span class="copy-status" role="status" aria-live="polite"></span>
       </div>
       <p>
         Enter your Mac login password when prompted (characters will not appear as you type) and press <strong>Return</strong>.
       </p>
 
-      <h2>3. Flush DNS Cache on Linux (Ubuntu, Debian, Fedora)</h2>
+      <h2 id="linux">3. Flush DNS Cache on Linux</h2>
       <p>
-        Most modern Linux distributions use <code>systemd-resolved</code> to manage local DNS caching. Open your terminal and run:
+        If your system uses <code>systemd-resolved</code>, open a terminal and run:
       </p>
       <div class="cmd-block">
         <code class="mono">sudo resolvectl flush-caches</code>
+        <button class="copy-command" type="button" aria-label="Copy Linux DNS command">Copy</button>
+        <span class="copy-status" role="status" aria-live="polite"></span>
       </div>
       <p>
-        If your distribution uses <code>dnsmasq</code> or <code>nscd</code> instead, restart the respective daemon using <code>sudo systemctl restart dnsmasq</code> or <code>sudo systemctl restart nscd</code>.
+        Other systems may use a different local resolver or no local DNS cache. Check which service is running before changing it; service restarts can affect other users or network services.
       </p>
 
-      <h2>4. Clear Internal Browser DNS &amp; Socket Cache (Chrome, Edge, Brave)</h2>
+      <h2 id="browser">4. Clear the browser's DNS cache</h2>
       <p>
-        Chromium-based browsers maintain their own internal DNS cache separate from your operating system. Even after running <code>ipconfig /flushdns</code>, your browser may hold onto stale active sockets:
+        Chrome maintains its own host cache, separate from the operating system. Browser interfaces can change; the following steps are for Chrome:
       </p>
       <ol>
         <li>Open a new tab and paste the following internal address into the URL bar:</li>
       </ol>
       <div class="cmd-block">
         <code class="mono">chrome://net-internals/#dns</code>
+        <button class="copy-command" type="button" aria-label="Copy Chrome DNS page address">Copy</button>
+        <span class="copy-status" role="status" aria-live="polite"></span>
       </div>
       <ol start="2">
         <li>Click the <strong>"Clear host cache"</strong> button.</li>
-        <li>Next, navigate to <code>chrome://net-internals/#sockets</code> in the left menu and click <strong>"Flush socket pools"</strong>.</li>
       </ol>
+      <p>Edge and Brave have their own internal pages; check your browser's current documentation. Clearing Chrome's host cache does not necessarily close existing connections. Flushing socket pools is a separate troubleshooting step that may interrupt active connections.</p>
 
-      <h2>5. Clear DNS Cache on iOS (iPhone / iPad) and Android</h2>
+      <h2 id="mobile">5. DNS troubleshooting on iPhone, iPad and Android</h2>
       <p>
-        Mobile operating systems do not provide a terminal command for unrooted devices, but you can force an immediate network stack and DNS flush using either of these methods:
+        Mobile devices do not offer a universal DNS-flush command in their standard settings. Try the following network troubleshooting steps instead:
       </p>
       <ul>
         <li><strong>Toggle Airplane Mode:</strong> This may refresh the device's network connection, though behavior varies by device and it is not guaranteed to clear every DNS cache.</li>
-        <li><strong>Choose Encrypted DNS:</strong> On supported Android devices, a Private DNS provider hostname such as <code>one.one.one.one</code> or <code>dns.google</code> can route DNS queries through that provider. Availability and effects depend on device and network configuration.</li>
+        <li><strong>Compare another connection:</strong> Try mobile data instead of Wi-Fi, or another device on the same network. This helps narrow down the problem but does not prove DNS is the cause.</li>
       </ul>
+
+      <h2>What to check next</h2>
+      <p>Reload the site after the cache is cleared. If it still fails, compare another browser or network and check whether your resolver or network administrator reports an issue. A server outage, firewall, VPN or browser connection problem will not necessarily be fixed by flushing DNS.</p>
+      <p>Use <a href="../">HostVitals</a> to compare browser, edge and DNS observations. A difference between checks can guide your next step, but is not proof of the cause or a global outage.</p>
+      <p>Reference: <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig">Microsoft's ipconfig documentation</a> describes the Windows <code>/flushdns</code> option.</p>
 
       <div class="related-guides">
         <strong style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-muted);">Continue Reading</strong>
@@ -476,6 +503,17 @@
   </footer>
 
   <script>
+    document.querySelectorAll('.copy-command').forEach(button => {
+      button.addEventListener('click', async () => {
+        const status = button.parentElement.querySelector('.copy-status');
+        try {
+          await navigator.clipboard.writeText(button.parentElement.querySelector('code').textContent);
+          status.textContent = 'Copied. Paste it only where the instructions indicate.';
+        } catch {
+          status.textContent = 'Could not copy. Select the command or address and copy it manually.';
+        }
+      });
+    });
     const THEME_KEY = 'hostvitals_theme_pref';
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const themeBtns = document.querySelectorAll('[data-set-theme]');
