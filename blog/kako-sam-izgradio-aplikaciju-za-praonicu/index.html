@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kako sam izgradio aplikaciju za praćenje vozila u praonici | zrina.app</title>
+  <meta name="description" content="Od radnog procesa do aplikacije: sinkronizacija vozila, uloge, čitanje podataka kamerom i ono što sam naučio o radu bez veze.">
+  <link rel="canonical" href="https://zrina.app/blog/kako-sam-izgradio-aplikaciju-za-praonicu/">
+  <meta property="og:title" content="Kako sam izgradio aplikaciju za praćenje vozila u praonici">
+  <meta property="og:description" content="Od radnog procesa do aplikacije: sinkronizacija vozila, uloge, čitanje podataka kamerom i ono što sam naučio o radu bez veze.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://zrina.app/blog/kako-sam-izgradio-aplikaciju-za-praonicu/">
+  <meta property="og:image" content="https://zrina.app/assets/share-cards/blog/kako-sam-izgradio-aplikaciju-za-praonicu.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="carwash.app — aplikacija za praćenje tijeka vozila u praonici">
+  <meta property="og:locale" content="hr_HR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kako sam izgradio aplikaciju za praćenje vozila u praonici">
+  <meta name="twitter:description" content="Od radnog procesa do aplikacije: sinkronizacija vozila, uloge, čitanje podataka kamerom i ono što sam naučio o radu bez veze.">
+  <meta name="twitter:image" content="https://zrina.app/assets/share-cards/blog/kako-sam-izgradio-aplikaciju-za-praonicu.png">
+  <meta name="theme-color" content="#050811">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/brand/zrinaapp_min.png">
+  <link rel="stylesheet" href="/site.css?v=5fb8de16b75c">
+  <script src="/navigation.js?v=350f57937047" defer></script>
+  <link rel="stylesheet" href="/blog.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Kako sam izgradio aplikaciju za praćenje vozila u praonici","description":"Od radnog procesa do aplikacije: sinkronizacija vozila, uloge, čitanje podataka kamerom i ono što sam naučio o radu bez veze.","datePublished":"2026-11-11","dateModified":"2026-11-11","inLanguage":"hr","mainEntityOfPage":"https://zrina.app/blog/kako-sam-izgradio-aplikaciju-za-praonicu/","image":"https://zrina.app/assets/share-cards/blog/kako-sam-izgradio-aplikaciju-za-praonicu.png","author":{"@type":"Person","name":"Vedran Zrinski","url":"https://zrina.app/"},"publisher":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}</script>
+</head>
+<body class="blog-page">
+  <header class="topbar has-mobile-menu">
+    <a class="brand" href="/"><img src="/assets/brand/zrinaapp_min.png" alt="" width="32" height="32"><span>zrina<b>.app</b></span></a>
+    <nav class="nav" aria-label="Glavna navigacija">
+      <a class="nav-work" href="/#radovi">Radovi</a><a href="/#o-meni">O meni</a><a class="nav-blog" href="/blog/" aria-current="page">Blog</a>
+      <a href="/#alati">Alati</a><a href="/predlozi/">Predloži aplikaciju</a><a class="nav-cta" href="/#kontakt">Kontakt</a>
+    </nav>
+    <div class="mobile-nav">
+      <a class="mobile-contact" href="/#kontakt">Kontakt</a>
+      <details class="mobile-menu">
+        <summary>Izbornik <span aria-hidden="true">☰</span></summary>
+        <nav class="mobile-menu-panel" aria-label="Mobilna navigacija">
+          <a href="/#radovi">Radovi</a>
+          <a href="/#o-meni">O meni</a>
+          <a href="/#alati">Alati</a>
+          <a href="/blog/" aria-current="page">Blog</a>
+          <a href="/predlozi/">Predloži aplikaciju</a>
+          <a href="/#kontakt">Kontakt</a>
+          <a href="/en/" hreflang="en">English version <span aria-hidden="true">↗</span></a>
+        </nav>
+      </details>
+    </div>
+  </header>
+  <main id="main" class="article-main">
+    <a class="blog-back" href="/blog/">← Sve objave</a>
+    <article>
+      <header class="article-header">
+        <p class="blog-meta">Iza aplikacije <span aria-hidden="true">·</span> <time datetime="2026-11-11">11. studenoga 2026.</time></p>
+        <h1>Kako sam izgradio aplikaciju za praćenje vozila u praonici</h1>
+        <p class="article-summary">Od radnog procesa do aplikacije: sinkronizacija vozila, uloge, čitanje podataka kamerom i ono što sam naučio o radu bez veze.</p>
+      </header>
+      <div class="article-content">
+      <p class="article-lead">Kad više ljudi sudjeluje u prijemu, pranju i predaji vozila, jednostavno pitanje „Gdje je auto i tko ima ključ?” može oduzeti više vremena nego što bi trebalo. Aplikaciju za praonicu počeo sam razvijati upravo oko tog svakodnevnog problema.</p>
+      <p>Cilj nije bio napraviti još jednu tablicu za popunjavanje, nego omogućiti timu da na jednom mjestu vidi što čeka, što je u tijeku i što je spremno za sljedeći korak. Izvorna verzija nastala je uz Google Apps Script i Google Sheets te je isprobana u stvarnom radnom procesu. Ovdje opisujem pristup bez podataka o korisnicima ili organizaciji.</p>
+      <h2>Jedan zapis, različiti poslovi</h2>
+      <p>Vozilo prolazi kroz nekoliko koraka, a različitim ljudima trebaju različite informacije. Nekome je važan prijem, drugome redoslijed pranja, parkirno mjesto ili ključ. Zato su prikazi i dostupne radnje prilagođeni radnoj ulozi, dok svi rade nad zajedničkim zapisima.</p>
+      <p>Najvažnije pitanje u dizajnu nije bilo koliko podataka možemo prikazati, nego može li osoba brzo pronaći ono što joj treba usred smjene. Status, lokacija i ključ zato imaju konkretno mjesto u tijeku rada, umjesto da ostanu samo u usmenoj predaji.</p>
+      <h2>Kako se promjene pojavljuju na drugim ekranima?</h2>
+      <p>U izvornoj izvedbi Google Sheets služi kao zajedničko spremište, a Apps Script obrađuje zahtjeve klijenata. Nakon izmjena ažurira se oznaka verzije; otvoreni ekran periodički provjerava postoje li noviji podaci i po potrebi osvježava popis.</p>
+      <p>To je <em>polling</em>, a ne trenutačna push veza: u pregledanom kodu provjera se pokreće približno svake tri sekunde, uz dodatno vrijeme mreže i obrade. Lokalna kopija može ubrzati početni prikaz, ali ne zamjenjuje svježi odgovor poslužitelja. Ovaj način ne dokazuje da nikad neće doći do zastoja ili sukoba izmjena.</p>
+      <h2>Bez signala: važna razlika između prikaza i spremanja</h2>
+      <p>Zadnje poznate podatke korisno je vidjeti i kada veza oslabi. No prikaz spremljenog stanja nije isto što i pouzdano spremanje novih radnji bez interneta. U pregledanoj verziji klijent pri prekidu veze onemogućuje određene akcije; nisam potvrdio postojanje trajnog reda izmjena koji bi ih kasnije automatski poslao.</p>
+      <p>To je za mene važna lekcija: offline mogućnost treba opisati i testirati po pojedinoj radnji, a ne obećavati je samo zato što je aplikacija dostupna na mobitelu.</p>
+      <h2>Uloge nisu zamjena za sigurnu prijavu</h2>
+      <p>Izvorna verzija koristi identifikator pohranjen u pregledniku i postupak odobravanja korisnika i dodjele uloge. To olakšava organizaciju prikaza, ali identifikator preglednika sam po sebi nije pouzdana potvrda identiteta. Kod nove izvedbe takav pristup treba zamijeniti odgovarajućom autentifikacijom i provjerama ovlasti na poslužitelju.</p>
+      <h2>Kamera i provjera prije potvrde</h2>
+      <p>U originalnom Android okruženju fotografija se obrađuje prepoznavanjem teksta, a rezultat se dodatno prilagođava pravilima za podatke o vozilu. Prepoznavanje može pogriješiti — zato je rezultat pomoć pri unosu, ne zamjena za provjeru osobe koja radi s vozilom.</p>
+      <h2>Tri izvedbe, jedan problem</h2>
+      <p>Od izvorne verzije nastala je i zasebna web-izvedba s drukčijim poslužiteljem i bazom, a kasnije eksperimentalna PWA verzija razvijena uz AI Studio. To nisu iste implementacije i ne treba pretpostaviti da svaka funkcija originala radi jednako u novijim verzijama.</p>
+      <aside class="article-note"><strong>Što nosim dalje:</strong> razumjeti posao prije odabira tehnologije, provjeriti ponašanje u stvarnim uvjetima i jasno reći gdje su granice rješenja.</aside>
+      <p>Više o tijeku rada i originalnoj arhitekturi nalazi se na <a href="/carwash/">stranici projekta carwash.app</a>.</p>
+    </div>
+      <footer class="article-footer">
+        <p>Članak je dio bilješki na <a href="/">zrina.app</a> — portfolio osobnih projekata, aplikacija i besplatnih alata.</p>
+        <a class="btn ghost" href="/blog/">Pogledaj ostale članke</a>
+      </footer>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 zrina.app · Autorski projekti Vedrana Zrinskog.</span><a href="/#kontakt">Kontakt</a></footer>
+</body>
+</html>

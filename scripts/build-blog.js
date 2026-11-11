@@ -6,6 +6,39 @@ const root = path.resolve(__dirname, "..");
 const site = "https://zrina.app";
 const posts = [
   {
+    slug: "kako-sam-izgradio-aplikaciju-za-praonicu",
+    title: "Kako sam izgradio aplikaciju za praćenje vozila u praonici",
+    description: "Od radnog procesa do aplikacije: sinkronizacija vozila, uloge, čitanje podataka kamerom i ono što sam naučio o radu bez veze.",
+    date: "2026-11-11",
+    dateLabel: "11. studenoga 2026.",
+    category: "Iza aplikacije",
+    accent: "#40d9d0",
+    icon: "carwash/carwash-logo.png",
+    imageAlt: "carwash.app — aplikacija za praćenje tijeka vozila u praonici",
+    facebook: "Kako povezati status vozila, lokaciju i ključeve u jedan pregled? Pišem o nastanku aplikacije za praonicu i tehničkim odlukama iza nje. https://zrina.app/blog/kako-sam-izgradio-aplikaciju-za-praonicu/",
+    body: `
+      <p class="article-lead">Kad više ljudi sudjeluje u prijemu, pranju i predaji vozila, jednostavno pitanje „Gdje je auto i tko ima ključ?” može oduzeti više vremena nego što bi trebalo. Aplikaciju za praonicu počeo sam razvijati upravo oko tog svakodnevnog problema.</p>
+      <p>Cilj nije bio napraviti još jednu tablicu za popunjavanje, nego omogućiti timu da na jednom mjestu vidi što čeka, što je u tijeku i što je spremno za sljedeći korak. Izvorna verzija nastala je uz Google Apps Script i Google Sheets te je isprobana u stvarnom radnom procesu. Ovdje opisujem pristup bez podataka o korisnicima ili organizaciji.</p>
+      <h2>Jedan zapis, različiti poslovi</h2>
+      <p>Vozilo prolazi kroz nekoliko koraka, a različitim ljudima trebaju različite informacije. Nekome je važan prijem, drugome redoslijed pranja, parkirno mjesto ili ključ. Zato su prikazi i dostupne radnje prilagođeni radnoj ulozi, dok svi rade nad zajedničkim zapisima.</p>
+      <p>Najvažnije pitanje u dizajnu nije bilo koliko podataka možemo prikazati, nego može li osoba brzo pronaći ono što joj treba usred smjene. Status, lokacija i ključ zato imaju konkretno mjesto u tijeku rada, umjesto da ostanu samo u usmenoj predaji.</p>
+      <h2>Kako se promjene pojavljuju na drugim ekranima?</h2>
+      <p>U izvornoj izvedbi Google Sheets služi kao zajedničko spremište, a Apps Script obrađuje zahtjeve klijenata. Nakon izmjena ažurira se oznaka verzije; otvoreni ekran periodički provjerava postoje li noviji podaci i po potrebi osvježava popis.</p>
+      <p>To je <em>polling</em>, a ne trenutačna push veza: u pregledanom kodu provjera se pokreće približno svake tri sekunde, uz dodatno vrijeme mreže i obrade. Lokalna kopija može ubrzati početni prikaz, ali ne zamjenjuje svježi odgovor poslužitelja. Ovaj način ne dokazuje da nikad neće doći do zastoja ili sukoba izmjena.</p>
+      <h2>Bez signala: važna razlika između prikaza i spremanja</h2>
+      <p>Zadnje poznate podatke korisno je vidjeti i kada veza oslabi. No prikaz spremljenog stanja nije isto što i pouzdano spremanje novih radnji bez interneta. U pregledanoj verziji klijent pri prekidu veze onemogućuje određene akcije; nisam potvrdio postojanje trajnog reda izmjena koji bi ih kasnije automatski poslao.</p>
+      <p>To je za mene važna lekcija: offline mogućnost treba opisati i testirati po pojedinoj radnji, a ne obećavati je samo zato što je aplikacija dostupna na mobitelu.</p>
+      <h2>Uloge nisu zamjena za sigurnu prijavu</h2>
+      <p>Izvorna verzija koristi identifikator pohranjen u pregledniku i postupak odobravanja korisnika i dodjele uloge. To olakšava organizaciju prikaza, ali identifikator preglednika sam po sebi nije pouzdana potvrda identiteta. Kod nove izvedbe takav pristup treba zamijeniti odgovarajućom autentifikacijom i provjerama ovlasti na poslužitelju.</p>
+      <h2>Kamera i provjera prije potvrde</h2>
+      <p>U originalnom Android okruženju fotografija se obrađuje prepoznavanjem teksta, a rezultat se dodatno prilagođava pravilima za podatke o vozilu. Prepoznavanje može pogriješiti — zato je rezultat pomoć pri unosu, ne zamjena za provjeru osobe koja radi s vozilom.</p>
+      <h2>Tri izvedbe, jedan problem</h2>
+      <p>Od izvorne verzije nastala je i zasebna web-izvedba s drukčijim poslužiteljem i bazom, a kasnije eksperimentalna PWA verzija razvijena uz AI Studio. To nisu iste implementacije i ne treba pretpostaviti da svaka funkcija originala radi jednako u novijim verzijama.</p>
+      <aside class="article-note"><strong>Što nosim dalje:</strong> razumjeti posao prije odabira tehnologije, provjeriti ponašanje u stvarnim uvjetima i jasno reći gdje su granice rješenja.</aside>
+      <p>Više o tijeku rada i originalnoj arhitekturi nalazi se na <a href="/carwash/">stranici projekta carwash.app</a>.</p>
+    `
+  },
+  {
     slug: "obiteljski-recepti-sacuvati-price",
     title: "Obiteljski recept nije samo popis sastojaka",
     description: "Kako sačuvati obiteljske recepte zajedno s rukopisom, pričom i malim detaljima koji se ne mogu izmjeriti žlicom.",
