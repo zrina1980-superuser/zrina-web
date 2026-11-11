@@ -168,8 +168,14 @@ dialog p { color: var(--muted); font-size: .92rem; }
 
 @media (max-width: 800px) {
   .about-grid { grid-template-columns: 1fr; }
-  .nav a:not(.nav-cta):not(.lang-link):not([href*="radovi"]) { display: none; }
-  .topbar { padding: 10px 16px; }
+  .nav a:not(.nav-work):not(.nav-blog):not(.nav-cta):not(.lang-link) { display: none; }
+  .topbar { padding: 10px 12px; gap: 8px; }
+  .brand { gap: 6px; font-size: 1rem; white-space: nowrap; }
+  .brand img { width: 28px; height: 28px; }
+  .nav { gap: 6px; flex-wrap: nowrap; }
+  .nav a { font-size: .82rem; white-space: nowrap; }
+  .nav .nav-cta { padding: 5px 8px; }
+  .nav .lang-link { padding: 3px 6px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

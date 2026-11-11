@@ -108,7 +108,7 @@ function header(blogIndex = false) {
   return `<header class="topbar">
     <a class="brand" href="/"><img src="/assets/brand/zrinaapp_min.png" alt="" width="32" height="32"><span>zrina<b>.app</b></span></a>
     <nav class="nav" aria-label="Glavna navigacija">
-      <a href="/#radovi">Radovi</a><a href="/#o-meni">O meni</a><a href="${blogHref}" aria-current="page">Blog</a>
+      <a class="nav-work" href="/#radovi">Radovi</a><a href="/#o-meni">O meni</a><a class="nav-blog" href="${blogHref}" aria-current="page">Blog</a>
       <a href="/#alati">Alati</a><a href="/predlozi/">Predloži aplikaciju</a><a class="nav-cta" href="/#kontakt">Kontakt</a>
     </nav>
   </header>`;

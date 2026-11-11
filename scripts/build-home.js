@@ -250,10 +250,10 @@ function topbar(c, prefix, homeHref, suggestHref, altHref) {
   return `<header class="topbar">
     <a class="brand" href="${homeHref}"><img src="${prefix}assets/brand/zrinaapp_min.png" alt="" width="32" height="32"><span>zrina<b>.app</b></span></a>
     <nav class="nav" aria-label="${c.lang === "hr" ? "Glavna navigacija" : "Main navigation"}">
-      <a href="${homeHref}#radovi">${c.nav.work}</a>
+      <a class="nav-work" href="${homeHref}#radovi">${c.nav.work}</a>
       <a href="${homeHref}#o-meni">${c.nav.about}</a>
       <a href="${homeHref}#alati">${c.nav.tools}</a>
-      <a href="${prefix}blog/">${c.nav.blog}</a>
+      <a class="nav-blog" href="${prefix}blog/">${c.nav.blog}</a>
       <a href="${suggestHref}">${c.nav.suggest}</a>
       <a class="nav-cta" href="${homeHref}#kontakt">${c.nav.contact}</a>
       <a class="lang-link" href="${altHref}" hreflang="${c.lang === "hr" ? "en" : "hr"}" title="${c.altLang.title}">${c.altLang.label}</a>
