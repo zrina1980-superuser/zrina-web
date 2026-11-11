@@ -15,8 +15,14 @@ test("carwash article is published with neutral text and a project link", () => 
   assert.match(post.body, /oko 15\.000 koraka/);
   assert.match(post.body, /nemam usporedivo mjerenje/i);
   assert.match(post.body, /deset A4 listova dnevno/);
-  assert.match(post.body, /nisu doslovno preuzeti produkcijski kod/);
-  assert.match(post.body, /<pre><code>/);
+  assert.match(post.body, /samoinicijativno/);
+  assert.match(post.body, /danas se ondje više ne koristi/i);
+  assert.match(post.body, /pomoć AI alata/);
+  assert.match(post.body, /function pokreniSmartSync\(\)/);
+  assert.match(post.body, /setInterval\(osvjeziRadionicu, 3000\)/);
+  assert.match(post.body, /cache\.put\('db_verzija', Date\.now\(\)\.toString\(\), 21600\)/);
+  assert.match(post.body, /if \(isValidVINChecksum\(popravljeno\)\) score \+= 100/);
+  assert.match(post.body, /pojednostavljeni pseudokod/);
   const project = fs.readFileSync(path.join(root, "carwash", "index.html"), "utf8");
   assert.match(project, /href="\.\.\/blog\/kako-sam-izgradio-aplikaciju-za-praonicu\/"/);
   assert.doesNotMatch(project, /efac|emil[\s-]*frey/i);
