@@ -26,13 +26,14 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"zrina.app","url":"https://zrina.app/","inLanguage":"en"},{"@type":"Person","name":"Vedran Zrinski","url":"https://zrina.app/","sameAs":["https://www.linkedin.com/in/vedran-zrinski","https://github.com/zrina1980-superuser"],"jobTitle":"Developer, AI builder, app designer","knowsAbout":["React","TypeScript","Progressive Web Apps","Firebase","AI-assisted development","UX design"]}]}</script>
   <link rel="icon" type="image/png" sizes="96x96" href="../assets/brand/zrinaapp_min.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/brand/zrinaapp_new.png">
-  <link rel="stylesheet" href="../site.css">
+  <link rel="stylesheet" href="../site.css?v=5fb8de16b75c">
+  <script src="../navigation.js?v=350f57937047" defer></script>
   <script>try{localStorage.setItem("zrina_lang","en")}catch(e){}</script>
 </head>
 <body>
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
   <a class="skip" href="#main">Skip to content</a>
-  <header class="topbar">
+  <header class="topbar has-mobile-menu">
     <a class="brand" href="./"><img src="../assets/brand/zrinaapp_min.png" alt="" width="32" height="32"><span>zrina<b>.app</b></span></a>
     <nav class="nav" aria-label="Main navigation">
       <a class="nav-work" href="./#radovi">Work</a>
@@ -43,6 +44,21 @@
       <a class="nav-cta" href="./#kontakt">Contact</a>
       <a class="lang-link" href="../" hreflang="hr" title="Hrvatska verzija">HR</a>
     </nav>
+    <div class="mobile-nav">
+      <a class="mobile-contact" href="./#kontakt">Contact</a>
+      <details class="mobile-menu">
+        <summary>Menu <span aria-hidden="true">☰</span></summary>
+        <nav class="mobile-menu-panel" aria-label="Mobile navigation">
+          <a href="./#radovi">Work</a>
+          <a href="./#o-meni">About</a>
+          <a href="./#alati">Tools</a>
+          <a href="../blog/">Blog (HR)</a>
+          <a href="suggest/">Suggest an app</a>
+          <a href="./#kontakt">Contact</a>
+          <a href="../" hreflang="hr">Hrvatska verzija <span aria-hidden="true">↗</span></a>
+        </nav>
+      </details>
+    </div>
   </header>
   <main id="main">
     <section class="hero">

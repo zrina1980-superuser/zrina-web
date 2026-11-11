@@ -8,6 +8,8 @@
 
 Run `npm run optimize:images` after adding large PNG/JPG screenshots. Carwash, Tirehotel and Alatnica keep hand-authored pages.
 
+The homepage, suggestion and blog headers share a mobile menu with a direct contact link. Their generated stylesheet and navigation script URLs use content hashes, so a rebuild publishes new URLs when these assets change. Blog articles link to the English portfolio because the blog itself is in Croatian. Run `node --test tests/navigation.test.cjs` after building to check menu behavior and asset versions.
+
 ## Suggest-an-app form
 
 `functions/api/suggest.js` sends form submissions by email through Resend. Set these environment variables (Cloudflare Pages > Settings > Variables and Secrets): `RESEND_API_KEY` (secret), `SUGGEST_TO` (destination mailbox) and `SUGGEST_FROM` (a sender on a domain verified in Resend, e.g. `zrina.app <noreply@zrina.app>`). Without them the function returns 503 and the page falls back to a pre-filled `mailto:`.

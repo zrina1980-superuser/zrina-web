@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const assetVersion = require("./site-assets");
 
 const root = path.resolve(__dirname, "..");
 const site = "https://zrina.app";
@@ -105,12 +106,27 @@ const esc = (value) => String(value).replace(/[&<>"']/g, (c) => ({
 
 function header(blogIndex = false) {
   const blogHref = blogIndex ? "./" : "/blog/";
-  return `<header class="topbar">
+  return `<header class="topbar has-mobile-menu">
     <a class="brand" href="/"><img src="/assets/brand/zrinaapp_min.png" alt="" width="32" height="32"><span>zrina<b>.app</b></span></a>
     <nav class="nav" aria-label="Glavna navigacija">
       <a class="nav-work" href="/#radovi">Radovi</a><a href="/#o-meni">O meni</a><a class="nav-blog" href="${blogHref}" aria-current="page">Blog</a>
       <a href="/#alati">Alati</a><a href="/predlozi/">Predloži aplikaciju</a><a class="nav-cta" href="/#kontakt">Kontakt</a>
     </nav>
+    <div class="mobile-nav">
+      <a class="mobile-contact" href="/#kontakt">Kontakt</a>
+      <details class="mobile-menu">
+        <summary>Izbornik <span aria-hidden="true">☰</span></summary>
+        <nav class="mobile-menu-panel" aria-label="Mobilna navigacija">
+          <a href="/#radovi">Radovi</a>
+          <a href="/#o-meni">O meni</a>
+          <a href="/#alati">Alati</a>
+          <a href="${blogHref}" aria-current="page">Blog</a>
+          <a href="/predlozi/">Predloži aplikaciju</a>
+          <a href="/#kontakt">Kontakt</a>
+          <a href="/en/" hreflang="en">English version <span aria-hidden="true">↗</span></a>
+        </nav>
+      </details>
+    </div>
   </header>`;
 }
 
@@ -154,7 +170,8 @@ function head(title, description, canonical, image, type = "website", jsonLd = n
   <meta name="twitter:image" content="${image}">
   <meta name="theme-color" content="#050811">
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/brand/zrinaapp_min.png">
-  <link rel="stylesheet" href="/site.css">
+  <link rel="stylesheet" href="/site.css?v=${assetVersion("site.css")}">
+  <script src="/navigation.js?v=${assetVersion("navigation.js")}" defer></script>
   <link rel="stylesheet" href="/blog.css">
 ${jsonLd ? `  <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>\n` : ""}</head>`;
 }

@@ -26,13 +26,14 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"zrina.app","url":"https://zrina.app/","inLanguage":"hr"},{"@type":"Person","name":"Vedran Zrinski","url":"https://zrina.app/","sameAs":["https://www.linkedin.com/in/vedran-zrinski","https://github.com/zrina1980-superuser"],"jobTitle":"Developer, AI graditelj, dizajner aplikacija","knowsAbout":["React","TypeScript","Progressive Web Apps","Firebase","AI-assisted development","UX design"]}]}</script>
   <link rel="icon" type="image/png" sizes="96x96" href="assets/brand/zrinaapp_min.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/brand/zrinaapp_new.png">
-  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="site.css?v=5fb8de16b75c">
+  <script src="navigation.js?v=350f57937047" defer></script>
   <script>try{localStorage.setItem("zrina_lang","hr")}catch(e){}</script>
 </head>
 <body>
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
   <a class="skip" href="#main">Preskoči na sadržaj</a>
-  <header class="topbar">
+  <header class="topbar has-mobile-menu">
     <a class="brand" href="./"><img src="assets/brand/zrinaapp_min.png" alt="" width="32" height="32"><span>zrina<b>.app</b></span></a>
     <nav class="nav" aria-label="Glavna navigacija">
       <a class="nav-work" href="./#radovi">Radovi</a>
@@ -43,6 +44,21 @@
       <a class="nav-cta" href="./#kontakt">Kontakt</a>
       <a class="lang-link" href="en/" hreflang="en" title="English version">EN</a>
     </nav>
+    <div class="mobile-nav">
+      <a class="mobile-contact" href="./#kontakt">Kontakt</a>
+      <details class="mobile-menu">
+        <summary>Izbornik <span aria-hidden="true">☰</span></summary>
+        <nav class="mobile-menu-panel" aria-label="Mobilna navigacija">
+          <a href="./#radovi">Radovi</a>
+          <a href="./#o-meni">O meni</a>
+          <a href="./#alati">Alati</a>
+          <a href="blog/">Blog</a>
+          <a href="predlozi/">Predloži aplikaciju</a>
+          <a href="./#kontakt">Kontakt</a>
+          <a href="en/" hreflang="en">English version <span aria-hidden="true">↗</span></a>
+        </nav>
+      </details>
+    </div>
   </header>
   <main id="main">
     <section class="hero">

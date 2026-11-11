@@ -1,6 +1,7 @@
 // Generates the bilingual portfolio homepage (/ and /en/) and the "suggest an app" pages (/predlozi/ and /en/suggest/).
 const fs = require("node:fs");
 const path = require("node:path");
+const assetVersion = require("./site-assets");
 
 const root = path.resolve(__dirname, "..");
 const SITE = "https://zrina.app";
@@ -241,13 +242,14 @@ ${alternates.map(([hl, href]) => `  <link rel="alternate" hreflang="${hl}" href=
   <meta name="google-adsense-account" content="ca-pub-8194219427036085">
 ${jsonLd ? `  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>\n` : ""}  <link rel="icon" type="image/png" sizes="96x96" href="${prefix}assets/brand/zrinaapp_min.png">
   <link rel="apple-touch-icon" sizes="180x180" href="${prefix}assets/brand/zrinaapp_new.png">
-  <link rel="stylesheet" href="${prefix}site.css">
+  <link rel="stylesheet" href="${prefix}site.css?v=${assetVersion("site.css")}">
+  <script src="${prefix}navigation.js?v=${assetVersion("navigation.js")}" defer></script>
   <script>try{localStorage.setItem("zrina_lang","${c.lang}")}catch(e){}</script>
 </head>`;
 }
 
 function topbar(c, prefix, homeHref, suggestHref, altHref) {
-  return `<header class="topbar">
+  return `<header class="topbar has-mobile-menu">
     <a class="brand" href="${homeHref}"><img src="${prefix}assets/brand/zrinaapp_min.png" alt="" width="32" height="32"><span>zrina<b>.app</b></span></a>
     <nav class="nav" aria-label="${c.lang === "hr" ? "Glavna navigacija" : "Main navigation"}">
       <a class="nav-work" href="${homeHref}#radovi">${c.nav.work}</a>
@@ -258,6 +260,21 @@ function topbar(c, prefix, homeHref, suggestHref, altHref) {
       <a class="nav-cta" href="${homeHref}#kontakt">${c.nav.contact}</a>
       <a class="lang-link" href="${altHref}" hreflang="${c.lang === "hr" ? "en" : "hr"}" title="${c.altLang.title}">${c.altLang.label}</a>
     </nav>
+    <div class="mobile-nav">
+      <a class="mobile-contact" href="${homeHref}#kontakt">${c.nav.contact}</a>
+      <details class="mobile-menu">
+        <summary>${c.lang === "hr" ? "Izbornik" : "Menu"} <span aria-hidden="true">☰</span></summary>
+        <nav class="mobile-menu-panel" aria-label="${c.lang === "hr" ? "Mobilna navigacija" : "Mobile navigation"}">
+          <a href="${homeHref}#radovi">${c.nav.work}</a>
+          <a href="${homeHref}#o-meni">${c.nav.about}</a>
+          <a href="${homeHref}#alati">${c.nav.tools}</a>
+          <a href="${prefix}blog/">${c.nav.blog}</a>
+          <a href="${suggestHref}">${c.nav.suggest}</a>
+          <a href="${homeHref}#kontakt">${c.nav.contact}</a>
+          <a href="${altHref}" hreflang="${c.lang === "hr" ? "en" : "hr"}">${c.altLang.title} <span aria-hidden="true">↗</span></a>
+        </nav>
+      </details>
+    </div>
   </header>`;
 }
 
