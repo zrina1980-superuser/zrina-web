@@ -253,6 +253,7 @@
         image.decoding = "async";
         const thumbnail = document.createElement("span");
         thumbnail.className = "video-card-image";
+        thumbnail.setAttribute("aria-hidden", "true");
         thumbnail.append(image);
         const details = document.createElement("div");
         details.className = "video-card-details";
