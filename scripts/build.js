@@ -57,6 +57,22 @@ function validateProject(project) {
       throw new Error(`Project "${project.id}" references a missing or out-of-root asset: ${asset}`);
     }
   }
+  if (project.videos !== undefined) {
+    if (!Array.isArray(project.videos) || !project.videos.length) {
+      throw new Error(`Project "${project.id}" has an invalid video list.`);
+    }
+    const videoIds = new Set();
+    for (const video of project.videos) {
+      if (!video || typeof video.id !== "string" || !/^[A-Za-z0-9_-]{11}$/.test(video.id) ||
+          videoIds.has(video.id) || !["video", "short"].includes(video.kind) ||
+          typeof video.title?.hr !== "string" || !video.title.hr.trim() ||
+          typeof video.title?.en !== "string" || !video.title.en.trim() ||
+          !fs.existsSync(path.join(root, "assets", "portfolio", "video-thumbnails", `${video.id}.webp`))) {
+        throw new Error(`Project "${project.id}" has invalid video data or a missing thumbnail: ${video?.id}`);
+      }
+      videoIds.add(video.id);
+    }
+  }
 }
 
 projects.forEach(validateProject);

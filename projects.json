@@ -451,6 +451,23 @@
       "kind": "cover",
       "aspectRatio": "1200 / 630"
     },
+    "videos": [
+      {
+        "id": "6Sa-3Wy_1m4",
+        "kind": "video",
+        "title": { "hr": "Upoznaj Gljivobook", "en": "Meet Gljivobook" }
+      },
+      {
+        "id": "i6ouszfEcgM",
+        "kind": "short",
+        "title": { "hr": "Gljivobook u šumi", "en": "Gljivobook in the forest" }
+      },
+      {
+        "id": "24lEeqiumMI",
+        "kind": "short",
+        "title": { "hr": "Terenski vodič za gljive u džepu", "en": "A mushroom field guide in your pocket" }
+      }
+    ],
     "projectPage": {
       "title": {
         "hr": "Terenski vodič, dnevnik i lokalni determinator.",
@@ -784,6 +801,18 @@
       "kind": "screenshot",
       "aspectRatio": "1365 / 768"
     },
+    "videos": [
+      {
+        "id": "vRQWAitjkl4",
+        "kind": "video",
+        "title": { "hr": "Letovi, flota i servis na jednom mjestu", "en": "Flights, fleet and maintenance in one place" }
+      },
+      {
+        "id": "bK0m52f0DQA",
+        "kind": "short",
+        "title": { "hr": "DroneLogbook u kratkom prikazu", "en": "DroneLogbook at a glance" }
+      }
+    ],
     "projectPage": {
       "title": {
         "hr": "Sve za let — od pripreme do dnevnika.",
@@ -1107,6 +1136,18 @@
       "kind": "cover",
       "aspectRatio": "1200 / 630"
     },
+    "videos": [
+      {
+        "id": "uDqoAXDIoUY",
+        "kind": "video",
+        "title": { "hr": "Sačuvaj obiteljske recepte i uspomene", "en": "Preserve family recipes and memories" }
+      },
+      {
+        "id": "lukhTNnAr7Y",
+        "kind": "short",
+        "title": { "hr": "Bakini i mamini recepti u Maminoj Teki", "en": "Grandma's and Mum's recipes in Mamina Teka" }
+      }
+    ],
     "caseStudy": {
       "role": {
         "hr": "Uloga: ideja, dizajn, razvoj i testiranje — samostalno, uz AI alate kao asistenta. Projekt je nastao za moju obitelj.",

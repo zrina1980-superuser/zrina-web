@@ -4,6 +4,8 @@
 
 `projects.json` is the single source for portfolio cards and the generic project pages. Each entry may have a `projectPage` (technical overview) and a `caseStudy` (role, facts, problem, solution, decisions, learned, optional gallery; all in `hr` and `en`). Entries with `featuredRank` appear as flagship projects.
 
+Project entries may also list YouTube `videos` with an ID, kind (`video` or `short`) and HR/EN titles. Their optimised thumbnails are stored locally in `assets/portfolio/video-thumbnails/`; links open YouTube only when selected. The build validates the IDs, titles and thumbnail files.
+
 `npm run build` does three things: validates `projects.json` and its assets, embeds each project's data into its page and generates the bilingual homepage (`/` and `/en/`) and the suggest pages (`/predlozi/`, `/en/suggest/`) from `scripts/build-home.js` (all homepage copy lives there), and finally copies only publishable files into `dist/` (`scripts/build-dist.js`) so developer files are never served. Homepage styles and scripts: `site.css`, `site.js`; project pages: `project-page.css/js`.
 
 Run `npm run optimize:images` after adding large PNG/JPG screenshots. Carwash, Tirehotel and Alatnica keep hand-authored pages.

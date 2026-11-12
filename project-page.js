@@ -12,7 +12,11 @@
       architectureLabel: "04 / ARHITEKTURA",
       kicker: "Autorski projekt · Tehnički pregled",
       openApp: "Pokreni aplikaciju",
-      videoDemo: "Kratki video prikaz",
+      videos: "Videozapisi",
+      videosIntro: "Pogledaj aplikaciju na djelu. Videozapisi se otvaraju na YouTubeu.",
+      video: "Video prikaz",
+      short: "YouTube Shorts",
+      watchOnYouTube: "Pogledaj na YouTubeu",
       overview: "O projektu",
       workflow: "Kako se aplikacija koristi",
       workflowIntro: "Od početnog unosa do pregleda rezultata, korak po korak.",
@@ -48,7 +52,11 @@
       architectureLabel: "04 / ARCHITECTURE",
       kicker: "Independent project · Technical overview",
       openApp: "Launch app",
-      videoDemo: "Watch the short demo",
+      videos: "Videos",
+      videosIntro: "See the app in action. Videos open on YouTube.",
+      video: "Video overview",
+      short: "YouTube Shorts",
+      watchOnYouTube: "Watch on YouTube",
       overview: "About the project",
       workflow: "How the application is used",
       workflowIntro: "From the first input to reviewing the result, step by step.",
@@ -99,7 +107,8 @@
         icon: `../${record.icon}`,
         tech: record.projectPage.tech,
         accent: record.accent,
-        caseStudy: record.caseStudy
+        caseStudy: record.caseStudy,
+        videos: record.videos
       };
     } catch (error) {
       console.error("Could not load project data.", error);
@@ -195,6 +204,71 @@
         if (link.getAttribute("href").startsWith("../")) link.href = lang === "en" ? "../en/" : "../";
       });
       renderCaseStudy(lang, labels);
+      renderVideos(lang, labels);
+    }
+
+    function renderVideos(lang, labels) {
+      if (!project.videos?.length) return;
+      let section = document.getElementById("project-videos");
+      if (!section) {
+        section = document.createElement("section");
+        section.id = "project-videos";
+        section.className = "page-section video-section";
+        section.setAttribute("aria-labelledby", "project-videos-title");
+        (document.getElementById("case-study") || document.querySelector(".page-hero"))
+          .insertAdjacentElement("afterend", section);
+        const jump = document.createElement("a");
+        jump.href = "#project-videos";
+        jump.className = "page-button secondary";
+        jump.id = "project-videos-link";
+        document.getElementById("project-app-link").insertAdjacentElement("afterend", jump);
+      }
+      document.getElementById("project-videos-link").textContent = labels.videos;
+      section.replaceChildren();
+      const heading = document.createElement("div");
+      heading.className = "page-section-head";
+      const title = document.createElement("h2");
+      title.id = "project-videos-title";
+      title.textContent = labels.videos;
+      const intro = document.createElement("p");
+      intro.textContent = labels.videosIntro;
+      heading.append(title, intro);
+      section.append(heading);
+      const grid = document.createElement("div");
+      grid.className = "video-grid";
+      for (const video of project.videos) {
+        const link = document.createElement("a");
+        link.className = "video-card";
+        link.href = video.kind === "short"
+          ? `https://www.youtube.com/shorts/${video.id}`
+          : `https://www.youtube.com/watch?v=${video.id}`;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        const image = document.createElement("img");
+        image.src = `../assets/portfolio/video-thumbnails/${video.id}.webp`;
+        image.alt = "";
+        image.width = 800;
+        image.height = 450;
+        image.loading = "lazy";
+        image.decoding = "async";
+        const thumbnail = document.createElement("span");
+        thumbnail.className = "video-card-image";
+        thumbnail.append(image);
+        const details = document.createElement("div");
+        details.className = "video-card-details";
+        const kind = document.createElement("span");
+        kind.className = "video-card-kind";
+        kind.textContent = labels[video.kind];
+        const name = document.createElement("strong");
+        name.textContent = video.title[lang];
+        const watch = document.createElement("span");
+        watch.className = "video-card-watch";
+        watch.textContent = `${labels.watchOnYouTube} ↗`;
+        details.append(kind, name, watch);
+        link.append(thumbnail, details);
+        grid.append(link);
+      }
+      section.append(grid);
     }
 
     function renderCaseStudy(lang, labels) {

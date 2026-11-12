@@ -339,6 +339,76 @@ button:focus-visible {
   font-size: .9rem;
 }
 
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+  gap: 16px;
+}
+
+.video-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--page-line);
+  border-radius: 16px;
+  background: var(--page-panel);
+  text-decoration: none;
+}
+
+.video-card:hover {
+  border-color: var(--page-accent);
+}
+
+.video-card-image {
+  position: relative;
+  display: block;
+}
+
+.video-card-image::after {
+  content: "▶";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding-left: 3px;
+  border: 1px solid rgba(255, 255, 255, .6);
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(0, 0, 0, .68);
+  transform: translate(-50%, -50%);
+}
+
+.video-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.video-card-details {
+  display: grid;
+  gap: 5px;
+  padding: 16px 18px 18px;
+}
+
+.video-card-kind {
+  color: var(--page-accent);
+  font-size: .76rem;
+  font-weight: 700;
+}
+
+.video-card-details strong {
+  line-height: 1.35;
+}
+
+.video-card-watch {
+  color: var(--page-muted);
+  font-size: .83rem;
+}
+
 .overview-copy {
   max-width: 850px;
   color: #c1ccda;
