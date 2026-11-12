@@ -1,6 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const assetVersion = require("./site-assets");
+const englishPosts = require("./blog-english");
 
 const root = path.resolve(__dirname, "..");
 const site = "https://zrina.app";
@@ -195,26 +196,32 @@ const esc = (value) => String(value).replace(/[&<>"']/g, (c) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
 })[c]);
 
-function header(blogIndex = false) {
-  const blogHref = blogIndex ? "./" : "/blog/";
+function header(language = "hr") {
+  const en = language === "en";
+  const blogHref = en ? "/en/blog/" : "/blog/";
+  const home = en ? "/en/" : "/";
+  const work = "radovi";
+  const about = "o-meni";
+  const tools = "alati";
+  const contact = "kontakt";
+  const suggest = en ? "/en/suggest/" : "/predlozi/";
   return `<header class="topbar has-mobile-menu">
-    <a class="brand" href="/"><img src="/assets/brand/zrinaapp_min.png" alt="" width="32" height="32"><span>zrina<b>.app</b></span></a>
-    <nav class="nav" aria-label="Glavna navigacija">
-      <a class="nav-work" href="/#radovi">Radovi</a><a href="/#o-meni">O meni</a><a class="nav-blog" href="${blogHref}" aria-current="page">Blog</a>
-      <a href="/#alati">Alati</a><a href="/predlozi/">Predloži aplikaciju</a><a class="nav-cta" href="/#kontakt">Kontakt</a>
+    <a class="brand" href="${home}"><img src="/assets/brand/zrinaapp_min.png" alt="" width="32" height="32"><span>zrina<b>.app</b></span></a>
+    <nav class="nav" aria-label="${en ? "Main navigation" : "Glavna navigacija"}">
+      <a class="nav-work" href="${home}#${work}">${en ? "Work" : "Radovi"}</a><a href="${home}#${about}">${en ? "About" : "O meni"}</a><a class="nav-blog" href="${blogHref}" aria-current="page">Blog</a>
+      <a href="${home}#${tools}">${en ? "Tools" : "Alati"}</a><a href="${suggest}">${en ? "Suggest an app" : "Predloži aplikaciju"}</a><a class="nav-cta" href="${home}#${contact}">${en ? "Contact" : "Kontakt"}</a>
     </nav>
     <div class="mobile-nav">
-      <a class="mobile-contact" href="/#kontakt">Kontakt</a>
+      <a class="mobile-contact" href="${home}#${contact}">${en ? "Contact" : "Kontakt"}</a>
       <details class="mobile-menu">
-        <summary>Izbornik <span aria-hidden="true">☰</span></summary>
-        <nav class="mobile-menu-panel" aria-label="Mobilna navigacija">
-          <a href="/#radovi">Radovi</a>
-          <a href="/#o-meni">O meni</a>
-          <a href="/#alati">Alati</a>
+        <summary>${en ? "Menu" : "Izbornik"} <span aria-hidden="true">☰</span></summary>
+        <nav class="mobile-menu-panel" aria-label="${en ? "Mobile navigation" : "Mobilna navigacija"}">
+          <a href="${home}#${work}">${en ? "Work" : "Radovi"}</a>
+          <a href="${home}#${about}">${en ? "About" : "O meni"}</a>
+          <a href="${home}#${tools}">${en ? "Tools" : "Alati"}</a>
           <a href="${blogHref}" aria-current="page">Blog</a>
-          <a href="/predlozi/">Predloži aplikaciju</a>
-          <a href="/#kontakt">Kontakt</a>
-          <a href="/en/" hreflang="en">English version <span aria-hidden="true">↗</span></a>
+          <a href="${suggest}">${en ? "Suggest an app" : "Predloži aplikaciju"}</a>
+          <a href="${home}#${contact}">${en ? "Contact" : "Kontakt"}</a>
         </nav>
       </details>
     </div>
@@ -237,15 +244,37 @@ function getPublishedPosts(now = new Date()) {
   return posts.filter((post) => post.date <= today);
 }
 
-function head(title, description, canonical, image, type = "website", jsonLd = null) {
+function postForLanguage(post, language) {
+  if (language === "hr") return post;
+  const translation = englishPosts[post.slug];
+  if (!translation) throw new Error(`Missing English translation for ${post.slug}`);
+  return {
+    ...post,
+    ...translation,
+    dateLabel: new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })
+      .format(new Date(`${post.date}T12:00:00Z`))
+  };
+}
+
+function languageLinks(hrPath, enPath, language) {
+  return `<nav class="blog-languages" aria-label="${language === "en" ? "Language" : "Jezik"}">
+    <a href="${hrPath}" hreflang="hr" lang="hr" aria-label="Hrvatski"${language === "hr" ? ' aria-current="page"' : ""}>HR</a>
+    <a href="${enPath}" hreflang="en" lang="en" aria-label="English"${language === "en" ? ' aria-current="page"' : ""}>EN</a>
+  </nav>`;
+}
+
+function head(title, description, canonical, image, imageAlt, hrPath, enPath, language, type = "website", jsonLd = null) {
   return `<!DOCTYPE html>
-<html lang="hr">
+<html lang="${language}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(title)} | zrina.app</title>
   <meta name="description" content="${esc(description)}">
   <link rel="canonical" href="${canonical}">
+  <link rel="alternate" hreflang="hr" href="${site}${hrPath}">
+  <link rel="alternate" hreflang="en" href="${site}${enPath}">
+  <link rel="alternate" hreflang="x-default" href="${site}${hrPath}">
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:type" content="${type}">
@@ -253,8 +282,8 @@ function head(title, description, canonical, image, type = "website", jsonLd = n
   <meta property="og:image" content="${image}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="${esc(posts.find((post) => image.endsWith(`${post.slug}.png`))?.imageAlt || "zrina.app — bilješke o aplikacijama, alatima i idejama")}">
-  <meta property="og:locale" content="hr_HR">
+  <meta property="og:image:alt" content="${esc(imageAlt)}">
+  <meta property="og:locale" content="${language === "en" ? "en_GB" : "hr_HR"}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(description)}">
@@ -264,20 +293,28 @@ function head(title, description, canonical, image, type = "website", jsonLd = n
   <link rel="stylesheet" href="/site.css?v=${assetVersion("site.css")}">
   <script src="/navigation.js?v=${assetVersion("navigation.js")}" defer></script>
   <link rel="stylesheet" href="/blog.css?v=${assetVersion("blog.css")}">
+  <script>try { localStorage.setItem("zrina_lang", "${language}"); } catch (error) { console.warn("Could not save the language preference.", error); }</script>
 ${jsonLd ? `  <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>\n` : ""}</head>`;
 }
 
-function postCard(post) {
+function postCard(post, language = "hr") {
+  const en = language === "en";
+  const href = `${en ? "/en/blog/" : "/blog/"}${post.slug}/`;
   return `<article class="blog-card">
     <p class="blog-meta">${esc(post.category)} <span aria-hidden="true">·</span> <time datetime="${post.date}">${post.dateLabel}</time></p>
-    <h2><a href="/blog/${post.slug}/">${esc(post.title)}</a></h2>
+    <h2><a href="${href}">${esc(post.title)}</a></h2>
     <p>${esc(post.description)}</p>
-    <a class="blog-read" href="/blog/${post.slug}/">Pročitaj članak <span aria-hidden="true">→</span></a>
+    <a class="blog-read" href="${href}">${en ? "Read the article" : "Pročitaj članak"} <span aria-hidden="true">→</span></a>
   </article>`;
 }
 
-function article(post) {
-  const url = `${site}/blog/${post.slug}/`;
+function article(original, language = "hr") {
+  const post = postForLanguage(original, language);
+  const en = language === "en";
+  const hrPath = `/blog/${original.slug}/`;
+  const enPath = `/en/blog/${postForLanguage(original, "en").slug}/`;
+  const blogPath = en ? "/en/blog/" : "/blog/";
+  const url = `${site}${en ? enPath : hrPath}`;
   const image = `${site}/assets/share-cards/blog/${post.slug}.png`;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -286,17 +323,18 @@ function article(post) {
     description: post.description,
     datePublished: post.date,
     dateModified: post.modifiedDate || post.date,
-    inLanguage: "hr",
+    inLanguage: language,
     mainEntityOfPage: url,
     image,
     author: { "@type": "Person", name: "Vedran Zrinski", url: `${site}/` },
     publisher: { "@type": "Organization", name: "zrina.app", url: `${site}/` }
   };
-  return `${head(post.title, post.description, url, image, "article", jsonLd)}
+  return `${head(post.title, post.description, url, image, post.imageAlt, hrPath, enPath, language, "article", jsonLd)}
 <body class="blog-page">
-  ${header()}
+  ${header(language)}
   <main id="main" class="article-main">
-    <a class="blog-back" href="/blog/">← Sve objave</a>
+    ${languageLinks(hrPath, enPath, language)}
+    <a class="blog-back" href="${blogPath}">${en ? "← All articles" : "← Sve objave"}</a>
     <article>
       <header class="article-header">
         <p class="blog-meta">${esc(post.category)} <span aria-hidden="true">·</span> <time datetime="${post.date}">${post.dateLabel}</time></p>
@@ -305,56 +343,59 @@ function article(post) {
       </header>
       <div class="article-content">${post.body}</div>
       <footer class="article-footer">
-        <p>Članak je dio bilješki na <a href="/">zrina.app</a> — portfolio osobnih projekata, aplikacija i besplatnih alata.</p>
-        <a class="btn ghost" href="/blog/">Pogledaj ostale članke</a>
+        <p>${en ? 'This article is part of the notes on <a href="/en/">zrina.app</a> — a portfolio of independent projects, apps and free tools.' : 'Članak je dio bilješki na <a href="/">zrina.app</a> — portfolio osobnih projekata, aplikacija i besplatnih alata.'}</p>
+        <a class="btn ghost" href="${blogPath}">${en ? "Explore more articles" : "Pogledaj ostale članke"}</a>
       </footer>
     </article>
   </main>
-  <footer class="footer"><span>© ${new Date().getFullYear()} zrina.app · Autorski projekti Vedrana Zrinskog.</span><a href="/#kontakt">Kontakt</a></footer>
+  <footer class="footer"><span>© ${new Date().getFullYear()} zrina.app · ${en ? "Independent projects by Vedran Zrinski." : "Autorski projekti Vedrana Zrinskog."}</span><a href="${en ? "/en/#kontakt" : "/#kontakt"}">${en ? "Contact" : "Kontakt"}</a></footer>
 </body>
 </html>
 `;
 }
 
-function indexPage(publishedPosts) {
-  const canonical = `${site}/blog/`;
-  const description = "Praktične bilješke o obiteljskim uspomenama, prirodi, dronovima i izradi korisnih aplikacija.";
+function indexPage(publishedPosts, language = "hr") {
+  const en = language === "en";
+  const canonical = `${site}${en ? "/en/blog/" : "/blog/"}`;
+  const description = en ? "Practical notes on family memories, nature, drones and building useful apps." : "Praktične bilješke o obiteljskim uspomenama, prirodi, dronovima i izradi korisnih aplikacija.";
+  const localizedPosts = publishedPosts.map((post) => postForLanguage(post, language));
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    name: "Bilješke sa zrina.app",
+    name: en ? "Notes from zrina.app" : "Bilješke sa zrina.app",
     description,
     url: canonical,
-    inLanguage: "hr",
-    blogPost: publishedPosts.map((post) => ({
+    inLanguage: language,
+    blogPost: localizedPosts.map((post) => ({
       "@type": "BlogPosting",
       headline: post.title,
-      url: `${site}/blog/${post.slug}/`,
+      url: `${canonical}${post.slug}/`,
       datePublished: post.date
     }))
   };
-  return `${head("Bilješke — ideje, alati i aplikacije", description, canonical, `${site}/assets/share-cards/blog/blog.png`, "website", jsonLd)}
+  return `${head(en ? "Notes — ideas, tools and apps" : "Bilješke — ideje, alati i aplikacije", description, canonical, `${site}/assets/share-cards/blog/${en ? "blog-en.png" : "blog.png"}`, en ? "zrina.app — notes on apps, tools and ideas" : "zrina.app — bilješke o aplikacijama, alatima i idejama", "/blog/", "/en/blog/", language, "website", jsonLd)}
 <body class="blog-page">
-  ${header(true)}
+  ${header(language)}
   <main id="main" class="blog-main">
+    ${languageLinks("/blog/", "/en/blog/", language)}
     <section class="blog-intro">
-      <p class="blog-eyebrow">BILJEŠKE SA ZRINA.APP</p>
-      <h1>Ideje iz stvarnog života.<br><span>Alati koji pomažu.</span></h1>
-      <p>Ovdje dijelim praktične zapise o obiteljskim uspomenama, boravku u prirodi, dronovima i tome kako svakodnevni problem može postati korisna aplikacija.</p>
+      <p class="blog-eyebrow">${en ? "NOTES FROM ZRINA.APP" : "BILJEŠKE SA ZRINA.APP"}</p>
+      <h1>${en ? "Ideas from real life.<br><span>Tools that help.</span>" : "Ideje iz stvarnog života.<br><span>Alati koji pomažu.</span>"}</h1>
+      <p>${en ? "Practical notes on family memories, time outdoors, drones and how an everyday problem can become a useful app." : "Ovdje dijelim praktične zapise o obiteljskim uspomenama, boravku u prirodi, dronovima i tome kako svakodnevni problem može postati korisna aplikacija."}</p>
     </section>
-    <section class="blog-list" aria-label="Članci">
-      ${publishedPosts.length
-        ? publishedPosts.map(postCard).join("\n")
-        : '<p class="blog-empty">Nove bilješke stižu uskoro.</p>'}
+    <section class="blog-list" aria-label="${en ? "Articles" : "Članci"}">
+      ${localizedPosts.length
+        ? localizedPosts.map((post) => postCard(post, language)).join("\n")
+        : `<p class="blog-empty">${en ? "More notes coming soon." : "Nove bilješke stižu uskoro."}</p>`}
     </section>
   </main>
-  <footer class="footer"><span>© ${new Date().getFullYear()} zrina.app · Autorski projekti Vedrana Zrinskog.</span><a href="/#kontakt">Kontakt</a></footer>
+  <footer class="footer"><span>© ${new Date().getFullYear()} zrina.app · ${en ? "Independent projects by Vedran Zrinski." : "Autorski projekti Vedrana Zrinskog."}</span><a href="${en ? "/en/#kontakt" : "/#kontakt"}">${en ? "Contact" : "Kontakt"}</a></footer>
 </body>
 </html>
 `;
 }
 
-function shareCard(title, description, accent) {
+function shareCard(title, description, accent, language = "hr") {
   const wrap = (value, limit, maxLines) => {
     const lines = [];
     let line = "";
@@ -384,17 +425,17 @@ function shareCard(title, description, accent) {
     <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08111f"/><stop offset="1" stop-color="#111c2c"/></linearGradient></defs>
     <rect width="1200" height="630" fill="#050811"/><rect x="36" y="34" width="1128" height="562" rx="8" fill="url(#bg)"/>
     <circle cx="1065" cy="90" r="220" fill="${accent}" opacity=".09"/>
-    <text x="92" y="112" fill="${accent}" font-family="Arial,sans-serif" font-size="26" font-weight="700">zrina.app · BILJEŠKE</text>
+    <text x="92" y="112" fill="${accent}" font-family="Arial,sans-serif" font-size="26" font-weight="700">zrina.app · ${language === "en" ? "NOTES" : "BILJEŠKE"}</text>
     <text x="92" y="230" fill="#f3f6fb" font-family="Arial,sans-serif" font-size="44" font-weight="700">${titleSvg}</text>
     <text x="92" y="420" fill="#c3ceda" font-family="Arial,sans-serif" font-size="22">${descriptionSvg}</text>
     <rect x="92" y="536" width="140" height="4" rx="2" fill="${accent}"/>
   </svg>`);
 }
 
-async function buildCard(post) {
+async function buildCard(post, language = "hr") {
   const sharp = require("sharp");
   const logo = await sharp(path.join(root, post.icon)).resize(360, 360, { fit: "contain" }).png().toBuffer();
-  await sharp(shareCard(post.title, post.description, post.accent))
+  await sharp(shareCard(post.title, post.description, post.accent, language))
     .composite([{ input: logo, left: 780, top: 145 }])
     .png()
     .toFile(path.join(root, "assets", "share-cards", "blog", `${post.slug}.png`));
@@ -402,32 +443,45 @@ async function buildCard(post) {
 
 async function main() {
   const articleDir = path.join(root, "blog");
+  const englishDir = path.join(root, "en", "blog");
   fs.mkdirSync(articleDir, { recursive: true });
+  fs.mkdirSync(englishDir, { recursive: true });
   fs.mkdirSync(path.join(root, "assets", "share-cards", "blog"), { recursive: true });
   const publishedPosts = getPublishedPosts();
   const publishedSlugs = new Set(publishedPosts.map((post) => post.slug));
   fs.writeFileSync(path.join(articleDir, "index.html"), indexPage(publishedPosts), "utf8");
+  fs.writeFileSync(path.join(englishDir, "index.html"), indexPage(publishedPosts, "en"), "utf8");
   for (const post of posts) {
     const dir = path.join(articleDir, post.slug);
     const cardPath = path.join(root, "assets", "share-cards", "blog", `${post.slug}.png`);
+    const englishPost = postForLanguage(post, "en");
+    const englishArticleDir = path.join(englishDir, englishPost.slug);
+    const englishCardPath = path.join(root, "assets", "share-cards", "blog", `${englishPost.slug}.png`);
     if (!publishedSlugs.has(post.slug)) {
       fs.rmSync(dir, { recursive: true, force: true });
       fs.rmSync(cardPath, { force: true });
+      fs.rmSync(englishArticleDir, { recursive: true, force: true });
+      fs.rmSync(englishCardPath, { force: true });
       continue;
     }
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, "index.html"), article(post), "utf8");
     await buildCard(post);
+    fs.mkdirSync(englishArticleDir, { recursive: true });
+    fs.writeFileSync(path.join(englishArticleDir, "index.html"), article(post, "en"), "utf8");
+    await buildCard(englishPost, "en");
   }
   const sitemapPath = path.join(root, "sitemap.xml");
   const sitemap = fs.readFileSync(sitemapPath, "utf8");
   const withoutBlogPosts = sitemap.replace(
-    /^\s*<url><loc>https:\/\/zrina\.app\/blog\/(?:[^<]*)<\/loc><\/url>\r?\n/gm,
+    /^\s*<url><loc>https:\/\/zrina\.app\/(?:en\/)?blog\/(?:[^<]*)<\/loc><\/url>\r?\n/gm,
     ""
   );
   const blogUrls = [
     `${site}/blog/`,
-    ...publishedPosts.map((post) => `${site}/blog/${post.slug}/`)
+    ...publishedPosts.map((post) => `${site}/blog/${post.slug}/`),
+    `${site}/en/blog/`,
+    ...publishedPosts.map((post) => `${site}/en/blog/${postForLanguage(post, "en").slug}/`)
   ].map((url) => `  <url><loc>${url}</loc></url>`).join("\n");
   const insertionPoint = "  <url><loc>https://zrina.app/en/suggest/</loc></url>";
   if (!withoutBlogPosts.includes(insertionPoint)) {
@@ -441,10 +495,12 @@ async function main() {
   const overviewSvg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#091322"/><stop offset="1" stop-color="#14213a"/></linearGradient></defs><rect width="1200" height="630" fill="#050811"/><rect x="36" y="34" width="1128" height="562" rx="8" fill="url(#g)"/><circle cx="1010" cy="100" r="230" fill="#00f0ff" opacity=".1"/><text x="92" y="135" fill="#00f0ff" font-family="Arial,sans-serif" font-size="28" font-weight="700">zrina.app</text><text x="92" y="275" fill="#f3f6fb" font-family="Arial,sans-serif" font-size="68" font-weight="700">Bilješke</text><text x="92" y="345" fill="#c3ceda" font-family="Arial,sans-serif" font-size="30">Ideje, alati i aplikacije iz stvarnog života.</text><rect x="92" y="450" width="180" height="4" fill="#00f0ff"/></svg>`);
   const sharp = require("sharp");
   await sharp(overviewSvg).png().toFile(path.join(root, "assets", "share-cards", "blog", "blog.png"));
+  const englishOverview = overviewSvg.toString().replace("Bilješke", "Notes").replace("Ideje, alati i aplikacije iz stvarnog života.", "Ideas, tools and apps from real life.");
+  await sharp(Buffer.from(englishOverview)).png().toFile(path.join(root, "assets", "share-cards", "blog", "blog-en.png"));
   console.log(`Generated blog index, ${publishedPosts.length} published articles and share cards.`);
 }
 
-module.exports = { getPublishedPosts, getTodayInZagreb, posts };
+module.exports = { getPublishedPosts, getTodayInZagreb, posts, postForLanguage, article, indexPage };
 
 if (require.main === module) {
   main().catch((error) => {

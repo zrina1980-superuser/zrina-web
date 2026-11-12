@@ -98,7 +98,7 @@ const copy = {
     title: "Vedran Zrinski — developer, AI builder and app designer | zrina.app",
     description: "Portfolio of Vedran Zrinski: I build web apps from idea to launch — PWA, React, TypeScript, Firebase and AI. Gljivobook, DroneLogbook, Mamina Teka and more.",
     ogTitle: "Vedran Zrinski — I build apps from idea to launch",
-    nav: { work: "Work", about: "About", tools: "Tools", blog: "Blog (HR)", suggest: "Suggest an app", contact: "Contact" },
+    nav: { work: "Work", about: "About", tools: "Tools", blog: "Blog", suggest: "Suggest an app", contact: "Contact" },
     skip: "Skip to content",
     pill: "Developer · AI builder · App designer",
     h1: "I build apps from idea to launch.",
@@ -255,7 +255,7 @@ function topbar(c, prefix, homeHref, suggestHref, altHref) {
       <a class="nav-work" href="${homeHref}#radovi">${c.nav.work}</a>
       <a href="${homeHref}#o-meni">${c.nav.about}</a>
       <a href="${homeHref}#alati">${c.nav.tools}</a>
-      <a class="nav-blog" href="${prefix}blog/">${c.nav.blog}</a>
+      <a class="nav-blog" href="${c.lang === "en" ? "/en/blog/" : "/blog/"}">${c.nav.blog}</a>
       <a href="${suggestHref}">${c.nav.suggest}</a>
       <a class="nav-cta" href="${homeHref}#kontakt">${c.nav.contact}</a>
       <a class="lang-link" href="${altHref}" hreflang="${c.lang === "hr" ? "en" : "hr"}" title="${c.altLang.title}">${c.altLang.label}</a>
@@ -268,7 +268,7 @@ function topbar(c, prefix, homeHref, suggestHref, altHref) {
           <a href="${homeHref}#radovi">${c.nav.work}</a>
           <a href="${homeHref}#o-meni">${c.nav.about}</a>
           <a href="${homeHref}#alati">${c.nav.tools}</a>
-          <a href="${prefix}blog/">${c.nav.blog}</a>
+          <a href="${c.lang === "en" ? "/en/blog/" : "/blog/"}">${c.nav.blog}</a>
           <a href="${suggestHref}">${c.nav.suggest}</a>
           <a href="${homeHref}#kontakt">${c.nav.contact}</a>
           <a href="${altHref}" hreflang="${c.lang === "hr" ? "en" : "hr"}">${c.altLang.title} <span aria-hidden="true">↗</span></a>

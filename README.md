@@ -8,7 +8,7 @@
 
 Run `npm run optimize:images` after adding large PNG/JPG screenshots. Carwash, Tirehotel and Alatnica keep hand-authored pages.
 
-The homepage, suggestion and blog headers share a mobile menu with a direct contact link. Their generated stylesheet and navigation script URLs use content hashes, so a rebuild publishes new URLs when these assets change. Blog articles link to the English portfolio because the blog itself is in Croatian. Run `node --test tests/navigation.test.cjs` after building to check menu behavior and asset versions.
+The homepage, suggestion and blog headers share a mobile menu with a direct contact link. Their generated stylesheet and navigation script URLs use content hashes, so a rebuild publishes new URLs when these assets change. The blog is generated in Croatian (`/blog/`) and English (`/en/blog/`); article translations live in `scripts/blog-english.js` and share the Croatian article's publication date. Add both language versions for new posts. Scheduled posts appear in neither language until their Zagreb publication date. Run `node --test tests/navigation.test.cjs tests/blog-languages.test.cjs` after building to check navigation, translation links and scheduling.
 
 ## Suggest-an-app form
 

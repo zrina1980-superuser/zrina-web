@@ -1,4 +1,8 @@
 .blog-main { max-width: 930px; padding-top: 40px; }
+.blog-languages { display: flex; gap: 8px; justify-content: flex-end; }
+.blog-languages a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); font: 700 .8rem var(--mono); text-decoration: none; }
+.blog-languages a[aria-current="page"] { color: var(--cyan); border-color: var(--cyan); }
+.blog-languages a:hover { color: var(--text); border-color: var(--cyan); }
 .blog-intro { padding: clamp(42px, 8vw, 88px) 0 42px; }
 .blog-eyebrow { color: var(--cyan); font: 700 .8rem var(--mono); letter-spacing: .12em; }
 .blog-intro h1 { margin: 14px 0; font-size: clamp(2.4rem, 7vw, 4.7rem); letter-spacing: -.04em; }

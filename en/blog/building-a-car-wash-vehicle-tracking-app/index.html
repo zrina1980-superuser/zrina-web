@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How I built a vehicle tracking app for a car wash | zrina.app</title>
+  <meta name="description" content="From searching for vehicles and keeping paper records to a car wash app: locations, keys, billing and technical decisions.">
+  <link rel="canonical" href="https://zrina.app/en/blog/building-a-car-wash-vehicle-tracking-app/">
+  <link rel="alternate" hreflang="hr" href="https://zrina.app/blog/kako-sam-izgradio-aplikaciju-za-praonicu/">
+  <link rel="alternate" hreflang="en" href="https://zrina.app/en/blog/building-a-car-wash-vehicle-tracking-app/">
+  <link rel="alternate" hreflang="x-default" href="https://zrina.app/blog/kako-sam-izgradio-aplikaciju-za-praonicu/">
+  <meta property="og:title" content="How I built a vehicle tracking app for a car wash">
+  <meta property="og:description" content="From searching for vehicles and keeping paper records to a car wash app: locations, keys, billing and technical decisions.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://zrina.app/en/blog/building-a-car-wash-vehicle-tracking-app/">
+  <meta property="og:image" content="https://zrina.app/assets/share-cards/blog/building-a-car-wash-vehicle-tracking-app.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="carwash.app — an app for tracking vehicles through a car wash">
+  <meta property="og:locale" content="en_GB">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How I built a vehicle tracking app for a car wash">
+  <meta name="twitter:description" content="From searching for vehicles and keeping paper records to a car wash app: locations, keys, billing and technical decisions.">
+  <meta name="twitter:image" content="https://zrina.app/assets/share-cards/blog/building-a-car-wash-vehicle-tracking-app.png">
+  <meta name="theme-color" content="#050811">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/brand/zrinaapp_min.png">
+  <link rel="stylesheet" href="/site.css?v=5fb8de16b75c">
+  <script src="/navigation.js?v=350f57937047" defer></script>
+  <link rel="stylesheet" href="/blog.css?v=66a43d5850ec">
+  <script>try { localStorage.setItem("zrina_lang", "en"); } catch (error) { console.warn("Could not save the language preference.", error); }</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How I built a vehicle tracking app for a car wash","description":"From searching for vehicles and keeping paper records to a car wash app: locations, keys, billing and technical decisions.","datePublished":"2026-11-11","dateModified":"2026-11-12","inLanguage":"en","mainEntityOfPage":"https://zrina.app/en/blog/building-a-car-wash-vehicle-tracking-app/","image":"https://zrina.app/assets/share-cards/blog/building-a-car-wash-vehicle-tracking-app.png","author":{"@type":"Person","name":"Vedran Zrinski","url":"https://zrina.app/"},"publisher":{"@type":"Organization","name":"zrina.app","url":"https://zrina.app/"}}</script>
+</head>
+<body class="blog-page">
+  <header class="topbar has-mobile-menu">
+    <a class="brand" href="/en/"><img src="/assets/brand/zrinaapp_min.png" alt="" width="32" height="32"><span>zrina<b>.app</b></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="nav-work" href="/en/#radovi">Work</a><a href="/en/#o-meni">About</a><a class="nav-blog" href="/en/blog/" aria-current="page">Blog</a>
+      <a href="/en/#alati">Tools</a><a href="/en/suggest/">Suggest an app</a><a class="nav-cta" href="/en/#kontakt">Contact</a>
+    </nav>
+    <div class="mobile-nav">
+      <a class="mobile-contact" href="/en/#kontakt">Contact</a>
+      <details class="mobile-menu">
+        <summary>Menu <span aria-hidden="true">☰</span></summary>
+        <nav class="mobile-menu-panel" aria-label="Mobile navigation">
+          <a href="/en/#radovi">Work</a>
+          <a href="/en/#o-meni">About</a>
+          <a href="/en/#alati">Tools</a>
+          <a href="/en/blog/" aria-current="page">Blog</a>
+          <a href="/en/suggest/">Suggest an app</a>
+          <a href="/en/#kontakt">Contact</a>
+        </nav>
+      </details>
+    </div>
+  </header>
+  <main id="main" class="article-main">
+    <nav class="blog-languages" aria-label="Language">
+    <a href="/blog/kako-sam-izgradio-aplikaciju-za-praonicu/" hreflang="hr" lang="hr" aria-label="Hrvatski">HR</a>
+    <a href="/en/blog/building-a-car-wash-vehicle-tracking-app/" hreflang="en" lang="en" aria-label="English" aria-current="page">EN</a>
+  </nav>
+    <a class="blog-back" href="/en/blog/">← All articles</a>
+    <article>
+      <header class="article-header">
+        <p class="blog-meta">Behind the app <span aria-hidden="true">·</span> <time datetime="2026-11-11">11 November 2026</time></p>
+        <h1>How I built a vehicle tracking app for a car wash</h1>
+        <p class="article-summary">From searching for vehicles and keeping paper records to a car wash app: locations, keys, billing and technical decisions.</p>
+      </header>
+      <div class="article-content">
+      <p class="article-lead">“Where's the car? Where's the key? Is the wash finished?” These weren't questions we could answer at a glance. They often meant walking around, making phone calls and searching several parking areas. That's why I started building an app for the car wash.</p>
+      <p>The original version was built with Google Apps Script and Google Sheets and tried out in a real workplace. I've deliberately left out the organisation's name, identifiable maps and business data, but I want to show the problem that led to the app.</p>
+      <h2>A project rooted in everyday work</h2>
+      <p>As a service advisor, I came to know the problem through daily work with my colleagues. I decided to look for a solution on my own initiative and build the app in my spare time, using my own resources, AI tools such as Gemini and the Visual Studio Code development environment.</p>
+      <p>I then offered it for use in the workplace. Colleagues gave me positive feedback during the trial, but the project was never formally adopted or moved onto the organisation's infrastructure. It is no longer used there. The experience showed me how valuable it is to understand people's daily work before building a solution.</p>
+      <h2>Why was it so hard to find one car?</h2>
+      <p>The car wash was part of a larger service complex, separate from the vehicle reception area. The service department used it, as did other internal and external customers. During the day, cars could be in different parking areas or parts of the complex; the key wasn't necessarily where the car was.</p>
+      <p>Before the app trial, my fellow service advisors and I averaged around 15,000 steps during a working day. That included looking for vehicles and keys and moving cars for collection. The figure is an approximate total, not a measured saving from the app.</p>
+      <h2>About ten sheets of paper a day</h2>
+      <p>Washed vehicles were recorded by hand on printed tables — in my experience, about ten A4 sheets a day. The information then had to be copied, sorted and calculated manually. At the end of the month, quantities and different types of wash were tallied with paper, a pen and a calculator.</p>
+      <p>The service department was the largest user. In that process, a wash for a service vehicle wasn't billed to the customer; it was accounted for internally between the car wash and the service department. The records needed to distinguish who requested each wash and which service was performed, so they could support the appropriate billing rather than simply list cars.</p>
+      <p>The app connected daily work with record-keeping: information entered for each vehicle can later be reviewed by period, department and wash type, alongside the relevant price list. The original implementation provides quantity and cost summaries and exports data to help prepare billing.</p>
+      <h2>One record, different jobs</h2>
+      <p>A vehicle passes through several stages, and different people need different information. One person needs the intake details; another needs the wash queue, parking location or key. The views and available actions were tailored to each role, while everyone worked from shared records.</p>
+      <p>For example, someone at the car wash can mark a vehicle as being washed or finished and record where it was left. The service advisor can then see its status, last recorded location and key information. People enter the location, so keeping it up to date matters.</p>
+      <p>The original also used a map of the workplace to select locations, with descriptions of individual zones. It isn't published here because it shows the real site. The important idea isn't the photograph itself, but giving the team shared, understandable labels instead of a vague “over there”.</p>
+      <h2>Thinking through the solution</h2>
+      <p>Below are a few short excerpts from the original code, without user or organisation data. The reporting example is simplified pseudocode.</p>
+      <h2>Synchronising with Google Sheets and Apps Script</h2>
+      <p>In the original implementation, Google Sheets is the shared data store and Apps Script handles client requests. A version marker is updated after changes; an open screen periodically checks for newer data and refreshes the list when needed.</p>
+      <p>This is the actual function that starts the client-side check:</p>
+      <pre><code>function pokreniSmartSync() {
+    if (window.isSyncRunning &amp;&amp; smartSyncTimer) return;
+    if (smartSyncTimer) clearInterval(smartSyncTimer);
+    smartSyncTimer = setInterval(osvjeziRadionicu, 3000);
+    window.isSyncRunning = true;
+}</code></pre>
+      <p>And this Apps Script function stores the version marker in the cache:</p>
+      <pre><code>function bumpVersion() {
+  let cache = CacheService.getScriptCache();
+  if(cache) cache.put('db_verzija', Date.now().toString(), 21600);
+}</code></pre>
+      <p>The first function sets up periodic refreshes and avoids starting another timer if one is already running. The second stores a timestamp as the data version, with a cache lifetime of 21,600 seconds.</p>
+      <p>The idea is that the screen doesn't have to download the whole list again when nothing has changed. After a successful change, the original code updates the version marker; at the next check, the server can return data or indicate that nothing has changed.</p>
+      <p>This is <em>polling</em>, not a push connection: the check starts approximately every three seconds, plus network and processing time. A local copy can make the initial display faster while the server response is pending.</p>
+      <h2>From records to billing preparation</h2>
+      <p>Instead of recounting paper records, the report goes through vehicles recorded in the selected period, groups them by requesting department and service type, and applies the price list. Simplified:</p>
+      <pre><code>// Illustration: grouping report items
+for each record in selectedPeriod:
+    group = getGroup(record.department, record.washType)
+    group.quantity += 1
+    group.amount += priceFor(group)</code></pre>
+      <p>In the original code, the report reads active and archived records, groups them by department and wash type, and uses the price list. This turns the data collected throughout the day into a clearer basis for billing.</p>
+      <h2>Offline: displaying data isn't the same as saving it</h2>
+      <p>Seeing the last known data is useful when the connection drops. But displaying cached information isn't the same as reliably saving new actions offline. In the version I reviewed, the client disables certain actions when the connection is lost; I haven't confirmed a persistent queue that sends them automatically later.</p>
+      <p>For me, the lesson is to describe and test offline support for each action, rather than promise it simply because the app is available on a phone.</p>
+      <h2>Roles aren't a substitute for secure sign-in</h2>
+      <p>The original version uses an identifier stored in the browser, along with a process for approving users and assigning roles. That helps organise the interface, but a browser identifier alone is not reliable proof of identity. A new implementation would need proper authentication and server-side authorisation checks instead.</p>
+      <h2>OCR for licence plates and VINs</h2>
+      <p>In the original Android environment, text is recognised from a photo and the result is further processed using rules for vehicle data. Recognition can make mistakes, so the result assists data entry rather than replacing a check by the person handling the vehicle.</p>
+      <p>For example, the letter O and the digit 0 can look very similar in a photo. For a VIN, the app can compare possible readings, apply allowed-character rules and take a check digit into account when ranking candidates. Licence plate corrections also depend on a character's position.</p>
+      <p>This actual excerpt from the VIN candidate loop checks the format and adds points for a matching check digit:</p>
+      <pre><code>let komad = cisto.substring(i, i + 17);
+let popravljeno = popraviVINOCR(komad);
+if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(popravljeno)) continue;
+
+let score = 0;
+if (isValidVINChecksum(popravljeno)) score += 100;</code></pre>
+      <p>The rest of the function prepares the text, considers different candidates and scores them further. A matching check digit increases a candidate's score; the person entering the data checks the result before confirming it.</p>
+      <h2>Three implementations, one problem</h2>
+      <p>The original was followed by a separate web version with a different server and database, and later by an experimental PWA built with AI Studio. They are different implementations, so we shouldn't assume every original feature works the same way in the newer versions.</p>
+      <h2>From service experience to a solution built with AI</h2>
+      <p>As a service advisor, I didn't learn about the problem from a project brief. I worked with colleagues who looked for cars and keys, coordinated handovers and copied information every day. That hands-on experience helped me see where the process stalled and what information people needed when their hands and their day were already full.</p>
+      <p>With my own effort and technical knowledge, and help from AI tools, I turned the idea into an app that colleagues tried in a real workflow and responded to positively. AI helped me build it, but it couldn't learn the job for me, decide what was useful or confirm that every feature was correct.</p>
+      <p>That's why a more important question than the choice of technology is: does the solution make someone's work easier? Edge cases matter too: what happens when the connection drops, information is out of date or the same entry is submitted twice? Neat-looking code still needs checking, and when something goes wrong, an error message should help identify the cause.</p>
+      <p>The original app was tried in a specific workplace, but it was never formally adopted. Wider use would require further checks, particularly of sign-in, permissions, reliability and data protection. The experimental PWA also needs to be considered separately, not treated as a confirmed finished product.</p>
+      <aside class="article-note"><strong>What I'll carry forward:</strong> understand the work, listen to the people doing it, and use technology to turn real problems into useful, tested solutions.</aside>
+      <p>For more on the workflow and original architecture, visit the <a href="/carwash/">carwash.app project page</a>.</p>
+    </div>
+      <footer class="article-footer">
+        <p>This article is part of the notes on <a href="/en/">zrina.app</a> — a portfolio of independent projects, apps and free tools.</p>
+        <a class="btn ghost" href="/en/blog/">Explore more articles</a>
+      </footer>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 zrina.app · Independent projects by Vedran Zrinski.</span><a href="/en/#kontakt">Contact</a></footer>
+</body>
+</html>
