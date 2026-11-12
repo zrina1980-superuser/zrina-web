@@ -13,7 +13,7 @@ test("carwash article is published with neutral text and a project link", () => 
   assert.match(post.body, /href="\/carwash\/"/);
   assert.doesNotMatch(JSON.stringify(post), /efac|emil[\s-]*frey/i);
   assert.match(post.body, /oko 15\.000 koraka/);
-  assert.match(post.body, /nemam usporedivo mjerenje/i);
+  assert.match(post.body, /ne izmjerena ušteda/i);
   assert.match(post.body, /deset A4 listova dnevno/);
   assert.match(post.body, /samoinicijativno/);
   assert.match(post.body, /danas se ondje više ne koristi/i);

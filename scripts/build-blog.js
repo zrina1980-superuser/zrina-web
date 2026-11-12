@@ -11,6 +11,7 @@ const posts = [
     description: "Od traženja vozila i papirnatih evidencija do aplikacije za praonicu: lokacije, ključevi, obračun i tehničke odluke.",
     date: "2026-11-11",
     dateLabel: "11. studenoga 2026.",
+    modifiedDate: "2026-11-12",
     category: "Iza aplikacije",
     accent: "#40d9d0",
     icon: "carwash/carwash-logo.png",
@@ -20,22 +21,22 @@ const posts = [
       <p class="article-lead">„Gdje je auto? Gdje je ključ? Je li pranje gotovo?” To nisu bila pitanja na koja smo odgovarali jednim pogledom. Često su značila hodanje, telefonske pozive i potragu po više parkirališta. Upravo zato počeo sam razvijati aplikaciju za praonicu.</p>
       <p>Izvorna verzija nastala je uz Google Apps Script i Google Sheets te je isprobana u stvarnom radnom procesu. U ovom tekstu namjerno izostavljam naziv organizacije, prepoznatljivu kartu i poslovne podatke, ali želim dočarati problem zbog kojeg je aplikacija nastala.</p>
       <h2>Projekt koji je počeo iz svakodnevnog rada</h2>
-      <p>Po zanimanju sam servisni savjetnik, a ne profesionalni programer. Problem sam prepoznao radeći s kolegama i samoinicijativno odlučio pokušati pronaći rješenje. Aplikaciju sam razvijao u svoje slobodno vrijeme i na vlastitim resursima, uz pomoć AI alata, uključujući Gemini i Visual Studio Code.</p>
+      <p>Kao servisni savjetnik problem sam upoznao iz svakodnevnog rada s kolegama. Odlučio sam samoinicijativno potražiti rješenje i razvijati aplikaciju u slobodno vrijeme, na vlastitim resursima, uz pomoć AI alata poput Geminija i razvojno okruženje Visual Studio Code.</p>
       <p>Zatim sam je ponudio za korištenje u radnom procesu. Tijekom probnog korištenja dobio sam pozitivne povratne informacije, no projekt nije došao do konačnog uvođenja niti prelaska na infrastrukturu organizacije. Danas se ondje više ne koristi. Iskustvo mi je ipak pokazalo koliko je vrijedno razumjeti svakodnevni posao ljudi prije nego što se krene pisati rješenje.</p>
       <h2>Zašto je bilo teško pronaći jedan auto?</h2>
       <p>Praonica je radila u sklopu većeg servisnog kompleksa, odvojena od prijema vozila. Koristio ju je servis, ali i drugi interni i vanjski korisnici. Automobili su tijekom dana mogli biti na različitim parkiralištima ili u različitim dijelovima kompleksa; ključ nije nužno bio ondje gdje i automobil.</p>
-      <p>Prije probnog korištenja aplikacije kolege servisni savjetnici i ja u prosjeku smo radili oko 15.000 koraka tijekom radnog dana, uz puno traženja vozila i ključeva te njihovo prevoženje za isporuku. To je moje iskustvo i približna procjena ukupnog broja koraka, a ne mjerenje koraka uzrokovanih isključivo traženjem. Nemam usporedivo mjerenje nakon uvođenja aplikacije pa ne mogu tvrditi kolika je bila ušteda.</p>
+      <p>Prije probnog korištenja aplikacije kolege servisni savjetnici i ja tijekom radnog dana radili smo u prosjeku oko 15.000 koraka. U to su ulazili i traženje vozila i ključeva te prevoženje vozila za isporuku. Broj je približna procjena ukupnih koraka, ne izmjerena ušteda zahvaljujući aplikaciji.</p>
       <h2>Desetak listova papira svaki dan</h2>
       <p>Popis opranih vozila vodio se na ispisanim tablicama koje su se ispunjavale rukom — prema mojem iskustvu, oko deset A4 listova dnevno. Podatke je zatim trebalo prepisivati, razvrstavati i računati ručno. Na kraju mjeseca količine i različite vrste pranja obračunavale su se uz papir, olovku i kalkulator.</p>
       <p>Servis je bio najveći korisnik. Pranje servisnog vozila u tom se procesu nije naplaćivalo kupcu, nego se obračun vodio interno između praonice i servisa. Trebalo je razlikovati naručitelje i vrste usluga kako bi evidencija poslužila kao podloga za odgovarajući obračun, ne samo kao popis automobila.</p>
-      <p>Aplikacija je zato povezala dnevni rad i evidenciju: podaci uneseni uz vozilo mogu se kasnije pregledavati po razdoblju, odjelu i vrsti pranja, uz pripadajući cjenik. Izvorna izvedba nudi pregled količina i iznosa te izvoz podataka. To pomaže pripremi obračuna, ali nije tvrdnja da sama izdaje račune ili da brojke ne treba provjeriti.</p>
+      <p>Aplikacija je zato povezala dnevni rad i evidenciju: podaci uneseni uz vozilo mogu se kasnije pregledavati po razdoblju, odjelu i vrsti pranja, uz pripadajući cjenik. Izvorna izvedba nudi pregled količina i iznosa te izvoz podataka kao podlogu za pripremu obračuna.</p>
       <h2>Jedan zapis, različiti poslovi</h2>
       <p>Vozilo prolazi kroz nekoliko koraka, a različitim ljudima trebaju različite informacije. Nekome je važan prijem, drugome redoslijed pranja, parkirno mjesto ili ključ. Zato su prikazi i dostupne radnje prilagođeni radnoj ulozi, dok svi rade nad zajedničkim zapisima.</p>
-      <p>Primjerice, osoba u praonici može označiti da je vozilo u pranju ili gotovo i zabilježiti gdje je ostavljeno. Savjetniku su zatim na raspolaganju status, posljednja upisana lokacija i podatak o ključu. Prikaz lokacije je koristan samo ako ga ljudi redovito ažuriraju: nije automatsko GPS praćenje niti jamstvo da je vozilo još uvijek na tom mjestu.</p>
+      <p>Primjerice, osoba u praonici može označiti da je vozilo u pranju ili gotovo i zabilježiti gdje je ostavljeno. Savjetniku su zatim na raspolaganju status, posljednja upisana lokacija i podatak o ključu. Lokaciju upisuju ljudi, pa je za dobar pregled važno redovito je ažurirati.</p>
       <p>U originalu je za odabir lokacije korištena i karta radnog prostora, s dodatnim opisima pojedinih zona. Ona ovdje nije objavljena jer prikazuje stvarnu lokaciju. Važna ideja nije sama fotografija, nego mogućnost da tim koristi zajedničke, razumljive oznake umjesto neodređenog „tamo iza”.</p>
       <h2>Kako sam razmišljao o rješenju</h2>
-      <p>U nastavku pokazujem kratke isječke iz izvornog koda, bez podataka o korisnicima ili organizaciji. Primjer izvještaja zasebno je označen kao pojednostavljeni pseudokod. Nijedan od tih primjera ne predstavlja cijelu implementaciju.</p>
-      <h2>Kako se promjene pojavljuju na drugim ekranima?</h2>
+      <p>U nastavku pokazujem nekoliko kratkih isječaka iz izvornog koda, bez podataka o korisnicima ili organizaciji. Primjer izvještaja prikazan je kao pojednostavljeni pseudokod.</p>
+      <h2>Sinkronizacija preko Google Sheets i Apps Scripta</h2>
       <p>U izvornoj izvedbi Google Sheets služi kao zajedničko spremište, a Apps Script obrađuje zahtjeve klijenata. Nakon izmjena ažurira se oznaka verzije; otvoreni ekran periodički provjerava postoje li noviji podaci i po potrebi osvježava popis.</p>
       <p>Ovo je stvarna funkcija koja pokreće provjeru na klijentu:</p>
       <pre><code>function pokreniSmartSync() {
@@ -49,9 +50,9 @@ const posts = [
   let cache = CacheService.getScriptCache();
   if(cache) cache.put('db_verzija', Date.now().toString(), 21600);
 }</code></pre>
-      <p>Prva funkcija postavlja periodično osvježavanje i izbjegava pokretanje dodatnog timera ako već radi. Druga sprema vremensku oznaku kao verziju podataka, s rokom od 21.600 sekundi u predmemoriji. To nisu cijeli klijent ni poslužitelj: njihova je zadaća samo dio šireg postupka.</p>
+      <p>Prva funkcija postavlja periodično osvježavanje i izbjegava pokretanje dodatnog timera ako već radi. Druga sprema vremensku oznaku kao verziju podataka, s rokom od 21.600 sekundi u predmemoriji.</p>
       <p>Ideja je da ekran ne mora svaki put ponovo preuzimati cijeli popis kad se ništa nije promijenilo. Nakon uspješne promjene u izvornom kodu ažurira se oznaka verzije; na sljedećoj provjeri poslužitelj može vratiti podatke ili odgovor da nema promjene.</p>
-      <p>To je <em>polling</em>, a ne trenutačna push veza: u pregledanom kodu provjera se pokreće približno svake tri sekunde, uz dodatno vrijeme mreže i obrade. Lokalna kopija može ubrzati početni prikaz, ali ne zamjenjuje svježi odgovor poslužitelja. Ovaj način ne dokazuje da nikad neće doći do zastoja ili sukoba izmjena.</p>
+      <p>To je <em>polling</em>, a ne push veza: provjera se pokreće približno svake tri sekunde, uz dodatno vrijeme mreže i obrade. Lokalna kopija može ubrzati početni prikaz dok se čeka odgovor poslužitelja.</p>
       <h2>Od zapisa do pripreme obračuna</h2>
       <p>Umjesto ponovnog ručnog prebrojavanja papira, izvještaj prolazi kroz evidentirana vozila za odabrano razdoblje, razvrstava ih prema naručitelju i vrsti usluge te pridružuje cijenu iz cjenika. Pojednostavljeno:</p>
       <pre><code>// Ilustracija: grupiranje stavki izvještaja
@@ -59,15 +60,15 @@ za svaki zapis u odabranomRazdoblju:
     grupa = dohvatiGrupu(zapis.odjel, zapis.vrstaPranja)
     grupa.kolicina += 1
     grupa.iznos += cijenaZa(grupa)</code></pre>
-      <p>U izvornom kodu izvještaj čita aktivne i arhivirane zapise, grupira ih po odjelu i vrsti pranja te koristi cjenik. Kvaliteta rezultata ovisi o unesenim zapisima i postavljenim cijenama; izvještaj zato ostaje podloga koju treba pregledati, a ne zamjena za računovodstvenu provjeru.</p>
+      <p>U izvornom kodu izvještaj čita aktivne i arhivirane zapise, grupira ih po odjelu i vrsti pranja te koristi cjenik. Tako podaci prikupljeni tijekom dana postaju pregledna podloga za obračun.</p>
       <h2>Bez signala: važna razlika između prikaza i spremanja</h2>
       <p>Zadnje poznate podatke korisno je vidjeti i kada veza oslabi. No prikaz spremljenog stanja nije isto što i pouzdano spremanje novih radnji bez interneta. U pregledanoj verziji klijent pri prekidu veze onemogućuje određene akcije; nisam potvrdio postojanje trajnog reda izmjena koji bi ih kasnije automatski poslao.</p>
       <p>To je za mene važna lekcija: offline mogućnost treba opisati i testirati po pojedinoj radnji, a ne obećavati je samo zato što je aplikacija dostupna na mobitelu.</p>
       <h2>Uloge nisu zamjena za sigurnu prijavu</h2>
       <p>Izvorna verzija koristi identifikator pohranjen u pregledniku i postupak odobravanja korisnika i dodjele uloge. To olakšava organizaciju prikaza, ali identifikator preglednika sam po sebi nije pouzdana potvrda identiteta. Kod nove izvedbe takav pristup treba zamijeniti odgovarajućom autentifikacijom i provjerama ovlasti na poslužitelju.</p>
-      <h2>Kamera i provjera prije potvrde</h2>
+      <h2>OCR očitavanje tablica i VIN-a</h2>
       <p>U originalnom Android okruženju fotografija se obrađuje prepoznavanjem teksta, a rezultat se dodatno prilagođava pravilima za podatke o vozilu. Prepoznavanje može pogriješiti — zato je rezultat pomoć pri unosu, ne zamjena za provjeru osobe koja radi s vozilom.</p>
-      <p>Na primjer, slovo O i znamenka 0 na fotografiji mogu izgledati vrlo slično. Kod VIN-a aplikacija može usporediti više mogućih zapisa, primijeniti pravila dopuštenih znakova i uzeti u obzir kontrolnu znamenku pri rangiranju. Kod registarske oznake ispravci ovise i o položaju znaka. To su pravila obrade rezultata OCR-a, a ne dokaz da je svaka fotografija ispravno pročitana.</p>
+      <p>Na primjer, slovo O i znamenka 0 na fotografiji mogu izgledati vrlo slično. Kod VIN-a aplikacija može usporediti više mogućih zapisa, primijeniti pravila dopuštenih znakova i uzeti u obzir kontrolnu znamenku pri rangiranju. Kod registarske oznake ispravci ovise i o položaju znaka.</p>
       <p>Ovaj stvarni dio petlje za odabir VIN kandidata prikazuje provjeru formata i dodatno bodovanje kontrolne znamenke:</p>
       <pre><code>let komad = cisto.substring(i, i + 17);
 let popravljeno = popraviVINOCR(komad);
@@ -75,7 +76,7 @@ if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(popravljeno)) continue;
 
 let score = 0;
 if (isValidVINChecksum(popravljeno)) score += 100;</code></pre>
-      <p>Isječak je dio veće petlje: ostatak funkcije priprema tekst, razmatra različite kandidate i dodatno ih boduje. Kontrolna znamenka ovdje povećava broj bodova kandidata; sama po sebi ne dokazuje da je odabrani tekst točan.</p>
+      <p>Ostatak funkcije priprema tekst, razmatra različite kandidate i dodatno ih boduje. Kontrolna znamenka povećava broj bodova kandidata, a osoba koja unosi podatke provjerava rezultat prije potvrde.</p>
       <h2>Tri izvedbe, jedan problem</h2>
       <p>Od izvorne verzije nastala je i zasebna web-izvedba s drukčijim poslužiteljem i bazom, a kasnije eksperimentalna PWA verzija razvijena uz AI Studio. To nisu iste implementacije i ne treba pretpostaviti da svaka funkcija originala radi jednako u novijim verzijama.</p>
       <h2>Od iskustva iz servisa do rješenja uz AI</h2>
@@ -93,6 +94,7 @@ if (isValidVINChecksum(popravljeno)) score += 100;</code></pre>
     description: "Kako sačuvati obiteljske recepte zajedno s rukopisom, pričom i malim detaljima koji se ne mogu izmjeriti žlicom.",
     date: "2026-11-11",
     dateLabel: "11. studenoga 2026.",
+    modifiedDate: "2026-11-12",
     category: "Obiteljske uspomene",
     accent: "#d9694b",
     icon: "teka/teka-logo.png",
@@ -112,6 +114,11 @@ if (isValidVINChecksum(popravljeno)) score += 100;</code></pre>
       <h2>5. Podijeli promišljeno</h2>
       <p>Prije dijeljenja provjeri s obitelji što žele učiniti javnim. Fotografije rukopisa mogu sadržavati imena, adrese ili druge privatne bilješke. Privatna obiteljska zbirka ne mora biti javna da bi bila dostupna onima kojima je namijenjena.</p>
       <p>Upravo iz te ideje nastala je <a href="/teka/">Mamina Teka</a>: mjesto za fotografiju starog recepta, čitljiv prepis, obiteljske varijante i uspomenu uz jelo. Tehnologija ovdje ne zamjenjuje bilježnicu — pomaže da se njezin sadržaj sačuva i pronađe.</p>
+      <h2>Mamina Teka s AI-jem i bez njega</h2>
+      <p>Već spremljene recepte možeš pregledavati i uređivati, a prijavom Google računom sinkronizirati ih i podijeliti s obitelji. Za te korake ne trebaš Gemini API ključ.</p>
+      <p>Kad želiš dodati recept fotografiranjem rukopisa, vlastiti Gemini API ključ omogućuje AI-ju da predloži prepis i složi podatke za pregled. Prije spremanja usporedi tekst i količine s izvornikom, osobito ako je rukopis nejasan.</p>
+      <p>Uz ključ možeš pokušati izraditi i ilustraciju jela prema receptu. To je AI prikaz, ne fotografija stvarno pripremljenog jela; dostupnost generiranja i eventualni trošak ovise o Googleovu modelu, računu i kvotama. AI obrada traži internetsku vezu.</p>
+      <p><a href="https://mamina-teka.zrina.app/">Otvori Maminu Teku</a> ili pogledaj <a href="/teka/">kako je projekt nastao</a>.</p>
       <aside class="article-note"><strong>Mali početak:</strong> odaberi jedan recept koji bi bilo šteta izgubiti. Fotografiraj ga, prepiši bez uljepšavanja nejasnih dijelova i dodaj jednu rečenicu o osobi koja ga je kuhala.</aside>
       <p class="article-question">Koji obiteljski recept biste vi prvo sačuvali — i čija je priča uz njega?</p>
     `
@@ -173,9 +180,11 @@ if (isValidVINChecksum(popravljeno)) score += 100;</code></pre>
       </ul>
       <h2>Ostavi prostor za nesigurnost</h2>
       <p>Ako nisi siguran u naziv, napiši „nepoznata gljiva” ili zabilježi samo opažanja. To je odgovornije nego zaključati pogrešnu identifikaciju u dnevnik. Za učenje usporedi izvore i razgovaraj s iskusnom, pouzdanom osobom.</p>
-      <aside class="safety-note"><strong>Važno za sigurnost:</strong> Gljivobook je informativni vodič i dnevnik, a ne zamjena za stručnu determinaciju. Nikad ne konzumiraj gljivu na temelju procjene aplikacije, fotografije ili ovog članka. Ako postoji dvojba, nemoj je jesti.</aside>
+      <aside class="safety-note"><strong>Važno za sigurnost:</strong> Nikad ne jedi gljivu na temelju aplikacije ili fotografije. Ako je ne poznaješ, nemoj je konzumirati bez potvrde pouzdanog poznavatelja koji je pregledao primjerak uživo — bez obzira na to koliko si siguran. Ako i dalje postoji dvojba, nemoj je jesti.</aside>
       <h2>Tehnologija kao bilježnica, ne kao sudac</h2>
-      <p><a href="/gljivobook/">Gljivobook</a> spaja vodič za vrste, terenska opažanja i osobni dnevnik koji može raditi i bez internetske veze. Koristi ga za organiziranje bilješki i učenje — ne za odluku o jestivosti.</p>
+      <p><a href="/gljivobook/">Gljivobook</a> spaja vodič za vrste, morfološki filtar i osobni dnevnik. Lokalni determinator može pomoći suziti izbor prema opaženim obilježjima i fotografijama, bez Gemini API ključa i internetske veze.</p>
+      <p>Uz internet i vlastiti Gemini API ključ možeš odabrati i AI skener koji predlaže moguće vrste na temelju fotografija i opažanja. To može ubrzati početnu pretragu: zatim pročitaj opise, usporedi obilježja i moguće dvojnice te zabilježi ono što si uočio. AI prijedlog nije potvrda vrste ni jestivosti.</p>
+      <p><a href="https://gljivobook.zrina.app/">Otvori Gljivobook</a> i koristi ga kao pomoć pri učenju i vođenju terenskih bilješki.</p>
       <p>Prije fotografiranja i bilježenja poštuj prirodu, lokalna pravila i privatnost drugih posjetitelja. Ne ostavljaj otpad i ne uništavaj stanište radi bolje fotografije.</p>
       <p class="article-question">Vodite li dnevnik nalaza ili se oslanjate na fotografije u mobitelu?</p>
     `
@@ -276,7 +285,7 @@ function article(post) {
     headline: post.title,
     description: post.description,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.modifiedDate || post.date,
     inLanguage: "hr",
     mainEntityOfPage: url,
     image,
