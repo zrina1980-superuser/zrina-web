@@ -160,5 +160,82 @@ if (isValidVINChecksum(popravljeno)) score += 100;</code></pre>
       <p>When taking photos and making notes, respect nature, local rules and other visitors' privacy. Don't leave litter or damage the habitat for a better photo.</p>
       <p class="article-question">Do you keep a field journal, or rely on the photos on your phone?</p>
     `
+  },
+  "od-starog-mini-pc-ja-do-kucnog-servera": {
+    slug: "from-old-mini-pc-to-home-server",
+    title: "From an Old Mini PC to a Home Server: AdGuard, Dev Databases, Retro Games, and Zero Subscriptions",
+    description: "How I turned a used office mini PC into a silent Debian home server running Docker — from network-wide ad blocking and dev databases to retro games and Termius workflows.",
+    category: "Behind the Scenes",
+    imageAlt: "Home server on a mini PC — Debian, Docker, AdGuard and development tools",
+    body: `
+      <p class="article-lead">Most of us have an older computer sitting around at home that feels too sluggish for modern Windows, yet is completely functional and far too good to end up in a drawer or e-waste bin. Instead of paying multiple monthly subscriptions for file storage, smart home control, media streaming, and development environments, I decided to give one such machine a new job — running 24/7 as a quiet home server.</p>
+      <p>The hardware of choice was a used office <strong>Lenovo ThinkCentre M73</strong> (Intel Core i3 processor and a 500 GB internal drive) paired with an external USB 3.0 portable hard drive for larger archives. Below is a practical technical breakdown of how the system is set up, how I manage it from the terminal, and which Docker services I run for daily tasks, testing new projects, and entertainment.</p>
+      <h2>1. The Foundation: Debian 12, Static IP, and CasaOS</h2>
+      <p>At the start, I weighed whether to repurpose an old Android phone or buy a Raspberry Pi. A used business mini PC turned out to be the most reliable option: it is built to run plugged in for years without battery swelling or thermal throttling, comes with proper USB 3.0 and SATA ports, and uses standard x86 architecture so virtually every modern Docker image runs out of the box.</p>
+      <p>Before deploying any containers, I took care of three fundamentals that save plenty of headaches later:</p>
+      <ul>
+        <li><strong>Clean headless Debian 12:</strong> A minimal installation without a desktop environment uses negligible RAM and CPU, leaving almost all hardware resources free for containers. All administration happens remotely over SSH.</li>
+        <li><strong>Static IP reservation on the router:</strong> To ensure the server's local address never changes after a power outage or router reboot, I bound its MAC address to a fixed IP address in the router's DHCP settings.</li>
+        <li><strong>Persistent external drive mounting via UUID:</strong> I added the external USB drive to <code>/etc/fstab</code> using its unique UUID rather than a shifting device label like <code>/dev/sdb1</code>, guaranteeing it mounts to the exact same path after every reboot.</li>
+      </ul>
+      <p>On top of Debian, I installed <strong>CasaOS</strong> — a lightweight web dashboard built on top of <strong>Docker</strong>. It makes managing containers, mapping storage volumes, and monitoring resource usage effortless in a browser, while still letting you spin up custom <code>docker-compose.yml</code> stacks whenever needed.</p>
+      <h2>2. Terminal Workflow and Termius: Managing Everything from Laptop or Phone</h2>
+      <p>While CasaOS provides a clean web overview, real control over a Linux server happens in the terminal. To connect from both my Windows laptop and Android phone, I rely on <strong>Termius</strong> — a clean SSH client that syncs saved hosts, SSH keys, and reusable command snippets so I never have to type long paths manually on the go.</p>
+      <p>Here are a few core terminal commands I use regularly to check system health, storage mounts, and running Docker containers:</p>
+      <pre><code># Connecting to the server over SSH
+ssh user@local-ip-address
+
+# Checking disk usage and mounted partitions (internal + external USB drive)
+df -h
+lsblk -f
+
+# Finding the external drive's UUID before configuring /etc/fstab
+sudo blkid
+
+# Listing active Docker containers, ports, and live resource usage
+docker ps --format "table {{.Names}}\\t{{.Status}}\\t{{.Ports}}"
+docker stats --no-stream
+
+# Deploying or updating a custom stack from a docker-compose.yml file
+docker compose pull &amp;&amp; docker compose up -d
+
+# Checking private Tailscale mesh status
+tailscale status</code></pre>
+      <p>Once these commands are saved as quick snippets in Termius, checking the health of the entire server or spinning up a fresh test container takes literally five seconds — even from a phone screen.</p>
+      <h2>3. AdGuard Home: Network-Wide Ad and Tracker Blocking</h2>
+      <p>One of the most immediately noticeable services on the server is <strong>AdGuard Home</strong>. Rather than installing ad blockers separately on every phone, tablet, and computer in the house, AdGuard acts as the local DNS server (on standard port <code>53</code>) for the entire home network.</p>
+      <ul>
+        <li><strong>Router-level DNS redirection:</strong> In the main router's DHCP configuration, the home server's static local IP is set as the primary DNS server. The moment any device joins the home Wi-Fi, its DNS queries are routed through AdGuard automatically.</li>
+        <li><strong>Encrypted upstream DNS (DoH):</strong> AdGuard forwards legitimate lookups to upstream resolvers (such as Cloudflare <code>1.1.1.1</code> or Quad9 <code>9.9.9.9</code>) over <em>DNS-over-HTTPS</em> (DoH), preventing ISP-level snooping or DNS tampering.</li>
+        <li><strong>Blocklists and instant exceptions:</strong> Alongside curated ad and tracker lists (such as OISD), the dashboard shows live query logs per device. If a legitimate app or local service gets blocked by an aggressive rule, whitelisting the domain takes a single click.</li>
+      </ul>
+      <p>A practical side note: whenever a website suddenly refuses to load on one device, a local DNS block or stale DNS cache is often the culprit — to quickly compare whether an issue is local or server-side, I also built <a href="/en/hostvitals/">HostVitals</a>.</p>
+      <h2>4. Local Development Sandbox: Databases and Webtop</h2>
+      <p>When building new web applications in your spare time, cluttering your daily laptop with background services drains battery life and leads to port conflicts. The home server acts as an isolated testing ground:</p>
+      <ul>
+        <li><strong>Local databases for projects in progress:</strong> For new applications still in active development and testing, I spin up a Docker container running <strong>PostgreSQL</strong> or <strong>MariaDB</strong> on a dedicated local port with a mapped data volume. That lets me test apps under realistic network conditions from phones, tablets, and laptops around the house — and once testing is done, the container shuts down cleanly without leaving leftovers on my main workstation.</li>
+        <li><strong>Webtop:</strong> A full Linux desktop environment running inside a Docker container and accessible directly in a browser tab. It comes in handy whenever you need an isolated workspace, a clean test browser, or a way to download large files straight onto server storage from any device.</li>
+      </ul>
+      <h2>5. Keeping the Network Organized: Homarr, PairDrop, and MySpeed</h2>
+      <p>Once a dozen services are running across different ports, remembering port numbers quickly gets old. Three lightweight tools keep everyday workflows smooth:</p>
+      <ul>
+        <li><strong>Homarr:</strong> A clean, customizable start dashboard that brings shortcuts to every self-hosted service onto a single screen alongside basic status indicators.</li>
+        <li><strong>PairDrop:</strong> A local browser-based alternative to AirDrop that works across every operating system. Whenever I need to send photos, videos, or documents from an Android phone to a Windows laptop (or vice versa), I open the local address and transfer files directly over home Wi-Fi — no cables, no compression, and no third-party cloud uploads.</li>
+        <li><strong>MySpeed:</strong> A background utility that automatically runs internet speed and ping tests every few hours and logs historical charts. Instead of guessing whether the connection slows down in the evening, you get concrete numbers and timestamps.</li>
+      </ul>
+      <h2>6. Media, Retro Gaming, and Secure Remote Access</h2>
+      <p>Beyond development and network utilities, the server also handles media and archiving duties:</p>
+      <ul>
+        <li><strong>Jellyfin and local streams:</strong> A personal media server that organizes movies, shows, and videos with metadata and streams smoothly to smart TVs, phones, and tablets (pairing nicely with my own web player <a href="/en/">zrinaTV</a> for local streams).</li>
+        <li><strong>Retro game server:</strong> Using Docker containers (such as <em>EmulatorJS</em> / <em>RomM</em>), the server hosts a compact archive of classic retro games that launch straight inside a web browser on any computer or tablet at home, keeping save states stored centrally.</li>
+        <li><strong>Home Assistant and Syncthing:</strong> Home Assistant manages smart plugs and sensors locally without depending on external vendor clouds, while Syncthing quietly syncs key project folders between my laptop and the server in the background.</li>
+        <li><strong>Tailscale for secure remote access:</strong> Instead of opening ports on the router and exposing the home network to the public internet, Tailscale connects the server, laptop, and phone into a private encrypted WireGuard mesh. Wherever I am, I can reach home services and dev databases just as securely as sitting in the living room.</li>
+      </ul>
+      <h2>7. A Small Python Script That Saved Hours of Manual Work</h2>
+      <p>One of the most rewarding moments of the whole build wasn't a massive platform, but a <strong>50-line Python script</strong>. Over the years, old drives had accumulated more than <strong>12,500 scattered files</strong> — duplicate photos, installers, and legacy backups.</p>
+      <p>Instead of spending days sorting folders manually, the script scanned the entire directory tree in seconds, categorized files by type and date, and organized them cleanly onto the external archive drive. Moments like that are exactly why I enjoy combining small automation scripts with focused web utilities on <a href="/en/">zrina.app</a> — automate the repetitive work so you have more time to build things that matter.</p>
+      <aside class="article-note"><strong>Practical Takeaway:</strong> You don't need expensive brand-new hardware to run a capable home server. A used mini PC, clean Linux, Docker, and a handful of well-chosen services give you full control over your data, network, and development workflow — without a single monthly subscription.</aside>
+      <p class="article-question">Do you have an old computer gathering dust at home, or are you already running your own home server? Which self-hosted service has proven most useful in your daily setup?</p>
+    `
   }
 };

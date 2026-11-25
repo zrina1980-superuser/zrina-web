@@ -189,6 +189,88 @@ if (isValidVINChecksum(popravljeno)) score += 100;</code></pre>
       <p>Prije fotografiranja i bilježenja poštuj prirodu, lokalna pravila i privatnost drugih posjetitelja. Ne ostavljaj otpad i ne uništavaj stanište radi bolje fotografije.</p>
       <p class="article-question">Vodite li dnevnik nalaza ili se oslanjate na fotografije u mobitelu?</p>
     `
+  },
+  {
+    slug: "od-starog-mini-pc-ja-do-kucnog-servera",
+    title: "Od starog mini PC-ja do kućnog servera: AdGuard, razvojne baze, retro igre i alati bez pretplate",
+    description: "Kako sam rabljeni poslovni mini PC pretvorio u tihi Debian kućni server s Dockerom — od blokiranja reklama u mreži i razvojnih baza do retro igara i rada u Termiusu.",
+    date: "2026-12-02",
+    dateLabel: "2. prosinca 2026.",
+    category: "Iza kulisa",
+    accent: "#38bdf8",
+    icon: "assets/brand/zrinaapp_min.png",
+    imageAlt: "Kućni server na mini PC-ju — Debian, Docker, AdGuard i razvojni alati",
+    facebook: "Većina nas doma ima neko starije računalo koje je presporo za današnji Windows, ali potpuno ispravno za tihi kućni server. Napisao sam kako sam posložio Debian 12, Docker, AdGuard za cijelu kuću, lokalne baze za razvoj i rad iz terminala preko Termiusa. https://zrina.app/blog/od-starog-mini-pc-ja-do-kucnog-servera/",
+    body: `
+      <p class="article-lead">Većina nas doma ima neko starije računalo koje je presporo za današnji Windows, ali potpuno ispravno da bi završilo u ladici ili na otpadu. Umjesto plaćanja nekoliko različitih mjesečnih pretplata za pohranu datoteka, pametni dom, multimediju ili razvojna okruženja, odlučio sam jednom takvom računalu dati novu ulogu — pretvoriti ga u tihi kućni server koji radi 24 sata dnevno.</p>
+      <p>U igri je bio rabljeni uredski <strong>Lenovo ThinkCentre M73</strong> (Intel Core i3 procesor i interni disk od 500 GB) uz dodatni prijenosni vanjski USB 3.0 hard disk za veću arhivu. U nastavku donosim konkretan tehnički pregled kako sam posložio sustav, kako izgleda svakodnevni rad iz terminala te koje servise vrtim u Dockeru za posao, razvoj novih projekata i zabavu.</p>
+      <h2>1. Temelj sustava: Debian 12, statička adresa i CasaOS</h2>
+      <p>Na početku sam vagao isplati li se za kućni server iskoristiti stari mobitel ili kupovati Raspberry Pi. Rabljeni poslovni mini PC pokazao se kao najstabilnije rješenje: napravljen je da godinama radi uključen u struju bez brige oko baterije, ima prave USB 3.0 i SATA priključke, a standardna x86 arhitektura znači da svaki moderni Docker paket radi iz prve.</p>
+      <p>Prije podizanja servisa odradio sam tri osnovne stvari koje kasnije štede hrpu živaca:</p>
+      <ul>
+        <li><strong>Čisti Debian 12 bez grafičkog sučelja:</strong> Minimalna instalacija troši zanemarivu količinu radne memorije i procesora, pa gotovo svi resursi ostaju slobodni za kontejnere. Sva administracija odrađuje se iz daljine putem SSH veze.</li>
+        <li><strong>Rezervacija statičke IP adrese na routeru:</strong> Kako se lokalna adresa servera nikad ne bi promijenila nakon nestanka struje ili ponovnog pokretanja routera, vezao sam njegovu MAC adresu uz fiksnu IP adresu u lokalnoj mreži.</li>
+        <li><strong>Trajno montiranje vanjskog diska preko UUID-a:</strong> Vanjski disk dodao sam u <code>/etc/fstab</code> koristeći njegov jedinstveni UUID umjesto oznake poput <code>/dev/sdb1</code>, čime je osigurano da se disk nakon svakog restarta uvijek montira na točno istu putanju.</li>
+      </ul>
+      <p>Na takvu podlogu instalirao sam <strong>CasaOS</strong> — lagano web-sučelje koje radi iznad <strong>Dockera</strong>. Omogućuje pregledno upravljanje kontejnerima, mapiranje mapa (volumena) i praćenje zauzeća resursa kroz preglednik, uz potpunu slobodu da za specifične stvari podigneš vlastiti <code>docker-compose.yml</code> konfiguracijski fajl.</p>
+      <h2>2. Rad u terminalu i Termius: administracija s laptopa ili mobitela</h2>
+      <p>Iako CasaOS nudi pregledno grafičko sučelje u pregledniku, pravi nadzor nad Linux serverom počinje tek u terminalu. Za spajanje sa svog Windows laptopa i s Android mobitela koristim <strong>Termius</strong> — moderan SSH klijent koji pamti spremljene hostove, SSH ključeve i gotove isječke naredbi (<em>Snippets</em>), pa ne moram svaki put ručno tipkati dugačke putanje kad sam u pokretu.</p>
+      <p>Ovo je nekoliko osnovnih naredbi koje najčešće koristim za brzu provjeru stanja servera, diskova i Docker kontejnera:</p>
+      <pre><code># Spajanje na server iz terminala
+ssh korisnik@lokalna-ip-adresa
+
+# Provjera zauzeća diskova i montiranih particija (interni + vanjski USB disk)
+df -h
+lsblk -f
+
+# Dohvaćanje UUID oznake vanjskog diska prije upisa u /etc/fstab
+sudo blkid
+
+# Pregled svih aktivnih Docker kontejnera, portova i potrošnje resursa
+docker ps --format "table {{.Names}}\\t{{.Status}}\\t{{.Ports}}"
+docker stats --no-stream
+
+# Podizanje ili ažuriranje vlastitog servisa iz docker-compose.yml datoteke
+docker compose pull &amp;&amp; docker compose up -d
+
+# Provjera statusa privatne Tailscale mreže
+tailscale status</code></pre>
+      <p>Kad jednom spremiš ove naredbe kao brze prečace u Termiusu, provjera stanja cijelog servera ili pokretanje novog testnog okruženja traje doslovno pet sekundi, čak i s ekrana mobitela.</p>
+      <h2>3. AdGuard Home: blokiranje reklama na razini cijele mreže</h2>
+      <p>Jedan od najkorisnijih servisa na serveru je <strong>AdGuard Home</strong>. Umjesto instaliranja dodataka za blokiranje oglasa na svaki mobitel, tablet i računalo u kući posebno, AdGuard preuzima ulogu lokalnog DNS poslužitelja (na standardnom portu <code>53</code>) za cijelu kućnu mrežu.</p>
+      <ul>
+        <li><strong>Preusmjeravanje prometa na routeru:</strong> U DHCP postavkama glavnog kućnog routera postavi se lokalna IP adresa kućnog servera kao primarni DNS poslužitelj. Čim se bilo koji uređaj spoji na kućni Wi-Fi, svi njegovi DNS upiti automatski prolaze kroz AdGuard.</li>
+        <li><strong>Šifrirani upstream DNS (DoH):</strong> AdGuard samostalno prosljeđuje legitimne upite prema vanjskim poslužiteljima (poput Cloudflare <code>1.1.1.1</code> ili Quad9 <code>9.9.9.9</code>) koristeći <em>DNS-over-HTTPS</em> (DoH), čime se sprječava prisluškivanje i mijenjanje DNS odgovora na razini operatera.</li>
+        <li><strong>Filter liste i ručne iznimke:</strong> Uz osnovne liste za blokiranje oglasa i trackera (poput OISD liste), u sučelju u realnom vremenu vidiš koji uređaj u kući šalje kakve zahtjeve. Ako neka domaća aplikacija ili servis zapne zbog preagresivnog filtra, jednim klikom dodaješ domenu na <em>whitelistu</em>.</li>
+      </ul>
+      <p>Zanimljiva nuspojava u praksi: kad ti se ponekad učini da neka web-stranica ne radi, dobar dio razloga zna biti upravo lokalni DNS blok ili zastarjeli DNS cache — za brzu provjeru je li problem lokalno ili na samom serveru stranice složio sam i alat <a href="/hostvitals/">HostVitals</a>.</p>
+      <h2>4. Lokalni razvojni sandbox: baze podataka i Webtop</h2>
+      <p>Kad u slobodno vrijeme razvijaš nove web-aplikacije, najgore je zatrpati glavni laptop raznim servisima koji stalno rade u pozadini, troše bateriju i međusobno si smetaju. Kućni server ovdje služi kao izolirani testni poligon:</p>
+      <ul>
+        <li><strong>Lokalne baze podataka za projekte u izradi:</strong> Za nove aplikacije koje su tek u fazi razvoja i testiranja u par sekundi podignem Docker kontejner s <strong>PostgreSQL</strong> ili <strong>MariaDB</strong> bazom na zasebnom lokalnom portu i s mapiranim volumenom za podatke. Tako aplikaciju u nastajanju mogu testirati u realnim uvjetima s mobitela, tableta i računala unutar kućne mreže, a kad testiranje završi, kontejner se ugasi bez ikakvog traga na glavnom računalu.</li>
+        <li><strong>Webtop:</strong> Puni Linux desktop s grafičkim sučeljem koji se vrti unutar Docker kontejnera i otvara izravno u kartici web-preglednika. Odličan je kad s bilo kojeg uređaja u kući (ili izvana) trebaš izolirano radno okruženje, testni preglednik ili preuzimanje većih datoteka izravno na diskove servera.</li>
+      </ul>
+      <h2>5. Red u mreži: Homarr, PairDrop i MySpeed</h2>
+      <p>Kad na serveru imaš desetak aktivnih servisa na različitim portovima, pamćenje brojeva iza dvotočke brzo postane naporno. Zato sam dodao tri mala alata koji svakodnevno štede vrijeme:</p>
+      <ul>
+        <li><strong>Homarr:</strong> Čista, prilagodljiva početna nadzorna ploča (<em>dashboard</em>). Na jednom ekranu okuplja prečace prema svim servisima na serveru, uz osnovne indikatore stanja i brzi pregled resursa.</li>
+        <li><strong>PairDrop:</strong> Lokalna zamjena za AirDrop koja radi u pregledniku na svim sustavima. Kad trebaš u sekundi prebaciti fotografiju, video ili dokument s Android mobitela na Windows laptop (ili obrnuto), otvoriš lokalnu adresu i pošalješ datoteku izravno preko kućnog Wi-Fi-ja — bez kablova, bez kompresije i bez slanja podataka u vanjske oblake.</li>
+        <li><strong>MySpeed:</strong> Alat koji u pozadini automatski svakih nekoliko sati mjeri brzinu preuzimanja, slanja i ping prema internetu te crta pregledne grafikone. Umjesto nagađanja je li internet navečer spor, imaš konkretan povijesni zapis s točnim vremenom i brojkama.</li>
+      </ul>
+      <h2>6. Multimedija, retro gaming i siguran pristup izvana</h2>
+      <p>Uz tehničke i razvojne alate, server je preuzeo i zabavni te arhivski dio kućne mreže:</p>
+      <ul>
+        <li><strong>Jellyfin i kućni streamovi:</strong> Vlastiti medijski server koji sve filmove, serije i videozapise drži organizirane s naslovnicama i metapodacima te ih bez problema šalje na pametni TV, mobitel ili tablet (uz vlastiti web player <a href="/">zrinaTV</a> za lokalne streamove).</li>
+        <li><strong>Retro game server:</strong> Putem Docker kontejnera (poput <em>EmulatorJS</em> / <em>RomM</em> sučelja) na serveru je složena mala arhiva starih klasika. Igre se pokreću izravno u web-pregledniku na bilo kojem računalu ili tabletu u kući, a spremljene pozicije ostaju pohranjene na serveru.</li>
+        <li><strong>Home Assistant i Syncthing:</strong> Home Assistant lokalno upravlja pametnim utičnicama i senzorima bez ovisnosti o vanjskim serverima proizvođača, dok Syncthing tiho u pozadini sinkronizira važne radne mape između laptopa i servera.</li>
+        <li><strong>Tailscale za siguran pristup izvan kuće:</strong> Umjesto otvaranja portova na routeru i izlaganja kućne mreže javnom internetu, Tailscale povezuje server, laptop i mobitel u privatnu šifriranu WireGuard mrežu. Gdje god se nalazio, kućnim servisima i razvojnim bazama pristupam jednako sigurno kao da sjedim u dnevnom boravku.</li>
+      </ul>
+      <h2>7. Mala Python skripta koja je spasila sate posla</h2>
+      <p>Jedan od najkorisnijih trenutaka cijelog projekta nije bio veliki sustav, nego obična <strong>Python skripta od pedesetak redaka</strong>. Tijekom godina na starim diskovima nakupilo se više od <strong>12.500 razbacanih datoteka</strong> — duplikata fotografija, instalacijskih paketa i starih sigurnosnih kopija.</p>
+      <p>Umjesto ručnog klikanja po mapama danima, skripta je u par sekundi prošla kroz cijelu strukturu, razvrstala datoteke po vrsti i datumu te ih uredno složila na vanjski arhivski disk. Upravo takve situacije najbolje pokazuju zašto volim kombinaciju malih skripti i fokusiranih web-alata koje gradim na <a href="/">zrina.app</a> — kad automatiziraš dosadan posao, ostane ti vremena za pametnije stvari.</p>
+      <aside class="article-note"><strong>Lekcija iz prakse:</strong> Za dobar kućni server ne treba ti skupi hardver iz trgovine. Rabljeni mini PC, čisti Linux, Docker i par dobro odabranih servisa daju ti potpunu kontrolu nad vlastitim podacima, mrežom i razvojem — bez ijedne mjesečne pretplate.</aside>
+      <p class="article-question">Imaš li i ti kod kuće neko staro računalo koje skuplja prašinu ili već vrtiš svoj kućni server? Koji se servis tebi u praksi pokazao najkorisnijim?</p>
+    `
   }
 ];
 
